@@ -3,40 +3,44 @@
   "generated_at": "2026-04-15",
   "skills": [
     {
-      "name": "build-error-triage",
-      "category": "debug",
-      "path": "skills/debug/build-error-triage",
-      "version": "1.0.0",
-      "description": "Systematic triage workflow for build/compilation errors — classify by root cause (missing symbol, signature mismatch, instantiation failure), then isolate the first error before chasing cascades.",
-      "tags": ["build", "compilation", "java", "javac", "errors", "triage"],
-      "triggers": ["Unresolved compilation", "Cannot instantiate", "method is undefined", "cannot find symbol", "compilation error"]
+      "name": "mcp-runtime-prompt-refresh",
+      "category": "ai",
+      "path": "skills/ai/mcp-runtime-prompt-refresh",
+      "version": "0.1.0-draft",
+      "description": "Expose a built-in MCP tool that hot-swaps the server's prompt set at runtime, persists it to disk, and emits notifications/prompts/list_changed so clients pick it up without reconnecting.",
+      "tags": [
+        "mcp",
+        "prompts",
+        "hot-reload",
+        "json-rpc",
+        "tool-design"
+      ],
+      "triggers": [
+        "refresh prompts",
+        "update mcp prompts at runtime",
+        "prompts list_changed",
+        "mcp hot reload"
+      ]
     },
     {
-      "name": "slash-command-authoring",
-      "category": "workflow",
-      "path": "skills/workflow/slash-command-authoring",
-      "version": "1.0.0",
-      "description": "Author Claude Code slash commands that read cleanly, include safety rules, and compose with OMC skills — frontmatter, argument-hint, step ordering, and dry-run patterns.",
-      "tags": ["claude-code", "slash-command", "skill", "authoring", "frontmatter"],
-      "triggers": ["slash command", "/skills_", "/init_", ".claude/commands", "argument-hint", "command frontmatter"]
-    },
-    {
-      "name": "stale-persistent-context-detection",
-      "category": "workflow",
-      "path": "skills/workflow/stale-persistent-context-detection",
-      "version": "1.0.0",
-      "description": "Detect and remove stale error snapshots that LLM tools inject via persistent-context files (CLAUDE.md, AGENTS.md, system prompts, memory) before chasing a fix. If the current source already compiles, the injected error is a ghost from a previous session, not a real bug.",
-      "tags": ["llm", "context", "claude-code", "cursor", "agents-md", "memory", "stale", "debugging", "hygiene"],
-      "triggers": ["CLAUDE.md", "AGENTS.md", "persistent context", "stale error", "system-reminder", "injected error", "claudeMd context", "system prompt", "agent instructions", "injected context"]
-    },
-    {
-      "name": "skill-repo-bootstrap-architecture",
-      "category": "workflow",
-      "path": "skills/workflow/skill-repo-bootstrap-architecture",
-      "version": "1.0.0",
-      "description": "Lay out a shared skill/knowledge git repo so it is simultaneously a catalog and a self-installer — separate bootstrap (commands + umbrella skill + installers) from skills (category/name/SKILL.md). Covers repo layout, safety gates, registry pinning, and skill deprecation lifecycle.",
-      "tags": ["skill-hub", "repo-layout", "bootstrap", "claude-code", "cursor", "git", "architecture", "deprecation"],
-      "triggers": ["skill repo", "skill hub", "bootstrap install", "category-separated", "skills registry", "skill deprecation", "umbrella skill"]
+      "name": "openapi-to-mcp-tag-grouping",
+      "category": "ai",
+      "path": "skills/ai/openapi-to-mcp-tag-grouping",
+      "version": "0.1.0-draft",
+      "description": "Convert OpenAPI specs into MCP tools by grouping operations under their OpenAPI tag, exposing one tool per tag with an operation selector and per-operation arguments.",
+      "tags": [
+        "mcp",
+        "openapi",
+        "tool-design",
+        "schema",
+        "json-schema"
+      ],
+      "triggers": [
+        "openapi to mcp",
+        "swagger to mcp",
+        "generate mcp tools",
+        "tag based tool grouping"
+      ]
     },
     {
       "name": "opentelemetry-java-bootstrap",
@@ -44,26 +48,23 @@
       "path": "skills/apm/opentelemetry-java-bootstrap",
       "version": "1.0.0",
       "description": "Minimal OpenTelemetry bootstrap for a Java service — OTLP exporter, resource attributes, auto-instrumentation agent, and graceful shutdown. Covers the common setup mistakes that cause spans to silently drop.",
-      "tags": ["opentelemetry", "otel", "java", "tracing", "otlp", "observability"],
-      "triggers": ["OpenTelemetry", "OTEL", "otel-javaagent", "otlp", "tracing setup", "service.name", "span exporter"]
-    },
-    {
-      "name": "dotenv-multi-env-routing",
-      "category": "backend",
-      "path": "skills/backend/dotenv-multi-env-routing",
-      "version": "0.1.0-draft",
-      "description": "Single ENV variable flips an entire stack (REST base URL, WebSocket base, per-operation transaction IDs) between production and sandbox tiers, loaded via dotenv with OS-env precedence.",
-      "tags": ["dotenv", "config", "environments", "sandbox", "production", "routing"],
-      "triggers": ["KIS_ENV", "prod", "vts", "sandbox", "dotenv", "Dotenv.configure", "multi-environment", "openapi host"]
-    },
-    {
-      "name": "oauth-token-env-persistence",
-      "category": "security",
-      "path": "skills/security/oauth-token-env-persistence",
-      "version": "0.1.0-draft",
-      "description": "Persist OAuth access tokens to a sidecar env file (token + refresh + issue_time), refresh N minutes before expiry with a thread-safe guard, auto-inject into outgoing API calls — survives process restart without re-login.",
-      "tags": ["oauth", "token", "refresh", "dotenv", "persistence", "auth", "thread-safety"],
-      "triggers": ["access_token", "refresh_token", "token refresh", "access_token.env", "token issue time", "bearer auto inject", "token expiry"]
+      "tags": [
+        "opentelemetry",
+        "otel",
+        "java",
+        "tracing",
+        "otlp",
+        "observability"
+      ],
+      "triggers": [
+        "OpenTelemetry",
+        "OTEL",
+        "otel-javaagent",
+        "otlp",
+        "tracing setup",
+        "service.name",
+        "span exporter"
+      ]
     },
     {
       "name": "adaptive-strategy-hot-swap",
@@ -71,17 +72,49 @@
       "path": "skills/arch/adaptive-strategy-hot-swap",
       "version": "0.1.0-draft",
       "description": "Periodically re-evaluate candidate strategies/policies against recent data, swap the active one only when a weighted composite score beats the incumbent by a hysteresis threshold — prevents flapping while staying adaptive.",
-      "tags": ["strategy", "adaptive", "hot-swap", "hysteresis", "rebalance", "composite-score", "backtest"],
-      "triggers": ["shouldUpdateStrategy", "reanalyze", "strategy update", "hot swap", "policy rotation", "best strategy", "composite score", "hysteresis threshold"]
+      "tags": [
+        "strategy",
+        "adaptive",
+        "hot-swap",
+        "hysteresis",
+        "rebalance",
+        "composite-score",
+        "backtest"
+      ],
+      "triggers": [
+        "shouldUpdateStrategy",
+        "reanalyze",
+        "strategy update",
+        "hot swap",
+        "policy rotation",
+        "best strategy",
+        "composite score",
+        "hysteresis threshold"
+      ]
     },
     {
-      "name": "tiered-rebalance-schedule",
+      "name": "domain-category-endpoint-registry",
       "category": "arch",
-      "path": "skills/arch/tiered-rebalance-schedule",
+      "path": "skills/arch/domain-category-endpoint-registry",
       "version": "0.1.0-draft",
-      "description": "Run three cadences against the same managed set — fast performance review, mid-frequency policy re-analysis, slow portfolio rebalance — each with its own trigger interval and mutation budget, so urgency scales with cost.",
-      "tags": ["scheduler", "rebalance", "tiers", "cadence", "cron", "portfolio", "lifecycle"],
-      "triggers": ["scheduleWithFixedDelay", "periodic review", "rebalance", "reanalysis interval", "tiered schedule", "performance review", "portfolio rebalance"]
+      "description": "Organize a large vendor-API client (100s of endpoints) under a three-level `{domain}/{category}/{Action}{Entity}` package convention with a shared base class and a single `initializeEndpoints()` registry — scalable, greppable, and uniformly logged.",
+      "tags": [
+        "api-client",
+        "registry",
+        "code-organization",
+        "vendor-sdk",
+        "base-class",
+        "sdk-wrapping"
+      ],
+      "triggers": [
+        "BaseApiEndpoint",
+        "initializeEndpoints",
+        "ApiEndpoint",
+        "api registry",
+        "vendor sdk",
+        "many endpoints",
+        "endpoint catalog"
+      ]
     },
     {
       "name": "layered-risk-gates",
@@ -89,14 +122,256 @@
       "path": "skills/arch/layered-risk-gates",
       "version": "0.1.0-draft",
       "description": "Three-layer safety pattern for autonomous action loops — pre-action admission gate, in-flight monitor (stop/target thresholds), and a consecutive-failure circuit breaker — so a single runaway loop can't clear out the account before a human sees it.",
-      "tags": ["risk", "circuit-breaker", "safety", "autonomous", "limits", "guardrails"],
-      "triggers": ["risk management", "position sizing", "max daily loss", "consecutive losses", "stop loss", "take profit", "kill switch", "circuit breaker"]
+      "tags": [
+        "risk",
+        "circuit-breaker",
+        "safety",
+        "autonomous",
+        "limits",
+        "guardrails"
+      ],
+      "triggers": [
+        "risk management",
+        "position sizing",
+        "max daily loss",
+        "consecutive losses",
+        "stop loss",
+        "take profit",
+        "kill switch",
+        "circuit breaker"
+      ]
     },
     {
-      "name": "domain-category-endpoint-registry",
+      "name": "tiered-rebalance-schedule",
       "category": "arch",
-      "path": "skills/arch/domain-category-endpoint-registry",
+      "path": "skills/arch/tiered-rebalance-schedule",
       "version": "0.1.0-draft",
+      "description": "Run three cadences against the same managed set — fast performance review, mid-frequency policy re-analysis, slow portfolio rebalance — each with its own trigger interval and mutation budget, so urgency scales with cost.",
+      "tags": [
+        "scheduler",
+        "rebalance",
+        "tiers",
+        "cadence",
+        "cron",
+        "portfolio",
+        "lifecycle"
+      ],
+      "triggers": [
+        "scheduleWithFixedDelay",
+        "periodic review",
+        "rebalance",
+        "reanalysis interval",
+        "tiered schedule",
+        "performance review",
+        "portfolio rebalance"
+      ]
+    },
+    {
+      "name": "dotenv-multi-env-routing",
+      "category": "backend",
+      "path": "skills/backend/dotenv-multi-env-routing",
+      "version": "0.1.0-draft",
+      "description": "Single ENV variable flips an entire stack (REST base URL, WebSocket base, per-operation transaction IDs) between production and sandbox tiers, loaded via dotenv with OS-env precedence.",
+      "tags": [
+        "dotenv",
+        "config",
+        "environments",
+        "sandbox",
+        "production",
+        "routing"
+      ],
+      "triggers": [
+        "KIS_ENV",
+        "prod",
+        "vts",
+        "sandbox",
+        "dotenv",
+        "Dotenv.configure",
+        "multi-environment",
+        "openapi host"
+      ]
+    },
+    {
+      "name": "identifier-truncate-with-hash-suffix",
+      "category": "backend",
+      "path": "skills/backend/identifier-truncate-with-hash-suffix",
+      "version": "0.1.0-draft",
+      "description": "Deterministically shrink any identifier to a length cap while preserving uniqueness by appending a short hash of the original.",
+      "tags": [
+        "identifiers",
+        "hashing",
+        "naming",
+        "collision-avoidance"
+      ],
+      "triggers": [
+        "name too long",
+        "identifier length limit",
+        "shorten tool name",
+        "truncate unique"
+      ]
+    },
+    {
+      "name": "mcp-capability-negotiated-initialize",
+      "category": "backend",
+      "path": "skills/backend/mcp-capability-negotiated-initialize",
+      "version": "0.1.0-draft",
+      "description": "In MCP `initialize`, advertise optional server capabilities (prompts, resources, sampling) only when the client declared matching support — avoids clients rejecting the handshake or spamming unsupported methods.",
+      "tags": [
+        "mcp",
+        "json-rpc",
+        "capability-negotiation",
+        "handshake"
+      ],
+      "triggers": [
+        "mcp initialize",
+        "capability negotiation",
+        "server capabilities",
+        "prompts/resources not showing"
+      ]
+    },
+    {
+      "name": "paired-flag-multi-instance-registration",
+      "category": "cli",
+      "path": "skills/cli/paired-flag-multi-instance-registration",
+      "version": "0.1.0-draft",
+      "description": "CLI pattern for registering N instances of a composite config (e.g. spec+baseUrl pairs) using repeated paired flags and a pending-state parser.",
+      "tags": [
+        "argparse",
+        "cli-design",
+        "multi-instance",
+        "config"
+      ],
+      "triggers": [
+        "multiple config pairs",
+        "repeated flag",
+        "paired cli args",
+        "multi-spec cli"
+      ]
+    },
+    {
+      "name": "build-error-triage",
+      "category": "debug",
+      "path": "skills/debug/build-error-triage",
+      "version": "1.0.0",
+      "description": "Systematic triage workflow for build/compilation errors — classify by root cause (missing symbol, signature mismatch, instantiation failure), then isolate the first error before chasing cascades.",
+      "tags": [
+        "build",
+        "compilation",
+        "java",
+        "javac",
+        "errors",
+        "triage"
+      ],
+      "triggers": [
+        "Unresolved compilation",
+        "Cannot instantiate",
+        "method is undefined",
+        "cannot find symbol",
+        "compilation error"
+      ]
+    },
+    {
+      "name": "oauth-token-env-persistence",
+      "category": "security",
+      "path": "skills/security/oauth-token-env-persistence",
+      "version": "0.1.0-draft",
+      "description": "Persist OAuth access tokens to a sidecar env file (token + refresh + issue_time), refresh N minutes before expiry with a thread-safe guard, auto-inject into outgoing API calls — survives process restart without re-login.",
+      "tags": [
+        "oauth",
+        "token",
+        "refresh",
+        "dotenv",
+        "persistence",
+        "auth",
+        "thread-safety"
+      ],
+      "triggers": [
+        "access_token",
+        "refresh_token",
+        "token refresh",
+        "access_token.env",
+        "token issue time",
+        "bearer auto inject",
+        "token expiry"
+      ]
+    },
+    {
+      "name": "skill-repo-bootstrap-architecture",
+      "category": "workflow",
+      "path": "skills/workflow/skill-repo-bootstrap-architecture",
+      "version": "1.0.0",
+      "description": "Lay out a shared skill/knowledge git repo so it is simultaneously a catalog and a self-installer — separate bootstrap (commands + umbrella skill + installers) from skills (category/name/SKILL.md). Covers repo layout, safety gates, registry pinning, and skill deprecation lifecycle.",
+      "tags": [
+        "skill-hub",
+        "repo-layout",
+        "bootstrap",
+        "claude-code",
+        "cursor",
+        "git",
+        "architecture",
+        "deprecation"
+      ],
+      "triggers": [
+        "skill repo",
+        "skill hub",
+        "bootstrap install",
+        "category-separated",
+        "skills registry",
+        "skill deprecation",
+        "umbrella skill"
+      ]
+    },
+    {
+      "name": "slash-command-authoring",
+      "category": "workflow",
+      "path": "skills/workflow/slash-command-authoring",
+      "version": "1.0.0",
+      "description": "Author Claude Code slash commands that read cleanly, include safety rules, and compose with OMC skills — frontmatter, argument-hint, step ordering, and dry-run patterns.",
+      "tags": [
+        "claude-code",
+        "slash-command",
+        "skill",
+        "authoring",
+        "frontmatter"
+      ],
+      "triggers": [
+        "slash command",
+        "/skills_",
+        "/init_",
+        ".claude/commands",
+        "argument-hint",
+        "command frontmatter"
+      ]
+    },
+    {
+      "name": "stale-persistent-context-detection",
+      "category": "workflow",
+      "path": "skills/workflow/stale-persistent-context-detection",
+      "version": "1.0.0",
+      "description": "Detect and remove stale error snapshots that LLM tools inject via persistent-context files (CLAUDE.md, AGENTS.md, system prompts, memory) before chasing a fix. If the current source already compiles, the injected error is a ghost from a previous session, not a real bug.",
+      "tags": [
+        "llm",
+        "context",
+        "claude-code",
+        "cursor",
+        "agents-md",
+        "memory",
+        "stale",
+        "debugging",
+        "hygiene"
+      ],
+      "triggers": [
+        "CLAUDE.md",
+        "AGENTS.md",
+        "persistent context",
+        "stale error",
+        "system-reminder",
+        "injected error",
+        "claudeMd context",
+        "system prompt",
+        "agent instructions",
+        "injected context"
+      ]
       "description": "Organize a large vendor-API client (100s of endpoints) under a three-level `{domain}/{category}/{Action}{Entity}` package convention with a shared base class and a single `initializeEndpoints()` registry — scalable, greppable, and uniformly logged.",
       "tags": ["api-client", "registry", "code-organization", "vendor-sdk", "base-class", "sdk-wrapping"],
       "triggers": ["BaseApiEndpoint", "initializeEndpoints", "ApiEndpoint", "api registry", "vendor sdk", "many endpoints", "endpoint catalog"]
