@@ -51,6 +51,16 @@
       "path": "frontend/axios-refresh-queue-zustand"
     },
     {
+      "name": "baseline-historical-comparison-threshold",
+      "description": "Evaluate a current metric against a historical baseline (prev hour/day/week/month/year, with MIN/AVG/MAX aggregation) as a dynamic threshold; supports RATE or VALUE change modes and dampening.",
+      "category": "backend",
+      "tags": "[baseline, threshold, anomaly-detection, seasonality, dampening, metric]",
+      "triggers": "[\"BaselineType\", \"baseline\", \"historical threshold\", \"YESTERDAY_SAME_HOUR\", \"RATE vs VALUE\", \"dynamic threshold\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/baseline-historical-comparison-threshold"
+    },
+    {
       "name": "bucket-parallel-java-annotation-dispatch",
       "description": "For bulk Java annotation work (200+ @Operation methods across many controllers, or 500+ @Schema fields across many DTOs), dispatch N parallel executor subagents with disjoint file buckets. Leader runs a single compile at the end; agents never run gradle themselves.",
       "category": "workflow",
@@ -223,6 +233,16 @@
       "path": "backend/feed-envelope-frame"
     },
     {
+      "name": "frozen-detection-consecutive-count",
+      "description": "Detect a stuck/frozen metric (identical value for N consecutive samples) by CONSECUTIVE-dampening equality check; catches sensor/collector failures that threshold alarms miss.",
+      "category": "backend",
+      "tags": "[monitoring, frozen, stuck-metric, dampening, consecutive, sensor-failure]",
+      "triggers": "[\"FrozenCondition\", \"stuck metric\", \"flatline\", \"consecutive equality\", \"AlarmDampeningType.CONSECUTIVE\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/frozen-detection-consecutive-count"
+    },
+    {
       "name": "gacha-soft-hard-pity",
       "description": "Server-authoritative gacha with soft pity (rate ramp after N pulls), hard pity (guaranteed top rarity at M pulls), and 50/50 guarantee carryover. Split rate calculation from result resolution so probability is testable.",
       "category": "game-dev",
@@ -375,6 +395,20 @@
       "path": "backend/kafka-avro-producer-gzip-30mb"
     },
     {
+      "name": "kafka-batch-consumer-partition-tuning",
+      "description": "Size Kafka partition count + max-poll-records per topic volume so heavy-processing batch consumers avoid max.poll.interval.ms breaches and maintain throughput via per-partition concurrency.",
+      "category": "backend",
+      "tags": "[kafka, spring-kafka, partition, max-poll-records, batch-listener, concurrency]",
+      "triggers": "[\"max.poll.interval.ms\", \"rebalance storm\", \"setBatchListener\", \"setConcurrency\", \"partition count\", \"AckMode.BATCH\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/kafka-batch-consumer-partition-tuning",
+      "linked_knowledge": [
+        "kafka-batch-size-timeout-tuning",
+        "kafka-partition-topology-design"
+      ]
+    },
+    {
       "name": "kafka-consumer-errorhandling-wrapper",
       "description": "Wrap Kafka key/value deserializers in Spring Kafkas ErrorHandlingDeserializer so a poison record becomes a logged failure/DLT publish instead of a stuck partition.",
       "category": "backend",
@@ -393,6 +427,16 @@
       "source_project": "lucida-realtime",
       "version": "1.0.0",
       "path": "backend/kafka-consumer-tenant-fan-out"
+    },
+    {
+      "name": "kafka-debounce-event-coalescing",
+      "description": "Coalesce bursts of change events into one Kafka event per tenant per debounce window using Redis state (first/last change time + changed-tenant SET), with a MAX_WAIT fallback so a never-quiet stream still fires.",
+      "category": "backend",
+      "tags": "[kafka, redis, debounce, coalesce, multi-tenant, event-driven]",
+      "triggers": "[\"debounce\", \"coalesce events\", \"first_change_time\", \"changed_tenants\", \"burst to single event\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/kafka-debounce-event-coalescing"
     },
     {
       "name": "kafka-message-header-metadata",
@@ -525,6 +569,19 @@
       "source_project": "lucida-performance",
       "version": "1.0.0",
       "path": "backend/mongo-criteria-maker-elemmatch-and-or"
+    },
+    {
+      "name": "mongodb-changestream-field-filter",
+      "description": "Filter MongoDB change stream UPDATE events by inspecting updateDescription.updatedFields so irrelevant mutations do not trigger downstream work; INSERT/DELETE fall through as always-relevant.",
+      "category": "backend",
+      "tags": "[mongodb, changestream, cdc, field-filter, updateDescription]",
+      "triggers": "[\"updateDescription.updatedFields\", \"change stream filter\", \"ChangeStreamDocument\", \"policy-relevant field\", \"CDC\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/mongodb-changestream-field-filter",
+      "linked_knowledge": [
+        "mongodb-changestream-resubscribe"
+      ]
     },
     {
       "name": "mongodb-datetrunc-binsize-zero-guard",
@@ -669,6 +726,16 @@
       "path": "arch/plugin-resource-provider-architecture"
     },
     {
+      "name": "policy-target-evaluation-with-groups-tags",
+      "description": "Evaluate whether a resource matches a policy via direct IDs + static/dynamic groups + tag filters, with explicit exclusion rules that take precedence over includes.",
+      "category": "backend",
+      "tags": "[policy, targeting, groups, tag-filter, smart-group, exclusion]",
+      "triggers": "[\"target allocation\", \"smart group\", \"tag filter\", \"exclusion wins\", \"policy membership\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/policy-target-evaluation-with-groups-tags"
+    },
+    {
       "name": "polymorphic-command-entities",
       "description": "Expose a list of typed commands over JSON using Jackson @JsonTypeInfo + @JsonSubTypes so clients can submit executable scripts to a REST endpoint",
       "category": "backend",
@@ -707,6 +774,16 @@
       "source_project": "cygnus",
       "version": "1.0.0",
       "path": "backend/realtime-vs-polling-fallback"
+    },
+    {
+      "name": "redis-lock-recheck-flag-pattern",
+      "description": "Distributed Redis lock with a 'recheck' flag so concurrent events arriving while the lock is held force the holder to run a second pass, instead of being silently dropped.",
+      "category": "backend",
+      "tags": "[redis, distributed-lock, recheck, concurrency, lua]",
+      "triggers": "[\"distributed lock\", \"recheck flag\", \"concurrent event lost\", \"SET NX EX\", \"lua release\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/redis-lock-recheck-flag-pattern"
     },
     {
       "name": "resource-provider-registry",
@@ -971,6 +1048,16 @@
       "path": "backend/tenant-isolated-mongo-collection"
     },
     {
+      "name": "thread-pool-queue-backpressure",
+      "description": "Bounded in-memory queue between Kafka consumer and async thread pool, with hysteretic pause/resume thresholds driving Spring Kafka container pause()/resume() so bursts do not OOM the JVM.",
+      "category": "backend",
+      "tags": "[kafka, backpressure, blocking-queue, thread-pool, hysteresis, pause-resume]",
+      "triggers": "[\"pause-threshold\", \"resume-threshold\", \"BlockingQueue\", \"KafkaListenerEndpointRegistry.pause\", \"backpressure\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/thread-pool-queue-backpressure"
+    },
+    {
       "name": "tiered-rebalance-schedule",
       "description": "Run three cadences against the same managed set — fast performance review, mid-frequency policy re-analysis, slow portfolio rebalance — each with its own trigger interval and mutation budget, so urgency scales with cost.",
       "category": "arch",
@@ -979,6 +1066,16 @@
       "source_project": "kis-java-bundle",
       "version": "0.1.0-draft",
       "path": "arch/tiered-rebalance-schedule"
+    },
+    {
+      "name": "websocket-stomp-channel-pool-config",
+      "description": "Spring WebSocket STOMP config with separate inbound/outbound task executors and raised transport buffer limits, sized for burst notification fan-out to many role-filtered subscribers.",
+      "category": "backend",
+      "tags": "[websocket, stomp, spring, channel-pool, fan-out, real-time]",
+      "triggers": "[\"configureClientInboundChannel\", \"configureClientOutboundChannel\", \"StompChannelInterceptor\", \"sendBufferSizeLimit\", \"messageSizeLimit\"]",
+      "source_project": "lucida-alarm",
+      "version": "1.0.0",
+      "path": "backend/websocket-stomp-channel-pool-config"
     },
     {
       "name": "x-filterable-fields-extraction",
