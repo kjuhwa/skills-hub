@@ -201,6 +201,27 @@
       ]
     },
     {
+      "name": "definition-registry-helper-cache",
+      "category": "arch",
+      "path": "skills/arch/definition-registry-helper-cache",
+      "version": "0.1.0-draft",
+      "description": "Static helper class with ConcurrentHashMap caches populated at startup by @PostConstruct providers, enabling zero-allocation hot-path lookups via static getters",
+      "tags": [
+        "spring",
+        "cache",
+        "static",
+        "concurrenthashmap",
+        "performance"
+      ],
+      "triggers": [
+        "static helper cache",
+        "ConcurrentHashMap static cache",
+        "PostConstruct populate static map",
+        "definition helper lookup",
+        "zero allocation hot path cache"
+      ]
+    },
+    {
       "name": "domain-category-endpoint-registry",
       "category": "arch",
       "path": "skills/arch/domain-category-endpoint-registry",
@@ -296,6 +317,26 @@
       ]
     },
     {
+      "name": "resource-provider-registry",
+      "category": "arch",
+      "path": "skills/arch/resource-provider-registry",
+      "version": "0.1.0-draft",
+      "description": "Spring DI plugin registry where @Component implementations of a typed interface are auto-discovered and looked up at runtime by a string type key",
+      "tags": [
+        "spring",
+        "plugin",
+        "registry",
+        "interface",
+        "component"
+      ],
+      "triggers": [
+        "plugin registry",
+        "provider lookup by type",
+        "auto-discovered handlers",
+        "resource provider pattern"
+      ]
+    },
+    {
       "name": "shared-package-only-cross-module",
       "category": "arch",
       "path": "skills/arch/shared-package-only-cross-module",
@@ -315,6 +356,27 @@
         "alias collision",
         "webpack root",
         "monorepo boundaries"
+      ]
+    },
+    {
+      "name": "tenant-context-holder-propagation",
+      "category": "arch",
+      "path": "skills/arch/tenant-context-holder-propagation",
+      "version": "0.1.0-draft",
+      "description": "Set TenantContextHolder.INSTANCE.setTenantId(orgId) on the current thread so MongoDB tenant-isolated templates route queries correctly, always clearing in a finally block",
+      "tags": [
+        "spring",
+        "multi-tenant",
+        "threadlocal",
+        "mongodb",
+        "isolation"
+      ],
+      "triggers": [
+        "TenantContextHolder",
+        "tenant context propagation",
+        "multi-tenant thread local",
+        "MONGODB_TEMPLATE_ISOLATION",
+        "tenant isolation mongodb"
       ]
     },
     {
@@ -368,6 +430,49 @@
       ]
     },
     {
+      "name": "excel-export-enum-replacer",
+      "category": "backend",
+      "path": "skills/backend/excel-export-enum-replacer",
+      "version": "0.1.0-draft",
+      "description": "Use DataToBeReplace.builder() to map enum/code values to display labels before passing content to ExcelExportManager.objectToExcelAndDownload()",
+      "tags": [
+        "spring",
+        "excel",
+        "export",
+        "enum",
+        "controller"
+      ],
+      "triggers": [
+        "excel export enum replace",
+        "DataToBeReplace",
+        "ExcelExportManager",
+        "objectToExcelAndDownload",
+        "excel download controller"
+      ]
+    },
+    {
+      "name": "grid-filter-to-criteria-converter",
+      "category": "backend",
+      "path": "skills/backend/grid-filter-to-criteria-converter",
+      "version": "0.1.0-draft",
+      "description": "Convert a UI grid filter DTO (gridFilters + tagFilters + pageable) to MongoDB Criteria using CriteriaMakeHelper, supporting equals/contains/greaterThan/inRange operators",
+      "tags": [
+        "spring",
+        "mongodb",
+        "filter",
+        "criteria",
+        "pagination",
+        "grid"
+      ],
+      "triggers": [
+        "grid filter to criteria",
+        "FiltersPageableDto",
+        "CriteriaMakeHelper",
+        "mongodb dynamic filter",
+        "UI filter to query"
+      ]
+    },
+    {
       "name": "identifier-truncate-with-hash-suffix",
       "category": "backend",
       "path": "skills/backend/identifier-truncate-with-hash-suffix",
@@ -405,6 +510,27 @@
       ]
     },
     {
+      "name": "kafka-message-header-metadata",
+      "category": "backend",
+      "path": "skills/backend/kafka-message-header-metadata",
+      "version": "0.1.0-draft",
+      "description": "Attach org-id, user-id, and timestamp as RecordHeader[] on a ProducerRecord to enable multi-tenant event routing without polluting the Avro payload",
+      "tags": [
+        "kafka",
+        "avro",
+        "multi-tenant",
+        "headers",
+        "spring"
+      ],
+      "triggers": [
+        "kafka record headers",
+        "ProducerRecord headers",
+        "organization-id header kafka",
+        "multi-tenant kafka routing",
+        "RecordHeader metadata"
+      ]
+    },
+    {
       "name": "mcp-capability-negotiated-initialize",
       "category": "backend",
       "path": "skills/backend/mcp-capability-negotiated-initialize",
@@ -417,6 +543,27 @@
         "handshake"
       ],
       "triggers": ""
+    },
+    {
+      "name": "migration-processor-pipeline",
+      "category": "backend",
+      "path": "skills/backend/migration-processor-pipeline",
+      "version": "0.1.0-draft",
+      "description": "Abstract migration processor template — validate → load → transform → emit Kafka Avro event with org-id header → audit log, multi-tenant safe",
+      "tags": [
+        "spring",
+        "kafka",
+        "avro",
+        "migration",
+        "multi-tenant",
+        "mongodb"
+      ],
+      "triggers": [
+        "migration processor",
+        "data migration pipeline",
+        "legacy data import",
+        "migration with kafka"
+      ]
     },
     {
       "name": "playwright-exception-advice",
