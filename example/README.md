@@ -19,7 +19,11 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 | [skill-timeline](skill-timeline/)   | Skill Timeline — git-history commit heatmap + top-churned slugs for a hub working copy | node, html, svg, js | 2026-04-16 |
 | [skill-tryout](skill-tryout/)       | Skill Tryout — offline TF-IDF trigger matcher REPL for debugging skill discoverability | node, html, js | 2026-04-16 |
 | [skill-diff](skill-diff/)           | Skill Diff — per-slug added/modified/removed viewer with description/tag/trigger deltas between two hub refs | node, html, js | 2026-04-16 |
+<<<<<<< example/cron-explainer
+| [cron-explainer](cron-explainer/)   | Cron Explainer — parse 5/6/7-field cron to English, next 10 firings, 1-year firing-density heatmap | html, js, css | 2026-04-16 |
+=======
 | [tiny-regex-lab](tiny-regex-lab/)   | Tiny Regex Lab — offline regex playground with per-group highlighting, preset library, and share-link | html, js, css | 2026-04-16 |
+>>>>>>> main
 
 ## Adding an example
 
