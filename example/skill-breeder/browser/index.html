@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Skill Breeder</title>
+<style>
+  :root { --bg:#0b1020; --panel:#131a31; --ink:#e6edff; --mute:#7b86a8; --accent:#7dd3fc; --ok:#34d399; --warn:#fbbf24; --danger:#f87171; }
+  * { box-sizing: border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--ink); font:13px/1.5 ui-monospace, Menlo, Consolas, monospace; }
+  header { display:flex; gap:10px; align-items:center; padding:10px 14px; background:#0f1530; border-bottom:1px solid #1f2a4d; flex-wrap:wrap; }
+  header h1 { margin:0; font-size:15px; }
+  header .stat { color:var(--mute); } header .stat b { color:var(--ink); }
+  button { background:#1e2a52; color:var(--ink); border:1px solid #2b3a6e; border-radius:6px; padding:5px 11px; cursor:pointer; font:inherit; }
+  button:hover { background:#25346b; }
+  button.primary { background:#0369a1; border-color:#0ea5e9; }
+  button.ok { background:#166534; border-color:#22c55e; }
+  button.danger { background:#7f1d1d; border-color:#ef4444; }
+  button:disabled { opacity:0.4; cursor:not-allowed; }
+  input[type=text], input[type=search] { background:#0b1328; color:var(--ink); border:1px solid #2b3a6e; border-radius:6px; padding:6px 9px; font:inherit; width:100%; }
+  main { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; padding:10px; height:calc(100vh - 56px); }
+  section { background:var(--panel); border:1px solid #1d2749; border-radius:8px; padding:10px; overflow:auto; min-height:0; }
+  section h2 { margin:0 0 8px; font-size:12px; color:var(--mute); text-transform:uppercase; letter-spacing:1px; }
+  .parent-pick { position:relative; }
+  .suggest { position:absolute; background:#0b1328; border:1px solid #2b3a6e; border-radius:6px; max-height:260px; overflow:auto; width:100%; z-index:10; display:none; }
+  .suggest div { padding:5px 8px; cursor:pointer; border-bottom:1px solid #1d2749; }
+  .suggest div:hover, .suggest div.hi { background:#1e2a52; }
+  .suggest .hint { color:var(--mute); font-size:11px; }
+  .parent-card { background:#0b1328; border:1px solid #2a3766; border-radius:8px; padding:8px; margin-top:8px; }
+  .parent-card b { color:var(--accent); }
+  .chip { display:inline-block; padding:1px 7px; margin:1px 3px 1px 0; border-radius:10px; background:#1e2a52; border:1px solid #2a3766; color:var(--ink); font-size:11px; }
+  .badge { display:inline-block; padding:0 5px; border-radius:10px; font-size:10px; color:#0b1020; background:var(--accent); margin-right:4px; }
+  .preview pre { white-space:pre-wrap; word-break:break-word; font-size:12px; color:#cbd5e1; background:#0b1328; border:1px solid #1d2749; border-radius:6px; padding:8px; max-height:360px; overflow:auto; }
+  .row { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .pool-item { padding:6px 8px; border-bottom:1px solid #1d2749; cursor:pointer; }
+  .pool-item:hover { background:#1e2a52; }
+  .pool-item.selected { background:#0369a1; }
+  .hint { color:var(--mute); font-size:11px; }
+  .tag-row { margin-top:4px; }
+  .gen-1 { background:#a78bfa; } .gen-2 { background:#f472b6; } .gen-3 { background:#fb923c; } .gen-4 { background:#facc15; } .gen-5 { background:#4ade80; }
+</style>
+</head>
+<body>
+<header>
+  <h1>\u{1F9EC} Skill Breeder</h1>
+  <span class="stat">pool <b id="poolSize">0</b></span>
+  <span class="stat">bred <b id="bred">0</b></span>
+  <span class="stat">accepted <b id="acceptedCount">0</b></span>
+  <span style="flex:1"></span>
+  <button id="export">\u2b07 Export accepted</button>
+</header>
+<main>
+  <section>
+    <h2>Parents</h2>
+    <div class="parent-pick">
+      <div class="hint">Parent A</div>
+      <input id="pickA" type="search" placeholder="search name / tag / category\u2026" autocomplete="off" />
+      <div class="suggest" id="sugA"></div>
+      <div id="cardA" class="parent-card" style="display:none"></div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="parent-pick">
+      <div class="hint">Parent B</div>
+      <input id="pickB" type="search" placeholder="search name / tag / category\u2026" autocomplete="off" />
+      <div class="suggest" id="sugB"></div>
+      <div id="cardB" class="parent-card" style="display:none"></div>
+    </div>
+    <div style="margin-top:12px" class="row">
+      <button id="breed" class="primary" disabled>\u{1F9EC} Breed \u2192</button>
+      <button id="random">\u{1F3B2} Random pair</button>
+    </div>
+    <div class="hint" style="margin-top:10px">Accepted children re-enter both pickers — grand-pairings unlock.</div>
+  </section>
+  <section class="preview">
+    <h2>Preview draft</h2>
+    <div id="previewMeta" class="hint">\u2014 no draft yet \u2014</div>
+    <div id="previewTags" class="tag-row"></div>
+    <pre id="previewBody"></pre>
+    <div class="row" style="margin-top:10px">
+      <button id="accept" class="ok" disabled>\u2713 Accept into pool</button>
+      <button id="discard" class="danger" disabled>\u2715 Discard</button>
+      <button id="reroll" disabled>\u{1F504} Re-roll</button>
+    </div>
+  </section>
+  <section>
+    <h2>Accepted children</h2>
+    <input id="filter" type="search" placeholder="filter accepted\u2026" />
+    <div id="accepted"></div>
+    <h2 style="margin-top:14px">Lineage</h2>
+    <pre id="lineage" style="white-space:pre-wrap; font-size:12px; color:#cbd5e1;"></pre>
+  </section>
+</main>
+
+<script type="module">
+import { synth, mulberry32, hashStr } from './synth.mjs';
+
+const $ = s => document.querySelector(s);
+let pool = [], byId = new Map(), accepted = [], bredN = 0, currentDraft = null;
+let picked = { A: null, B: null };
+let rnd = mulberry32(hashStr('breeder-' + Date.now()));
+
+async function load() {
+  const r = await fetch('/corpus.json');
+  const j = await r.json();
+  pool = [
+    ...j.skills.map(s => ({ ...s, gen: 0 })),
+    ...(j.knowledge || []).map(k => ({ ...k, gen: 0, tags: k.tags || [] })),
+  ];
+  for (const e of pool) byId.set(e.id, e);
+  $('#poolSize').textContent = pool.length;
+}
+
+function fuzzy(q, e) {
+  q = q.toLowerCase();
+  const hay = [e.id, e.name, e.category, ...(e.tags || [])].join(' ').toLowerCase();
+  return hay.includes(q);
+}
+
+function setupPicker(which) {
+  const input = $('#pick' + which);
+  const sug = $('#sug' + which);
+  let hi = 0;
+  const render = q => {
+    if (!q) { sug.style.display = 'none'; return; }
+    const hits = pool.filter(e => fuzzy(q, e)).slice(0, 40);
+    if (!hits.length) { sug.style.display = 'none'; return; }
+    sug.innerHTML = hits.map((e, i) => `<div data-id="${e.id}" class="${i===hi?'hi':''}"><b>${e.id}</b> <span class="hint">\u00b7 ${e.category} \u00b7 gen ${e.gen||0}</span></div>`).join('');
+    sug.style.display = 'block';
+    sug.querySelectorAll('div').forEach(d => d.addEventListener('click', () => choose(which, d.dataset.id)));
+  };
+  input.addEventListener('input', () => { hi = 0; render(input.value.trim()); });
+  input.addEventListener('keydown', ev => {
+    const items = [...sug.querySelectorAll('div')];
+    if (!items.length) return;
+    if (ev.key === 'ArrowDown') { hi = (hi + 1) % items.length; items.forEach((d,i)=>d.classList.toggle('hi', i===hi)); ev.preventDefault(); }
+    else if (ev.key === 'ArrowUp') { hi = (hi - 1 + items.length) % items.length; items.forEach((d,i)=>d.classList.toggle('hi', i===hi)); ev.preventDefault(); }
+    else if (ev.key === 'Enter') { choose(which, items[hi].dataset.id); ev.preventDefault(); }
+  });
+  input.addEventListener('blur', () => setTimeout(() => sug.style.display = 'none', 150));
+}
+
+function choose(which, id) {
+  const e = byId.get(id);
+  if (!e) return;
+  picked[which] = e;
+  $('#sug' + which).style.display = 'none';
+  $('#pick' + which).value = id;
+  const card = $('#card' + which);
+  card.style.display = 'block';
+  const tags = (e.tags || []).map(t => `<span class="chip">${t}</span>`).join('');
+  card.innerHTML = `<b>${e.name || e.id}</b> <span class="hint">\u00b7 ${e.category} \u00b7 gen ${e.gen||0}</span>
+    <div class="tag-row">${tags}</div>
+    <div class="hint" style="margin-top:4px">${(e.description || e.summary || '').slice(0, 240)}</div>`;
+  $('#breed').disabled = !(picked.A && picked.B && picked.A.id !== picked.B.id);
+}
+
+function doBreed() {
+  if (!(picked.A && picked.B)) return;
+  const gen = Math.max(picked.A.gen || 0, picked.B.gen || 0) + 1;
+  currentDraft = synth(picked.A, picked.B, gen, rnd, { mutationRate: 0.15, tagPool: [] });
+  bredN++; $('#bred').textContent = bredN;
+  renderPreview();
+}
+
+function renderPreview() {
+  if (!currentDraft) return;
+  const d = currentDraft;
+  $('#previewMeta').innerHTML = `<b>${d.name}</b> \u00b7 <span class="badge gen-${Math.min(d.gen,5)}">gen ${d.gen}</span> \u00b7 ${d.category} \u00b7 <span class="hint">${d.id}</span>`;
+  $('#previewTags').innerHTML = d.tags.map(t => `<span class="chip">${t}</span>`).join('');
+  $('#previewBody').textContent = d.body;
+  $('#accept').disabled = false; $('#discard').disabled = false; $('#reroll').disabled = false;
+}
+
+$('#accept').addEventListener('click', () => {
+  if (!currentDraft) return;
+  if (byId.has(currentDraft.id)) currentDraft.id += '-' + (bredN);
+  byId.set(currentDraft.id, currentDraft);
+  pool.push(currentDraft);
+  accepted.push(currentDraft);
+  $('#poolSize').textContent = pool.length;
+  $('#acceptedCount').textContent = accepted.length;
+  renderAccepted();
+  currentDraft = null;
+  $('#previewBody').textContent = '';
+  $('#previewMeta').textContent = 'accepted \u2192 pool';
+  $('#previewTags').innerHTML = '';
+  $('#accept').disabled = true; $('#discard').disabled = true; $('#reroll').disabled = true;
+});
+$('#discard').addEventListener('click', () => {
+  currentDraft = null;
+  $('#previewBody').textContent = ''; $('#previewMeta').textContent = 'discarded'; $('#previewTags').innerHTML = '';
+  $('#accept').disabled = true; $('#discard').disabled = true; $('#reroll').disabled = true;
+});
+$('#reroll').addEventListener('click', () => { rnd = mulberry32(Date.now() >>> 0); doBreed(); });
+$('#breed').addEventListener('click', doBreed);
+$('#random').addEventListener('click', () => {
+  const a = pool[Math.floor(Math.random() * pool.length)];
+  let b = pool[Math.floor(Math.random() * pool.length)];
+  while (b.id === a.id) b = pool[Math.floor(Math.random() * pool.length)];
+  choose('A', a.id); choose('B', b.id);
+});
+$('#filter').addEventListener('input', renderAccepted);
+
+function renderAccepted() {
+  const q = $('#filter').value.trim().toLowerCase();
+  const hits = accepted.filter(e => !q || fuzzy(q, e));
+  $('#accepted').innerHTML = hits.slice(-60).reverse().map(e => `
+    <div class="pool-item" data-id="${e.id}">
+      <span class="badge gen-${Math.min(e.gen,5)}">gen ${e.gen}</span><b>${e.id}</b>
+      <div class="hint">${(e.description || '').slice(0, 140)}</div>
+    </div>`).join('');
+  $('#accepted').querySelectorAll('.pool-item').forEach(el => el.addEventListener('click', () => showLineage(el.dataset.id)));
+}
+
+function showLineage(id) {
+  const chain = [];
+  let cur = byId.get(id);
+  let guard = 0;
+  while (cur && guard++ < 30) {
+    chain.push(cur);
+    const p = cur.parents || [];
+    if (!p.length) break;
+    cur = byId.get(p[0]);
+  }
+  const out = chain.map((e, i) => `${'  '.repeat(i)}\u21b3 [gen ${e.gen||0}] ${e.id} \u2014 ${(e.description||'').slice(0, 80)}`).join('\n');
+  $('#lineage').textContent = out || '(no lineage)';
+}
+
+$('#export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({ accepted, generatedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `breeder-accepted-${Date.now()}.json`; a.click();
+});
+
+setupPicker('A'); setupPicker('B');
+load();
+</script>
+</body>
+</html>

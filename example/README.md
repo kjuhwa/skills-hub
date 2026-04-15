@@ -23,6 +23,7 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 | [cron-explainer](cron-explainer/)   | Cron Explainer — parse 5/6/7-field cron to English, next 10 firings, 1-year firing-density heatmap | html, js, css | 2026-04-16 |
 | [tiny-regex-lab](tiny-regex-lab/)   | Tiny Regex Lab — offline regex playground with per-group highlighting, preset library, and share-link | html, js, css | 2026-04-16 |
 | [skill-multiplier](skill-multiplier/) | Skill Multiplier — self-running generational loop that breeds skills × knowledge into new children that themselves become parents, infinite propagation | node, html, js, css | 2026-04-16 |
+| [skill-breeder](skill-breeder/) | Skill Breeder — manual breeding station with autocomplete parent pickers, preview, accept/discard, and parent-chain lineage viewer | node, html, js, css | 2026-04-16 |
 
 ## Adding an example
 

@@ -1,0 +1,12 @@
+{
+  "slug": "skill-breeder",
+  "title": "Skill Breeder",
+  "summary": "Manual breeding station for the skills-hub — pick parent A, pick parent B, stamp out a child SKILL.md draft, accept it back into the pool, pair it with a grand-parent, keep going. Human-in-the-loop propagation.",
+  "stack": ["node", "html", "js", "css"],
+  "tags": ["browser", "generator", "breeding", "hand-curated", "skills-hub", "zero-deps"],
+  "created_at": "2026-04-16",
+  "source_project": "getskills",
+  "runtime": "node >=18",
+  "entrypoint": "browser/serve.mjs",
+  "author": "kjuhwa@nkia.co.kr"
+}
