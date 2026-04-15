@@ -40,11 +40,22 @@ Registry entry format:
     "category": "apm",
     "source_commit": "a1b2c3",
     "installed_at": "2026-04-14T10:00:00Z",
+    "synced_at": "2026-04-15T09:30:00Z",
     "scope": "project|global",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "pinned": false
   }
 }
 ```
+
+## Versioning Contract (git tags)
+
+- Every published skill version gets an annotated tag: `skills/<name>/v<semver>` (e.g. `skills/foo/v1.2.0`).
+- `/skills_publish` creates and pushes the tag as part of the publish flow; bumps the version in SKILL.md frontmatter if the existing tag is unchanged.
+- `/init_skills foo@1.2.0` (or `--version=1.2.0`) installs the files at that tag and sets `pinned: true` in the registry.
+- `/skills_sync --skill=foo --version=1.1.0` performs a rollback to that tag (also pins).
+- `/skills_sync --skill=foo --unpin` clears the pin so the skill tracks latest again.
+- Bulk `/skills_sync` skips pinned skills unless `--force`.
 
 ## Command Map
 
@@ -60,6 +71,8 @@ Registry entry format:
 | `/skills_finalize` | End-of-project: extract → review → publish → cleanup drafts |
 | `/skills_cleanup` | Remote maintenance: dedupe, re-index, stale removal (dry-run default) |
 | `/skills_remove <name>` | Uninstall local skill |
+| `/skills_bootstrap_update [--version=x.y.z]` | Update slash-command files themselves to latest or a tagged version |
+| `/skills_bootstrap_publish [--bump=…]` | Publish local command edits to remote with a `bootstrap/v<ver>` tag |
 
 ## Safety Rules
 

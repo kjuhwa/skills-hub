@@ -1,6 +1,6 @@
 ---
-description: Review skill drafts and push them to kjuhwa/skills.git as a branch
-argument-hint: [--all | --draft=<name>] [--pr] [--branch=<name>]
+description: Review skill drafts and push them to kjuhwa/skills.git as a branch, with per-skill version tags
+argument-hint: [--all | --draft=<name>] [--pr] [--branch=<name>] [--bump=major|minor|patch]
 ---
 
 # /skills_publish $ARGUMENTS
@@ -25,13 +25,20 @@ Publish `.skills-draft/` contents to the remote repository.
    - Ensure `~/.claude/skills-hub/remote` is on latest main: `git fetch && git checkout main && git reset --hard origin/main`.
    - Create branch: `--branch=<name>` OR auto `skills/add-<primary-category>-<YYYYMMDD>`.
    - Copy approved drafts into `skills/<category>/<skill-name>/`.
-   - Rebuild `index.json` (scan all SKILL.md frontmatter → flat JSON).
-   - Commit per skill with message: `Add <category>/<name>: <one-line description>`.
+   - **Version resolution per skill**:
+     - Read SKILL.md `version` field from the draft.
+     - Check if tag `skills/<name>/v<ver>` already exists on origin (`git ls-remote --tags origin`).
+     - If exists: refuse to publish until user bumps — suggest next version based on `--bump` flag (default `patch`). Rewrite draft's SKILL.md frontmatter to the bumped value.
+     - If `version` missing in frontmatter: set to `1.0.0` for new skills, or latest remote tag + bump for existing skills.
+   - Rebuild `index.json` (scan all SKILL.md frontmatter → flat JSON; include `version`).
+   - Commit per skill with message: `Add <category>/<name> v<version>: <one-line description>` (use `Update` verb when skill already exists remotely).
 
-4. **Push** (requires confirmation)
+4. **Push + tag** (requires confirmation)
    - `git push -u origin <branch>`.
-   - If `--pr` flag and `gh` CLI available: `gh pr create --title ... --body ...` using draft's description + source_project.
-   - Otherwise print the branch name and compare URL.
+   - For each published skill, create annotated tag: `git tag -a skills/<name>/v<version> -m "<name> v<version>"` pointing at that skill's commit, then `git push origin skills/<name>/v<version>`.
+   - Tags are pushed even before PR merge so `skills_sync --version=` can resolve them from the branch; note in output that tags on feature branches are discoverable but only authoritative after merge.
+   - If `--pr` flag and `gh` CLI available: `gh pr create --title ... --body ...` using draft's description + source_project; include published version list in PR body.
+   - Otherwise print the branch name, tag list, and compare URL.
 
 5. **Cleanup drafts**
    - Move published drafts to `.skills-draft/_published/<date>/` (don't delete outright — user may want reference).
