@@ -272,6 +272,52 @@
       ]
     },
     {
+      "name": "module-federation-expose-wrapper",
+      "category": "arch",
+      "path": "skills/arch/module-federation-expose-wrapper",
+      "version": "0.1.0-draft",
+      "description": "Six-step pattern for exposing a component from one Module Federation remote and consuming it from another via a shared library — implementation → expose wrapper → MF config → MF name constant → RemoteApp wrapper in shared → consumer import. Prevents direct cross-remote imports and webpack alias collisions.",
+      "tags": [
+        "module-federation",
+        "micro-frontend",
+        "webpack",
+        "react",
+        "remote",
+        "expose",
+        "mfa"
+      ],
+      "triggers": [
+        "module federation",
+        "MFA",
+        "cross-remote import",
+        "exposes",
+        "RemoteApp",
+        "webpack alias collision"
+      ]
+    },
+    {
+      "name": "shared-package-only-cross-module",
+      "category": "arch",
+      "path": "skills/arch/shared-package-only-cross-module",
+      "version": "0.1.0-draft",
+      "description": "Enforce a one-way dependency graph in a multi-module repo — sibling modules may only import from a single `shared/` package, never from each other. Prevents webpack alias collisions, keeps module boundaries enforceable, and makes build/deploy units independent.",
+      "tags": [
+        "monorepo",
+        "module-boundaries",
+        "webpack",
+        "alias",
+        "micro-frontend",
+        "dependency-direction"
+      ],
+      "triggers": [
+        "cross-module import",
+        "cannot resolve @/",
+        "alias collision",
+        "webpack root",
+        "monorepo boundaries"
+      ]
+    },
+    {
       "name": "tiered-rebalance-schedule",
       "category": "arch",
       "path": "skills/arch/tiered-rebalance-schedule",
@@ -573,6 +619,72 @@
       ]
     },
     {
+      "name": "menu-key-config-registry",
+      "category": "frontend",
+      "path": "skills/frontend/menu-key-config-registry",
+      "version": "0.1.0-draft",
+      "description": "Centralize sidebar/drawer menu keys as a union type + config object per domain, so menu rendering, drawer view switches, and default-expand state all reference the same source of truth. Eliminates string-key drift across the three places a menu key appears.",
+      "tags": [
+        "react",
+        "menu",
+        "drawer",
+        "registry",
+        "typescript",
+        "union-type",
+        "configuration"
+      ],
+      "triggers": [
+        "menu key drift",
+        "Drawer case switch",
+        "selectedSubMenu",
+        "DetailMenuList",
+        "sidebar menu config"
+      ]
+    },
+    {
+      "name": "mfa-memoryrouter-isolation",
+      "category": "frontend",
+      "path": "skills/frontend/mfa-memoryrouter-isolation",
+      "version": "0.1.0-draft",
+      "description": "Wrap Module Federation-exposed React components in `MemoryRouter` so they own a private router context instead of inheriting the host's — avoids cross-origin router errors in dev and keeps the remote's routes from leaking into the host URL bar.",
+      "tags": [
+        "module-federation",
+        "react-router",
+        "memoryrouter",
+        "micro-frontend",
+        "cross-origin"
+      ],
+      "triggers": [
+        "MemoryRouter",
+        "Router context",
+        "cross-origin",
+        "useNavigate outside Router",
+        "MFA expose router"
+      ]
+    },
+    {
+      "name": "mfa-plain-html-dropdown-escape-hatch",
+      "category": "frontend",
+      "path": "skills/frontend/mfa-plain-html-dropdown-escape-hatch",
+      "version": "0.1.0-draft",
+      "description": "When a library Dropdown component infinite-loops or cross-origin-fails inside a Module Federation remote, replace it with a plain HTML `<button>` + absolutely-positioned menu `<ul>`. Cheaper than debugging the library's portal/context assumptions.",
+      "tags": [
+        "module-federation",
+        "dropdown",
+        "antd",
+        "infinite-loop",
+        "cross-origin",
+        "react"
+      ],
+      "triggers": [
+        "Dropdown infinite loop",
+        "options useMemo",
+        "MFA dropdown",
+        "portal cross-origin",
+        "library dropdown broken in remote"
+      ]
+    },
+    {
       "name": "zustand-preset-manager",
       "category": "frontend",
       "path": "skills/frontend/zustand-preset-manager",
@@ -734,6 +846,28 @@
       ]
     },
     {
+      "name": "parallel-bulk-annotation",
+      "category": "workflow",
+      "path": "skills/workflow/parallel-bulk-annotation",
+      "version": "0.1.0-draft",
+      "description": "수십~수백 개 Java 파일에 어노테이션(@Schema, @Operation, @ApiResponse 등)을 대량 추가할 때 병렬 에이전트로 분산 실행하는 패턴",
+      "tags": [
+        "java",
+        "annotation",
+        "parallel",
+        "agent",
+        "bulk-edit",
+        "spring"
+      ],
+      "triggers": [
+        "대량 어노테이션 추가",
+        "@Schema 전수 부여",
+        "operationId 전수 부여",
+        "200개 메서드 어노테이션",
+        "bulk annotation"
+      ]
+    },
+    {
       "name": "skill-repo-bootstrap-architecture",
       "category": "workflow",
       "path": "skills/workflow/skill-repo-bootstrap-architecture",
@@ -812,115 +946,27 @@
       ]
     },
     {
-      "name": "module-federation-expose-wrapper",
-      "category": "arch",
-      "path": "skills/arch/module-federation-expose-wrapper",
+      "name": "swagger-ai-optimization",
+      "category": "workflow",
+      "path": "skills/workflow/swagger-ai-optimization",
       "version": "0.1.0-draft",
-      "description": "Six-step pattern for exposing a component from one Module Federation remote and consuming it from another via a shared library — implementation → expose wrapper → MF config → MF name constant → RemoteApp wrapper in shared → consumer import. Prevents direct cross-remote imports and webpack alias collisions.",
+      "description": "Spring Boot + springdoc 프로젝트의 Swagger/OpenAPI 스펙을 AI Agent용으로 최적화 (operationId, @Schema, @ApiResponse, x-filterable-fields 전수 적용)",
       "tags": [
-        "module-federation",
-        "micro-frontend",
-        "webpack",
-        "react",
-        "remote",
-        "expose",
-        "mfa"
+        "swagger",
+        "openapi",
+        "ai",
+        "mcp",
+        "spring-boot",
+        "springdoc",
+        "schema",
+        "lucida"
       ],
       "triggers": [
-        "module federation",
-        "MFA",
-        "cross-remote import",
-        "exposes",
-        "RemoteApp",
-        "webpack alias collision"
-      ]
-    },
-    {
-      "name": "shared-package-only-cross-module",
-      "category": "arch",
-      "path": "skills/arch/shared-package-only-cross-module",
-      "version": "0.1.0-draft",
-      "description": "Enforce a one-way dependency graph in a multi-module repo — sibling modules may only import from a single `shared/` package, never from each other. Prevents webpack alias collisions, keeps module boundaries enforceable, and makes build/deploy units independent.",
-      "tags": [
-        "monorepo",
-        "module-boundaries",
-        "webpack",
-        "alias",
-        "micro-frontend",
-        "dependency-direction"
-      ],
-      "triggers": [
-        "cross-module import",
-        "cannot resolve @/",
-        "alias collision",
-        "webpack root",
-        "monorepo boundaries"
-      ]
-    },
-    {
-      "name": "mfa-memoryrouter-isolation",
-      "category": "frontend",
-      "path": "skills/frontend/mfa-memoryrouter-isolation",
-      "version": "0.1.0-draft",
-      "description": "Wrap Module Federation-exposed React components in `MemoryRouter` so they own a private router context instead of inheriting the host's — avoids cross-origin router errors in dev and keeps the remote's routes from leaking into the host URL bar.",
-      "tags": [
-        "module-federation",
-        "react-router",
-        "memoryrouter",
-        "micro-frontend",
-        "cross-origin"
-      ],
-      "triggers": [
-        "MemoryRouter",
-        "Router context",
-        "cross-origin",
-        "useNavigate outside Router",
-        "MFA expose router"
-      ]
-    },
-    {
-      "name": "mfa-plain-html-dropdown-escape-hatch",
-      "category": "frontend",
-      "path": "skills/frontend/mfa-plain-html-dropdown-escape-hatch",
-      "version": "0.1.0-draft",
-      "description": "When a library Dropdown component infinite-loops or cross-origin-fails inside a Module Federation remote, replace it with a plain HTML `<button>` + absolutely-positioned menu `<ul>`. Cheaper than debugging the library's portal/context assumptions.",
-      "tags": [
-        "module-federation",
-        "dropdown",
-        "antd",
-        "infinite-loop",
-        "cross-origin",
-        "react"
-      ],
-      "triggers": [
-        "Dropdown infinite loop",
-        "options useMemo",
-        "MFA dropdown",
-        "portal cross-origin",
-        "library dropdown broken in remote"
-      ]
-    },
-    {
-      "name": "menu-key-config-registry",
-      "category": "frontend",
-      "path": "skills/frontend/menu-key-config-registry",
-      "version": "0.1.0-draft",
-      "description": "Centralize sidebar/drawer menu keys as a union type + config object per domain, so menu rendering, drawer view switches, and default-expand state all reference the same source of truth. Eliminates string-key drift across the three places a menu key appears.",
-      "tags": [
-        "react",
-        "menu",
-        "drawer",
-        "registry",
-        "typescript",
-        "union-type",
-        "configuration"
-      ],
-      "triggers": [
-        "menu key drift",
-        "Drawer case switch",
-        "selectedSubMenu",
-        "DetailMenuList",
-        "sidebar menu config"
+        "swagger ai 최적화",
+        "openapi ai optimization",
+        "MCP 연동 준비",
+        "swagger operationId 전수 부여",
+        "AI 이해도 테스트"
       ]
     }
   ]
