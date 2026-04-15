@@ -258,6 +258,26 @@
       "path": "backend/distributed-lock-mongodb"
     },
     {
+      "name": "docker-compose-service-inventory-files",
+      "description": "Manage large Docker Compose service fleets using flat inventory files with '#' as an EX (exclude) marker",
+      "category": "devops",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-for-docker",
+      "version": "1.0.0",
+      "path": "devops/docker-compose-service-inventory-files"
+    },
+    {
+      "name": "docker-compose-v1-v2-auto-detect",
+      "description": "Shell helper that prefers `docker compose` (v2) over `docker-compose` (v1) with graceful fallback",
+      "category": "devops",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-for-docker",
+      "version": "1.0.0",
+      "path": "devops/docker-compose-v1-v2-auto-detect"
+    },
+    {
       "name": "domain-category-endpoint-registry",
       "description": "Organize a large vendor-API client (100s of endpoints) under a three-level `{domain}/{category}/{Action}{Entity}` package convention with a shared base class and a single `initializeEndpoints()` registry — scalable, greppable, and uniformly logged.",
       "category": "arch",
@@ -939,6 +959,16 @@
       ]
     },
     {
+      "name": "mongodb-volume-copy-backup",
+      "description": "Back up and restore MongoDB Docker volumes via rsync volume-copy instead of mongodump/tar.gz",
+      "category": "devops",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-for-docker",
+      "version": "1.0.0",
+      "path": "devops/mongodb-volume-copy-backup"
+    },
+    {
       "name": "multi-resource-or-batch-query",
       "description": "Collapse N per-resource Mongo queries into one pipeline using Criteria.orOperator (or $in) over resourceId, projecting a synthetic key field for service-side de-multiplexing. Chunk at ~200 for index-friendly $or.",
       "category": "backend",
@@ -1569,6 +1599,16 @@
       "path": "arch/tiered-rebalance-schedule"
     },
     {
+      "name": "triple-env-file-split-loader",
+      "description": "Split operator-facing env into three files (.env / .version / .memory) and load them in a fixed order",
+      "category": "devops",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-for-docker",
+      "version": "1.0.0",
+      "path": "devops/triple-env-file-split-loader"
+    },
+    {
       "name": "tsv-driven-permission-bootstrap",
       "description": "Treat version-controlled TSV as source of truth for Function/Permission/Menu catalog; reconcile DB on startup",
       "category": "backend",
@@ -1577,6 +1617,16 @@
       "source_project": "lucida-account",
       "version": "1.0.0",
       "path": "backend/tsv-driven-permission-bootstrap"
+    },
+    {
+      "name": "vllm-nginx-tls-single-port-routing",
+      "description": "Serve multiple vLLM OpenAI-API backends behind one Nginx TLS proxy on 443 using path-based routing",
+      "category": "ai",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-for-docker",
+      "version": "1.0.0",
+      "path": "ai/vllm-nginx-tls-single-port-routing"
     },
     {
       "name": "websocket-stomp-channel-pool-config",
@@ -1653,6 +1703,14 @@
       "confidence": "medium",
       "source_project": "lucida-measurement",
       "path": "api/confid-vs-resourceid-routing"
+    },
+    {
+      "slug": "docker-engine-29-requires-traefik-upgrade",
+      "category": "pitfall",
+      "summary": "Docker Engine 29.x raises the minimum client API to 1.44, breaking older Traefik versions that pin an older API",
+      "confidence": "high",
+      "source_project": "lucida-for-docker",
+      "path": "pitfall/docker-engine-29-requires-traefik-upgrade"
     },
     {
       "slug": "gradle-avro-plugin-config",
@@ -1779,6 +1837,22 @@
       "path": "domain/mongodb-exclude-system-databases"
     },
     {
+      "slug": "mongodb-single-node-directconnection",
+      "category": "pitfall",
+      "summary": "MongoDB clients must pass directConnection=true when connecting to a single-node replSet, otherwise they hang on primary discovery",
+      "confidence": "high",
+      "source_project": "lucida-for-docker",
+      "path": "pitfall/mongodb-single-node-directconnection"
+    },
+    {
+      "slug": "nfs-backed-volumes-for-docker-swarm",
+      "category": "arch",
+      "summary": "Cross-node Docker Swarm persistence via a single NFS share mounted at the same host path on every swarm node",
+      "confidence": "high",
+      "source_project": "lucida-for-docker",
+      "path": "arch/nfs-backed-volumes-for-docker-swarm"
+    },
+    {
       "slug": "one-default-template-per-type-rule",
       "category": "domain",
       "summary": "Exactly one default message template may exist per notification type; creating a second default is rejected, but editing the existing default is allowed",
@@ -1817,6 +1891,14 @@
       ]
     },
     {
+      "slug": "resource-mount-unmount-use-jar-defaults",
+      "category": "decision",
+      "summary": "Don't bind-mount i18n/exception/menu resource files into Spring Boot containers; let the jar ship its own defaults",
+      "confidence": "high",
+      "source_project": "lucida-for-docker",
+      "path": "decision/resource-mount-unmount-use-jar-defaults"
+    },
+    {
       "slug": "system-notification-shared-with-2fa-and-password-find",
       "category": "decision",
       "summary": "The `system_notification` config (SMTP/SMS credentials) is intentionally shared between 2FA and password-find flows rather than duplicated per flow",
@@ -1850,6 +1932,30 @@
       "confidence": "medium",
       "source_project": "lucida-report",
       "path": "domain/topresource-immediate-generation-invariant"
+    },
+    {
+      "slug": "traefik-2.11-requires-explicit-idletimeout",
+      "category": "pitfall",
+      "summary": "Traefik 2.11 silently drops idle backend connections without an explicit idleTimeout on the entrypoint/serversTransport",
+      "confidence": "high",
+      "source_project": "lucida-for-docker",
+      "path": "pitfall/traefik-2.11-requires-explicit-idletimeout"
+    },
+    {
+      "slug": "udp-receiver-needs-large-socket-buffer",
+      "category": "pitfall",
+      "summary": "UDP collectors behind Traefik/containers must raise SO_RCVBUF well above the 8KB default or drop packets under burst load",
+      "confidence": "high",
+      "source_project": "lucida-for-docker",
+      "path": "pitfall/udp-receiver-needs-large-socket-buffer"
+    },
+    {
+      "slug": "vllm-kv-cache-fp8-with-mtp",
+      "category": "decision",
+      "summary": "vLLM serving chose fp8_e4m3 KV cache + prefix caching + MTP speculative decoding for Qwen3.5 throughput",
+      "confidence": "medium",
+      "source_project": "lucida-for-docker",
+      "path": "decision/vllm-kv-cache-fp8-with-mtp"
     }
   ]
 }
