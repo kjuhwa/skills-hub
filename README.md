@@ -31,6 +31,9 @@ bootstrap/
     skills_remove.md
     skills_bootstrap_update.md      # pull command files (latest or tagged version)
     skills_bootstrap_publish.md     # publish command edits + bootstrap/v<ver> tag
+    skills_extract_knowledge.md     # extract skills + non-executable knowledge (facts, decisions, pitfalls)
+    knowledge_list.md               # list locally installed knowledge entries
+    knowledge_search.md             # search knowledge and optionally inject matches into context
   skills/
     skills-hub/SKILL.md       # umbrella OMC skill
   install.sh                  # bash installer
@@ -89,6 +92,9 @@ Should report "no skills installed yet" plus the empty registry — proves the h
 | `/skills_remove <name>` | Uninstall a local skill | local |
 | `/skills_bootstrap_update [--version=x.y.z]` | Install/rollback the slash-command files themselves | local commands |
 | `/skills_bootstrap_publish [--bump=...]` | Publish command edits + `bootstrap/v<ver>` tag | remote branch + tag |
+| `/skills_extract_knowledge [--from ...]` | Extract **both** executable skills *and* non-executable knowledge (facts, decisions, pitfalls) from session / git diff / commits | local drafts + knowledge |
+| `/knowledge_list [--category/--tag/--linked-to/--orphans]` | List locally installed knowledge entries | no |
+| `/knowledge_search <keyword> [--inject]` | Search knowledge; optionally inject top matches into current context | no (inject = context only) |
 
 ### Typical Workflow
 
@@ -211,6 +217,58 @@ Structure:
 ### Category Proposals
 
 If you need a new category, edit `CATEGORIES.md` in the same PR that adds the first skill using it. Keep categories **broad** (≤20 total) — tags do the fine-grained work.
+
+---
+
+## Knowledge (non-executable)
+
+`/skills_extract_knowledge` recognises two distinct artifact classes when mining a session or git history:
+
+- **Skills** — reusable *executable* procedures (existing flow). Stored under `~/.claude/skills/<slug>/`.
+- **Knowledge** — *non-executable* facts, architecture decisions, pitfalls, domain context that are valuable to remember but not to "run". Stored under `~/.claude/skills-hub/knowledge/<category>/<slug>.md`.
+
+### Classification rules
+
+| Chunk shape | Verdict |
+|---|---|
+| "Do X by following steps …" (input → procedure → output) | `skill` |
+| "X is true because …" (declaration, constraint, decision, lesson) | `knowledge` |
+| Procedure + rationale mixed | `both` — two files with bidirectional `linked_*` references |
+| One-off / context-dependent fragment | `drop` |
+
+### Knowledge categories
+
+`api`, `arch`, `pitfall`, `decision`, `domain` — kept separate from skill categories so knowledge can be browsed independently.
+
+### Knowledge file frontmatter
+
+```yaml
+---
+name: <slug>
+type: knowledge
+category: api | arch | pitfall | decision | domain
+tags: [...]
+summary: "one-line summary (<=150 chars)"
+source: { kind: session|commit|diff, ref: <id> }
+confidence: high | medium | low
+linked_skills: [...]
+supersedes: <slug-or-null>
+extracted_at: YYYY-MM-DD
+---
+```
+
+Body sections: `## Fact` / `## Context / Why` / `## Evidence` / `## Applies when` / `## Counter / Caveats`.
+
+### Typical flow
+
+```
+/skills_extract_knowledge --from range main..HEAD   # classify each commit
+# review preview, toggle entries, confirm
+/knowledge_list                                     # see what was added
+/knowledge_search "kafka routing" --inject          # prime context before work
+```
+
+Knowledge remains **local** for now — remote publish (`/knowledge_publish`) is a v2 feature. Registry schema is `v2` (`knowledge: {}` key + `linked_knowledge` on each skill).
 
 ---
 
