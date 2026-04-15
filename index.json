@@ -141,6 +141,16 @@
       "path": "tooling/claude-plugin-catalog-publish"
     },
     {
+      "name": "custom-actuator-command-whitelist",
+      "description": "Expose safe remote OS command execution on a Spring Boot service via a custom Actuator endpoint, restricted by a command whitelist, an argument sanitizer, and an execution timeout.",
+      "category": "backend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-health",
+      "version": "1.0.0",
+      "path": "backend/custom-actuator-command-whitelist"
+    },
+    {
       "name": "definition-registry-helper-cache",
       "description": "Static helper class with ConcurrentHashMap caches populated at startup by @PostConstruct providers, enabling zero-allocation hot-path lookups via static getters",
       "triggers": "",
@@ -210,6 +220,16 @@
       "source_project": "lucida-realtime",
       "version": "1.0.0",
       "path": "backend/enable-async-tenant-aware"
+    },
+    {
+      "name": "event-driven-kafka-scheduling",
+      "description": "Replace Spring @Scheduled with a Kafka-delivered JobExecuteNotice so a central scheduler service fans out tick events — with a skip-if-previous-still-running guard to prevent pile-up.",
+      "category": "backend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-health",
+      "version": "1.0.0",
+      "path": "backend/event-driven-kafka-scheduling"
     },
     {
       "name": "excel-export-enum-replacer",
@@ -571,6 +591,16 @@
       "path": "backend/mongo-criteria-maker-elemmatch-and-or"
     },
     {
+      "name": "mongo-ttl-with-aggregation-delta",
+      "description": "Store short-lived counter snapshots in MongoDB with a TTL index for auto-expiry and compute delta-from-previous at read time via an aggregation $subtract pipeline.",
+      "category": "backend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-health",
+      "version": "1.0.0",
+      "path": "backend/mongo-ttl-with-aggregation-delta"
+    },
+    {
       "name": "mongodb-changestream-field-filter",
       "description": "Filter MongoDB change stream UPDATE events by inspecting updateDescription.updatedFields so irrelevant mutations do not trigger downstream work; INSERT/DELETE fall through as always-relevant.",
       "category": "backend",
@@ -847,6 +877,16 @@
       "path": "workflow/slash-command-authoring"
     },
     {
+      "name": "spring-actuator-health-collector",
+      "description": "Poll remote Spring Boot services via Actuator (/health + /metrics/{name}) using OkHttp with per-target timeouts and a configurable metric whitelist, publishing results to a downstream bus.",
+      "category": "backend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-health",
+      "version": "1.0.0",
+      "path": "backend/spring-actuator-health-collector"
+    },
+    {
       "name": "spring-applicationrunner-system-seed",
       "description": "Use ApplicationRunner to seed required system/root records on startup, guarded by an exists-check and a systemFlag that blocks delete/move in service layer.",
       "category": "backend",
@@ -1046,6 +1086,16 @@
       "source_project": "lucida-cm",
       "version": "1.0.0",
       "path": "backend/tenant-isolated-mongo-collection"
+    },
+    {
+      "name": "tenant-per-database-mongo-routing",
+      "description": "Route Spring Data Mongo operations to per-tenant databases via a ThreadLocal tenant holder and two MongoTemplate beans (isolated vs shared collections).",
+      "category": "backend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-health",
+      "version": "1.0.0",
+      "path": "backend/tenant-per-database-mongo-routing"
     },
     {
       "name": "thread-pool-queue-backpressure",
