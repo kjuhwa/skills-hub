@@ -1,7 +1,7 @@
 ---
 name: eclipse-rcp-rich-client-for-apm-ui
 description: Build a desktop-class APM / observability client on Eclipse RCP + ZEST/GEF for high-throughput real-time visualization that HTTP + JSON browsers struggle with
-category: ops
+category: apm
 version: 1.0.0
 source_type: extracted-from-git
 source_url: https://github.com/kjuhwa/scouter

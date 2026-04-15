@@ -4,6 +4,7 @@ description: "[Tooling] Claude Code 스킬 표준 구조(SKILL.md + prompts/ + s
 argument-hint: <skill-name>
 version: 1.0.0
 source_project: nkia-skills
+category: devops
 ---
 
 # claude-code-skill-scaffold

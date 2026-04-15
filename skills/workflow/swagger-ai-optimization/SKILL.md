@@ -8,6 +8,8 @@ triggers:
   - swagger operationId 전수 부여
   - AI 이해도 테스트
 scope: user
+category: workflow
+version: 1.0.0
 ---
 
 # Swagger AI 최적화 워크플로우

@@ -1,7 +1,7 @@
 ---
 name: transaction-trace-pack-serialization-with-step-hierarchy
 description: Encode per-request distributed traces as a hierarchical list of typed steps (method, DB, external call, error) in a compressed binary pack, indexed by request end-time
-category: perf
+category: apm
 version: 1.0.0
 source_type: extracted-from-git
 source_url: https://github.com/kjuhwa/scouter

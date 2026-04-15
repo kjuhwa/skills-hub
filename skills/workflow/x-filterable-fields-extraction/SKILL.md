@@ -9,6 +9,8 @@ triggers:
   - 리소스 키 추출
   - GridFilter 정확도 개선
 scope: user
+category: workflow
+version: 1.0.0
 ---
 
 # x-filterable-fields 자동 추출 파이프라인

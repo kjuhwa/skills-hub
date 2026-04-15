@@ -8,6 +8,8 @@ triggers:
   - 200개 메서드 어노테이션
   - bulk annotation
 scope: user
+category: workflow
+version: 1.0.0
 ---
 
 # 병렬 대량 어노테이션 패턴
