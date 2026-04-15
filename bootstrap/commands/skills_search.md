@@ -14,13 +14,14 @@ Read-only search of the remote skill repository.
 3. Filter by keyword (name/description/tags/triggers/category, case-insensitive) and optional `--category`.
 4. For each match, output:
    ```
-   <category>/<skill-name>  v<version>
+   <category>/<skill-name>  v<version> (latest)
      description: ...
      tags: [..]
      triggers: [..]
      path: remote/skills/<category>/<skill-name>/
+     versions: v1.0.0, v1.1.0, v1.2.0   # from `git tag -l "skills/<skill-name>/v*" | sort -V`
    ```
-5. If user asks to view one, read its `content.md` and display.
+5. If user asks to view one, read its `content.md` and display. If they want a specific version, `git -C <remote> show skills/<name>/v<ver>:skills/<category>/<name>/content.md`.
 
 ## Rules
 

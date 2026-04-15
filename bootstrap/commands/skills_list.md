@@ -14,7 +14,7 @@ Report installed skills tracked by the hub registry.
    - `~/.claude/skills/*/SKILL.md` (global scope)
    - `.claude/skills/*/SKILL.md` if cwd has `.claude/` (project scope)
 3. Cross-reference:
-   - **Tracked + present**: normal entry → show name, scope, category, source_commit, installed_at.
+   - **Tracked + present**: normal entry → show name, scope, category, version, `PINNED` marker when `pinned: true`, source_commit, installed_at.
    - **Tracked + missing**: `[ORPHAN REGISTRY]` — offer to remove from registry.
    - **Untracked + present**: `[UNTRACKED]` — manually authored or pre-hub install.
 4. Apply flag filter: `--global`, `--project`, `--orphans`.
