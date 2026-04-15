@@ -227,6 +227,26 @@
       "path": "backend/collection-routing-by-period"
     },
     {
+      "name": "concurrent-jdbc-pool-datasource-lifecycle",
+      "description": "Manage a pool of short-lived JDBC targets for monitoring agents with dual maps (active vs all) and periodic revalidation",
+      "category": "backend",
+      "tags": "",
+      "triggers": "multi-tenant JDBC agent, per-target connection lifecycle, monitoring pool management",
+      "source_project": "lucida-domain-dpm",
+      "version": "1.0.0",
+      "path": "backend/concurrent-jdbc-pool-datasource-lifecycle"
+    },
+    {
+      "name": "conditional-feature-flag-rollout",
+      "description": "@ConditionalOnProperty to coexist legacy and new Bean implementations, switch via single property — rollback-friendly",
+      "category": "backend",
+      "tags": "",
+      "triggers": "Large architecture swap (sync→event) needing gradual rollout + instant rollback",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/conditional-feature-flag-rollout"
+    },
+    {
       "name": "custom-actuator-command-whitelist",
       "description": "Expose safe remote OS command execution on a Spring Boot service via a custom Actuator endpoint, restricted by a command whitelist, an argument sanitizer, and an execution timeout.",
       "category": "backend",
@@ -248,6 +268,16 @@
       "path": "arch/definition-registry-helper-cache"
     },
     {
+      "name": "dev-controller-tenant-wrapping-helper",
+      "description": "Extract repeated TenantContext+JWT wrapping in Dev controllers into a @Profile(local) helper with functional interfaces",
+      "category": "backend",
+      "tags": "",
+      "triggers": "*ControllerDev.java files repeat TenantContextHolder.set + JWT + try-finally",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/dev-controller-tenant-wrapping-helper"
+    },
+    {
       "name": "distributed-lock-mongodb",
       "description": "MongoDB findAndModify-based distributed lock with TTL expiry, owner tagging, and retry loop for multi-instance Spring Boot services.",
       "category": "backend",
@@ -256,6 +286,16 @@
       "source_project": "lucida-meta",
       "version": "1.0.0",
       "path": "backend/distributed-lock-mongodb"
+    },
+    {
+      "name": "divide-by-zero-rate-guard",
+      "description": "Guard rate/percentage calculations against zero denominators to prevent NaN from poisoning downstream metrics and serialization.",
+      "category": "backend",
+      "tags": "",
+      "triggers": "errorRate / successRate / cacheHitRatio / any num/den metric; NaN in dashboards",
+      "source_project": "lucida-domain-apm",
+      "version": "1.0.0",
+      "path": "backend/divide-by-zero-rate-guard"
     },
     {
       "name": "docker-compose-service-inventory-files",
@@ -407,6 +447,16 @@
       "source_project": "lucida-realtime",
       "version": "1.0.0",
       "path": "backend/feed-envelope-frame"
+    },
+    {
+      "name": "folder-coloc-style-types",
+      "description": "Keep component, style, and types files at the same depth; never split into styles/ or types/ subfolders",
+      "category": "frontend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "frontend/folder-coloc-style-types"
     },
     {
       "name": "font-cache-alpine-locale-docker",
@@ -610,6 +660,16 @@
       "path": "devops/jenkins-dual-registry-docker-push"
     },
     {
+      "name": "jest-test-file-naming-test-only",
+      "description": "Use .test.ts naming (not .spec.ts) and explicitly import jest globals; .spec.ts is excluded from the runner",
+      "category": "frontend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "frontend/jest-test-file-naming-test-only"
+    },
+    {
       "name": "json-seeded-jpa-loader",
       "description": "Idempotent reference-data seeding for Spring Boot — Flyway owns DDL, CommandLineRunner reads `resources/data/*.json`, maps to JPA entities, and saves only if the table is empty. Keeps static content in editable JSON without bloating migrations.",
       "category": "backend",
@@ -738,6 +798,16 @@
       "path": "backend/kafka-debounce-event-coalescing"
     },
     {
+      "name": "kafka-engine-distributed-job-framework",
+      "description": "Publisher→Kafka→Queue→Worker distributed job framework with Admission Control and Strategy SPI — replaces invokeAll bottleneck",
+      "category": "arch",
+      "tags": "",
+      "triggers": "invokeAll-based Pod bottleneck, long-blocking device timeouts, need for multi-Pod Consumer Group distribution",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "arch/kafka-engine-distributed-job-framework"
+    },
+    {
       "name": "kafka-message-header-metadata",
       "description": "Attach org-id, user-id, and timestamp as RecordHeader[] on a ProducerRecord to enable multi-tenant event routing without polluting the Avro payload",
       "triggers": "",
@@ -827,6 +897,16 @@
       "source_project": "lucida-ui",
       "version": "0.1.0-draft",
       "path": "frontend/menu-key-config-registry"
+    },
+    {
+      "name": "mermaid-gitlab-mr-size-rules",
+      "description": "Keep Mermaid diagrams in GitLab MRs readable — cap nodes, avoid nested subgraphs, quote IDs with special chars, connect all subgraphs",
+      "category": "workflow",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "workflow/mermaid-gitlab-mr-size-rules"
     },
     {
       "name": "message-loader-gated-on-database-ready",
@@ -946,6 +1026,16 @@
       ]
     },
     {
+      "name": "mongodb-compound-index-esr-rule",
+      "description": "Order MongoDB compound-index fields as Equality → Sort → Range so the query planner keeps a tight IXSCAN and avoids in-memory sorts.",
+      "category": "backend",
+      "tags": "",
+      "triggers": "Designing or reviewing MongoDB compound indexes; slow queries with COLLSCAN or in-memory sort",
+      "source_project": "lucida-domain-apm",
+      "version": "1.0.0",
+      "path": "backend/mongodb-compound-index-esr-rule"
+    },
+    {
       "name": "mongodb-datetrunc-binsize-zero-guard",
       "description": "Guard MongoDB $dateTrunc binSize against 0 when your interval may be auto/unset; coerce to 1 at query-builder boundary to avoid runtime error.",
       "category": "backend",
@@ -969,6 +1059,16 @@
       "path": "devops/mongodb-volume-copy-backup"
     },
     {
+      "name": "multi-dbms-resource-provider-pattern",
+      "description": "Structure a polyglot RDBMS monitoring agent with one ResourceProvider + entity/dto/service per DBMS, sharing a common base",
+      "category": "backend",
+      "tags": "",
+      "triggers": "multi-DBMS instrumentation, per-product measurement definitions, polyglot collectors",
+      "source_project": "lucida-domain-dpm",
+      "version": "1.0.0",
+      "path": "backend/multi-dbms-resource-provider-pattern"
+    },
+    {
       "name": "multi-resource-or-batch-query",
       "description": "Collapse N per-resource Mongo queries into one pipeline using Criteria.orOperator (or $in) over resourceId, projecting a synthetic key field for service-side de-multiplexing. Chunk at ~200 for index-friendly $or.",
       "category": "backend",
@@ -977,6 +1077,16 @@
       "source_project": "lucida-measurement",
       "version": "1.0.0",
       "path": "backend/multi-resource-or-batch-query"
+    },
+    {
+      "name": "multi-tenant-kafka-header-organization-context",
+      "description": "Propagate tenant/organization id from Kafka headers through async handler threads via a ThreadLocal context holder",
+      "category": "backend",
+      "tags": "",
+      "triggers": "multi-tenant kafka consumer, tenant context propagation, async handler thread-local",
+      "source_project": "lucida-domain-dpm",
+      "version": "1.0.0",
+      "path": "backend/multi-tenant-kafka-header-organization-context"
     },
     {
       "name": "multi-tenant-scheduler-iteration",
@@ -1043,6 +1153,16 @@
       "path": "apm/opentelemetry-java-bootstrap"
     },
     {
+      "name": "optional-outbound-adapter-no-op-port",
+      "description": "Register a No-Op implementation of an optional outbound port with @ConditionalOnMissingBean so services boot when the real adapter is absent.",
+      "category": "arch",
+      "tags": "",
+      "triggers": "Hexagonal outbound port whose backing infrastructure is optional; service fails to boot without audit/tracing adapter",
+      "source_project": "lucida-domain-apm",
+      "version": "1.0.0",
+      "path": "arch/optional-outbound-adapter-no-op-port"
+    },
+    {
       "name": "org-scoped-kafka-topic-bootstrap",
       "description": "On-startup and on-event creation of per-tenant Kafka topics, with retention overrides per topic class and a service-readiness gate",
       "category": "backend",
@@ -1069,6 +1189,16 @@
       "scope": "user",
       "category": "workflow",
       "path": "workflow/parallel-bulk-annotation"
+    },
+    {
+      "name": "parallel-tasks-generic-extraction",
+      "description": "Extract duplicated invokeAll-over-resources blocks into executeParallelTasks<T> + TaskFactory<T> generic",
+      "category": "backend",
+      "tags": "",
+      "triggers": "Same invokeAll + Future result-splitting block appears 2+ times in one service",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/parallel-tasks-generic-extraction"
     },
     {
       "name": "period-mode-enum-config",
@@ -1187,6 +1317,16 @@
       "path": "mobile/react-native-android-emulator-localhost"
     },
     {
+      "name": "reactive-webclient-ssl-jdk",
+      "description": "Force reactor-netty WebClient to SslProvider.JDK so SSL works in slim containers that lack netty-tcnative native libraries.",
+      "category": "backend",
+      "tags": "",
+      "triggers": "Spring WebFlux WebClient SSL failures in containers; UnsatisfiedLinkError for netty-tcnative",
+      "source_project": "lucida-domain-apm",
+      "version": "1.0.0",
+      "path": "backend/reactive-webclient-ssl-jdk"
+    },
+    {
       "name": "reactor-subscription-router-backpressure",
       "description": "Per-session, per-destination Reactor Flux router with bounded buffer + DROP_LATEST backpressure and automatic cleanup on session disconnect",
       "category": "backend",
@@ -1226,6 +1366,26 @@
       "tags": "[spring, plugin, registry, interface, component]",
       "category": "arch",
       "path": "arch/resource-provider-registry"
+    },
+    {
+      "name": "resource-summary-resolve-override-template",
+      "description": "리소스 상세 화면의 \"요약\" 탭에서 `OVERRIDE → TEMPLATE → NONE` 순으로 대시보드를 결정하는 서버-클라이언트 패턴. 오버라이드 엔티티, resolve API, 상태별 UI 드롭다운 규칙까지 포함.",
+      "category": "arch",
+      "tags": "[resource-detail, dashboard, override, template, resolve, widget, summary]",
+      "triggers": "[\"resource summary\", \"리소스 요약\", \"resolve override template\", \"dashboard override\", \"resourceSummary\", \"composition override\"]",
+      "source_project": "lucida-domain-sms",
+      "version": "1.0.0",
+      "path": "arch/resource-summary-resolve-override-template"
+    },
+    {
+      "name": "second-aggregation-snapshot-merge",
+      "description": "Per-second metric aggregation using in-memory counters + Flux.interval snapshot-and-reset + bounded parallel publish.",
+      "category": "backend",
+      "tags": "",
+      "triggers": "1-second-resolution metrics (TPS, error counts) without hitting Kafka/DB per event",
+      "source_project": "lucida-domain-apm",
+      "version": "1.0.0",
+      "path": "backend/second-aggregation-snapshot-merge"
     },
     {
       "name": "service-discovery-replica-leader-tracking",
@@ -1268,6 +1428,26 @@
       "path": "backend/servicejar-embeddable-library-task"
     },
     {
+      "name": "session-lock-tree-blocking-chain-modeling",
+      "description": "Model RDBMS blocking sessions as a directed graph and persist the resolved lock tree alongside the session snapshot",
+      "category": "backend",
+      "tags": "",
+      "triggers": "lock contention monitoring, blocking session analysis, RDBMS session graph",
+      "source_project": "lucida-domain-dpm",
+      "version": "1.0.0",
+      "path": "backend/session-lock-tree-blocking-chain-modeling"
+    },
+    {
+      "name": "shared-apis-endpoint-service-pattern",
+      "description": "Module Federation 모노레포에서 REST 엔드포인트를 추가할 때 `endpoint 상수 → services 메서드 → commonApiService 호출` 3계층 레이어링으로 도메인 일관성을 유지하는 패턴.",
+      "category": "frontend",
+      "tags": "[api, services, endpoint, module-federation, monorepo, layering]",
+      "triggers": "[\"엔드포인트 추가\", \"widgetEndPoint\", \"shared/apis\", \"commonApiService\", \"API 레이어 추가\", \"endpoint constant\"]",
+      "source_project": "lucida-domain-sms",
+      "version": "1.0.0",
+      "path": "frontend/shared-apis-endpoint-service-pattern"
+    },
+    {
       "name": "shared-package-only-cross-module",
       "description": "Enforce a one-way dependency graph in a multi-module repo — sibling modules may only import from a single `shared/` package, never from each other. Prevents webpack alias collisions, keeps module boundaries enforceable, and makes build/deploy units independent.",
       "category": "arch",
@@ -1306,6 +1486,16 @@
       "source_project": "skills-hub-setup-session",
       "version": "1.0.0",
       "path": "workflow/skill-repo-bootstrap-architecture"
+    },
+    {
+      "name": "slack-webhook-notify",
+      "description": "Slack Incoming Webhook으로 메시지를 전송한다. 빌드/테스트/배포 결과, 작업 완료 알림 등을 Slack 채널에 보낼 때 사용.",
+      "category": "tooling",
+      "tags": "",
+      "triggers": "[\"slack\", \"슬랙\", \"slack notify\", \"webhook 알림\", \"빌드 알림\"]",
+      "source_project": "lucida-domain-sms",
+      "version": "1.0.0",
+      "path": "tooling/slack-webhook-notify"
     },
     {
       "name": "slash-command-authoring",
@@ -1490,6 +1680,16 @@
       "path": "backend/stomp-principal-jwt-channel"
     },
     {
+      "name": "strategy-spi-list-to-map-autoinject",
+      "description": "Spring-injected List<T> → Map<Key,T> in constructor for O(1) enum-keyed Strategy dispatch (no switch)",
+      "category": "backend",
+      "tags": "",
+      "triggers": "Many enum-keyed job types / event types with one implementation each — replace switch/if chains",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/strategy-spi-list-to-map-autoinject"
+    },
+    {
       "name": "swagger-ai-optimization",
       "description": "Spring Boot + springdoc 프로젝트의 Swagger/OpenAPI 스펙을 AI Agent용으로 최적화 (operationId, @Schema, @ApiResponse, x-filterable-fields 전수 적용)",
       "triggers": "",
@@ -1517,6 +1717,16 @@
       "tags": "[spring, multi-tenant, threadlocal, mongodb, isolation]",
       "category": "arch",
       "path": "arch/tenant-context-holder-propagation"
+    },
+    {
+      "name": "tenant-context-try-finally-on-worker",
+      "description": "Safely set/clear multi-tenant ThreadLocal on pooled Kafka/Worker threads via try-finally to prevent cross-tenant leaks",
+      "category": "backend",
+      "tags": "",
+      "triggers": "@KafkaListener or ThreadPool worker touching ThreadLocal TenantContext — pool reuse leaks",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/tenant-context-try-finally-on-worker"
     },
     {
       "name": "tenant-db-initialization-on-startup",
@@ -1609,6 +1819,16 @@
       "path": "devops/triple-env-file-split-loader"
     },
     {
+      "name": "ts-type-prefix-convention",
+      "description": "Prefix interfaces with I and type aliases with T; use type for unions/literals and interface for inheritable shapes",
+      "category": "frontend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "frontend/ts-type-prefix-convention"
+    },
+    {
       "name": "tsv-driven-permission-bootstrap",
       "description": "Treat version-controlled TSV as source of truth for Function/Permission/Menu catalog; reconcile DB on startup",
       "category": "backend",
@@ -1617,6 +1837,16 @@
       "source_project": "lucida-account",
       "version": "1.0.0",
       "path": "backend/tsv-driven-permission-bootstrap"
+    },
+    {
+      "name": "version-specific-sql-map-selection",
+      "description": "Select MyBatis-style SQL maps at runtime by DBMS + version with graceful fallback to a default supported version",
+      "category": "backend",
+      "tags": "",
+      "triggers": "multi-version RDBMS query routing, versioned SQL XML maps, per-DBMS query dispatch",
+      "source_project": "lucida-domain-dpm",
+      "version": "1.0.0",
+      "path": "backend/version-specific-sql-map-selection"
     },
     {
       "name": "vllm-nginx-tls-single-port-routing",
@@ -1639,82 +1869,32 @@
       "path": "backend/websocket-stomp-channel-pool-config"
     },
     {
+      "name": "widget-confid-injection-sweep",
+      "description": "리소스 상세 대시보드에서 모든 위젯 데이터 요청에 `confId` 를 일관되게 주입하기 위한 위젯 fetch 지점 전수 스윕(sweep) 패턴 — 일부만 주입하면 같은 대시보드 안에서 위젯별 필터 동작이 갈라지는 버그를 방지한다.",
+      "category": "frontend",
+      "tags": "[widget, dashboard, resource-detail, data-fetch, scope-injection]",
+      "triggers": "[\"confId 주입\", \"selectCondition confId\", \"위젯 필터링\", \"widget scope injection\", \"resource-scoped widget\"]",
+      "source_project": "lucida-domain-sms",
+      "version": "1.0.0",
+      "path": "frontend/widget-confid-injection-sweep"
+    },
+    {
+      "name": "widget-grid-type-registration-checklist",
+      "description": "대시보드의 TableGrid/차트 위젯에 새로운 타입을 추가할 때 드리프트 없이 5곳(columns 매핑, fetch hook, 에디터 폼, detectType, 모델 DTO) 모두 반영하게 하는 체크리스트 스킬.",
+      "category": "frontend",
+      "tags": "[widget, dashboard, registry, grid, checklist]",
+      "triggers": "[\"TableGridType\", \"위젯 타입 추가\", \"tableGridType\", \"widget type registration\", \"detectType\", \"columns mapping\"]",
+      "source_project": "lucida-domain-sms",
+      "version": "1.0.0",
+      "path": "frontend/widget-grid-type-registration-checklist"
+    },
+    {
       "name": "x-filterable-fields-extraction",
       "description": "OpenAPI 스펙에 x-filterable-fields 확장을 자동 생성하는 파이프라인. lucida-ui gridColumnDefs + lucida-meta i18n properties를 조합하여 필드명/한국어 title/operators를 추출",
       "triggers": "",
       "scope": "user",
       "category": "workflow",
       "path": "workflow/x-filterable-fields-extraction"
-    },
-    {
-      "name": "zustand-preset-manager",
-      "description": "Zustand + persist middleware pattern for managing N named presets (team comps, saved filters, dashboard layouts) with active-selection, max-count guard, and auto-reselect on delete.",
-      "category": "frontend",
-      "tags": "",
-      "triggers": "",
-      "source_project": "veda-chronicles",
-      "version": "0.1.0-draft",
-      "path": "frontend/zustand-preset-manager"
-    },
-    {
-      "name": "kafka-engine-distributed-job-framework",
-      "description": "Publisher→Kafka→Queue→Worker distributed job framework with Admission Control and Strategy SPI — replaces invokeAll bottleneck",
-      "category": "arch",
-      "tags": "",
-      "triggers": "invokeAll-based Pod bottleneck, long-blocking device timeouts, need for multi-Pod Consumer Group distribution",
-      "source_project": "lucida-domain-automation",
-      "version": "1.0.0",
-      "path": "arch/kafka-engine-distributed-job-framework"
-    },
-    {
-      "name": "strategy-spi-list-to-map-autoinject",
-      "description": "Spring-injected List<T> → Map<Key,T> in constructor for O(1) enum-keyed Strategy dispatch (no switch)",
-      "category": "backend",
-      "tags": "",
-      "triggers": "Many enum-keyed job types / event types with one implementation each — replace switch/if chains",
-      "source_project": "lucida-domain-automation",
-      "version": "1.0.0",
-      "path": "backend/strategy-spi-list-to-map-autoinject"
-    },
-    {
-      "name": "conditional-feature-flag-rollout",
-      "description": "@ConditionalOnProperty to coexist legacy and new Bean implementations, switch via single property — rollback-friendly",
-      "category": "backend",
-      "tags": "",
-      "triggers": "Large architecture swap (sync→event) needing gradual rollout + instant rollback",
-      "source_project": "lucida-domain-automation",
-      "version": "1.0.0",
-      "path": "backend/conditional-feature-flag-rollout"
-    },
-    {
-      "name": "tenant-context-try-finally-on-worker",
-      "description": "Safely set/clear multi-tenant ThreadLocal on pooled Kafka/Worker threads via try-finally to prevent cross-tenant leaks",
-      "category": "backend",
-      "tags": "",
-      "triggers": "@KafkaListener or ThreadPool worker touching ThreadLocal TenantContext — pool reuse leaks",
-      "source_project": "lucida-domain-automation",
-      "version": "1.0.0",
-      "path": "backend/tenant-context-try-finally-on-worker"
-    },
-    {
-      "name": "dev-controller-tenant-wrapping-helper",
-      "description": "Extract repeated TenantContext+JWT wrapping in Dev controllers into a @Profile(local) helper with functional interfaces",
-      "category": "backend",
-      "tags": "",
-      "triggers": "*ControllerDev.java files repeat TenantContextHolder.set + JWT + try-finally",
-      "source_project": "lucida-domain-automation",
-      "version": "1.0.0",
-      "path": "backend/dev-controller-tenant-wrapping-helper"
-    },
-    {
-      "name": "parallel-tasks-generic-extraction",
-      "description": "Extract duplicated invokeAll-over-resources blocks into executeParallelTasks<T> + TaskFactory<T> generic",
-      "category": "backend",
-      "tags": "",
-      "triggers": "Same invokeAll + Future result-splitting block appears 2+ times in one service",
-      "source_project": "lucida-domain-automation",
-      "version": "1.0.0",
-      "path": "backend/parallel-tasks-generic-extraction"
     },
     {
       "name": "yorkie-crdt-sync-pattern",
@@ -1727,144 +1907,14 @@
       "path": "backend/yorkie-crdt-sync-pattern"
     },
     {
-      "name": "ts-type-prefix-convention",
-      "description": "Prefix interfaces with I and type aliases with T; use type for unions/literals and interface for inheritable shapes",
+      "name": "zustand-preset-manager",
+      "description": "Zustand + persist middleware pattern for managing N named presets (team comps, saved filters, dashboard layouts) with active-selection, max-count guard, and auto-reselect on delete.",
       "category": "frontend",
       "tags": "",
       "triggers": "",
-      "source_project": "lucida-builder-r3",
-      "version": "1.0.0",
-      "path": "frontend/ts-type-prefix-convention"
-    },
-    {
-      "name": "folder-coloc-style-types",
-      "description": "Keep component, style, and types files at the same depth; never split into styles/ or types/ subfolders",
-      "category": "frontend",
-      "tags": "",
-      "triggers": "",
-      "source_project": "lucida-builder-r3",
-      "version": "1.0.0",
-      "path": "frontend/folder-coloc-style-types"
-    },
-    {
-      "name": "jest-test-file-naming-test-only",
-      "description": "Use .test.ts naming (not .spec.ts) and explicitly import jest globals; .spec.ts is excluded from the runner",
-      "category": "frontend",
-      "tags": "",
-      "triggers": "",
-      "source_project": "lucida-builder-r3",
-      "version": "1.0.0",
-      "path": "frontend/jest-test-file-naming-test-only"
-    },
-    {
-      "name": "mermaid-gitlab-mr-size-rules",
-      "description": "Keep Mermaid diagrams in GitLab MRs readable — cap nodes, avoid nested subgraphs, quote IDs with special chars, connect all subgraphs",
-      "category": "workflow",
-      "tags": "",
-      "triggers": "",
-      "source_project": "lucida-builder-r3",
-      "version": "1.0.0",
-      "path": "workflow/mermaid-gitlab-mr-size-rules"
-    },
-    {
-      "name": "version-specific-sql-map-selection",
-      "description": "Select MyBatis-style SQL maps at runtime by DBMS + version with graceful fallback to a default supported version",
-      "category": "backend",
-      "tags": "",
-      "triggers": "multi-version RDBMS query routing, versioned SQL XML maps, per-DBMS query dispatch",
-      "source_project": "lucida-domain-dpm",
-      "version": "1.0.0",
-      "path": "backend/version-specific-sql-map-selection"
-    },
-    {
-      "name": "multi-dbms-resource-provider-pattern",
-      "description": "Structure a polyglot RDBMS monitoring agent with one ResourceProvider + entity/dto/service per DBMS, sharing a common base",
-      "category": "backend",
-      "tags": "",
-      "triggers": "multi-DBMS instrumentation, per-product measurement definitions, polyglot collectors",
-      "source_project": "lucida-domain-dpm",
-      "version": "1.0.0",
-      "path": "backend/multi-dbms-resource-provider-pattern"
-    },
-    {
-      "name": "session-lock-tree-blocking-chain-modeling",
-      "description": "Model RDBMS blocking sessions as a directed graph and persist the resolved lock tree alongside the session snapshot",
-      "category": "backend",
-      "tags": "",
-      "triggers": "lock contention monitoring, blocking session analysis, RDBMS session graph",
-      "source_project": "lucida-domain-dpm",
-      "version": "1.0.0",
-      "path": "backend/session-lock-tree-blocking-chain-modeling"
-    },
-    {
-      "name": "concurrent-jdbc-pool-datasource-lifecycle",
-      "description": "Manage a pool of short-lived JDBC targets for monitoring agents with dual maps (active vs all) and periodic revalidation",
-      "category": "backend",
-      "tags": "",
-      "triggers": "multi-tenant JDBC agent, per-target connection lifecycle, monitoring pool management",
-      "source_project": "lucida-domain-dpm",
-      "version": "1.0.0",
-      "path": "backend/concurrent-jdbc-pool-datasource-lifecycle"
-    },
-    {
-      "name": "multi-tenant-kafka-header-organization-context",
-      "description": "Propagate tenant/organization id from Kafka headers through async handler threads via a ThreadLocal context holder",
-      "category": "backend",
-      "tags": "",
-      "triggers": "multi-tenant kafka consumer, tenant context propagation, async handler thread-local",
-      "source_project": "lucida-domain-dpm",
-      "version": "1.0.0",
-      "path": "backend/multi-tenant-kafka-header-organization-context"
-    },
-    {
-      "name": "mongodb-compound-index-esr-rule",
-      "description": "Order MongoDB compound-index fields as Equality → Sort → Range so the query planner keeps a tight IXSCAN and avoids in-memory sorts.",
-      "category": "backend",
-      "tags": "",
-      "triggers": "Designing or reviewing MongoDB compound indexes; slow queries with COLLSCAN or in-memory sort",
-      "source_project": "lucida-domain-apm",
-      "version": "1.0.0",
-      "path": "backend/mongodb-compound-index-esr-rule"
-    },
-    {
-      "name": "divide-by-zero-rate-guard",
-      "description": "Guard rate/percentage calculations against zero denominators to prevent NaN from poisoning downstream metrics and serialization.",
-      "category": "backend",
-      "tags": "",
-      "triggers": "errorRate / successRate / cacheHitRatio / any num/den metric; NaN in dashboards",
-      "source_project": "lucida-domain-apm",
-      "version": "1.0.0",
-      "path": "backend/divide-by-zero-rate-guard"
-    },
-    {
-      "name": "reactive-webclient-ssl-jdk",
-      "description": "Force reactor-netty WebClient to SslProvider.JDK so SSL works in slim containers that lack netty-tcnative native libraries.",
-      "category": "backend",
-      "tags": "",
-      "triggers": "Spring WebFlux WebClient SSL failures in containers; UnsatisfiedLinkError for netty-tcnative",
-      "source_project": "lucida-domain-apm",
-      "version": "1.0.0",
-      "path": "backend/reactive-webclient-ssl-jdk"
-    },
-    {
-      "name": "second-aggregation-snapshot-merge",
-      "description": "Per-second metric aggregation using in-memory counters + Flux.interval snapshot-and-reset + bounded parallel publish.",
-      "category": "backend",
-      "tags": "",
-      "triggers": "1-second-resolution metrics (TPS, error counts) without hitting Kafka/DB per event",
-      "source_project": "lucida-domain-apm",
-      "version": "1.0.0",
-      "path": "backend/second-aggregation-snapshot-merge"
-    },
-    {
-      "name": "optional-outbound-adapter-no-op-port",
-      "description": "Register a No-Op implementation of an optional outbound port with @ConditionalOnMissingBean so services boot when the real adapter is absent.",
-      "category": "arch",
-      "tags": "",
-      "triggers": "Hexagonal outbound port whose backing infrastructure is optional; service fails to boot without audit/tracing adapter",
-      "source_project": "lucida-domain-apm",
-      "version": "1.0.0",
-      "path": "arch/optional-outbound-adapter-no-op-port"
+      "source_project": "veda-chronicles",
+      "version": "0.1.0-draft",
+      "path": "frontend/zustand-preset-manager"
     }
   ],
   "knowledge": [
