@@ -4,7 +4,7 @@ description: Keep Jacoco report, Jacoco coverage verification, and SonarQube exc
 version: 1.0.0
 source_project: lucida-performance
 source_ref: lucida-performance@0536094
-category: build
+category: devops
 triggers:
   - jacoco and sonarqube exclusion lists drift apart
   - adding a new package to coverage exclusions requires editing multiple blocks

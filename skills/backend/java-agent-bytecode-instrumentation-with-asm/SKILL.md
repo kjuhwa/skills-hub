@@ -1,7 +1,7 @@
 ---
 name: java-agent-bytecode-instrumentation-with-asm
 description: Build a JVM agent using ASM's ClassFileTransformer to inject profiling/monitoring hooks into application classes via pluggable visitor chains
-category: java
+category: backend
 version: 1.0.0
 source_type: extracted-from-git
 source_url: https://github.com/kjuhwa/scouter

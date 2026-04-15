@@ -1,7 +1,7 @@
 ---
 name: compact-binary-wire-protocol-with-variable-length-encoding
 description: Define a custom binary wire format with variable-length integer encodings (e.g. 3-byte / 5-byte) to minimize UDP packet size for high-volume metric or telemetry streams
-category: perf
+category: backend
 version: 1.0.0
 source_type: extracted-from-git
 source_url: https://github.com/kjuhwa/scouter

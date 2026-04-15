@@ -1,7 +1,7 @@
 ---
 name: slack-webhook-notify
 description: Slack Incoming Webhook으로 메시지를 전송한다. 빌드/테스트/배포 결과, 작업 완료 알림 등을 Slack 채널에 보낼 때 사용.
-category: tooling
+category: devops
 version: 1.0.0
 triggers:
   - slack

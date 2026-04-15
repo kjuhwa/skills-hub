@@ -1,7 +1,7 @@
 ---
 name: clang-tidy-integration-workflow
 description: Automated static analysis pipeline using clang-tidy with project-specific checks and suppression strategies for large multi-file C++ codebases.
-category: tooling
+category: devops
 version: 1.0.0
 tags: [cpp, static-analysis, clang-tidy, ci, linting]
 source_type: extracted-from-git

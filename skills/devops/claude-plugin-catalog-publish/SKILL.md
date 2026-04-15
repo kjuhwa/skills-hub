@@ -4,7 +4,7 @@ description: "[Tooling] 로컬 스킬을 원격 Git repo에 배포하고 AGENTS.
 argument-hint: <skill-name>
 version: 1.0.0
 source_project: nkia-skills
-category: tooling
+category: devops
 ---
 
 # claude-plugin-catalog-publish

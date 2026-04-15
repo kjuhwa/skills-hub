@@ -4,7 +4,7 @@ description: "[Tooling] SKILL.md frontmatter + 필수 섹션을 CRITICAL/WARNING
 argument-hint: "[skill-name]"
 version: 1.0.0
 source_project: nkia-skills
-category: tooling
+category: devops
 ---
 
 # skill-md-validator

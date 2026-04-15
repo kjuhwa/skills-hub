@@ -4,7 +4,7 @@ description: Gradle `bootRun` env block that wires local Redis/Mongo/Kafka/Eurek
 version: 1.0.0
 source_project: lucida-performance
 source_ref: lucida-performance@0536094
-category: build
+category: devops
 triggers:
   - new engineer asks "how do I run this locally?"
   - application-local.yaml is gitignored and no-one knows the defaults
