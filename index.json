@@ -1715,6 +1715,56 @@
       "source_project": "lucida-domain-automation",
       "version": "1.0.0",
       "path": "backend/parallel-tasks-generic-extraction"
+    },
+    {
+      "name": "yorkie-crdt-sync-pattern",
+      "description": "Apply a single doc.update callback for local mutations and pullRemoteChangesIntoLocal(WithNodeIds) for remote→local sync in Yorkie-backed apps",
+      "category": "backend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "backend/yorkie-crdt-sync-pattern"
+    },
+    {
+      "name": "ts-type-prefix-convention",
+      "description": "Prefix interfaces with I and type aliases with T; use type for unions/literals and interface for inheritable shapes",
+      "category": "frontend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "frontend/ts-type-prefix-convention"
+    },
+    {
+      "name": "folder-coloc-style-types",
+      "description": "Keep component, style, and types files at the same depth; never split into styles/ or types/ subfolders",
+      "category": "frontend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "frontend/folder-coloc-style-types"
+    },
+    {
+      "name": "jest-test-file-naming-test-only",
+      "description": "Use .test.ts naming (not .spec.ts) and explicitly import jest globals; .spec.ts is excluded from the runner",
+      "category": "frontend",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "frontend/jest-test-file-naming-test-only"
+    },
+    {
+      "name": "mermaid-gitlab-mr-size-rules",
+      "description": "Keep Mermaid diagrams in GitLab MRs readable — cap nodes, avoid nested subgraphs, quote IDs with special chars, connect all subgraphs",
+      "category": "workflow",
+      "tags": "",
+      "triggers": "",
+      "source_project": "lucida-builder-r3",
+      "version": "1.0.0",
+      "path": "workflow/mermaid-gitlab-mr-size-rules"
     }
   ],
   "knowledge": [
@@ -2088,6 +2138,86 @@
       "confidence": "medium",
       "source_project": "lucida-domain-automation",
       "path": "decision/cors-allow-credentials-star-origin"
+    },
+    {
+      "slug": "yorkie-team-server-split",
+      "category": "arch",
+      "summary": "Yorkie holds live canvas state; the team server holds metadata (projects, assets, datasources) — never mix",
+      "confidence": "high",
+      "source_project": "lucida-builder-r3",
+      "path": "arch/yorkie-team-server-split"
+    },
+    {
+      "slug": "widget-is-frozen-group-snapshot",
+      "category": "arch",
+      "summary": "Widgets are snapshots of a group at save time; later edits to the source group do not propagate",
+      "confidence": "high",
+      "source_project": "lucida-builder-r3",
+      "path": "arch/widget-is-frozen-group-snapshot"
+    },
+    {
+      "slug": "published-vs-realtime-view-pages",
+      "category": "arch",
+      "summary": "PublishedViewPage renders a frozen deploy snapshot; RealTimeViewPage renders the live editable dashboard",
+      "confidence": "high",
+      "source_project": "lucida-builder-r3",
+      "path": "arch/published-vs-realtime-view-pages"
+    },
+    {
+      "slug": "push-local-removed-use-doc-update",
+      "category": "decision",
+      "summary": "pushLocalChangesIntoRemote and its action-mapping helpers were removed; mutate Yorkie via doc.update directly",
+      "confidence": "high",
+      "source_project": "lucida-builder-r3",
+      "path": "decision/push-local-removed-use-doc-update"
+    },
+    {
+      "slug": "jest-coverage-80-threshold",
+      "category": "decision",
+      "summary": "Global Jest coverage threshold is 80% on branches, functions, lines, and statements",
+      "confidence": "medium",
+      "source_project": "lucida-builder-r3",
+      "path": "decision/jest-coverage-80-threshold"
+    },
+    {
+      "slug": "node-npm-pin-matches-jenkins",
+      "category": "decision",
+      "summary": "UI build is pinned to Node 24.6.0 + npm 11.5.1 to match the Jenkins build environment",
+      "confidence": "high",
+      "source_project": "lucida-builder-r3",
+      "path": "decision/node-npm-pin-matches-jenkins"
+    },
+    {
+      "slug": "spec-excluded-from-jest",
+      "category": "pitfall",
+      "summary": ".spec.ts files are excluded from the Jest runner in this project — only .test.ts is discovered",
+      "confidence": "high",
+      "source_project": "lucida-builder-r3",
+      "path": "pitfall/spec-excluded-from-jest"
+    },
+    {
+      "slug": "legacy-datasource-naming",
+      "category": "pitfall",
+      "summary": "\"`dataSource` / `dataSourceFilter` in the codebase actually mean data-pipeline-select and data-pipeline-filter — not datasource\"",
+      "confidence": "high",
+      "source_project": "lucida-builder-r3",
+      "path": "pitfall/legacy-datasource-naming"
+    },
+    {
+      "slug": "konva-center-coord-system",
+      "category": "pitfall",
+      "summary": "Konva node coordinates can be center-based; when converting to top-left boxes subtract half width/height",
+      "confidence": "medium",
+      "source_project": "lucida-builder-r3",
+      "path": "pitfall/konva-center-coord-system"
+    },
+    {
+      "slug": "mongo-direct-connection-flag",
+      "category": "pitfall",
+      "summary": "MongoDB datasource connectionString requires directConnection=true in this deployment",
+      "confidence": "medium",
+      "source_project": "lucida-builder-r3",
+      "path": "pitfall/mongo-direct-connection-flag"
     }
   ]
 }
