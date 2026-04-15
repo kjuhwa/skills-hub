@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cron Explainer</title>
+<style>
+  :root { --bg:#0e1116; --panel:#161b22; --border:#30363d; --fg:#e6edf3;
+    --muted:#8b949e; --accent:#58a6ff; --danger:#f85149; --ok:#3fb950; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; background: var(--bg); color: var(--fg);
+    font: 14px/1.4 ui-monospace, Menlo, Consolas, monospace; min-height: 100vh; }
+  header { padding: 10px 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  header h1 { font-size: 15px; margin: 0; font-weight: 600; color: var(--accent); }
+  header .spacer { flex: 1; }
+  select, button, input { background: var(--panel); color: var(--fg); border: 1px solid var(--border);
+    padding: 5px 10px; border-radius: 4px; font: inherit; outline: none; }
+  button:hover, select:hover { border-color: var(--accent); cursor: pointer; }
+  main { padding: 16px; display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  main > section { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 14px; }
+  section h2 { margin: 0 0 10px; font-size: 13px; color: var(--muted); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.05em; }
+  #cron { width: 100%; font: 18px ui-monospace, monospace; padding: 8px 10px; }
+  .fields { margin-top: 10px; display: grid; grid-template-columns: 120px 1fr; gap: 4px 10px; font-size: 13px; }
+  .fields .k { color: var(--muted); }
+  .fields .v { color: var(--fg); }
+  .fields .v .raw { color: var(--accent); margin-right: 8px; }
+  #summary { margin-top: 10px; padding: 10px; background: #0b0e13; border: 1px solid var(--border);
+    border-radius: 4px; line-height: 1.5; }
+  #err { color: var(--danger); margin-top: 8px; }
+  #nextTimes { list-style: none; padding: 0; margin: 0; }
+  #nextTimes li { padding: 4px 8px; border-bottom: 1px solid var(--border); display: flex;
+    justify-content: space-between; font-size: 13px; }
+  #nextTimes li:last-child { border: 0; }
+  #nextTimes .when { color: var(--fg); }
+  #nextTimes .rel { color: var(--muted); font-size: 11px; }
+  .heatmap { display: grid; grid-template-columns: repeat(53, 10px); gap: 2px; margin-top: 8px; }
+  .cell { width: 10px; height: 10px; background: #21262d; border-radius: 2px; }
+  .cell[data-h="0"] { background: #161b22; }
+  .cell[data-h="1"] { background: #0e4429; }
+  .cell[data-h="2"] { background: #006d32; }
+  .cell[data-h="3"] { background: #26a641; }
+  .cell[data-h="4"] { background: #39d353; }
+  .legend { margin-top: 8px; font-size: 11px; color: var(--muted);
+    display: flex; gap: 6px; align-items: center; }
+  .legend .cell { display: inline-block; }
+  .full { grid-column: 1 / -1; }
+  code { background: #0b0e13; padding: 1px 5px; border-radius: 3px; color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cron Explainer</h1>
+  <span class="spacer"></span>
+  <select id="presets">
+    <option value="">-- preset --</option>
+    <option value="every-min">every minute</option>
+    <option value="hourly">every hour</option>
+    <option value="nightly">nightly 2am</option>
+    <option value="business">business hours weekdays</option>
+    <option value="monday">every Monday 9am</option>
+    <option value="monthly">1st of month midnight</option>
+    <option value="quartz-5s">Quartz every 5 seconds</option>
+    <option value="quartz-year">Quartz with year</option>
+  </select>
+</header>
+
+<main>
+  <section class="full">
+    <h2>Cron expression</h2>
+    <input id="cron" spellcheck="false" autocomplete="off" placeholder="e.g.  0 */2 * * 1-5">
+    <div id="err"></div>
+    <div class="fields" id="fields"></div>
+    <div id="summary"></div>
+  </section>
+
+  <section>
+    <h2>Next 10 firings</h2>
+    <ol id="nextTimes"></ol>
+  </section>
+
+  <section>
+    <h2>1-year heatmap (firings per day from now)</h2>
+    <div class="heatmap" id="heatmap"></div>
+    <div class="legend">
+      less
+      <span class="cell" data-h="0"></span>
+      <span class="cell" data-h="1"></span>
+      <span class="cell" data-h="2"></span>
+      <span class="cell" data-h="3"></span>
+      <span class="cell" data-h="4"></span>
+      more
+    </div>
+  </section>
+</main>
+
+<script>
+const PRESETS = {
+  'every-min': '* * * * *',
+  'hourly': '0 * * * *',
+  'nightly': '0 2 * * *',
+  'business': '0 9-17 * * 1-5',
+  'monday': '0 9 * * 1',
+  'monthly': '0 0 1 * *',
+  'quartz-5s': '*/5 * * * * ?',
+  'quartz-year': '0 0 12 * * ? 2026'
+};
+
+const DOW_NAMES = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const MONTH_NAMES = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+// Parse one cron field into a predicate + set of valid values.
+function parseField(raw, min, max, names) {
+  if (raw === '*' || raw === '?') return { any: true, values: null, raw };
+  const parts = raw.split(',');
+  const set = new Set();
+  for (const p of parts) {
+    let m;
+    // handle L (basic: "L" means max — day-of-month last)
+    if (/^L$/i.test(p)) { set.add(-1); continue; } // -1 sentinel
+    // step form: a/b, a-b/c, */c
+    let rangePart = p, step = 1;
+    if (p.includes('/')) {
+      const [rp, sp] = p.split('/');
+      rangePart = rp; step = parseInt(sp, 10);
+      if (!step || step < 1) throw new Error(`bad step in "${raw}"`);
+    }
+    let lo, hi;
+    if (rangePart === '*') { lo = min; hi = max; }
+    else if (rangePart.includes('-')) {
+      const [a, b] = rangePart.split('-');
+      lo = nameOrNum(a, names, min); hi = nameOrNum(b, names, min);
+    } else {
+      lo = hi = nameOrNum(rangePart, names, min);
+      if (p.includes('/')) hi = max;
+    }
+    if (lo < min || hi > max || lo > hi) throw new Error(`out of range "${raw}" (${min}..${max})`);
+    for (let v = lo; v <= hi; v += step) set.add(v);
+  }
+  return { any: false, values: set, raw };
+}
+
+function nameOrNum(s, names, min) {
+  if (/^\d+$/.test(s)) return parseInt(s, 10);
+  if (names) {
+    const idx = names.indexOf(s.toUpperCase());
+    if (idx >= 0) return idx + min;
+  }
+  throw new Error(`cannot parse "${s}"`);
+}
+
+// Split expression into either 5, 6, or 7 fields.
+function parseExpr(expr) {
+  const parts = expr.trim().split(/\s+/);
+  let sec, min, hour, dom, mon, dow, year;
+  if (parts.length === 5) {
+    [min, hour, dom, mon, dow] = parts;
+    sec = '0'; year = '*';
+  } else if (parts.length === 6) {
+    [sec, min, hour, dom, mon, dow] = parts; year = '*';
+  } else if (parts.length === 7) {
+    [sec, min, hour, dom, mon, dow, year] = parts;
+  } else {
+    throw new Error(`expected 5, 6, or 7 fields, got ${parts.length}`);
+  }
+  return {
+    fieldCount: parts.length,
+    sec: parseField(sec, 0, 59),
+    min: parseField(min, 0, 59),
+    hour: parseField(hour, 0, 23),
+    dom: parseField(dom, 1, 31),
+    mon: parseField(mon, 1, 12, MONTH_NAMES),
+    // normalize dow: accept 0-7 where 0 and 7 = Sunday
+    dow: parseDow(dow),
+    year: year === '*' ? { any: true, values: null, raw: '*' } : parseField(year, 1970, 2099),
+    domRaw: dom, dowRaw: dow,
+  };
+}
+
+function parseDow(raw) {
+  if (raw === '*' || raw === '?') return { any: true, values: null, raw };
+  const parts = raw.split(',');
+  const set = new Set();
+  for (const p of parts) {
+    let rangePart = p, step = 1;
+    if (p.includes('/')) {
+      const [rp, sp] = p.split('/');
+      rangePart = rp; step = parseInt(sp, 10);
+    }
+    let lo, hi;
+    if (rangePart === '*') { lo = 0; hi = 6; }
+    else if (rangePart.includes('-')) {
+      const [a, b] = rangePart.split('-');
+      lo = nameOrNum(a, DOW_NAMES, 0); hi = nameOrNum(b, DOW_NAMES, 0);
+    } else {
+      lo = hi = nameOrNum(rangePart, DOW_NAMES, 0);
+      if (p.includes('/')) hi = 7;
+    }
+    for (let v = lo; v <= hi; v += step) set.add(v === 7 ? 0 : v);
+  }
+  return { any: false, values: set, raw };
+}
+
+function fieldMatches(field, v, max) {
+  if (field.any) return true;
+  if (field.values.has(-1) && v === max) return true;
+  return field.values.has(v);
+}
+
+function domMatches(field, dt) {
+  if (field.any) return true;
+  const v = dt.getDate();
+  if (field.values.has(-1)) {
+    const last = new Date(dt.getFullYear(), dt.getMonth() + 1, 0).getDate();
+    if (v === last) return true;
+  }
+  return field.values.has(v);
+}
+
+// Quartz rule: if either dom or dow is `?` or the other is `*`, combine with OR otherwise AND.
+function dayMatches(cron, dt) {
+  const domAny = cron.dom.any, dowAny = cron.dow.any;
+  const domHit = domMatches(cron.dom, dt);
+  const dowHit = fieldMatches(cron.dow, dt.getDay(), 6);
+  // Quartz convention: if one of them is `?`, use only the other. If both `*`, all days match.
+  const domIsQ = cron.domRaw === '?';
+  const dowIsQ = cron.dowRaw === '?';
+  if (domIsQ) return dowHit;
+  if (dowIsQ) return domHit;
+  // classic cron OR semantics when neither is *, else AND
+  if (!domAny && !dowAny) return domHit || dowHit;
+  return domHit && dowHit;
+}
+
+function nextFirings(cron, fromTs, count, useSeconds) {
+  const results = [];
+  let dt = new Date(fromTs);
+  dt.setMilliseconds(0);
+  if (!useSeconds) dt.setSeconds(0);
+  dt = new Date(dt.getTime() + (useSeconds ? 1000 : 60000));
+  const endTs = fromTs + 366 * 24 * 60 * 60 * 1000 * 5;
+  let guard = 0;
+  while (results.length < count && dt.getTime() < endTs && guard++ < 5000000) {
+    if (!cron.year.any && !cron.year.values.has(dt.getFullYear())) {
+      dt = new Date(dt.getFullYear() + 1, 0, 1, 0, 0, useSeconds ? 0 : 0);
+      continue;
+    }
+    if (!fieldMatches(cron.mon, dt.getMonth() + 1)) {
+      const ny = dt.getMonth() === 11 ? dt.getFullYear() + 1 : dt.getFullYear();
+      const nm = dt.getMonth() === 11 ? 0 : dt.getMonth() + 1;
+      dt = new Date(ny, nm, 1, 0, 0, 0); continue;
+    }
+    if (!dayMatches(cron, dt)) {
+      dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 1, 0, 0, 0);
+      continue;
+    }
+    if (!fieldMatches(cron.hour, dt.getHours())) {
+      dt.setHours(dt.getHours() + 1); dt.setMinutes(0); dt.setSeconds(0); continue;
+    }
+    if (!fieldMatches(cron.min, dt.getMinutes())) {
+      dt.setMinutes(dt.getMinutes() + 1); dt.setSeconds(0); continue;
+    }
+    if (useSeconds && !fieldMatches(cron.sec, dt.getSeconds())) {
+      dt.setSeconds(dt.getSeconds() + 1); continue;
+    }
+    if (!useSeconds || fieldMatches(cron.sec, dt.getSeconds())) {
+      results.push(new Date(dt));
+      dt = new Date(dt.getTime() + (useSeconds ? 1000 : 60000));
+    }
+  }
+  return results;
+}
+
+function describeField(field, min, max, names) {
+  if (field.any) return 'any';
+  if (field.values.size === max - min + 1) return 'any';
+  const arr = [...field.values].sort((a, b) => a - b);
+  // detect step
+  if (arr.length > 2) {
+    const step = arr[1] - arr[0];
+    const uniform = arr.every((v, i) => i === 0 || v - arr[i-1] === step);
+    if (uniform && step > 1 && arr[0] === min) return `every ${step} starting at ${min}`;
+  }
+  return arr.map(v => names ? names[v - min] || v : v).join(', ');
+}
+
+function describeCron(cron) {
+  const parts = [];
+  const s = cron.sec, m = cron.min, h = cron.hour;
+  if (cron.fieldCount >= 6) parts.push(`at second ${describeField(s, 0, 59)}`);
+  parts.push(`at minute ${describeField(m, 0, 59)}`);
+  parts.push(`hour ${describeField(h, 0, 23)}`);
+  if (!cron.dom.any && cron.domRaw !== '?')
+    parts.push(`day-of-month ${describeField(cron.dom, 1, 31)}`);
+  if (!cron.mon.any)
+    parts.push(`month ${describeField(cron.mon, 1, 12, MONTH_NAMES)}`);
+  if (!cron.dow.any && cron.dowRaw !== '?')
+    parts.push(`day-of-week ${[...cron.dow.values].sort().map(v => DOW_NAMES[v]).join(', ')}`);
+  if (!cron.year.any)
+    parts.push(`year ${describeField(cron.year, 1970, 2099)}`);
+  return parts.join(', ');
+}
+
+const $ = s => document.querySelector(s);
+
+function render() {
+  const raw = $('#cron').value.trim();
+  const errEl = $('#err');
+  const fieldsEl = $('#fields');
+  const summaryEl = $('#summary');
+  const timesEl = $('#nextTimes');
+  const heatEl = $('#heatmap');
+  errEl.textContent = '';
+  fieldsEl.innerHTML = '';
+  summaryEl.textContent = '';
+  timesEl.innerHTML = '';
+  heatEl.innerHTML = '';
+  if (!raw) return;
+  let cron;
+  try { cron = parseExpr(raw); }
+  catch (e) { errEl.textContent = 'Parse error: ' + e.message; return; }
+  const useSeconds = cron.fieldCount >= 6;
+
+  const labels = useSeconds
+    ? ['second', 'minute', 'hour', 'day-of-month', 'month', 'day-of-week']
+    : ['minute', 'hour', 'day-of-month', 'month', 'day-of-week'];
+  const vals = useSeconds
+    ? [cron.sec, cron.min, cron.hour, cron.dom, cron.mon, cron.dow]
+    : [cron.min, cron.hour, cron.dom, cron.mon, cron.dow];
+  labels.forEach((lab, i) => {
+    const d = document.createElement('div'); d.className = 'k'; d.textContent = lab;
+    const v = document.createElement('div'); v.className = 'v';
+    v.innerHTML = `<code class="raw">${vals[i].raw}</code> ${vals[i].any ? '(any)' : `{ ${[...vals[i].values].sort((a,b)=>a-b).join(', ')} }`}`;
+    fieldsEl.append(d, v);
+  });
+  if (cron.fieldCount === 7) {
+    const d = document.createElement('div'); d.className = 'k'; d.textContent = 'year';
+    const v = document.createElement('div'); v.className = 'v';
+    v.innerHTML = `<code class="raw">${cron.year.raw}</code> ${cron.year.any ? '(any)' : `{ ${[...cron.year.values].sort((a,b)=>a-b).join(', ')} }`}`;
+    fieldsEl.append(d, v);
+  }
+
+  summaryEl.textContent = 'Fires ' + describeCron(cron) + '.';
+
+  const now = Date.now();
+  const firings = nextFirings(cron, now, 10, useSeconds);
+  timesEl.innerHTML = firings.map(d => {
+    const rel = relTime(d.getTime() - now);
+    return `<li><span class="when">${d.toLocaleString()}</span><span class="rel">in ${rel}</span></li>`;
+  }).join('');
+
+  // heatmap: next 371 days to fill 53 weeks
+  const startDay = new Date(); startDay.setHours(0,0,0,0);
+  const startMs = startDay.getTime();
+  const endMs = startMs + 371 * 86400000;
+  const dayCounts = new Array(371).fill(0);
+  const many = nextFirings(cron, startMs - 1, 10000, useSeconds);
+  for (const f of many) {
+    const idx = Math.floor((f.getTime() - startMs) / 86400000);
+    if (idx >= 0 && idx < dayCounts.length) dayCounts[idx]++;
+  }
+  const maxC = Math.max(1, ...dayCounts);
+  const cells = [];
+  for (let w = 0; w < 53; w++) {
+    for (let d = 0; d < 7; d++) {
+      const idx = w * 7 + d;
+      if (idx >= 371) continue;
+      const c = dayCounts[idx];
+      const h = c === 0 ? 0 : Math.min(4, 1 + Math.floor((c / maxC) * 4));
+      const date = new Date(startMs + idx * 86400000);
+      cells.push(`<div class="cell" data-h="${h}" title="${date.toDateString()} — ${c} firings"></div>`);
+    }
+  }
+  // column-major grid: easier to render as grid with grid-auto-flow: column
+  heatEl.style.gridAutoFlow = 'column';
+  heatEl.style.gridTemplateRows = 'repeat(7, 10px)';
+  heatEl.style.gridTemplateColumns = `repeat(53, 10px)`;
+  heatEl.innerHTML = cells.join('');
+}
+
+function relTime(ms) {
+  const s = Math.round(ms / 1000);
+  if (s < 60) return s + 's';
+  const m = Math.round(s / 60);
+  if (m < 60) return m + 'm';
+  const h = Math.round(m / 60);
+  if (h < 48) return h + 'h';
+  const d = Math.round(h / 24);
+  if (d < 60) return d + 'd';
+  return Math.round(d / 30) + 'mo';
+}
+
+$('#cron').addEventListener('input', () => {
+  try { render(); } catch (e) { $('#err').textContent = e.message; }
+});
+$('#presets').addEventListener('change', e => {
+  if (!e.target.value) return;
+  $('#cron').value = PRESETS[e.target.value];
+  e.target.value = '';
+  render();
+});
+$('#cron').value = '0 9-17 * * 1-5';
+render();
+</script>
+</body>
+</html>
