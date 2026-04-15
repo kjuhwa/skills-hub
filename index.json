@@ -770,9 +770,8 @@
       "category": "testing",
       "tags": "[spring-boot, testcontainers, junit5, multi-tenant, tenant-context, mockitobean]",
       "triggers": "[\"testcontainers\", \"base test\", \"tenant context test\", \"spring integration test\"]",
-      "source_project": "lucida-meta",
-      "version": "1.0.0",
       "source_project": "lucida-widget",
+      "version": "1.0.0",
       "path": "testing/spring-testcontainers-multitenant-base"
     },
     {
@@ -785,6 +784,36 @@
       "version": "1.0.0",
       "source_project": "lucida-snote",
       "path": "backend/multi-tenant-scheduler-iteration"
+    },
+    {
+      "name": "mongo-criteria-maker-elemmatch-and-or",
+      "description": "Compose dynamic Spring Data MongoDB Criteria with mixed AND/OR groups and elemMatch on tag-array fields using a stack-based builder.",
+      "category": "backend",
+      "tags": "[mongodb, spring-data, criteria, elemmatch, query-builder, and-or]",
+      "triggers": "[\"mongodb and or filter\", \"criteria elemmatch\", \"tag array query\", \"CriteriaMaker\"]",
+      "source_project": "lucida-performance",
+      "version": "1.0.0",
+      "path": "backend/mongo-criteria-maker-elemmatch-and-or"
+    },
+    {
+      "name": "gradle-shared-exclusions-jacoco-sonar",
+      "description": "Single ext.exclusionPatterns list reused across jacocoTestReport, jacocoTestCoverageVerification, and sonar properties to keep coverage exclusions synchronized.",
+      "category": "build",
+      "tags": "[gradle, jacoco, sonarqube, coverage, exclusions]",
+      "triggers": "[\"jacoco sonar exclusion drift\", \"shared exclusion patterns gradle\", \"querydsl Q class coverage\"]",
+      "source_project": "lucida-performance",
+      "version": "1.0.0",
+      "path": "build/gradle-shared-exclusions-jacoco-sonar"
+    },
+    {
+      "name": "spring-bootrun-local-dev-env-block",
+      "description": "Gradle bootRun environment block wiring local Redis/Mongo/Kafka/Eureka/MQTT so gradlew bootRun runs with zero IDE configuration and no committed application-local.yaml.",
+      "category": "build",
+      "tags": "[spring-boot, gradle, bootrun, local-dev, eureka, testcontainers]",
+      "triggers": "[\"gradle bootrun local\", \"disable eureka locally\", \"spring local dev env\"]",
+      "source_project": "lucida-performance",
+      "version": "1.0.0",
+      "path": "build/spring-bootrun-local-dev-env-block"
     }
   ]
 }
