@@ -1,0 +1,12 @@
+{
+  "slug": "cron-explainer",
+  "title": "Cron Explainer",
+  "summary": "Zero-dep browser tool that parses 5/6/7-field cron expressions into plain English, lists the next firings, and draws a 1-year firing heatmap.",
+  "stack": ["html", "js", "css"],
+  "tags": ["browser", "cron", "scheduling", "devtool", "offline", "zero-deps"],
+  "created_at": "2026-04-16",
+  "source_project": "getskills",
+  "runtime": "browser",
+  "entrypoint": "browser/index.html",
+  "author": "kjuhwa@nkia.co.kr"
+}
