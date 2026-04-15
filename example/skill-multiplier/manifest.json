@@ -1,0 +1,12 @@
+{
+  "slug": "skill-multiplier",
+  "title": "Skill Multiplier",
+  "summary": "Self-running breeder loop that picks two entries from the skills-hub each tick, synthesizes a child, and feeds it back into the pool — infinite generational propagation visualized as a live lineage.",
+  "stack": ["node", "html", "js", "css"],
+  "tags": ["browser", "generator", "propagation", "lineage", "skills-hub", "zero-deps"],
+  "created_at": "2026-04-16",
+  "source_project": "getskills",
+  "runtime": "node >=18",
+  "entrypoint": "browser/serve.mjs",
+  "author": "kjuhwa@nkia.co.kr"
+}

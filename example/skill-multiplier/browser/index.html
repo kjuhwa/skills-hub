@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Skill Multiplier</title>
+<style>
+  :root {
+    --bg:#0b1020; --panel:#131a31; --ink:#e6edff; --mute:#7b86a8; --accent:#7dd3fc; --warm:#fbbf24; --ok:#34d399; --danger:#f87171;
+    --gen0:#38bdf8; --gen1:#a78bfa; --gen2:#f472b6; --gen3:#fb923c; --gen4:#facc15; --gen5:#4ade80;
+  }
+  * { box-sizing: border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--ink); font:13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  header { display:flex; gap:10px; align-items:center; padding:10px 14px; background:#0f1530; border-bottom:1px solid #1f2a4d; flex-wrap:wrap; }
+  header h1 { margin:0; font-size:15px; letter-spacing:0.4px; }
+  header .stat { color:var(--mute); }
+  header .stat b { color:var(--ink); font-weight:600; }
+  button { background:#1e2a52; color:var(--ink); border:1px solid #2b3a6e; border-radius:6px; padding:5px 11px; cursor:pointer; font:inherit; }
+  button:hover { background:#25346b; }
+  button.primary { background:#0369a1; border-color:#0ea5e9; }
+  button.primary:hover { background:#0284c7; }
+  button.warn { background:#7f1d1d; border-color:#ef4444; }
+  input[type=range] { accent-color:var(--accent); }
+  label.ctrl { display:inline-flex; gap:6px; align-items:center; color:var(--mute); font-size:12px; }
+  main { display:grid; grid-template-columns: 320px 1fr 360px; gap:10px; padding:10px; height:calc(100vh - 56px); }
+  section { background:var(--panel); border:1px solid #1d2749; border-radius:8px; padding:10px; overflow:auto; }
+  section h2 { margin:0 0 8px; font-size:12px; color:var(--mute); text-transform:uppercase; letter-spacing:1px; }
+  .log { font-size:12px; line-height:1.45; }
+  .log .row { padding:2px 0; border-bottom:1px dashed #1d2749; word-break: break-word; }
+  .log .g { color:var(--accent); }
+  .log .arrow { color:var(--mute); }
+  .log .child { color:var(--ok); }
+  .tree ul { list-style:none; padding-left:16px; margin:0; border-left:1px dotted #2a3766; }
+  .tree li { padding:2px 0; }
+  .tree .node { cursor:pointer; padding:2px 6px; border-radius:4px; display:inline-block; }
+  .tree .node:hover { background:#1e2a52; }
+  .tree .node.selected { background:#0369a1; color:#fff; }
+  .badge { display:inline-block; padding:0 5px; border-radius:10px; font-size:10px; margin-right:4px; color:#0b1020; background:var(--gen0); }
+  .gen-0 { background:var(--gen0); } .gen-1 { background:var(--gen1); } .gen-2 { background:var(--gen2); } .gen-3 { background:var(--gen3); } .gen-4 { background:var(--gen4); } .gen-5 { background:var(--gen5); }
+  pre { white-space: pre-wrap; word-break: break-word; margin:0; font-size:12px; color:#cbd5e1; }
+  .chip { display:inline-block; padding:1px 7px; margin:1px 3px 1px 0; border-radius:10px; background:#1e2a52; border:1px solid #2a3766; color:var(--ink); font-size:11px; }
+  .hint { color:var(--mute); font-size:11px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>\u2728 Skill Multiplier</h1>
+  <button id="toggle" class="primary">\u25b6 Start</button>
+  <button id="reset">\u21bb Reset</button>
+  <button id="export">\u2b07 Export</button>
+  <label class="ctrl">speed <input id="speed" type="range" min="1" max="20" value="4"/><span id="speedVal">4/s</span></label>
+  <label class="ctrl">mutation <input id="mut" type="range" min="0" max="100" value="18"/><span id="mutVal">18%</span></label>
+  <span class="stat">gen <b id="curGen">0</b></span>
+  <span class="stat">pop <b id="pop">0</b></span>
+  <span class="stat">born <b id="born">0</b></span>
+  <span class="stat">status <b id="status">idle</b></span>
+</header>
+<main>
+  <section>
+    <h2>Live Log</h2>
+    <div id="log" class="log"></div>
+  </section>
+  <section>
+    <h2>Lineage Tree (roots: Gen 0 parents of first children)</h2>
+    <div id="tree" class="tree"></div>
+    <p class="hint" id="treeHint">Start the loop — children will appear grouped under their first-used parent.</p>
+  </section>
+  <section>
+    <h2>Selected Draft</h2>
+    <div id="meta"></div>
+    <pre id="body">Click a node in the tree or a log row to preview its synthesized SKILL.md.</pre>
+  </section>
+</main>
+
+<script type="module">
+import { synth, weightedPair, allTags, mulberry32, hashStr } from './synth.mjs';
+
+const $ = s => document.querySelector(s);
+const logEl = $('#log'), treeEl = $('#tree'), metaEl = $('#meta'), bodyEl = $('#body');
+
+let pool = [];
+let children = [];
+let byId = new Map();
+let running = false, timer = null, gen = 0, born = 0;
+let rnd = mulberry32(hashStr('skill-multiplier-' + Date.now()));
+let tagPool = [];
+let lineage = new Map(); // parentId -> Set(childId)
+let selected = null;
+
+async function loadCorpus() {
+  const r = await fetch('/corpus.json');
+  if (!r.ok) throw new Error('corpus load failed');
+  const j = await r.json();
+  pool = [
+    ...j.skills.map(s => ({ ...s, gen: 0 })),
+    ...(j.knowledge || []).map(k => ({ ...k, gen: 0, tags: k.tags || [] })),
+  ];
+  tagPool = allTags(pool);
+  for (const e of pool) byId.set(e.id, e);
+  $('#pop').textContent = pool.length;
+  $('#status').textContent = 'ready';
+  log(`loaded ${pool.length} entries (${j.counts.skills} skills + ${j.counts.knowledge} knowledge). ready to multiply.`);
+}
+
+function log(msg, data) {
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = msg;
+  if (data) { row.dataset.id = data.id; row.style.cursor = 'pointer'; row.addEventListener('click', () => select(data.id)); }
+  logEl.prepend(row);
+  while (logEl.children.length > 200) logEl.removeChild(logEl.lastChild);
+}
+
+function step() {
+  const mutationRate = Number($('#mut').value) / 100;
+  const pair = weightedPair(pool, rnd);
+  if (!pair) return;
+  gen = Math.max(...pair.map(p => p.gen || 0)) + 1;
+  const child = synth(pair[0], pair[1], gen, rnd, { mutationRate, tagPool });
+  if (byId.has(child.id)) child.id = child.id + '-' + (born + 1);
+  byId.set(child.id, child);
+  pool.push(child);
+  children.push(child);
+  born++;
+  const rootParent = pair[0].gen === 0 ? pair[0] : pair[1];
+  if (!lineage.has(rootParent.id)) lineage.set(rootParent.id, new Set());
+  lineage.get(rootParent.id).add(child.id);
+  $('#curGen').textContent = gen;
+  $('#pop').textContent = pool.length;
+  $('#born').textContent = born;
+  log(`<span class="g">gen ${gen}</span> <span class="badge gen-${Math.min(gen,5)}">${pair[0].gen}</span>${pair[0].id} <span class="arrow">\u00d7</span> <span class="badge gen-${Math.min(pair[1].gen,5)}">${pair[1].gen}</span>${pair[1].id} <span class="arrow">\u2192</span> <span class="child">${child.id}</span>`, child);
+  if (born % 10 === 0) renderTree();
+}
+
+function renderTree() {
+  treeEl.innerHTML = '';
+  $('#treeHint').style.display = lineage.size ? 'none' : '';
+  const roots = [...lineage.keys()];
+  roots.sort((a, b) => (lineage.get(b).size - lineage.get(a).size));
+  const ul = document.createElement('ul');
+  for (const rid of roots.slice(0, 40)) {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="node" data-id="${rid}"><span class="badge gen-0">0</span>${rid} <span class="hint">(${lineage.get(rid).size})</span></span>`;
+    const sub = document.createElement('ul');
+    const kids = [...lineage.get(rid)].slice(0, 20);
+    for (const cid of kids) {
+      const c = byId.get(cid);
+      if (!c) continue;
+      const ci = document.createElement('li');
+      ci.innerHTML = `<span class="node" data-id="${cid}"><span class="badge gen-${Math.min(c.gen,5)}">${c.gen}</span>${cid}</span>`;
+      sub.appendChild(ci);
+    }
+    if (lineage.get(rid).size > 20) {
+      const more = document.createElement('li');
+      more.innerHTML = `<span class="hint">\u2026 +${lineage.get(rid).size - 20} more</span>`;
+      sub.appendChild(more);
+    }
+    li.appendChild(sub);
+    ul.appendChild(li);
+  }
+  if (roots.length > 40) {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="hint">\u2026 +${roots.length - 40} more roots</span>`;
+    ul.appendChild(li);
+  }
+  treeEl.appendChild(ul);
+  treeEl.querySelectorAll('.node').forEach(n => n.addEventListener('click', () => select(n.dataset.id)));
+  if (selected) markSelected();
+}
+
+function select(id) {
+  selected = id;
+  const e = byId.get(id);
+  if (!e) return;
+  const tags = (e.tags || []).map(t => `<span class="chip">${t}</span>`).join('');
+  metaEl.innerHTML = `
+    <div><b>${e.name || e.id}</b></div>
+    <div class="hint">${e.id} \u00b7 gen ${e.gen || 0} \u00b7 ${e.category || '?'}${e.parents ? ` \u00b7 parents: ${e.parents.join(' \u00d7 ')}` : ''}</div>
+    <div style="margin:6px 0">${tags}</div>
+  `;
+  bodyEl.textContent = e.body || e.description || e.summary || '(no body)';
+  markSelected();
+}
+function markSelected() {
+  treeEl.querySelectorAll('.node').forEach(n => n.classList.toggle('selected', n.dataset.id === selected));
+}
+
+function tick() {
+  if (!running) return;
+  const speed = Number($('#speed').value);
+  const batch = Math.max(1, Math.floor(speed / 5));
+  for (let i = 0; i < batch; i++) step();
+  timer = setTimeout(tick, 1000 / speed);
+}
+
+$('#toggle').addEventListener('click', () => {
+  running = !running;
+  $('#toggle').textContent = running ? '\u23f8 Pause' : '\u25b6 Start';
+  $('#toggle').classList.toggle('primary', !running);
+  $('#toggle').classList.toggle('warn', running);
+  $('#status').textContent = running ? 'multiplying\u2026' : 'paused';
+  if (running) tick(); else clearTimeout(timer);
+});
+$('#reset').addEventListener('click', async () => {
+  running = false; clearTimeout(timer);
+  $('#toggle').textContent = '\u25b6 Start'; $('#toggle').classList.add('primary'); $('#toggle').classList.remove('warn');
+  gen = 0; born = 0; children = []; lineage.clear(); pool = []; byId.clear(); logEl.innerHTML = ''; selected = null;
+  metaEl.innerHTML = ''; bodyEl.textContent = 'Click a node in the tree or a log row to preview its synthesized SKILL.md.';
+  renderTree();
+  await loadCorpus();
+});
+$('#export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({ generatedAt: new Date().toISOString(), born, gen, children }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `multiplier-lineage-${Date.now()}.json`; a.click();
+});
+$('#speed').addEventListener('input', e => $('#speedVal').textContent = e.target.value + '/s');
+$('#mut').addEventListener('input', e => $('#mutVal').textContent = e.target.value + '%');
+
+loadCorpus().catch(err => {
+  $('#status').textContent = 'error';
+  log(`<span style="color:#f87171">corpus load failed: ${err.message}</span>`);
+});
+</script>
+</body>
+</html>
