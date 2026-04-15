@@ -1655,6 +1655,66 @@
       "source_project": "veda-chronicles",
       "version": "0.1.0-draft",
       "path": "frontend/zustand-preset-manager"
+    },
+    {
+      "name": "kafka-engine-distributed-job-framework",
+      "description": "Publisher→Kafka→Queue→Worker distributed job framework with Admission Control and Strategy SPI — replaces invokeAll bottleneck",
+      "category": "arch",
+      "tags": "",
+      "triggers": "invokeAll-based Pod bottleneck, long-blocking device timeouts, need for multi-Pod Consumer Group distribution",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "arch/kafka-engine-distributed-job-framework"
+    },
+    {
+      "name": "strategy-spi-list-to-map-autoinject",
+      "description": "Spring-injected List<T> → Map<Key,T> in constructor for O(1) enum-keyed Strategy dispatch (no switch)",
+      "category": "backend",
+      "tags": "",
+      "triggers": "Many enum-keyed job types / event types with one implementation each — replace switch/if chains",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/strategy-spi-list-to-map-autoinject"
+    },
+    {
+      "name": "conditional-feature-flag-rollout",
+      "description": "@ConditionalOnProperty to coexist legacy and new Bean implementations, switch via single property — rollback-friendly",
+      "category": "backend",
+      "tags": "",
+      "triggers": "Large architecture swap (sync→event) needing gradual rollout + instant rollback",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/conditional-feature-flag-rollout"
+    },
+    {
+      "name": "tenant-context-try-finally-on-worker",
+      "description": "Safely set/clear multi-tenant ThreadLocal on pooled Kafka/Worker threads via try-finally to prevent cross-tenant leaks",
+      "category": "backend",
+      "tags": "",
+      "triggers": "@KafkaListener or ThreadPool worker touching ThreadLocal TenantContext — pool reuse leaks",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/tenant-context-try-finally-on-worker"
+    },
+    {
+      "name": "dev-controller-tenant-wrapping-helper",
+      "description": "Extract repeated TenantContext+JWT wrapping in Dev controllers into a @Profile(local) helper with functional interfaces",
+      "category": "backend",
+      "tags": "",
+      "triggers": "*ControllerDev.java files repeat TenantContextHolder.set + JWT + try-finally",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/dev-controller-tenant-wrapping-helper"
+    },
+    {
+      "name": "parallel-tasks-generic-extraction",
+      "description": "Extract duplicated invokeAll-over-resources blocks into executeParallelTasks<T> + TaskFactory<T> generic",
+      "category": "backend",
+      "tags": "",
+      "triggers": "Same invokeAll + Future result-splitting block appears 2+ times in one service",
+      "source_project": "lucida-domain-automation",
+      "version": "1.0.0",
+      "path": "backend/parallel-tasks-generic-extraction"
     }
   ],
   "knowledge": [
@@ -1956,6 +2016,78 @@
       "confidence": "medium",
       "source_project": "lucida-for-docker",
       "path": "decision/vllm-kv-cache-fp8-with-mtp"
+    },
+    {
+      "slug": "kafka-sticky-partitioner-key-null",
+      "category": "pitfall",
+      "summary": "Kafka Sticky Partitioner batches key=null messages into one partition — explains dev vs prod distribution gap",
+      "confidence": "high",
+      "source_project": "lucida-domain-automation",
+      "path": "pitfall/kafka-sticky-partitioner-key-null"
+    },
+    {
+      "slug": "injectmocks-generics-type-erasure",
+      "category": "pitfall",
+      "summary": "@InjectMocks picks wrong mock for same raw-type generic fields due to type erasure — flaky test root cause",
+      "confidence": "high",
+      "source_project": "lucida-domain-automation",
+      "path": "pitfall/injectmocks-generics-type-erasure"
+    },
+    {
+      "slug": "page-map-returns-new-instance",
+      "category": "pitfall",
+      "summary": "Spring Data Page is immutable — Page.map() returns a new instance; forgetting to reassign silently loses the mapping",
+      "confidence": "high",
+      "source_project": "lucida-domain-automation",
+      "path": "pitfall/page-map-returns-new-instance"
+    },
+    {
+      "slug": "static-value-injection-race-condition",
+      "category": "pitfall",
+      "summary": "@Value on static fields causes init-order and visibility races — always inject into instance fields",
+      "confidence": "high",
+      "source_project": "lucida-domain-automation",
+      "path": "pitfall/static-value-injection-race-condition"
+    },
+    {
+      "slug": "simpledateformat-not-thread-safe",
+      "category": "pitfall",
+      "summary": "SimpleDateFormat mutates Calendar state and corrupts under concurrency — use java.time.DateTimeFormatter",
+      "confidence": "high",
+      "source_project": "lucida-domain-automation",
+      "path": "pitfall/simpledateformat-not-thread-safe"
+    },
+    {
+      "slug": "catalina-urlencoder-internal-api",
+      "category": "pitfall",
+      "summary": "org.apache.catalina.util.URLEncoder is Tomcat internal — use java.net.URLEncoder or Spring UriUtils",
+      "confidence": "medium",
+      "source_project": "lucida-domain-automation",
+      "path": "pitfall/catalina-urlencoder-internal-api"
+    },
+    {
+      "slug": "testcontainers-springboot-cache-conflict",
+      "category": "pitfall",
+      "summary": "@Testcontainers clashes with @SpringBootTest context caching — use static start() + @DynamicPropertySource",
+      "confidence": "high",
+      "source_project": "lucida-domain-automation",
+      "path": "pitfall/testcontainers-springboot-cache-conflict"
+    },
+    {
+      "slug": "dataavro-json-wrapper-pattern",
+      "category": "decision",
+      "summary": "Single DataAvro{jsonData,jsonDataClass} wrapper avoids per-event Avro schema proliferation (TCM pattern)",
+      "confidence": "medium",
+      "source_project": "lucida-domain-automation",
+      "path": "decision/dataavro-json-wrapper-pattern"
+    },
+    {
+      "slug": "cors-allow-credentials-star-origin",
+      "category": "decision",
+      "summary": "Service-level allowCredentials+allowedOriginPatterns(*) kept because edge proxy (Traefik/Istio) enforces CORS",
+      "confidence": "medium",
+      "source_project": "lucida-domain-automation",
+      "path": "decision/cors-allow-credentials-star-origin"
     }
   ]
 }
