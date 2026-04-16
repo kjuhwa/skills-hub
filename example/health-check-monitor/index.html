@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Health Check Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Health Check Monitor</h1>
+    <p>Live LB pool view. Failing instances are auto-evicted.</p>
+  </div>
+  <div class="totals">
+    <div><span id="poolHealthy">0</span><small>healthy</small></div>
+    <div><span id="poolDegraded">0</span><small>degraded</small></div>
+    <div><span id="poolDown">0</span><small>down</small></div>
+  </div>
+</header>
+<main id="grid"></main>
+<aside class="log" id="log"></aside>
+<script src="app.js"></script>
+</body>
+</html>
