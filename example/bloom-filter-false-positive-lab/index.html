@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>False Positive Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="lab">
+  <h1>False Positive Lab</h1>
+  <p class="tag">Tune <b>m</b>, <b>k</b>, <b>n</b> and watch the false-positive rate curve react in real time.</p>
+
+  <div class="panel">
+    <div class="slider">
+      <label>bits (m) <span id="mVal">1024</span></label>
+      <input type="range" id="m" min="64" max="4096" step="64" value="1024">
+    </div>
+    <div class="slider">
+      <label>hashes (k) <span id="kVal">4</span></label>
+      <input type="range" id="k" min="1" max="12" value="4">
+    </div>
+    <div class="slider">
+      <label>items (n) <span id="nVal">200</span></label>
+      <input type="range" id="n" min="10" max="2000" step="10" value="200">
+    </div>
+  </div>
+
+  <div class="readout">
+    <div><span>Theoretical FPR</span><b id="theoFpr">0%</b></div>
+    <div><span>Empirical FPR</span><b id="empFpr">0%</b></div>
+    <div><span>Optimal k</span><b id="optK">0</b></div>
+    <div><span>Bits/item</span><b id="bpi">0</b></div>
+  </div>
+
+  <svg id="chart" viewBox="0 0 640 280"></svg>
+  <p class="hint">Red curve: theoretical FPR across k values. Dot = current k. Green bar = simulated rate after inserting n random items and querying 2000 random non-members.</p>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
