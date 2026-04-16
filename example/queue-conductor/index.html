@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Queue Conductor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Queue Conductor</h1>
+  <div class="controls">
+    <button id="addProducer">+ Producer</button>
+    <button id="addConsumer">+ Consumer</button>
+    <button id="burst">Burst Send</button>
+    <button id="toggleRun" class="primary">Pause</button>
+    <label>Speed <input type="range" id="speed" min="1" max="10" value="5"></label>
+  </div>
+</header>
+<main>
+  <canvas id="stage" width="900" height="500"></canvas>
+  <aside id="stats">
+    <div class="stat"><span>Queued</span><b id="qLen">0</b></div>
+    <div class="stat"><span>Sent</span><b id="sent">0</b></div>
+    <div class="stat"><span>Delivered</span><b id="delivered">0</b></div>
+    <div class="stat"><span>Throughput/s</span><b id="tput">0</b></div>
+    <div class="stat"><span>Producers</span><b id="pCount">2</b></div>
+    <div class="stat"><span>Consumers</span><b id="cCount">2</b></div>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
