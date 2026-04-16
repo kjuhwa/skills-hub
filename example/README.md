@@ -418,6 +418,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [hexagonal-request-tracer](hexagonal-request-tracer/) | Hexagonal Request Tracer — auto-generated hexagonal-architecture tool | html, css, vanilla-js | 2026-04-16 |
 
+| [sidecar-proxy-playground](sidecar-proxy-playground/) | Sidecar Proxy Playground — auto-generated service-mesh tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:

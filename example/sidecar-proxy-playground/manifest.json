@@ -1,0 +1,12 @@
+{
+  "slug": "sidecar-proxy-playground",
+  "title": "Sidecar Proxy Playground",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T20:27:20.015Z",
+  "source_project": "101-sidecar-proxy-playground",
+  "author": "kjuhwa@nkia.co.kr"
+}
