@@ -1,0 +1,17 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:'Courier New',monospace;height:100vh;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#1a1d27;border-bottom:1px solid #2a2d37}
+h1{font-size:16px;color:#6ee7b7}
+.controls{display:flex;gap:10px}
+select,button{background:#2a2d37;color:#c9d1d9;border:1px solid #3a3d47;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px}
+button:hover{background:#3a3d47}
+.main{flex:1;display:flex;overflow:hidden}
+canvas{width:260px;height:100%;background:#13151e}
+#logPanel{flex:1;overflow-y:auto;padding:8px 12px;font-size:12px;line-height:1.7}
+.log-line{padding:2px 6px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log-line:hover{background:#1a1d27}
+.log-line .ts{color:#555}.log-line .src{color:#6ee7b7}
+.log-line.ERROR .lvl{color:#f87171}.log-line.WARN .lvl{color:#fbbf24}
+.log-line.INFO .lvl{color:#60a5fa}.log-line.DEBUG .lvl{color:#888}
+footer{padding:8px 20px;background:#1a1d27;border-top:1px solid #2a2d37;font-size:11px;color:#555}
