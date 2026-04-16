@@ -1,6 +1,6 @@
 ---
 name: domain-driven-data-simulation
-description: Generating realistic bounded-context fixtures, aggregate event histories, and glossary drift for DDD demos
+description: Generating synthetic bounded contexts, aggregates, and corpus text for DDD tooling demos
 category: workflow
 triggers:
   - domain driven data simulation
@@ -11,8 +11,6 @@ version: 1.0.0
 
 # domain-driven-data-simulation
 
-Seed each demo with a cohesive fictional business (e.g. a logistics SaaS) so the three apps share aggregate names, context boundaries, and vocabulary — this lets users mentally cross-reference. Generate 4–7 bounded contexts (Shipping, Billing, Customer, Routing, Tracking, Compliance, Pricing) with explicit upstream/downstream relationships drawn from the context-mapping patterns. For aggregate-event-stream, generate per-aggregate histories of 30–120 events using a weighted transition model: given state X, pick next command from a realistic distribution (Invoice: Draft 60%→Issued 30%→Paid 8%→Voided 2%), then emit the corresponding event plus occasional policy-triggered side-event chains in neighboring contexts.
+Seed simulations from a small fixed catalog of realistic domains (e-commerce, healthcare claims, logistics, banking) rather than inventing generic Foo/Bar contexts — DDD tooling only feels credible when the ubiquitous language is recognizable. For each seed domain, define 3–6 bounded contexts with explicit upstream/downstream relationships, 2–5 aggregates per context with a designated root and 1–3 invariants expressed as predicates (e.g., `order.total === sum(lineItems.price * quantity)`, `claim.status === 'APPROVED' ⟹ claim.approvedBy !== null`). Generate entity instances by sampling field values from context-appropriate distributions: money amounts lognormal, dates clustered around "now" with a tail, identifiers as ULIDs prefixed with the aggregate name. Persist the seed and expose a "regenerate" button so demos are reproducible but explorable.
 
-For the glossary, deliberately inject ubiquitous-language drift: the word "Customer" should have 3 definitions (sales-context Lead, shipping-context Consignee, billing-context Payer), "Shipment" should overlap with "Parcel" and "Consignment" with asymmetric preferences per context. Generate ~40–80 terms with 15–25% intentional cross-context collision rate — too low and the glossary feels pointless, too high and it looks contrived. Timestamp every event and term-definition with a deterministic seed so replay and diff views are stable across reloads.
-
-Persist fixtures as static JSON keyed by context slug; hydrate lazily on first viewport entry to keep initial load under 200ms. Expose a "regenerate with seed" control so reviewers can reproduce exact states when filing issues.
+For aggregate-invariant simulators, drive state transitions through a command stream rather than direct field edits — each command is (aggregate-id, command-name, payload), and the simulator applies it, re-evaluates all invariants, and records a transition record (pre-state, command, post-state, violated-invariants[]). This gives you a replayable timeline and lets visualization scrub through history. Inject deliberate violations at ~10–15% rate so the UI's invariant-violation path is always exercised during demos. For ubiquitous-language mining, synthesize corpus text by templating sentences from a per-context vocabulary ("The {actor} {verb}s the {noun} when {condition}") and intentionally seed 2–3 translation-drift cases where the same concept appears with different terms across contexts — that's the insight the tool exists to surface.
