@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSM Visual Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <h1>FSM Visual Simulator</h1>
+  <div class="controls">
+    <select id="machine-select">
+      <option value="traffic">Traffic Light</option>
+      <option value="door">Door Lock</option>
+      <option value="vending">Vending Machine</option>
+    </select>
+    <div id="events"></div>
+  </div>
+  <canvas id="canvas" width="700" height="400"></canvas>
+  <div id="log"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

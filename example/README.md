@@ -98,6 +98,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [bff-pattern-flow](bff-pattern-flow/) | Bff Pattern Flow — auto-generated bff-pattern tool | html, css, vanilla-js | 2026-04-16 |
 
+| [fsm-visual-simulator](fsm-visual-simulator/) | Fsm Visual Simulator — auto-generated finite-state-machine tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:

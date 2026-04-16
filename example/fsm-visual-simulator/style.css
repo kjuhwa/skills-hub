@@ -1,0 +1,12 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:'Segoe UI',sans-serif;display:flex;justify-content:center;padding:20px}
+.app{max-width:750px;width:100%}
+h1{color:#6ee7b7;margin-bottom:16px;font-size:1.4rem}
+.controls{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+select{background:#1a1d27;color:#c9d1d9;border:1px solid #2d333b;padding:6px 10px;border-radius:6px;font-size:.9rem}
+canvas{background:#1a1d27;border-radius:10px;width:100%;display:block}
+button{background:#2d333b;color:#6ee7b7;border:1px solid #6ee7b7;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:.85rem}
+button:hover{background:#6ee7b733}
+#log{margin-top:10px;background:#1a1d27;border-radius:8px;padding:10px;font-size:.8rem;max-height:120px;overflow-y:auto}
+.log-entry{padding:2px 0;border-bottom:1px solid #2d333b}
+.log-entry span{color:#6ee7b7}
