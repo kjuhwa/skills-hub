@@ -1,9 +1,9 @@
 ---
-description: Update local slash commands (init_skills, skills_*) from kjuhwa/skills.git — latest or a specific version
+description: Update local slash commands (hub-install, hub-*) from kjuhwa/skills.git — latest or a specific version
 argument-hint: [--version=<x.y.z>] [--dry-run] [--force]
 ---
 
-# /skills_bootstrap_update $ARGUMENTS
+# /hub-commands-update $ARGUMENTS
 
 Pull slash-command files from `bootstrap/commands/` in the remote repo and install them into `~/.claude/commands/`. Supports latest (HEAD) or a specific tagged version for rollback.
 
@@ -21,7 +21,7 @@ Pull slash-command files from `bootstrap/commands/` in the remote repo and insta
 3. **Diff preview (recursive)**
    - Enumerate every file under `bootstrap/commands/` at the resolved ref via `git -C <remote> ls-tree -r --name-only <ref> -- bootstrap/commands/` (recursive, all subdirectories).
    - For each path, compute its relative form (strip `bootstrap/commands/` prefix) and compare against `~/.claude/commands/<relative-path>`.
-   - Show list: `NEW / UPDATED / UNCHANGED / LOCAL-MODIFIED`. Subdirectory layout (e.g. `merge/skills_merge.md`) is preserved in the report so the user can see structural changes.
+   - Show list: `NEW / UPDATED / UNCHANGED / LOCAL-MODIFIED`. Subdirectory layout (e.g. `merge/hub-merge.md`) is preserved in the report so the user can see structural changes.
    - `LOCAL-MODIFIED` = user edited their local copy; updating will overwrite — warn and offer `.bak`.
 
 4. **Apply**

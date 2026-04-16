@@ -3,7 +3,7 @@ description: List locally installed skills with source and scope
 argument-hint: [--global | --project | --orphans]
 ---
 
-# /skills_list $ARGUMENTS
+# /hub-list-skills $ARGUMENTS
 
 Report installed skills tracked by the hub registry.
 

@@ -3,9 +3,9 @@ description: Review knowledge drafts and push them to kjuhwa/skills.git as a bra
 argument-hint: [--all | --draft=<slug>] [--pr] [--branch=<name>]
 ---
 
-# /knowledge_publish $ARGUMENTS
+# /hub-publish-knowledge $ARGUMENTS
 
-Publish `.knowledge-draft/` contents to the remote repository. Counterpart to `/skills_publish` — same flow, but for non-executable knowledge artifacts (facts, decisions, pitfalls, arch notes, domain invariants, API contracts).
+Publish `.knowledge-draft/` contents to the remote repository. Counterpart to `/hub-publish-skills` — same flow, but for non-executable knowledge artifacts (facts, decisions, pitfalls, arch notes, domain invariants, API contracts).
 
 ## Preconditions
 
@@ -63,7 +63,7 @@ Publish `.knowledge-draft/` contents to the remote repository. Counterpart to `/
 - **Never skip the dry-run step.**
 - Respect repo's commit style — check `git log --oneline -20` in the cache first to match format.
 - Sanitize before copy: strip absolute paths, emails, tokens, internal hostnames, business names from the body. If sanitization would gut the entry, flag for manual edit instead.
-- Don't cross-publish: knowledge drafts only. Skill drafts in `.skills-draft/` are ignored here — use `/skills_publish` or `/publish_all` for those.
+- Don't cross-publish: knowledge drafts only. Skill drafts in `.skills-draft/` are ignored here — use `/hub-publish-skills` or `/hub-publish-all` for those.
 - If `linked_skills` references a skill not present in `registry.json`, warn but do not block (skill may land in a sibling PR).
 - If remote push fails (auth), report precisely and leave branch intact locally for retry.
 - Do not include draft metadata files (`_DUPLICATE_CHECK.md`, `_new-categories.md`, files starting with `_`) in commits.
@@ -80,7 +80,7 @@ source:
   ref: <commit-sha|project@sha|session-id|"manual">   # required
 confidence: high|medium|low     # required; capped to medium if no Counter/Caveats
 linked_skills: [<skill-slug>]   # optional; surfaces cross-links in registry
-tags: [<keyword>, ...]          # optional; fuels knowledge_search
+tags: [<keyword>, ...]          # optional; fuels hub-search-knowledge
 ---
 ```
 

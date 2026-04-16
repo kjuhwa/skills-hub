@@ -3,9 +3,9 @@ description: Merge two or more skills and/or knowledge entries from kjuhwa/skill
 argument-hint: <selector1> <selector2> [<selectorN>...] [--as=skill|knowledge|auto] [--name=<slug>] [--category=<cat>] [--keep-sources] [--dry-run] [--yes]
 ---
 
-# /skills_merge $ARGUMENTS
+# /hub-merge $ARGUMENTS
 
-Combine 2+ existing entries from the remote skills repo (`kjuhwa/skills.git`) into one new draft. The new draft is **not** published automatically — it lands in `.skills-draft/` or `.knowledge-draft/` so you can review, edit, then ship via `/skills_publish` / `/knowledge_publish` / `/publish_all`.
+Combine 2+ existing entries from the remote skills repo (`kjuhwa/skills.git`) into one new draft. The new draft is **not** published automatically — it lands in `.skills-draft/` or `.knowledge-draft/` so you can review, edit, then ship via `/hub-publish-skills` / `/hub-publish-knowledge` / `/hub-publish-all`.
 
 Use when you discover overlapping skills/knowledge that should be a single, more coherent unit (e.g. three near-duplicate retry-pattern skills, or a skill plus three knowledge notes that always travel together).
 
@@ -31,14 +31,14 @@ You must provide **at least 2** selectors. Mixing kinds (skill + knowledge) is a
   - Mixed → output is **skill**, and every knowledge source is recorded under `linked_knowledge` in the new SKILL.md frontmatter (their bodies are summarized into the skill's `content.md` "Background" section, not duplicated as files).
 - `--name=<slug>` — slug for the merged entry. Default: derived from the dominant theme of the sources, sanitized to `[a-z0-9-]+`. If you don't pass this, the dry-run will show the proposed slug and you can override before persist.
 - `--category=<cat>` — category for the merged entry. Default: the most-common category among the sources; if all sources are in different categories, you **must** pass `--category` explicitly.
-- `--keep-sources` — record-only flag for the draft frontmatter; does NOT delete or deprecate the source entries on the remote. Default behavior writes a `supersedes: [<list>]` field that `/skills_cleanup` later interprets as a deprecation hint. With `--keep-sources`, that field is omitted.
+- `--keep-sources` — record-only flag for the draft frontmatter; does NOT delete or deprecate the source entries on the remote. Default behavior writes a `supersedes: [<list>]` field that `/hub-cleanup` later interprets as a deprecation hint. With `--keep-sources`, that field is omitted.
 - `--dry-run` — show the planned merged draft (frontmatter + content outline) and stop without writing.
 - `--yes` — skip the interactive accept/edit prompt; write the draft immediately after the dry-run preview.
 
 ## Steps
 
 1. **Validate input**
-   - Require ≥2 selectors; if fewer, stop with a clear error pointing at `/skills_split` for the opposite operation.
+   - Require ≥2 selectors; if fewer, stop with a clear error pointing at `/hub-split` for the opposite operation.
    - Refuse if the same selector appears twice (after normalization).
 
 2. **Refresh remote cache**
@@ -77,7 +77,7 @@ You must provide **at least 2** selectors. Mixing kinds (skill + knowledge) is a
        6. **Pitfalls** — union of pitfalls across sources.
        7. **Provenance** — bullet list `- <kind>:<category>/<name> @ <commit-sha-short>` for every source.
    - **Knowledge output** (single `*.md`):
-     - Same frontmatter conventions as `/skills_extract_knowledge`'s template (`type: knowledge`, `category`, `confidence`, `source`).
+     - Same frontmatter conventions as `/hub-extract`'s template (`type: knowledge`, `category`, `confidence`, `source`).
      - `confidence`: minimum across sources (worst case wins; merging a `low` and a `high` yields `low`).
      - `summary`: rewritten one-liner.
      - `merged_from`: same shape as above.
@@ -86,7 +86,7 @@ You must provide **at least 2** selectors. Mixing kinds (skill + knowledge) is a
 7. **Dry-run preview** (always shown, even with `--yes`)
    - Render:
      ```
-     === skills_merge dry-run ===
+     === hub-merge dry-run ===
      Sources (N):
        1. skill:backend/retry-with-jitter-backoff@v1.2.0     (tags: retry, backoff)
        2. skill:backend/retry-on-5xx                         (tags: retry, http)
@@ -125,8 +125,8 @@ You must provide **at least 2** selectors. Mixing kinds (skill + knowledge) is a
    - Add a sibling note `_MERGE_SOURCES.md` listing each source's path, version, commit SHA, and a one-line rationale. Publish commands ignore files starting with `_`.
 
 9. **Report**
-   - Show the final draft path, the slug, the proposed publish command (`/skills_publish --draft=<name>` or `/knowledge_publish --draft=<slug>`).
-   - Remind: the source entries on the remote are **not modified**. To formally retire them, publish the merged draft, then run `/skills_cleanup` which will see `supersedes` and propose the deprecation PR.
+   - Show the final draft path, the slug, the proposed publish command (`/hub-publish-skills --draft=<name>` or `/hub-publish-knowledge --draft=<slug>`).
+   - Remind: the source entries on the remote are **not modified**. To formally retire them, publish the merged draft, then run `/hub-cleanup` which will see `supersedes` and propose the deprecation PR.
 
 ## Rules
 
@@ -134,8 +134,8 @@ You must provide **at least 2** selectors. Mixing kinds (skill + knowledge) is a
 - **Never auto-publish.** This command stops at draft creation; publishing is a separate, deliberate step.
 - **Synthesize, do not concatenate.** A merged draft that is just three source bodies stitched together is a bug — flag and refuse to write if the synthesis step couldn't actually produce a unified Pattern section.
 - **Provenance is mandatory.** Every merged draft must carry `merged_from` in frontmatter and a `## Provenance` (skill) or `## Evidence` (knowledge) section listing every source with commit SHA. If any source SHA cannot be resolved, stop.
-- **No cross-cleanup.** This command does NOT delete or rewrite the source entries. Deprecation, if any, happens at publish time via the `supersedes` field, and only after the user runs `/skills_cleanup` and approves it.
-- **Sanitization** inherits from `/skills_publish`: strip absolute paths, emails, tokens, internal hostnames in the synthesized body before writing the draft.
+- **No cross-cleanup.** This command does NOT delete or rewrite the source entries. Deprecation, if any, happens at publish time via the `supersedes` field, and only after the user runs `/hub-cleanup` and approves it.
+- **Sanitization** inherits from `/hub-publish-skills`: strip absolute paths, emails, tokens, internal hostnames in the synthesized body before writing the draft.
 - **Selector ambiguity is fatal.** If `<category>/<name>` matches both a skill and a knowledge entry, refuse with a message asking the user to add `skill:` or `knowledge:` prefix.
 - **Confidence floor for knowledge merges.** Output `confidence` = `min(sources)`. Never upgrade a `low`-confidence source by averaging.
 
@@ -143,17 +143,17 @@ You must provide **at least 2** selectors. Mixing kinds (skill + knowledge) is a
 
 ```
 # Merge three near-duplicate skills into one canonical skill
-/skills_merge skill:backend/retry-with-jitter-backoff skill:backend/retry-on-5xx skill:backend/exponential-backoff --name=unified-retry-strategy
+/hub-merge skill:backend/retry-with-jitter-backoff skill:backend/retry-on-5xx skill:backend/exponential-backoff --name=unified-retry-strategy
 
 # Merge a skill with two knowledge notes; output is a skill carrying linked_knowledge
-/skills_merge skill:backend/retry-with-jitter-backoff knowledge:pitfall/retry-storms knowledge:pitfall/thundering-herd
+/hub-merge skill:backend/retry-with-jitter-backoff knowledge:pitfall/retry-storms knowledge:pitfall/thundering-herd
 
 # Merge two knowledge entries into one consolidated note
-/skills_merge knowledge:api/idempotency-key-per-tenant knowledge:api/idempotency-key-conflict-resolution --as=knowledge
+/hub-merge knowledge:api/idempotency-key-per-tenant knowledge:api/idempotency-key-conflict-resolution --as=knowledge
 
 # Pin to specific skill versions
-/skills_merge skill:backend/retry@v1.2.0 skill:backend/retry-on-5xx@v0.3.1 --dry-run
+/hub-merge skill:backend/retry@v1.2.0 skill:backend/retry-on-5xx@v0.3.1 --dry-run
 
 # Auto-everything (still shows preview, then writes)
-/skills_merge skill:devops/blue-green-deploy skill:devops/canary-deploy --as=skill --yes
+/hub-merge skill:devops/blue-green-deploy skill:devops/canary-deploy --as=skill --yes
 ```

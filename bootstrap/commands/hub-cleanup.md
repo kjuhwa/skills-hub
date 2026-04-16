@@ -3,7 +3,7 @@ description: Maintain the remote skill repo — dedupe, re-index, remove stale e
 argument-hint: [--apply] [--dedupe] [--reindex] [--stale-days=<n>]
 ---
 
-# /skills_cleanup $ARGUMENTS
+# /hub-cleanup $ARGUMENTS
 
 Remote repository maintenance. **Dry-run is the default.**
 

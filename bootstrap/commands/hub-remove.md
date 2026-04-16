@@ -3,7 +3,7 @@ description: Uninstall a locally installed skill
 argument-hint: <skill-name> [--scope=project|global]
 ---
 
-# /skills_remove $ARGUMENTS
+# /hub-remove $ARGUMENTS
 
 Remove a skill from local install.
 
@@ -18,7 +18,7 @@ Remove a skill from local install.
 
 3. **Delete** the skill directory and remove its registry entry.
 
-4. **Report** result + suggest `/skills_list` to verify.
+4. **Report** result + suggest `/hub-list-skills` to verify.
 
 ## Rules
 

@@ -3,16 +3,16 @@ description: Research skills and knowledge from the web by keyword, or pull curr
 argument-hint: [<keyword>] [--only=skills|knowledge] [--max-skills=<n>] [--max-knowledge=<n>] [--category=<cat>] [--depth=quick|standard|deep] [--sources=<n>] [--lang=en|ko|auto] [--since=<window>] [--trend-source=<source>] [--min-confidence=high|medium|low] [--dry-run] [--yes]
 ---
 
-# /skills_research $ARGUMENTS
+# /hub-research $ARGUMENTS
 
-Research the web for reusable engineering knowledge and turn the findings into **skill** and **knowledge** drafts under the current project's `.skills-draft/` and `.knowledge-draft/` trees — using the same layout as `/skills_extract_project` and `/skills_import_git`.
+Research the web for reusable engineering knowledge and turn the findings into **skill** and **knowledge** drafts under the current project's `.skills-draft/` and `.knowledge-draft/` trees — using the same layout as `/hub-extract` and `/hub-import`.
 
 Two modes:
 
-- **Keyword mode** — `/skills_research <keyword>` researches that topic.
-- **Trend mode** — `/skills_research` (no keyword) surveys current engineering trends and harvests drafts from what's hot.
+- **Keyword mode** — `/hub-research <keyword>` researches that topic.
+- **Trend mode** — `/hub-research` (no keyword) surveys current engineering trends and harvests drafts from what's hot.
 
-**No direct installs.** Nothing is written to `~/.claude/skills/`, `.claude/skills/`, `~/.claude/skills-hub/knowledge/`, `.claude/knowledge/`, or `registry.json`. Review drafts, then ship them with `/skills_publish`, `/knowledge_publish`, or `/publish_all`.
+**No direct installs.** Nothing is written to `~/.claude/skills/`, `.claude/skills/`, `~/.claude/skills-hub/knowledge/`, `.claude/knowledge/`, or `registry.json`. Review drafts, then ship them with `/hub-publish-skills`, `/hub-publish-knowledge`, or `/hub-publish-all`.
 
 ## Arguments
 
@@ -84,7 +84,7 @@ For every non-trivial content chunk (heading block, code sample, numbered proced
 }
 ```
 
-Classification rules (identical to `/skills_extract_knowledge`):
+Classification rules (identical to `/hub-extract`):
 
 - Executable procedure ("do X by following these steps") → **skill**
 - Declarative fact / constraint / decision / lesson → **knowledge**
@@ -119,7 +119,7 @@ Web-source-specific rules:
 Unless `--yes`:
 
 ```
-=== skills_research dry-run ===
+=== hub-research dry-run ===
 Mode: keyword / "kafka exactly-once semantics"
 Depth: standard (6 sources fetched, 5 unique after dedupe)
 
@@ -136,7 +136,7 @@ Proceed? [y/N]
 Trend-mode preview header:
 
 ```
-=== skills_research dry-run ===
+=== hub-research dry-run ===
 Mode: trend / source=all, since=30d
 Channels sampled: hn (3), gh (3), arxiv (2), devto (2)
 ```
@@ -146,11 +146,11 @@ Channels sampled: hn (3), gh (3), arxiv (2), devto (2)
 ### 6. Stage as drafts
 
 - **Skill destinations**: `.skills-draft/<category>/<slug>/SKILL.md` (+ `content.md` with research notes, sanitized examples, source list).
-- **Knowledge destinations**: `.knowledge-draft/<category>/<slug>.md` using the knowledge template from `/skills_extract_knowledge`.
+- **Knowledge destinations**: `.knowledge-draft/<category>/<slug>.md` using the knowledge template from `/hub-extract`.
 - **Both**: write both files, set `linked_knowledge` / `linked_skills` bidirectionally.
 - **Slug**: `[a-z0-9-]+`, derive from skill/knowledge name; on collision with existing drafts, diff bodies and prompt `overwrite / skip / rename` — never silently clobber.
 - **Category defaults**: use `--category` if supplied, else auto-pick from `CATEGORIES.md`. If no category fits, drop into `uncategorized/` and add a TODO note in the draft.
-- **Version**: skill drafts ship as `0.1.0-draft` (matches `/skills_extract_project`).
+- **Version**: skill drafts ship as `0.1.0-draft` (matches `/hub-extract`).
 
 ### 7. Report
 
@@ -165,7 +165,7 @@ Sources:      12 fetched, 9 unique
 
 Next:
   • Review: .skills-draft/** and .knowledge-draft/**
-  • Publish: /publish_all  (or /skills_publish / /knowledge_publish)
+  • Publish: /hub-publish-all  (or /hub-publish-skills / /hub-publish-knowledge)
 ```
 
 Never auto-commit, never push, never install into active skill paths.
@@ -193,20 +193,20 @@ Never auto-commit, never push, never install into active skill paths.
 
 ```
 # Keyword research
-/skills_research "kafka exactly-once semantics"
-/skills_research "rust async cancellation" --depth=deep --max-skills=3
-/skills_research "spring boot graceful shutdown" --only=knowledge --min-confidence=high
-/skills_research "웹소켓 재연결 전략" --lang=ko --since=1y
+/hub-research "kafka exactly-once semantics"
+/hub-research "rust async cancellation" --depth=deep --max-skills=3
+/hub-research "spring boot graceful shutdown" --only=knowledge --min-confidence=high
+/hub-research "웹소켓 재연결 전략" --lang=ko --since=1y
 
 # Trend mode
-/skills_research                                    # all channels, last 30 days
-/skills_research --trend-source=gh --since=7d       # GitHub trending this week
-/skills_research --trend-source=arxiv --max-knowledge=5
-/skills_research --yes --trend-source=hn            # auto-stage HN front-page patterns
+/hub-research                                    # all channels, last 30 days
+/hub-research --trend-source=gh --since=7d       # GitHub trending this week
+/hub-research --trend-source=arxiv --max-knowledge=5
+/hub-research --yes --trend-source=hn            # auto-stage HN front-page patterns
 
 # Dry-run everything before staging
-/skills_research "postgres logical replication" --dry-run
+/hub-research "postgres logical replication" --dry-run
 
 # After any run: publish the drafts
-/publish_all
+/hub-publish-all
 ```

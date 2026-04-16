@@ -3,9 +3,9 @@ description: Publish local slash-command edits to kjuhwa/skills.git bootstrap/co
 argument-hint: [--bump=major|minor|patch] [--version=<x.y.z>] [--pr] [--branch=<name>]
 ---
 
-# /skills_bootstrap_publish $ARGUMENTS
+# /hub-commands-publish $ARGUMENTS
 
-Stage `~/.claude/commands/*.md` edits into `bootstrap/commands/` on the remote repo, commit, and push a `bootstrap/v<semver>` annotated tag so `/skills_bootstrap_update` can roll forward or back.
+Stage `~/.claude/commands/*.md` edits into `bootstrap/commands/` on the remote repo, commit, and push a `bootstrap/v<semver>` annotated tag so `/hub-commands-update` can roll forward or back.
 
 ## Steps
 
@@ -25,7 +25,7 @@ Stage `~/.claude/commands/*.md` edits into `bootstrap/commands/` on the remote r
    - Walk `~/.claude/commands/**/*.md` (all subdirectories, any depth).
    - For each file, compute its repo-relative path (the part after `~/.claude/commands/`) and compare against `bootstrap/commands/<relative-path>` in the remote:
      - Show unified diff when both sides exist.
-   - Detect new files (in local but not remote) and prompt user to include / skip per file. Subfolder layout (e.g. `merge/skills_merge.md`, `split/skills_split.md`, `refactor/skills_refactor.md`) is preserved verbatim.
+   - Detect new files (in local but not remote) and prompt user to include / skip per file. Subfolder layout (e.g. `merge/hub-merge.md`, `split/hub-split.md`, `refactor/hub-refactor.md`) is preserved verbatim.
    - Files only in remote but not local → not deleted (user may have removed locally on purpose); prompt: keep-in-remote / delete-in-remote.
 
 4. **Create branch + copy**
@@ -46,7 +46,7 @@ Stage `~/.claude/commands/*.md` edits into `bootstrap/commands/` on the remote r
 
 7. **Report**
    - Published version, tag name, branch, commit SHA, file list.
-   - Reminder: tag is immediately usable for `/skills_bootstrap_update --version=<x.y.z>` once pushed, even before PR merge.
+   - Reminder: tag is immediately usable for `/hub-commands-update --version=<x.y.z>` once pushed, even before PR merge.
 
 ## Rules
 

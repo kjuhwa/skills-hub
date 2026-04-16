@@ -3,7 +3,7 @@ description: List locally installed knowledge entries from the hub registry
 argument-hint: [--category <cat>] [--tag <tag>] [--linked-to <skill>] [--orphans] [--scope global|project]
 ---
 
-# /knowledge_list $ARGUMENTS
+# /hub-list-knowledge $ARGUMENTS
 
 Report knowledge artifacts (non-executable facts/decisions/pitfalls) registered alongside skills.
 

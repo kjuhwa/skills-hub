@@ -3,7 +3,7 @@ description: Refresh remote cache and update installed skills — to latest, to 
 argument-hint: [--dry-run] [--force] [--skill=<name>] [--version=<x.y.z>] [--unpin]
 ---
 
-# /skills_sync $ARGUMENTS
+# /hub-sync $ARGUMENTS
 
 Bring local installs to latest — or pin/rollback a specific skill to an exact version via git tags.
 

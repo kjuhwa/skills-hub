@@ -3,7 +3,7 @@ description: End-of-project wrap-up — extract, review, publish, and clean up d
 argument-hint: [--scope=session|full] [--auto-pr]
 ---
 
-# /skills_finalize $ARGUMENTS
+# /hub-finalize $ARGUMENTS
 
 Compose the full project-close flow in one command.
 
@@ -13,15 +13,15 @@ Compose the full project-close flow in one command.
    - "About to extract → review → publish skills from this project. Continue?"
 
 2. **Extract**
-   - `--scope=session` (default): run `/skills_extract_session --include-conversation`
-   - `--scope=full`: run `/skills_extract`
+   - `--scope=session` (default): run `/hub-extract-session --include-conversation`
+   - `--scope=full`: run `/hub-extract`
 
 3. **Interactive review**
    - Walk through each draft: display, ask keep/edit/drop.
    - For "edit", open a focused edit loop (user describes change → apply → re-show).
 
 4. **Publish**
-   - Run `/skills_publish --all` with approved drafts only.
+   - Run `/hub-publish-skills --all` with approved drafts only.
    - `--auto-pr` forwards `--pr` flag.
 
 5. **Cleanup**
@@ -30,7 +30,7 @@ Compose the full project-close flow in one command.
 
 6. **Post-report**
    - Summary: N extracted, M published, branch URL, PR URL (if any).
-   - Reminder: run `/skills_sync` in other projects to pick up new skills.
+   - Reminder: run `/hub-sync` in other projects to pick up new skills.
 
 ## Rules
 
