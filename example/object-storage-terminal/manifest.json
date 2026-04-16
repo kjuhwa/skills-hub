@@ -1,0 +1,12 @@
+{
+  "slug": "object-storage-terminal",
+  "title": "Object Storage Terminal",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T08:28:17.093Z",
+  "source_project": "26-object-storage-terminal",
+  "author": "kjuhwa@nkia.co.kr"
+}
