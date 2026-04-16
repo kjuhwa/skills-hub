@@ -1,0 +1,12 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; }
+#app { max-width: 960px; margin: 0 auto; padding: 24px; }
+h1 { color: #6ee7b7; font-size: 1.3rem; }
+.sub { color: #8b949e; font-size: 0.8rem; margin: 4px 0 12px; }
+.legend { font-size: 0.75rem; color: #8b949e; margin-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+.legend span { width: 14px; height: 14px; display: inline-block; border-radius: 2px; }
+.lo { background: #064e3b; } .md { background: #d97706; } .hi { background: #dc2626; }
+#heatmap { display: block; width: 100%; background: #1a1d27; border-radius: 6px; }
+.tip { position: fixed; background: #1a1d27; border: 1px solid #6ee7b7; padding: 6px 10px; font-size: 0.75rem; border-radius: 4px; pointer-events: none; display: none; z-index: 9; }
+.detail { background: #1a1d27; border-radius: 6px; margin-top: 14px; padding: 14px; font-size: 0.82rem; min-height: 60px; color: #8b949e; }
+.detail b { color: #6ee7b7; }
