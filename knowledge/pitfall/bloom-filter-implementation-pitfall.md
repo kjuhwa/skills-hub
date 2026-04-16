@@ -1,6 +1,6 @@
 ---
 name: bloom-filter-implementation-pitfall
-description: Common bugs when implementing bloom filters in JS/TS demo apps
+description: Hash independence, bit-array indexing, and removal semantics are the common breakage points
 category: pitfall
 tags:
   - bloom
@@ -9,8 +9,8 @@ tags:
 
 # bloom-filter-implementation-pitfall
 
-The most frequent bug is using `Math.random()` or a single weak hash as the basis for k "different" hash functions — this produces correlated bits and inflates false positive rate far above theoretical. Use k independent hash functions (e.g., FNV-1a with k different seeds, or the double-hashing trick `h_i(x) = h1(x) + i·h2(x) mod m` with two high-quality base hashes like murmur3). Never re-seed hashes between insert and query for the same element — the filter will silently return "not present" for items you just inserted. Cache the hash function set in state, not in a component render closure.
+The most frequent bug is using k hashes that aren't independent — e.g., calling the same `hashCode()` then adding `i` or multiplying by `i+1` produces correlated positions that cluster, inflating the real false-positive rate far above the theoretical `(1-e^(-kn/m))^k`. Use genuinely distinct hash families (FNV-1a + MurmurHash3 + DJB2, or double-hashing `h1 + i*h2 mod m` with two independent seeds). Always mod by m using unsigned arithmetic; in JavaScript, `>>> 0` before `% m` avoids negative indices from 32-bit signed overflow that silently point to bit -3 and get swallowed by array semantics.
 
-Bit storage is another trap: a naive `boolean[]` of length m is memory-wasteful and misrepresents the data structure. Use a `Uint8Array` of length `Math.ceil(m/8)` with bit-level `set(i)` / `get(i)` helpers, or at minimum a `Uint8Array(m)`. When m is driven by a slider and changes, always allocate a fresh array and re-insert — resizing in place is not supported by standard bloom filters (counting bloom filters are a different structure). Similarly, **never implement "remove"** on a standard bloom filter; clearing a bit may be shared with other inserted elements and will cause false negatives, which breaks the core guarantee.
+A second trap is attempting to "delete" from a standard bloom filter by clearing bits — this corrupts every other element that shared those bits and produces false negatives, which violates the filter's core guarantee. If removal is needed, you must use a counting bloom filter (4-bit counters per slot) instead, and the username-check demo should explicitly disable or hide any delete UI on the standard variant to avoid teaching the wrong model. Similarly, resizing requires re-inserting all elements from an authoritative source; you cannot rehash the bit array itself.
 
-Finally, watch the theoretical-vs-observed FPR display: the formula `(1 - e^(-kn/m))^k` assumes independent uniform hashing and becomes inaccurate for very small m or very large k/m ratios. If users see observed FPR diverge wildly from theory, it's almost always a hash-quality issue, not a formula issue — log the distribution of hash outputs modulo m and check for clustering before blaming the math. Also guard k=0 and m=0 edge cases at the slider boundary; they produce NaN in the FPR formula and a frozen UI.
+In concurrent/race scenarios, `bits[i] |= mask` looks atomic but isn't in JavaScript across async boundaries — if you await between read and write, a concurrent insert can be lost. Either use `Atomics.or` on a SharedArrayBuffer, or serialize all bit-array mutations through a single queue. The collision-race demo must model this explicitly; otherwise users learn an incorrect lesson that bloom filters are "naturally thread-safe" when in fact they rely on the underlying bit operations being atomic.
