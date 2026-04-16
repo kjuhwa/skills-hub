@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circuit Breaker Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="panel">
+  <h1>⚡ Interactive Circuit Breaker</h1>
+  <div class="controls">
+    <label>Failure Threshold <input type="range" id="threshold" min="2" max="10" value="5"><span id="thresholdVal">5</span></label>
+    <label>Cooldown (s) <input type="range" id="cooldown" min="2" max="15" value="6"><span id="cooldownVal">6</span></label>
+    <button id="btnReq">Send Request</button>
+    <button id="btnFail">Send Failing Request</button>
+    <button id="btnReset">Reset</button>
+  </div>
+  <svg id="viz" viewBox="0 0 600 260"></svg>
+  <div class="stats" id="stats"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -50,6 +50,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [shard-flow-visualizer](shard-flow-visualizer/) | Shard Flow Visualizer — auto-generated database-sharding tool | html, css, vanilla-js | 2026-04-16 |
 
+| [circuit-breaker-simulator](circuit-breaker-simulator/) | Circuit Breaker Simulator — auto-generated circuit-breaker tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
