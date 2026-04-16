@@ -282,6 +282,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [load-balancer-arena](load-balancer-arena/) | Load Balancer Arena — auto-generated load-balancer tool | html, css, vanilla-js | 2026-04-16 |
 
+| [pipe-pressure-game](pipe-pressure-game/) | Pipe Pressure Game — auto-generated backpressure tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
