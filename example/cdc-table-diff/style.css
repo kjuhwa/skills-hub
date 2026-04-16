@@ -1,0 +1,20 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #e2e8f0; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+h1 { color: #6ee7b7; font-size: 18px; margin-bottom: 14px; }
+h2 { font-size: 13px; color: #94a3b8; margin-bottom: 8px; }
+.controls { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+select, button { background: #1a1d27; color: #e2e8f0; border: 1px solid #2a2d37; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+button:hover { border-color: #6ee7b7; }
+.counter { color: #94a3b8; font-size: 13px; }
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.panel { background: #1a1d27; border-radius: 8px; padding: 14px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; font-family: monospace; }
+th { text-align: left; color: #6ee7b7; padding: 4px 8px; border-bottom: 1px solid #2a2d37; }
+td { padding: 4px 8px; border-bottom: 1px solid #1f2230; }
+tr.added td { background: rgba(110,231,183,0.1); }
+tr.removed td { background: rgba(248,113,113,0.1); }
+tr.changed td { background: rgba(96,165,250,0.08); }
+td.diff { color: #60a5fa; font-weight: 600; }
+.log { background: #1a1d27; border-radius: 8px; padding: 12px; max-height: 150px; overflow-y: auto; font-size: 12px; font-family: monospace; color: #94a3b8; }
+.log div { padding: 2px 0; }
+.log .op-i { color: #6ee7b7; } .log .op-u { color: #60a5fa; } .log .op-d { color: #f87171; }

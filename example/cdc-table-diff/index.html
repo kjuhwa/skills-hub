@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDC Table Diff Viewer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>CDC Table Diff Viewer</h1>
+<div class="controls">
+  <select id="tableSelect"></select>
+  <button id="applyBtn">Apply Next Change</button>
+  <span id="counter" class="counter"></span>
+</div>
+<div class="panels">
+  <div class="panel"><h2>Before</h2><table id="before"></table></div>
+  <div class="panel"><h2>After</h2><table id="after"></table></div>
+</div>
+<div id="log" class="log"></div>
+<script src="app.js"></script>
+</body>
+</html>
