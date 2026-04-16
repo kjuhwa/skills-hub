@@ -1,0 +1,26 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f1117; color: #e4e6eb; font-family: 'Segoe UI', sans-serif; padding: 24px; }
+.app { max-width: 800px; margin: 0 auto; }
+header { text-align: center; margin-bottom: 24px; }
+header h1 { color: #6ee7b7; font-size: 2.2rem; font-family: 'Georgia', serif; }
+.sub { color: #8b8fa3; margin-top: 6px; }
+.controls { background: #1a1d27; padding: 16px; border-radius: 10px; display: grid; grid-template-columns: auto 1fr auto auto; gap: 10px; align-items: center; border: 1px solid #262a38; margin-bottom: 20px; }
+.controls label { color: #8b8fa3; font-size: 0.9rem; }
+select, input { background: #0f1117; color: #e4e6eb; border: 1px solid #2a2e3d; padding: 8px 12px; border-radius: 6px; font-family: monospace; }
+button { background: #6ee7b7; color: #0f1117; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+button:hover { background: #5cd4a3; }
+#reset { background: #262a38; color: #e4e6eb; }
+#reset:hover { background: #313646; }
+.chain { background: #1a1d27; padding: 20px; border-radius: 10px; border: 1px solid #262a38; min-height: 300px; }
+h2 { color: #6ee7b7; font-size: 1.1rem; margin-bottom: 16px; }
+.step { display: flex; align-items: center; gap: 12px; padding: 12px; background: #0f1117; border-radius: 6px; margin-bottom: 8px; font-family: monospace; animation: slide 0.3s; }
+@keyframes slide { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+.step .n { width: 32px; height: 32px; background: #262a38; color: #6ee7b7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+.step.stable .n { background: #6ee7b7; color: #0f1117; }
+.step .val { flex: 1; color: #e4e6eb; font-size: 1rem; }
+.step .arrow { color: #8b8fa3; }
+.step.stable { border-left: 3px solid #6ee7b7; }
+.step.changed { border-left: 3px solid #fbbf24; }
+#verdict { margin-top: 16px; padding: 16px; border-radius: 6px; text-align: center; font-weight: 600; }
+#verdict.idempotent { background: rgba(110, 231, 183, 0.1); color: #6ee7b7; border: 1px solid #6ee7b7; }
+#verdict.not-idempotent { background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid #fbbf24; }

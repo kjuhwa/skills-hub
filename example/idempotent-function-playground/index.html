@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Idempotent Function Playground</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>f(f(x)) = f(x)</h1>
+    <p class="sub">Apply a function repeatedly. Idempotent functions stabilize after one call.</p>
+  </header>
+  <div class="controls">
+    <label>Function:</label>
+    <select id="fn">
+      <option value="abs">Math.abs(x) — idempotent</option>
+      <option value="upper">toUpperCase — idempotent</option>
+      <option value="round">Math.round — idempotent</option>
+      <option value="trim">trim whitespace — idempotent</option>
+      <option value="double">x * 2 — NOT idempotent</option>
+      <option value="increment">x + 1 — NOT idempotent</option>
+      <option value="reverse">reverse array — NOT idempotent</option>
+    </select>
+    <label>Input:</label>
+    <input id="input" type="text" value="-7">
+    <button id="apply">Apply f</button>
+    <button id="reset">Reset</button>
+  </div>
+  <section class="chain">
+    <h2>Application Chain</h2>
+    <div id="steps"></div>
+    <div id="verdict"></div>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
