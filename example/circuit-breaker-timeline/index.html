@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circuit Breaker Timeline</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Circuit Breaker Timeline</h1>
+<p class="sub">Live request stream with state transitions over time</p>
+<canvas id="timeline" width="900" height="320"></canvas>
+<div class="legend">
+  <span class="dot" style="background:#6ee7b7"></span> Closed
+  <span class="dot" style="background:#f87171"></span> Open
+  <span class="dot" style="background:#fbbf24"></span> Half-Open
+  <span class="dot sq" style="background:#6ee7b7"></span> Success
+  <span class="dot sq" style="background:#f87171"></span> Failure
+</div>
+<script src="app.js"></script>
+</body>
+</html>
