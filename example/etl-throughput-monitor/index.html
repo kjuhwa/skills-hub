@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ETL Throughput Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>ETL Throughput Monitor</h1>
+  <div class="badge" id="statusBadge">● LIVE</div>
+</header>
+<div class="grid">
+  <div class="card">
+    <div class="label">Rows / sec</div>
+    <div class="value" id="rps">0</div>
+    <svg id="spark" width="100%" height="60" viewBox="0 0 300 60"></svg>
+  </div>
+  <div class="card">
+    <div class="label">Error Rate</div>
+    <div class="value red" id="err">0.0%</div>
+    <svg id="spark2" width="100%" height="60" viewBox="0 0 300 60"></svg>
+  </div>
+  <div class="card">
+    <div class="label">Queue Depth</div>
+    <div class="value amber" id="queue">0</div>
+    <svg id="spark3" width="100%" height="60" viewBox="0 0 300 60"></svg>
+  </div>
+  <div class="card">
+    <div class="label">Total Loaded</div>
+    <div class="value" id="total">0</div>
+    <div class="sub" id="uptime">uptime 0s</div>
+  </div>
+</div>
+<div class="jobs">
+  <h2>Active Jobs</h2>
+  <div id="jobList"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "slug": "etl-throughput-monitor",
+  "title": "Etl Throughput Monitor",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T16:41:13.698Z",
+  "source_project": "102-etl-throughput-monitor",
+  "author": "kjuhwa@nkia.co.kr"
+}
