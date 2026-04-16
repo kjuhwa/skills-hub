@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Retry Storm Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Retry Storm Simulator</h1>
+    <span class="tag">Thundering herd vs jittered backoff</span>
+  </header>
+  <div class="layout">
+    <div class="panel">
+      <h3>Scenario</h3>
+      <label>Clients: <span id="cLabel">50</span><input type="range" id="clients" min="10" max="200" value="50"></label>
+      <label>Jitter: <span id="jLabel">0%</span><input type="range" id="jitter" min="0" max="100" value="0"></label>
+      <label>Server capacity/s: <span id="sLabel">20</span><input type="range" id="server" min="5" max="80" value="20"></label>
+      <button id="start">Trigger Outage</button>
+      <button id="reset" class="ghost">Reset</button>
+    </div>
+    <div class="stage">
+      <svg id="scene" viewBox="0 0 600 400"></svg>
+      <div class="metrics">
+        <div><span>Requests/s</span><b id="rps">0</b></div>
+        <div><span>Dropped</span><b id="drop">0</b></div>
+        <div><span>Served</span><b id="served">0</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
