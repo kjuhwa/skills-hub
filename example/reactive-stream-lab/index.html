@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reactive Stream Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <h1>Reactive Stream Lab</h1>
+  <p class="sub">Producer emits faster than consumer. Pick a backpressure strategy and see what happens.</p>
+
+  <div class="strategies">
+    <button data-s="buffer" class="active">BUFFER</button>
+    <button data-s="drop-newest">DROP NEWEST</button>
+    <button data-s="drop-oldest">DROP OLDEST</button>
+    <button data-s="throttle">THROTTLE</button>
+    <button data-s="sample">SAMPLE</button>
+  </div>
+
+  <svg id="marble" viewBox="0 0 800 260" preserveAspectRatio="none"></svg>
+
+  <div class="panel">
+    <label>Producer: <b id="pLabel">10/s</b>
+      <input id="prod" type="range" min="2" max="30" value="10"></label>
+    <label>Consumer: <b id="cLabel">3/s</b>
+      <input id="cons" type="range" min="1" max="15" value="3"></label>
+    <label>Buffer: <b id="bLabel">8</b>
+      <input id="buf" type="range" min="2" max="20" value="8"></label>
+  </div>
+
+  <div class="log" id="log"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
