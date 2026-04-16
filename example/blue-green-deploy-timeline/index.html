@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue-Green Deploy Timeline</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Deployment Timeline</h1>
+<div class="toolbar">
+<button onclick="addDeploy()">+ New Deploy</button>
+<span class="hint">Click a deploy card for details</span>
+</div>
+<div class="timeline" id="timeline"></div>
+<div class="detail" id="detail">
+<h3 id="detTitle">Select a deployment</h3>
+<div id="detBody">Click any card on the timeline to view its details.</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
