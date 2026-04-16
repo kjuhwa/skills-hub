@@ -1,0 +1,15 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+.container { max-width: 960px; margin: 0 auto; padding: 24px; }
+h1 { color: #6ee7b7; margin-bottom: 20px; font-size: 1.4rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.card { background: #1a1d27; border-radius: 10px; padding: 16px; position: relative; overflow: hidden; cursor: pointer; transition: transform .15s; }
+.card:hover { transform: translateY(-2px); }
+.card .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+.card .name { font-weight: 600; font-size: .95rem; }
+.card .latency { color: #94a3b8; font-size: .8rem; margin-top: 6px; }
+.dot.up { background: #6ee7b7; box-shadow: 0 0 6px #6ee7b7; }
+.dot.down { background: #f87171; box-shadow: 0 0 6px #f87171; }
+.dot.degraded { background: #fbbf24; box-shadow: 0 0 6px #fbbf24; }
+canvas { background: #1a1d27; border-radius: 10px; width: 100%; }
+.selected { outline: 2px solid #6ee7b7; }
