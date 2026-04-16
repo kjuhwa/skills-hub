@@ -1,0 +1,12 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
+#app { padding: 20px; max-width: 860px; width: 100%; }
+h1 { font-size: 1.3rem; color: #6ee7b7; }
+.sub { font-size: .78rem; color: #8b949e; margin: 4px 0 14px; }
+#matrix { display: grid; gap: 3px; }
+.cell { width: 100%; aspect-ratio: 1.6; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: .65rem; cursor: pointer; transition: transform .15s; text-align: center; line-height: 1.2; }
+.cell:hover { transform: scale(1.12); z-index: 2; }
+.header { background: #1a1d27; color: #8b949e; cursor: default; font-size: .7rem; }
+.corner { background: transparent; }
+#detail { margin-top: 14px; background: #1a1d27; border-radius: 8px; padding: 12px; font-size: .82rem; min-height: 60px; }
+#detail .label { color: #6ee7b7; font-weight: 600; }
