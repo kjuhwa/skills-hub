@@ -1,6 +1,6 @@
 ---
 name: materialized-view-data-simulation
-description: Generating base-table write streams paired with refresh cycles to exercise staleness and divergence scenarios
+description: Deterministic seeded generator for base-table writes, refresh jobs, and concurrent query reads
 category: workflow
 triggers:
   - materialized view data simulation
@@ -11,8 +11,6 @@ version: 1.0.0
 
 # materialized-view-data-simulation
 
-Simulate a materialized view by generating two independent but correlated streams: a **base mutation stream** (Poisson-distributed inserts/updates/deletes against synthetic rows, with occasional bursts to stress the refresh window) and a **refresh trigger stream** (periodic ticks, commit-triggered events, or manual pulses). Seed the base table with a realistic cardinality (hundreds to low thousands of rows) so aggregations like SUM/COUNT/GROUP BY produce visibly changing numbers rather than noise-level jitter. Keep the projection function pure and deterministic — given the same base snapshot, re-running it must produce identical view output, otherwise divergence cannot be attributed to staleness.
+Drive materialized-view simulations from a seeded PRNG so refresh races are reproducible. Generate three event streams on a shared virtual clock: (1) base-table mutations (insert/update/delete with row PKs and a monotonic `writeLsn`), (2) refresh triggers (scheduled at fixed intervals, on-demand, or threshold-driven by write count), and (3) query arrivals (Poisson-distributed, each carrying a `readAt` timestamp). Each refresh job captures a snapshot LSN at start, takes a configured duration to "rebuild", then atomically swaps — queries arriving mid-refresh must deterministically resolve against either the old or new snapshot based on isolation mode (blocking vs CONCURRENTLY).
 
-Model three refresh strategies side-by-side in the same simulation so users can compare: **full recompute** (expensive, always fresh after tick), **incremental/delta** (cheap, accumulates error if change-log is lossy), and **lazy-on-read** (fresh per query, hides refresh cost inside read latency). Track per-strategy metrics — rows scanned, wall-clock cost, max staleness window, and query-read latency — and surface them as a comparative table. The teaching moment is the tradeoff curve: no strategy wins on all axes.
-
-Inject controlled failure modes: dropped change-log entries (incremental goes silently wrong), refresh running longer than the interval (refreshes pile up or overlap), and writes arriving during refresh (consistency question: does the view snapshot the pre-refresh or post-refresh base?). These are the failure modes that make or break real deployments, so the simulator must let users toggle them on demand rather than waiting to stumble into them.
+Maintain per-row lineage: every view row stores `(sourceWriteLsn, materializedAtLsn)` so staleness = `currentWriteLsn - materializedAtLsn` is computable at any tick. For incremental-refresh demos, emit a delta log between `lastRefreshLsn` and `now`, classify each delta as applicable/non-applicable to the view definition, and animate the apply step row-by-row. Expose knobs for write rate, refresh interval, refresh duration, and query rate; log a compact event journal (JSON lines) so the same seed reproduces identical race outcomes across runs and panel screenshots.
