@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log Pattern Heatmap</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="toolbar">
+  <h1>Log Pattern Heatmap</h1>
+  <select id="range"><option>Last 24h</option><option>Last 7d</option><option>Last 30d</option></select>
+</div>
+<div class="container">
+  <div class="legend" id="legend"></div>
+  <canvas id="heatmap"></canvas>
+  <div class="tooltip" id="tip"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
