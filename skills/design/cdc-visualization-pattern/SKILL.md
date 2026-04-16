@@ -1,6 +1,6 @@
 ---
 name: cdc-visualization-pattern
-description: Visual layout patterns for rendering CDC streams, replay timelines, and conflict resolution views
+description: Visualizing CDC event flow from source database through log capture to downstream consumers with row-level change granularity
 category: design
 triggers:
   - cdc visualization pattern
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # cdc-visualization-pattern
 
-Change Data Capture (CDC) UIs share three recurring visualization surfaces that can be composed per app. The **stream monitor view** renders a left-to-right flowing lane per source table with row-level change cards (INSERT/UPDATE/DELETE) color-coded green/amber/red, a log-sequence-number (LSN) or binlog-offset axis at the top, and a lag gauge per consumer. Pair it with a sticky "current LSN" ruler so operators can correlate spikes to schema or load events. The **replay timeline view** uses a horizontal scrubber over the WAL/binlog offset range with bookmarks for DDL events, transaction boundaries (BEGIN/COMMIT markers as vertical bars), and a playback head that can step forward/backward by txn. Render transactions as grouped bands so multi-row atomic changes stay visually atomic during scrubbing.
+CDC (Change Data Capture) visualizations must render three distinct layers simultaneously: the source database with its transaction log (WAL/binlog/redo), the CDC connector/capture process reading log positions (LSN/GTID/SCN), and downstream sinks (Kafka topics, search indexes, data lakes). Use horizontal swim lanes where each lane represents a stage, and animate discrete change events (INSERT/UPDATE/DELETE) as colored tokens flowing left-to-right. Color code by operation type: green for INSERT, amber for UPDATE, red for DELETE, and purple for schema changes (DDL). Always surface the log position cursor prominently — it is the single most important state in any CDC system.
 
-The **conflict resolver view** is a three-pane diff: source row | target row | merged result, with field-level highlighting for divergent columns and a resolution strategy selector (source-wins / target-wins / latest-timestamp / custom-merge) per column. Always show the originating LSN + timestamp + transaction id on both sides because CDC conflicts are almost always caused by clock skew or out-of-order delivery, and operators need those coordinates to reason about causality.
+For cdc-stream-monitor style real-time dashboards, show lag as the visual gap between the "current log tail" marker and the "last consumed position" marker per consumer. For cdc-replay-theater style time-travel UIs, render a scrubber timeline keyed to LSN/timestamp with event density histograms so users can see hot windows before seeking. For cdc-topology-weaver style graph views, draw source tables as nodes with edges representing subscription routes to sinks; overlay edges with throughput sparklines and a "last heartbeat" age badge so dead routes are instantly visible.
 
-Across all three views, keep a shared top-bar showing **source → target topology**, current replication lag (seconds and bytes), and a kill-switch for pause/resume. Reuse the same color semantics (green=applied, amber=pending, red=failed/conflict, gray=skipped) and the same LSN formatting (hex with thousands separators) so operators can move between monitor, replay, and resolver without re-learning the visual language.
+Always expose the before/after row image side-by-side for UPDATE events — a CDC tool that only shows the "after" state is half-blind. For DELETEs, preserve the tombstone marker visually (struck-through row with retention-until timestamp) rather than removing it from view, because downstream replay windows depend on tombstone visibility.

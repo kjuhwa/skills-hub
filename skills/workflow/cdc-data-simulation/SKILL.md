@@ -1,6 +1,6 @@
 ---
 name: cdc-data-simulation
-description: Generating realistic CDC event streams for building and demoing CDC tooling without a real database
+description: Generating realistic synthetic CDC event streams with proper transaction grouping, LSN monotonicity, and schema evolution
 category: workflow
 triggers:
   - cdc data simulation
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # cdc-data-simulation
 
-Real CDC pipelines (Debezium, Maxwell, pg_logical) are expensive to stand up for UI work, so simulate the envelope instead. Emit events matching the Debezium envelope shape: `{op: c|u|d|r, before: {...}, after: {...}, source: {db, table, ts_ms, lsn, txId, snapshot}, ts_ms}`. Generate monotonically increasing LSNs per source, group 1-20 row events under a shared `txId` with tight `ts_ms` spacing to simulate transactions, and sprinkle in occasional schema-change (DDL) markers and heartbeat events so the UI's handling of non-row messages is exercised.
+Simulated CDC streams must respect three invariants that real capture processes guarantee, or the demo will teach wrong mental models. First, LSN/position monotonicity: every generated event must carry a strictly increasing log position within a source, even when transactions are interleaved across tables. Maintain a single monotonic counter per simulated source and hand out positions atomically. Second, transaction grouping: real CDC emits events in transaction-commit order with a shared transaction ID, so simulators should batch 1–N row changes under one `txId` and emit them contiguously with a final `COMMIT` marker event — never sprinkle events from the same txn across unrelated rows.
 
-Drive the generator with three tunable knobs: **throughput** (events/sec with burst multipliers), **lag injection** (artificial delay between source ts_ms and consumer receive time, with occasional stalls to simulate replication slot backpressure), and **conflict rate** (percentage of events whose `before` image disagrees with the current target state, to feed the conflict resolver). For the replay timeline tool, pre-generate a bounded LSN range (e.g. 1M events across a 2-hour window) and serve it from a static file so scrubbing is instant — live streams only make sense for the monitor.
+Model realistic change distributions rather than uniform random noise. Production CDC streams are heavily skewed: ~70% UPDATE, ~20% INSERT, ~8% DELETE, ~2% DDL, with bursty patterns (idle periods punctuated by batch-job spikes). Use a weighted sampler with a Poisson arrival process plus occasional burst multipliers. For UPDATE events, generate realistic before/after diffs by mutating only 1–3 fields of the prior row image, not regenerating the whole record — this matches how real applications write.
 
-Keep simulation and real-source adapters behind the same interface (`CDCSource` yielding envelope events). This lets you swap in a real Kafka consumer pointed at Debezium topics later without rewriting the UI. Seed the random generator so demos and screenshots are reproducible, and expose the seed in the URL so bug reports can reference an exact event sequence.
+Seed schema evolution events deterministically on a timeline (e.g., ADD COLUMN at t+60s, DROP COLUMN at t+180s) so replay tools can be exercised against schema drift scenarios. Persist the simulation seed alongside generated output so runs are reproducible, and expose a "fast-forward" knob that advances wall-clock time while preserving LSN ordering — reviewers need to replay an hour of traffic in 30 seconds.
