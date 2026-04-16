@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>API Schema Diff</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>API Schema Diff</h1>
+    <div class="selectors">
+      <label>From <select id="from"></select></label>
+      <label>To <select id="to"></select></label>
+    </div>
+  </header>
+  <div class="summary" id="summary"></div>
+  <div class="panes">
+    <div class="pane">
+      <h2 id="from-label"></h2>
+      <pre id="from-code"></pre>
+    </div>
+    <div class="pane">
+      <h2 id="to-label"></h2>
+      <pre id="to-code"></pre>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
