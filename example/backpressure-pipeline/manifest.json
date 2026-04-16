@@ -1,0 +1,12 @@
+{
+  "slug": "backpressure-pipeline",
+  "title": "Backpressure Pipeline",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T09:41:05.451Z",
+  "source_project": "75-backpressure-pipeline",
+  "author": "kjuhwa@nkia.co.kr"
+}
