@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bloom Filter Collision Race</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Collision Race</h1>
+<p class="sub">Three filters of different sizes ingest random items. Which one saturates first? Which gives fewest false positives?</p>
+<div class="controls">
+  <button id="play">▶ Play</button>
+  <button id="pause" disabled>⏸ Pause</button>
+  <button id="reset">⟲ Reset</button>
+  <div class="speed">
+    <label>Speed</label>
+    <input type="range" id="speed" min="1" max="50" value="10">
+  </div>
+</div>
+<div class="lanes">
+  <div class="lane" data-id="0">
+    <div class="head"><h2>Tiny</h2><span>m=64, k=3</span></div>
+    <canvas width="400" height="80"></canvas>
+    <div class="readout"></div>
+  </div>
+  <div class="lane" data-id="1">
+    <div class="head"><h2>Mid</h2><span>m=256, k=4</span></div>
+    <canvas width="400" height="80"></canvas>
+    <div class="readout"></div>
+  </div>
+  <div class="lane" data-id="2">
+    <div class="head"><h2>Large</h2><span>m=1024, k=5</span></div>
+    <canvas width="400" height="80"></canvas>
+    <div class="readout"></div>
+  </div>
+</div>
+<div class="summary" id="summary">Press play to start the race.</div>
+<script src="app.js"></script>
+</body>
+</html>
