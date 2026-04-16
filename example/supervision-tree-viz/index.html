@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Supervision Tree</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Actor Supervision Tree</h1>
+  <p>Click any actor to crash it. Watch the supervisor restart strategy kick in.</p>
+  <div class="strategies">
+    <label><input type="radio" name="strat" value="one-for-one" checked> one-for-one</label>
+    <label><input type="radio" name="strat" value="one-for-all"> one-for-all</label>
+    <label><input type="radio" name="strat" value="rest-for-one"> rest-for-one</label>
+  </div>
+</header>
+<canvas id="tree"></canvas>
+<div id="events"></div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "slug": "supervision-tree-viz",
+  "title": "Supervision Tree Viz",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T16:52:04.001Z",
+  "source_project": "101-supervision-tree-viz",
+  "author": "kjuhwa@nkia.co.kr"
+}

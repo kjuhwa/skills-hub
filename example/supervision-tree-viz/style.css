@@ -1,0 +1,14 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f1117; color: #e5e7eb; font-family: 'Segoe UI', system-ui, sans-serif; height: 100vh; overflow: hidden; }
+header { padding: 16px 24px; border-bottom: 1px solid #1a1d27; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+header h1 { color: #6ee7b7; font-size: 18px; margin-right: 16px; }
+header p { font-size: 12px; color: #9ca3af; flex: 1; min-width: 240px; }
+.strategies { display: flex; gap: 12px; background: #1a1d27; padding: 8px 12px; border-radius: 6px; }
+.strategies label { font-size: 12px; color: #e5e7eb; cursor: pointer; display: flex; gap: 4px; align-items: center; }
+.strategies input { accent-color: #6ee7b7; }
+#tree { display: block; width: 100%; height: calc(100vh - 180px); background: #0f1117; cursor: pointer; }
+#events { position: fixed; bottom: 0; left: 0; right: 0; height: 90px; background: #1a1d27; border-top: 1px solid #2d3142; padding: 8px 16px; font-family: monospace; font-size: 11px; overflow-y: auto; }
+.event { padding: 2px 0; color: #9ca3af; }
+.event.crash { color: #ef4444; }
+.event.restart { color: #6ee7b7; }
+.event.spawn { color: #fbbf24; }
