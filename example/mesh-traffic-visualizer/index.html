@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mesh Traffic Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Service Mesh Traffic Visualizer</h1>
+  <div class="controls">
+    <button id="pause">Pause</button>
+    <button id="chaos">Inject Chaos</button>
+    <button id="reset">Reset</button>
+  </div>
+</header>
+<main>
+  <canvas id="mesh"></canvas>
+  <aside id="panel">
+    <h2>Live Stats</h2>
+    <div class="stat"><span>Requests/s</span><strong id="rps">0</strong></div>
+    <div class="stat"><span>P99 Latency</span><strong id="p99">0ms</strong></div>
+    <div class="stat"><span>Error Rate</span><strong id="err">0%</strong></div>
+    <div class="stat"><span>Active Circuits</span><strong id="circuits">0</strong></div>
+    <h3>Services</h3>
+    <ul id="services"></ul>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
