@@ -394,6 +394,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [http-method-idempotency-quiz](http-method-idempotency-quiz/) | Http Method Idempotency Quiz — auto-generated idempotency tool | html, css, vanilla-js | 2026-04-16 |
 
+| [flow-valve-simulator](flow-valve-simulator/) | Flow Valve Simulator — auto-generated backpressure tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
