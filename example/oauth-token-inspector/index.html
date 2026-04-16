@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OAuth Token Inspector</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>OAuth Token Inspector</h1>
+<div class="layout">
+  <div class="panel">
+    <h2>Encoded Token</h2>
+    <textarea id="token-input" spellcheck="false"></textarea>
+    <button onclick="decodeToken()">Decode</button>
+    <button onclick="loadSample()">Load Sample</button>
+  </div>
+  <div class="panel decoded">
+    <div class="section"><h3>Header</h3><pre id="header-out">—</pre></div>
+    <div class="section"><h3>Payload</h3><pre id="payload-out">—</pre></div>
+    <div class="section"><h3>Status</h3><div id="status-out">—</div></div>
+  </div>
+</div>
+<div id="timeline"><canvas id="tl-canvas" width="860" height="70"></canvas></div>
+<script src="app.js"></script>
+</body>
+</html>
