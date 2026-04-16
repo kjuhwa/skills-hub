@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idempotency Heatmap</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h1>🗺️ Idempotency Heatmap</h1>
+  <p class="subtitle">Each cell is an API endpoint. Color = how many duplicate calls hit it. Idempotent endpoints stay cool.</p>
+  <div class="legend">
+    <span class="swatch cool"></span> Idempotent (1 effect)
+    <span class="swatch warm"></span> Retried (safe)
+    <span class="swatch hot"></span> Non-idempotent (duplicated!)
+  </div>
+  <canvas id="heatCanvas" width="780" height="380"></canvas>
+  <div class="controls">
+    <button onclick="simulate()">▶ Simulate Traffic Burst</button>
+    <button onclick="resetGrid()">Reset</button>
+  </div>
+  <div id="tooltip" class="tooltip"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

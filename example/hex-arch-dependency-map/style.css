@@ -1,0 +1,7 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
+#app { padding: 16px; text-align: center; }
+h1 { color: #6ee7b7; font-size: 1.3rem; }
+.sub { color: #555; font-size: 0.8rem; margin-bottom: 10px; }
+canvas { background: #1a1d27; border-radius: 12px; display: block; margin: 0 auto; }
+#detail { margin-top: 10px; background: #1a1d27; border-radius: 8px; padding: 10px; max-width: 800px; margin-left: auto; margin-right: auto; font-size: 0.8rem; min-height: 36px; color: #c9d1d9; }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Load Balancer Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>⚖️ Load Balancer Flow</h1>
+<div class="controls">
+<button id="sendBtn">Send Request</button>
+<button id="burstBtn">Burst (10)</button>
+<select id="algoSelect">
+<option value="round-robin">Round Robin</option>
+<option value="least-conn">Least Connections</option>
+<option value="random">Random</option>
+</select>
+</div>
+<canvas id="canvas"></canvas>
+<script src="app.js"></script>
+</body>
+</html>

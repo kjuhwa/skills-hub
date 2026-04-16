@@ -1,0 +1,13 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:system-ui,sans-serif;padding:24px}
+#app{max-width:920px;margin:0 auto}
+h1{color:#6ee7b7;font-size:1.4rem;margin-bottom:16px;text-align:center}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.card{background:#1a1d27;border-radius:8px;padding:12px;border-left:3px solid #6ee7b7;transition:border-color .3s}
+.card.warn{border-color:#fbbf24}.card.crit{border-color:#f87171}
+.card .name{font-size:.8rem;font-weight:600;margin-bottom:6px}
+.card .metric{font-size:.7rem;color:#8b949e;line-height:1.6}
+.card .metric b{color:#c9d1d9}
+.card .status{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.status.ok{background:#6ee7b7}.status.warn{background:#fbbf24}.status.crit{background:#f87171}
+canvas{background:#1a1d27;border-radius:8px;display:block;width:100%}

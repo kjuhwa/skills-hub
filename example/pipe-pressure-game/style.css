@@ -1,0 +1,44 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0f1117;
+  color: #e5e7eb;
+  font-family: -apple-system, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.game { max-width: 760px; width: 100%; }
+.hud {
+  display: flex;
+  gap: 20px;
+  background: #1a1d27;
+  padding: 14px 18px;
+  border-radius: 10px 10px 0 0;
+  align-items: center;
+  font-size: 13px;
+  color: #9ca3af;
+}
+.hud b { color: #6ee7b7; margin-left: 6px; font-size: 16px; }
+.hud button {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid #6ee7b7;
+  color: #6ee7b7;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.hud button:hover { background: #6ee7b7; color: #0f1117; }
+canvas {
+  background: #1a1d27;
+  display: block;
+  width: 100%;
+  border-radius: 0 0 10px 10px;
+  border-top: 1px solid #252a38;
+  cursor: pointer;
+}
+.hint { color: #6b7280; font-size: 12px; margin-top: 10px; text-align: center; }

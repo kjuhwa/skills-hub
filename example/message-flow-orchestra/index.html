@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Message Flow Orchestra</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Message Flow Orchestra</h1>
+  <p>Watch messages travel between actors. Drag actors to rearrange. Spawn patterns to stress the system.</p>
+</header>
+<div class="toolbar">
+  <button data-pattern="request-reply">Request/Reply</button>
+  <button data-pattern="broadcast">Broadcast</button>
+  <button data-pattern="pipeline">Pipeline</button>
+  <button data-pattern="fan-out">Fan-out</button>
+  <span class="stats">Msgs in-flight: <b id="count">0</b> | Processed: <b id="proc">0</b></span>
+</div>
+<canvas id="field"></canvas>
+<script src="app.js"></script>
+</body>
+</html>

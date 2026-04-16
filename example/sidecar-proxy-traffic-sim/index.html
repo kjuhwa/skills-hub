@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidecar Proxy Traffic Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Traffic Simulator</h1>
+  <div class="controls">
+    <button id="btnNormal">Normal</button>
+    <button id="btnSpike">Spike</button>
+    <button id="btnFault">Inject Fault</button>
+  </div>
+</header>
+<div class="grid">
+  <div class="panel"><h2>Request Pipeline</h2><canvas id="pipeline"></canvas></div>
+  <div class="panel logs"><h2>Proxy Access Log</h2><div id="log"></div></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

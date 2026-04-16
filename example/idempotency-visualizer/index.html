@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idempotency Key Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>🔑 Idempotency Key Visualizer</h1>
+<p class="subtitle">Watch requests flow through a server that deduplicates by idempotency key</p>
+<div class="controls">
+  <button id="btn-send">Send Request</button>
+  <button id="btn-dup">Retry Same Key</button>
+  <button id="btn-auto">▶ Auto Simulate</button>
+</div>
+<svg id="viz" viewBox="0 0 800 340"></svg>
+<div class="key-store">
+  <h2>Key Store (Server Memory)</h2>
+  <div id="keys"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

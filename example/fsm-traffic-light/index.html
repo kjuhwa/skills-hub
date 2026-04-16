@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSM Traffic Light</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>🚦 FSM Traffic Controller</h1>
+  <p class="sub">Dual-intersection traffic FSM with emergency override</p>
+  <div class="row">
+    <div class="intersection" id="int-a">
+      <h2>Intersection A</h2>
+      <div class="light"><div class="bulb r" id="a-r"></div><div class="bulb y" id="a-y"></div><div class="bulb g" id="a-g"></div></div>
+    </div>
+    <div class="state-box">
+      <div id="state-label">NS_GREEN</div>
+      <div id="timer">--</div>
+      <button id="emergency">🚨 Emergency</button>
+      <button id="manual">⏭ Next State</button>
+    </div>
+    <div class="intersection" id="int-b">
+      <h2>Intersection B</h2>
+      <div class="light"><div class="bulb r" id="b-r"></div><div class="bulb y" id="b-y"></div><div class="bulb g" id="b-g"></div></div>
+    </div>
+  </div>
+  <div id="history"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

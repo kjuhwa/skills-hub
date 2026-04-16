@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pipe Pressure</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="game">
+  <div class="hud">
+    <div>SCORE <b id="score">0</b></div>
+    <div>LEVEL <b id="level">1</b></div>
+    <div>PRESSURE <b id="psi">0 psi</b></div>
+    <button id="reset">RESET</button>
+  </div>
+  <canvas id="game" width="720" height="420"></canvas>
+  <p class="hint">
+    Click valves to open them and release pressure. Don't let any pipe explode.
+    Packets arrive faster each level.
+  </p>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

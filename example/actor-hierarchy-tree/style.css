@@ -1,0 +1,9 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 14px; }
+h1 { color: #6ee7b7; font-size: 1.3rem; }
+.sub { color: #555; font-size: .8rem; margin-bottom: 10px; }
+svg { background: #1a1d27; border-radius: 10px; }
+line { stroke: #2a2d37; stroke-width: 2; }
+circle { cursor: pointer; transition: fill .3s; }
+text { fill: #c9d1d9; font-size: 11px; text-anchor: middle; pointer-events: none; }
+#events { margin-top: 10px; width: 760px; max-height: 80px; overflow-y: auto; font-size: .73rem; color: #6ee7b7aa; background: #12141c; border-radius: 6px; padding: 6px 10px; }

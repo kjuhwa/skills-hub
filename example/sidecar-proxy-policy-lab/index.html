@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sidecar Policy Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>◆ Sidecar Policy Lab</h1>
+    <span class="sub">Write rules. Watch traffic get allowed, denied, or rate-limited in real time.</span>
+  </header>
+  <section class="grid">
+    <div class="panel">
+      <h2>Policy DSL</h2>
+      <textarea id="policy" spellcheck="false"></textarea>
+      <div class="row">
+        <button id="apply">Apply Policy</button>
+        <span id="parseStatus"></span>
+      </div>
+      <div class="hint">
+        <b>Syntax:</b><br>
+        allow FROM cart TO payment<br>
+        deny FROM * TO admin<br>
+        limit FROM web TO api 3/s
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Live Traffic</h2>
+      <div id="traffic"></div>
+    </div>
+    <div class="panel full">
+      <h2>Decision Matrix</h2>
+      <div id="matrix"></div>
+    </div>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

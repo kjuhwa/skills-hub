@@ -1,0 +1,86 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0f1117;
+  color: #e4e7eb;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  padding: 20px;
+  min-height: 100vh;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2a2e3a;
+}
+h1 { color: #6ee7b7; font-size: 22px; }
+.badge {
+  background: rgba(110, 231, 183, 0.15);
+  color: #6ee7b7;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 50% { opacity: 0.6; } }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.card {
+  background: #1a1d27;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #2a2e3a;
+}
+.label { color: #9ca3af; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+.value { color: #6ee7b7; font-size: 32px; font-weight: 700; margin: 8px 0; font-variant-numeric: tabular-nums; }
+.value.red { color: #f87171; }
+.value.amber { color: #fbbf24; }
+.sub { color: #9ca3af; font-size: 12px; margin-top: 8px; }
+.jobs {
+  background: #1a1d27;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #2a2e3a;
+}
+.jobs h2 { color: #6ee7b7; font-size: 14px; margin-bottom: 12px; }
+.job {
+  padding: 10px 12px;
+  background: #0f1117;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: 180px 1fr 100px 80px;
+  gap: 12px;
+  align-items: center;
+  font-size: 13px;
+}
+.job-name { font-weight: 600; font-family: 'Consolas', monospace; }
+.progress-track {
+  background: #2a2e3a;
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+.progress-fill {
+  background: linear-gradient(90deg, #6ee7b7, #34d399);
+  height: 100%;
+  transition: width 0.3s;
+}
+.job-state {
+  text-align: center;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.state-extract { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+.state-transform { background: rgba(110, 231, 183, 0.2); color: #6ee7b7; }
+.state-load { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+.state-done { background: rgba(156, 163, 175, 0.2); color: #9ca3af; }
+.job-rows { text-align: right; font-family: 'Consolas', monospace; color: #9ca3af; font-size: 12px; }

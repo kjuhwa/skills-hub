@@ -1,0 +1,15 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; }
+h1 { margin: 16px 0 8px; color: #6ee7b7; font-size: 1.3rem; }
+#app { width: 90%; max-width: 800px; }
+#controls { display: flex; gap: 8px; margin-bottom: 12px; }
+select, button { background: #1a1d27; color: #c9d1d9; border: 1px solid #2d333b; padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; }
+button { background: #6ee7b7; color: #0f1117; font-weight: 600; }
+button:hover { opacity: 0.85; }
+#panels { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.panel { background: #1a1d27; border-radius: 10px; padding: 14px; min-height: 300px; }
+.panel h2 { font-size: 0.85rem; color: #6ee7b7; margin-bottom: 10px; border-bottom: 1px solid #2d333b; padding-bottom: 6px; }
+pre { font-size: 0.78rem; white-space: pre-wrap; color: #8b949e; line-height: 1.5; }
+.event { padding: 6px 8px; margin-bottom: 4px; border-radius: 4px; font-size: 0.75rem; border-left: 3px solid #6ee7b7; background: #0f1117; }
+.event .ts { color: #586069; font-size: 0.65rem; }
+.event.err { border-color: #fca5a5; color: #fca5a5; }

@@ -1,0 +1,14 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:'Segoe UI',sans-serif;display:flex;justify-content:center;padding:24px}
+.wrap{max-width:860px;width:100%}
+h1{text-align:center;color:#6ee7b7;margin-bottom:18px;font-size:1.3rem}
+h2{font-size:.85rem;color:#6ee7b7;margin-bottom:8px}
+.bus-layout{display:flex;gap:12px;align-items:flex-start;justify-content:center}
+.panel{background:#1a1d27;border-radius:10px;padding:16px;width:260px}
+.panel select,.panel input{width:100%;padding:7px;margin-bottom:8px;background:#0f1117;border:1px solid #2d3348;border-radius:5px;color:#c9d1d9;font-size:.85rem}
+#dispatch{width:100%;padding:8px;background:#6ee7b7;border:none;border-radius:6px;color:#0f1117;font-weight:700;cursor:pointer}
+#log{list-style:none;max-height:240px;overflow-y:auto;font-size:.8rem}
+#log li{padding:5px 8px;border-bottom:1px solid #1f2231}
+#log .cmd{border-left:3px solid #f87171}
+#log .qry{border-left:3px solid #60a5fa}
+svg{flex-shrink:0}

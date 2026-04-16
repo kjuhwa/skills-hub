@@ -1,0 +1,15 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:'Segoe UI',monospace;display:flex;justify-content:center;padding:20px}
+#app{width:720px}
+h1{color:#6ee7b7;text-align:center;font-size:1.3rem;margin-bottom:6px}
+.stats{text-align:center;color:#8b949e;font-size:.8rem;margin-bottom:14px}
+.stats span{color:#6ee7b7;font-weight:bold}
+canvas{background:#1a1d27;border-radius:8px;display:block;margin:0 auto 14px}
+#journal{background:#1a1d27;border-radius:8px;padding:10px;max-height:260px;overflow-y:auto}
+.entry{display:flex;align-items:center;gap:10px;padding:5px 8px;margin:3px 0;border-radius:4px;font-size:.78rem;animation:slideIn .25s}
+.entry .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.entry .ts{color:#484f58;width:70px;flex-shrink:0}
+.t-cmd{background:#f9758318}.t-cmd .dot{background:#f97583}
+.t-qry{background:#79c0ff18}.t-qry .dot{background:#79c0ff}
+.t-evt{background:#6ee7b718}.t-evt .dot{background:#6ee7b7}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}

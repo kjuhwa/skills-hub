@@ -1,0 +1,16 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 24px; }
+#app { width: 680px; text-align: center; }
+h1 { color: #6ee7b7; font-size: 1.3rem; }
+.sub { color: #7a8599; font-size: 0.8rem; margin-bottom: 14px; }
+svg { background: #1a1d27; border-radius: 10px; width: 100%; height: auto; }
+.state-circle { cursor: pointer; transition: filter 0.2s; }
+.state-circle:hover { filter: brightness(1.3); }
+.state-text { font: bold 14px sans-serif; fill: #0f1117; pointer-events: none; }
+.arrow { fill: none; stroke: #4b5563; stroke-width: 2; marker-end: url(#arrowhead); }
+.arrow.active { stroke: #6ee7b7; stroke-width: 3; }
+.arrow-label { font: 10px monospace; fill: #7a8599; }
+.glow { filter: drop-shadow(0 0 8px #6ee7b7); }
+#info { margin-top: 12px; background: #1a1d27; border-radius: 8px; padding: 12px; font-size: 0.82rem; text-align: left; min-height: 50px; }
+#info strong { color: #6ee7b7; }
+#history { margin-top: 8px; background: #1a1d27; border-radius: 8px; padding: 10px; font-size: 0.72rem; font-family: monospace; text-align: left; max-height: 100px; overflow-y: auto; }

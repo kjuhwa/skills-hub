@@ -1,0 +1,17 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; padding: 16px; }
+#header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+h1 { font-size: 1.3rem; color: #6ee7b7; }
+.tag { background: #f87171; color: #fff; font-size: 0.6rem; padding: 2px 8px; border-radius: 4px; animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0.4; } }
+#grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.card { background: #1a1d27; border-radius: 8px; padding: 12px; border-left: 3px solid #333; }
+.card.active { border-left-color: #6ee7b7; }
+.card h3 { font-size: 0.85rem; margin-bottom: 4px; }
+.card .rate { font-size: 1.6rem; font-weight: bold; color: #6ee7b7; }
+.card .meta { font-size: 0.65rem; color: #555; margin-top: 4px; }
+.bar-wrap { height: 4px; background: #2a2d37; border-radius: 2px; margin-top: 6px; }
+.bar { height: 100%; border-radius: 2px; background: #6ee7b7; transition: width 0.5s; }
+#log { background: #1a1d27; border-radius: 8px; padding: 10px; max-height: 160px; overflow-y: auto; font-size: 0.7rem; font-family: monospace; }
+#log div { padding: 2px 0; border-bottom: 1px solid #222; }
+.ts { color: #555; } .tp { color: #6ee7b7; } .sub { color: #7dd3fc; }

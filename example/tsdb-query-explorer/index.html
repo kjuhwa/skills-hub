@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSDB Query Explorer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <div class="sidebar">
+    <h2>📊 Metrics</h2>
+    <div id="metricList"></div>
+    <h2>🕐 Range</h2>
+    <div class="range-btns" id="rangeBar"></div>
+  </div>
+  <div class="main">
+    <div class="query-bar">
+      <input id="query" placeholder='SELECT mean("value") FROM "cpu" WHERE time > now() - 1h GROUP BY time(5m)' />
+      <button id="runBtn">▶ Run</button>
+    </div>
+    <div class="result-area">
+      <svg id="svg" width="100%" height="100%"></svg>
+    </div>
+    <div class="table-wrap"><table id="table"><thead><tr></tr></thead><tbody></tbody></table></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSDB Retention Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>🗄️ TSDB Retention & Downsampling Simulator</h1>
+<div class="top">
+  <div class="panel">
+    <label>Ingestion Rate <span id="rateVal">500</span> pts/s</label>
+    <input type="range" id="rate" min="100" max="5000" value="500" step="100">
+    <label>Raw Retention <span id="rawVal">7</span> days</label>
+    <input type="range" id="raw" min="1" max="90" value="7">
+    <label>Downsample Interval <span id="dsVal">5</span> min</label>
+    <input type="range" id="ds" min="1" max="60" value="5">
+    <label>Downsample Retention <span id="dsRetVal">90</span> days</label>
+    <input type="range" id="dsRet" min="30" max="365" value="90">
+    <button id="simBtn">▶ Simulate</button>
+  </div>
+  <div class="panel stats" id="statsPanel"></div>
+</div>
+<div class="viz">
+  <canvas id="canvas"></canvas>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

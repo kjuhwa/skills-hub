@@ -1,0 +1,21 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#e2e8f0;font-family:system-ui,sans-serif;padding:16px}
+#app{max-width:960px;margin:0 auto}
+h1{color:#6ee7b7;text-align:center;font-size:1.3rem;margin-bottom:14px}
+h2{font-size:.85rem;color:#6ee7b7;margin-bottom:10px}
+.panels{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:12px;margin-bottom:14px}
+.panel{background:#1a1d27;border-radius:10px;padding:14px}
+select,input{width:100%;background:#0f1117;border:1px solid #334155;color:#e2e8f0;padding:7px 10px;border-radius:6px;margin-bottom:8px;font-size:.85rem}
+button{width:100%;background:#6ee7b7;color:#0f1117;border:none;padding:8px;border-radius:6px;font-weight:700;cursor:pointer;font-size:.85rem}
+button:hover{opacity:.85}
+.queue-panel .q{background:#0f1117;border-radius:6px;padding:8px 10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
+.q .name{color:#6ee7b7;font-weight:600}
+.q .badge{background:#6ee7b733;color:#6ee7b7;padding:2px 8px;border-radius:10px;font-size:.7rem}
+.q button{width:auto;padding:4px 10px;font-size:.7rem;margin:0}
+.log{max-height:140px;overflow-y:auto;font-size:.75rem;color:#94a3b8}
+.log div{padding:3px 0;border-bottom:1px solid #1e2130}
+.timeline{background:#1a1d27;border-radius:10px;padding:12px;max-height:180px;overflow-y:auto}
+.timeline .evt{display:flex;gap:10px;font-size:.75rem;padding:4px 0;border-bottom:1px solid #0f1117}
+.timeline .evt .time{color:#64748b;min-width:70px}
+.timeline .evt .act{color:#6ee7b7}
+.timeline .evt.err .act{color:#ef4444}

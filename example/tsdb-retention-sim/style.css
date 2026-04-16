@@ -1,0 +1,16 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', monospace; padding: 16px; display: flex; flex-direction: column; height: 100vh; gap: 14px; }
+h1 { font-size: 1.2rem; color: #6ee7b7; }
+.top { display: flex; gap: 14px; }
+.panel { background: #1a1d27; border-radius: 8px; padding: 16px; }
+.panel:first-child { flex: 0 0 320px; display: flex; flex-direction: column; gap: 8px; }
+.panel.stats { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-content: start; }
+label { font-size: 0.8rem; color: #8b949e; }
+label span { color: #6ee7b7; font-weight: bold; }
+input[type=range] { width: 100%; accent-color: #6ee7b7; }
+button { background: #6ee7b7; color: #0f1117; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 4px; }
+.stat-card { background: #0f1117; border-radius: 6px; padding: 10px; text-align: center; }
+.stat-card .v { font-size: 1.4rem; color: #6ee7b7; font-weight: bold; }
+.stat-card .l { font-size: 0.7rem; color: #8b949e; margin-top: 2px; }
+.viz { flex: 1; background: #1a1d27; border-radius: 8px; overflow: hidden; min-height: 0; }
+canvas { width: 100%; height: 100%; display: block; }

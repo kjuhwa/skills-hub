@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fault Injection Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>⚡ Fault Injection Dashboard</h1>
+  <div class="grid">
+    <div class="card" id="latencyCard">
+      <h2>Latency (ms)</h2><canvas id="latencyChart"></canvas>
+    </div>
+    <div class="card" id="errorCard">
+      <h2>Error Rate %</h2><canvas id="errorChart"></canvas>
+    </div>
+    <div class="card faults">
+      <h2>Inject Faults</h2>
+      <button data-fault="latency" class="active">🕐 +200ms Latency</button>
+      <button data-fault="errors">🔥 500 Errors</button>
+      <button data-fault="packet">📡 Packet Loss</button>
+      <button data-fault="cpu">💻 CPU Spike</button>
+      <div class="status" id="status">System nominal</div>
+    </div>
+    <div class="card">
+      <h2>Live Metrics</h2>
+      <div class="metric"><span>Throughput</span><strong id="mThroughput">1240 req/s</strong></div>
+      <div class="metric"><span>P99 Latency</span><strong id="mLatency">48ms</strong></div>
+      <div class="metric"><span>Error Rate</span><strong id="mError">0.1%</strong></div>
+      <div class="metric"><span>CPU</span><strong id="mCpu">23%</strong></div>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

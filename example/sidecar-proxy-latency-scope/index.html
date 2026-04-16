@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sidecar Latency Scope</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Sidecar Latency Scope</h1>
+  <p class="lead">Trace a request as it hops through application → sidecar → network → sidecar → application. Drag sliders to see where your latency budget goes.</p>
+  <div class="grid">
+    <div class="card">
+      <h2>Request Profile</h2>
+      <div class="slider">
+        <label>App serialize <span id="vSerialize">2</span>ms</label>
+        <input type="range" id="serialize" min="0" max="50" value="2">
+      </div>
+      <div class="slider">
+        <label>Sidecar out (policy + mTLS) <span id="vOut">4</span>ms</label>
+        <input type="range" id="out" min="0" max="50" value="4">
+      </div>
+      <div class="slider">
+        <label>Network RTT <span id="vNet">12</span>ms</label>
+        <input type="range" id="net" min="0" max="200" value="12">
+      </div>
+      <div class="slider">
+        <label>Sidecar in (authz + routing) <span id="vIn">3</span>ms</label>
+        <input type="range" id="in" min="0" max="50" value="3">
+      </div>
+      <div class="slider">
+        <label>Remote handler <span id="vHandler">18</span>ms</label>
+        <input type="range" id="handler" min="0" max="200" value="18">
+      </div>
+      <div class="slider">
+        <label>Retries <span id="vRetry">0</span></label>
+        <input type="range" id="retry" min="0" max="3" value="0">
+      </div>
+    </div>
+    <div class="card">
+      <h2>Waterfall</h2>
+      <svg id="chart" viewBox="0 0 600 300"></svg>
+      <div class="legend">
+        <span><i style="background:#6ee7b7"></i>App</span>
+        <span><i style="background:#4dd0e1"></i>Sidecar</span>
+        <span><i style="background:#fbbf24"></i>Network</span>
+        <span><i style="background:#ff6b6b"></i>Retry overhead</span>
+      </div>
+    </div>
+    <div class="card full">
+      <h2>Budget Breakdown</h2>
+      <div id="bars"></div>
+      <div class="total">Total: <span id="total">0</span>ms · Sidecar overhead: <span id="overhead">0</span>ms (<span id="pct">0</span>%)</div>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
