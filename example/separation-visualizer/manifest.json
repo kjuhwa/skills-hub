@@ -1,0 +1,12 @@
+{
+  "slug": "separation-visualizer",
+  "title": "Separation Visualizer",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T20:19:40.524Z",
+  "source_project": "102-separation-visualizer",
+  "author": "kjuhwa@nkia.co.kr"
+}

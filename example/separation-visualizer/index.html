@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Command-Query Separation Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Command-Query Separation</h1>
+  <p>Each function is classified. Commands mutate state, queries observe it. Mixed functions violate CQS.</p>
+</header>
+<section class="grid">
+  <div class="card">
+    <h2>Function Registry</h2>
+    <ul id="funcs"></ul>
+  </div>
+  <div class="card">
+    <h2>Live Classification</h2>
+    <svg id="chart" viewBox="0 0 400 280"></svg>
+    <div class="legend">
+      <span class="dot q"></span> Query
+      <span class="dot c"></span> Command
+      <span class="dot m"></span> Mixed (bad)
+    </div>
+  </div>
+  <div class="card">
+    <h2>Inspector</h2>
+    <pre id="source">// select a function</pre>
+    <div id="verdict" class="verdict"></div>
+  </div>
+</section>
+<script src="app.js"></script>
+</body>
+</html>
