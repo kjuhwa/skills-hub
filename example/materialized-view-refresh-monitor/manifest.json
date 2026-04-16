@@ -1,0 +1,12 @@
+{
+  "slug": "materialized-view-refresh-monitor",
+  "title": "Materialized View Refresh Monitor",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T11:44:15.846Z",
+  "source_project": "101-materialized-view-refresh-monitor",
+  "author": "kjuhwa@nkia.co.kr"
+}
