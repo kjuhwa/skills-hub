@@ -1,0 +1,10 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:'Segoe UI',monospace;display:flex;justify-content:center;padding:20px}
+#app{width:920px}
+h1{text-align:center;color:#6ee7b7;margin-bottom:16px;font-size:1.4rem}
+.controls{display:flex;gap:12px;justify-content:center;margin-bottom:16px}
+button{background:#1a1d27;color:#6ee7b7;border:1px solid #6ee7b7;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:.9rem}
+button:hover{background:#6ee7b722}
+canvas{background:#1a1d27;border-radius:8px;display:block;margin:0 auto 12px}
+#log{background:#1a1d27;border-radius:8px;padding:12px;height:120px;overflow-y:auto;font-size:.75rem;line-height:1.6}
+.log-cmd{color:#f97583}.log-qry{color:#79c0ff}.log-evt{color:#6ee7b7}
