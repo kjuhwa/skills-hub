@@ -1,6 +1,6 @@
 ---
 name: bff-pattern-visualization-pattern
-description: Left-to-right layered topology rendering for BFF architectures using Canvas/SVG with client-BFF-service color coding.
+description: Animated canvas-based flow visualization showing client-to-BFF-to-microservice request routing with particle effects.
 category: design
 triggers:
   - bff pattern visualization pattern
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # bff-pattern-visualization-pattern
 
-BFF pattern visualizations use a three-column left-to-right layout representing the Client → BFF → Microservice request path. Each column is color-coded by role: clients in pink (#f472b6), BFF adapters in teal (#6ee7b7), and backend services in blue (#60a5fa). Nodes are rendered as rounded rectangles with labels, connected by lines or animated particle trails that show request routing. This layered topology makes the "dedicated BFF per client type" principle immediately visible — mobile, web, and IoT clients each route through their own BFF, which fans out to only the relevant subset of backend services.
+The BFF flow visualization uses a three-column node layout (clients → BFF layers → backend services) rendered on an HTML5 Canvas. Each column represents a tier in the BFF architecture: client devices (mobile, web, IoT) on the left, per-client BFF proxies in the middle, and shared microservices on the right. Nodes are drawn as rounded rectangles with tier-specific color coding (green for clients, amber for BFFs, indigo for services). Static connection lines between tiers use low-alpha strokes to convey the routing topology without visual clutter, while a `bffRoutes` map defines which services each BFF fans out to.
 
-For animated flow views, use Canvas 2D with `requestAnimationFrame` and a particle system where each particle carries `{ t, from, to, color, next }` and interpolates position along a path at ~0.012 per frame. For metrics dashboards, render rolling-window line charts (50 data points, 800ms tick) on Canvas with gradient fills, where each BFF's latency is simulated via `baseLatency ± jitter` (e.g., Mobile BFF 45ms, Web BFF 30ms, TV BFF 60ms). For interactive topology builders, use SVG with `createElementNS`, mouse-event drag-and-drop on node elements, and link arrays of `{ from, to, el }` that re-render on every drag move.
+Request flow is animated via a particle system driven by `requestAnimationFrame`. Each particle interpolates linearly between a source and target node, with a glow effect (`shadowBlur`) matching the tier color. When a client-to-BFF particle completes, it cascades into multiple BFF-to-service particles with staggered `setTimeout` delays, visually demonstrating the BFF aggregation pattern — one inbound request fans out to N downstream calls. An auto-fire interval sends random client requests every 3 seconds to keep the visualization alive without user interaction.
 
-All three views share a dark theme (#0f1117 background, #c9d1d9 text, Segoe UI font), zero external dependencies, and a single-HTML-file architecture. The consistent color vocabulary across flow, dashboard, and builder views lets users transfer mental models between tools — pink always means client, teal always means BFF adapter, blue always means backend service.
+The color palette (`#0f1117` background, `#1a1d27` card surfaces, `#6ee7b7` accent green, `#f59e0b` amber, `#818cf8` indigo) and dark-theme styling are shared across all three BFF apps and form a cohesive design system. Typography uses Segoe UI at small sizes (0.7–0.85rem) for a compact monitoring aesthetic. This same node-and-edge rendering approach extends to the Builder app's SVG variant, where nodes become draggable and connectable, proving the layout model works across both Canvas 2D and SVG renderers.
