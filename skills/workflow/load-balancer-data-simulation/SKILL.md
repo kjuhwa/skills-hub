@@ -1,6 +1,6 @@
 ---
 name: load-balancer-data-simulation
-description: Deterministic request/server simulation loop for driving load balancer demos without real traffic
+description: Deterministic seeded traffic generator for exercising load balancer algorithms with reproducible scenarios
 category: workflow
 triggers:
   - load balancer data simulation
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # load-balancer-data-simulation
 
-Drive the simulation with a fixed-tick scheduler (e.g., 100ms ticks via `setInterval` or `requestAnimationFrame` accumulator) that emits synthetic requests at a configurable rate (req/sec) with optional Poisson jitter. Each request carries `{id, clientIp, sizeKb, cpuCost, arrivalTime}`. Seed randomness via a PRNG (e.g., mulberry32) initialized from a user-visible seed input so scenarios are reproducible across reloads and across the three apps — critical when users want to re-run the same burst to compare algorithm behavior.
+Drive the simulation from a seeded PRNG (mulberry32 or similar) so scenario replays are bit-identical — this is non-negotiable for algorithm-showdown style apps where users compare round-robin vs least-connections vs weighted vs consistent-hash on the same workload. Model each backend as `{id, weight, capacity, baseLatencyMs, jitterMs, healthy, activeConnections, totalServed}` and each request as `{id, arrivalTick, clientKey, sizeBytes, serviceTimeMs}`. Generate arrivals via a Poisson process with a configurable λ and optionally overlay bursts (a step function multiplier) and hot keys (80/20 client skew) so users can see algorithms diverge under skewed traffic — uniform workloads make all algorithms look identical and are the #1 reason these demos feel boring.
 
-Model backend servers as state machines with three knobs: `capacity` (max concurrent), `processingMs` (base latency), and `failureRate` (probability of 5xx). On each tick, advance in-flight requests by the tick delta, decrement remaining work, and release the connection slot when done. Inject scripted failure scenarios — flap a server's health every 3s, spike one server's CPU to 95%, or kill a server mid-burst — to exercise health-check-dashboard's detection logic and force LB re-routing.
+Expose scenario presets as named fixtures: "uniform baseline", "hot-key skew" (exposes weakness of simple hash), "node-failure mid-run" (exposes rebalance cost of consistent hash vs modulo), "weighted heterogeneous pool" (exposes why round-robin is wrong for mixed hardware), and "thundering herd" (exposes least-connections advantage). Each fixture should be a pure function `(seed, durationTicks) => {backends, requestStream, events}` where `events` is a timeline of injected failures/scale-outs. Store fixtures as TypeScript constants, not JSON — users need to read them to understand what's being tested.
 
-Expose a scenario registry: `lightLoad`, `burstTraffic`, `hotspotClient` (same IP hammering for IP-hash demo), `cascadingFailure`, `weightedMismatch`. Each scenario is a declarative config `{durationMs, rps, serverOverrides, failureScript}` so the same simulator core powers all three apps with just a scenario swap.
+Compute three metrics continuously and surface them: (1) load imbalance as the coefficient of variation of per-backend connection counts, (2) p50/p95/p99 request latency from arrival to completion, and (3) rebalance churn — the fraction of active sessions that would be re-homed if membership changed this tick. Metric 3 is what sells consistent hashing; without it, consistent-hash-ring looks like a fancier round-robin.
