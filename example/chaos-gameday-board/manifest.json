@@ -1,0 +1,12 @@
+{
+  "slug": "chaos-gameday-board",
+  "title": "Chaos Gameday Board",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T09:21:47.658Z",
+  "source_project": "61-chaos-gameday-board",
+  "author": "kjuhwa@nkia.co.kr"
+}
