@@ -1,0 +1,12 @@
+{
+  "slug": "gameday-scenario-runner",
+  "title": "Gameday Scenario Runner",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T20:34:45.659Z",
+  "source_project": "101-gameday-scenario-runner",
+  "author": "kjuhwa@nkia.co.kr"
+}
