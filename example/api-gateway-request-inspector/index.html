@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>API Gateway Request Inspector</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <div class="routes">
+    <h2>Routes</h2>
+    <ul id="routeList"></ul>
+    <h2>Middleware</h2>
+    <ul class="mw" id="mwList"></ul>
+  </div>
+  <div class="main">
+    <h1>API Gateway :: Request Inspector</h1>
+    <div class="composer">
+      <select id="method">
+        <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option>
+      </select>
+      <input id="path" value="/v1/users/42">
+      <button id="send">Send</button>
+    </div>
+    <div class="pipeline" id="pipeline"></div>
+    <pre id="result"></pre>
+    <h2>History</h2>
+    <table id="history"><thead><tr>
+      <th>Time</th><th>Method</th><th>Path</th><th>Route</th><th>Status</th><th>ms</th>
+    </tr></thead><tbody></tbody></table>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

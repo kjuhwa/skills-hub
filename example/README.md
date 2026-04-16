@@ -452,6 +452,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [canary-in-the-coalmine](canary-in-the-coalmine/) | Canary In The Coalmine — auto-generated canary-release tool | html, css, vanilla-js | 2026-04-16 |
 
+| [api-gateway-request-inspector](api-gateway-request-inspector/) | Api Gateway Request Inspector — auto-generated api-gateway-pattern tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
