@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Flashcards</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0c0a09;--card:#1c1917;--front:#292524;--back:#1a1612;--accent:#f97316;--accent2:#fb923c;--correct:#4ade80;--again:#ef4444;--hard:#fbbf24;--text:#e7e5e4;--muted:#a8a29e;--radius:16px;--border:rgba(255,255,255,0.08)}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.header{text-align:center;padding:24px 20px 16px;width:100%}
+h1{font-size:1.6rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:var(--muted);font-size:.82rem;margin-top:4px}
+.stats{display:flex;justify-content:center;gap:20px;padding:12px;flex-wrap:wrap}
+.stat{text-align:center}.stat b{font-size:1.2rem;display:block}.stat small{font-size:.7rem;color:var(--muted)}
+.stat b.new-c{color:var(--accent)}.stat b.learn-c{color:var(--hard)}.stat b.review-c{color:var(--correct)}.stat b.done-c{color:var(--muted)}
+.controls{display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.ctrl-btn{padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.75rem;cursor:pointer;transition:all .15s}
+.ctrl-btn:hover{background:rgba(255,255,255,0.05)}
+.ctrl-btn.active{border-color:var(--accent);color:var(--accent)}
+.card-container{perspective:1000px;width:100%;max-width:600px;padding:0 20px;margin-bottom:20px}
+.flashcard{position:relative;width:100%;min-height:320px;transition:transform .5s;transform-style:preserve-3d;cursor:pointer}
+.flashcard.flipped{transform:rotateY(180deg)}
+.card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;border:1px solid var(--border)}
+.card-front{background:var(--front)}
+.card-back{background:var(--back);transform:rotateY(180deg);overflow-y:auto;max-height:400px}
+.card-cat{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.65rem;font-weight:600;text-transform:uppercase;margin-bottom:12px;width:fit-content}
+.cat-pitfall{background:rgba(249,115,22,0.15);color:var(--accent)}
+.cat-arch{background:rgba(96,165,250,0.15);color:#60a5fa}
+.cat-decision{background:rgba(167,139,250,0.15);color:#a78bfa}
+.cat-api{background:rgba(74,222,128,0.15);color:var(--correct)}
+.card-title{font-size:1.1rem;font-weight:700;margin-bottom:12px;line-height:1.4}
+.card-summary{font-size:.9rem;color:var(--muted);line-height:1.6;flex:1}
+.flip-hint{text-align:center;font-size:.75rem;color:var(--muted);margin-top:12px}
+.back-section{margin-bottom:12px}
+.back-section h4{font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.back-section p{font-size:.82rem;line-height:1.6}
+.rating-bar{display:flex;gap:10px;justify-content:center;max-width:600px;width:100%;padding:0 20px}
+.rate-btn{flex:1;padding:12px;border:none;border-radius:10px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s}
+.rate-btn:hover{transform:scale(1.03)}
+.rate-again{background:rgba(239,68,68,0.2);color:var(--again)}.rate-hard{background:rgba(251,191,36,0.2);color:var(--hard)}
+.rate-good{background:rgba(74,222,128,0.2);color:var(--correct)}.rate-easy{background:rgba(96,165,250,0.2);color:#60a5fa}
+.empty{text-align:center;padding:60px 20px;max-width:600px}
+.empty h2{margin-bottom:8px}.empty p{color:var(--muted);margin-bottom:20px}
+.reset-btn{padding:10px 28px;background:var(--accent);color:#111;border:none;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer}
+.progress{width:100%;max-width:600px;height:4px;background:var(--border);border-radius:2px;margin-bottom:16px;overflow:hidden;padding:0 20px}
+.progress-inner{height:100%;display:flex}
+.prog-done{background:var(--correct)}.prog-learn{background:var(--hard)}.prog-new{background:var(--accent)}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Knowledge Flashcards</h1>
+<p class="sub">Spaced repetition from architecture, decision, pitfall, and API knowledge</p>
+</div>
+<div class="stats" id="stats"></div>
+<div class="controls" id="controls"></div>
+<div style="width:100%;max-width:640px;padding:0 20px"><div class="progress-inner" id="progress" style="display:flex;height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:16px"></div></div>
+<div class="card-container" id="cardContainer"></div>
+<div class="rating-bar hidden" id="ratingBar">
+<button class="rate-btn rate-again" onclick="rate(0)">Again</button>
+<button class="rate-btn rate-hard" onclick="rate(1)">Hard</button>
+<button class="rate-btn rate-good" onclick="rate(2)">Good</button>
+<button class="rate-btn rate-easy" onclick="rate(3)">Easy</button>
+</div>
+
+<script>
+const CARDS=[
+{id:1,cat:"pitfall",title:"Actuator Timeout Mixing",summary:"Use aggressive HTTP timeouts for /health, keep long timeouts for /heapdump",fact:"Health endpoints should answer in <50ms. Heapdump can take minutes.",why:"A single slow target stalled the collector thread pool, starving other targets. Ticks skipped, availability gapped.",apply:"Two HTTP client configs: fast-path (1s connect, 2s read) for health/metrics; slow-path (10s connect, 60s read) for heapdump/threaddump."},
+{id:2,cat:"pitfall",title:"Silent AI Guesses",summary:"When AI fills gaps, annotate guesses inline and emit a review checklist",fact:"Planning docs lack endpoint URLs, required fields, error codes. AI guesses these silently.",why:"Silent guesses became frozen wrong contracts, expensive to undo after code generation consumed them.",apply:"Tag every AI-inferred field with inline marker. Emit companion checklist. Structure prompt for guess + reason + confidence."},
+{id:3,cat:"pitfall",title:"Audit Before/After Swap",summary:"Diff logic iterated wrong doc, putting AFTER values into changedPrev",fact:"getChangedInfo() iterated the AFTER document and wrote AFTER values into changedPrev map.",why:"Parameters named baseDoc/targetDoc were ambiguous. No unit test asserted prev != after.",apply:"Name params beforeDoc/afterDoc. Write canonical test first: diff({x:1},{x:2}) => {prev:{x:1}, after:{x:2}}."},
+{id:4,cat:"pitfall",title:"Auto-lock Timestamp Pollution",summary:"Background lock jobs must not bump lastEditedTime on locked pages",fact:"Auto-lock shared the generic 'page updated' path which always bumped lastEditedTime.",why:"All N locked pages got identical timestamp, breaking 'recently edited' sort and the auto-lock job itself.",apply:"Automated state transitions write only their own columns. Use targeted query, not generic entity save path."},
+{id:5,cat:"pitfall",title:"binSize Zero Division",summary:"Guard MongoDB $dateTrunc/binSize against zero interval",fact:"$bucketAuto divides timestamps by binSize. Zero causes MongoDB evaluation error.",why:"Interval lands at 0 with unusual mode combinations or automated smoke runs.",apply:"Always guard: interval <= 0 ? 1 : interval. Centralize in resolveBinSize() helper."},
+{id:6,cat:"pitfall",title:"Lambda Instrumentation Gap",summary:"ASM-based JVM agents miss Java 8+ lambdas materialized at runtime",fact:"Lambdas compile to synthetic classes via LambdaMetafactory, bypassing naive ClassFileTransformer.",why:"Class names don't match registered patterns. Same for Spring CGLIB proxies.",apply:"Test against Spring Boot early. Expose hooks as individually-toggleable flags."},
+{id:7,cat:"pitfall",title:"Anonymize Skill Examples",summary:"SKILL.md examples must use anonymized dummy data, never real identifiers",fact:"Shared repos may be externally accessible. Real data triggers security audit flags.",why:"Security audit flagged real ticket numbers, names, and project names in examples.",apply:"Use dummy ticket #100001, names like Alice/Bob, neutral versions like v10.3.0."},
+{id:8,cat:"decision",title:"Actuator Skip Auth by Design",summary:"Monitoring collector stores auth but doesn't apply it to /actuator/health",fact:"HealthTarget.authConfig is persisted but NOT applied to health/metrics calls.",why:"Actuator endpoints are reachable from trusted monitoring plane. Network-level security, not per-request.",apply:"Don't wire stored credentials into actuator call path. Apply auth only for non-actuator custom endpoints."},
+{id:9,cat:"decision",title:"Alarm Raw Over Aggregate",summary:"Alarm evaluation reads raw metrics, not 1-minute aggregates",fact:"Aggregation at minute boundary was hiding sub-minute spikes that should have paged.",why:"1-min aggregation delayed alarms by aggregation lag and smoothed out real incidents.",apply:"Use raw metrics for alarm evaluation. Control throughput with semaphore + chunking."},
+{id:10,cat:"decision",title:"Avro Private No Setters",summary:"Avro codegen: fieldVisibility=PRIVATE, createSetters=false",fact:"Event payloads are immutable once created. Setters allow accidental mutation of in-flight events.",why:"Mutable events caused bugs where consumers modified shared payload objects.",apply:"Configure avro { createSetters=false; fieldVisibility='PRIVATE' }. Use Builder for construction."},
+{id:11,cat:"decision",title:"Cache Disabled Configs Too",summary:"Notification configs with enable=false still enter cache",fact:"Cache loader doesn't filter by enable flag. Both enabled and disabled records are cached.",why:"Before: enabling required manual cache reload. Now cache is always authoritative.",apply:"Short-circuit on enable=false at read site, not cache load site. Toggle = flag flip + single evict."},
+{id:12,cat:"decision",title:"confId Over Resource Tuple",summary:"Query by confId first, fall back to (resourceType, resourceName)",fact:"MeasurementMetricRepositoryImpl checks confIds first before falling back to tuple.",why:"Tuple (resourceType, resourceName) is ambiguous - some metrics lack resourceType.",apply:"Prefer confId-based queries. Fall back to tuple only when confId unavailable."},
+{id:13,cat:"arch",title:"Additive Schema Versioning",summary:"Plugin registry schema changes must be additive-only",fact:"New fields added alongside old ones. Never remove or rename existing fields.",why:"Existing plugins depend on current schema shape. Non-additive changes break them silently.",apply:"Deprecate but don't remove. Use version namespaces (v1/, v2/) for breaking changes."},
+{id:14,cat:"arch",title:"Agent Memory: Bind at Write",summary:"Structure memory at write-time, not recall-time",fact:"Write-time structured keys outperform free-text semantic search for recall reliability.",why:"Free-text search is probabilistic and degrades with corpus size.",apply:"Tag memories with structured keys (topic, entity, date). Query by keys. Semantic search = fallback only."},
+{id:15,cat:"arch",title:"Function ID Authorization",summary:"AuthZ by function ID annotations, not URL patterns",fact:"Each endpoint annotated with stable function ID. AuthZ checks the ID, not URL path.",why:"URL patterns are fragile - restructuring silently drops security checks.",apply:"Use @RequiresPermission('USER_MANAGE'). Wire authZ interceptor to read annotation metadata."},
+{id:16,cat:"arch",title:"Generated = Boilerplate Only",summary:"Never generate business logic. Only DTOs, mappers, CRUD.",fact:"Code generation is strictly limited to structural/mechanical code.",why:"Business rules change independently. Regeneration overwrites hand-tuned logic.",apply:"Draw clear boundary: generate DTOs, mappers, repos. Keep validation and workflow hand-written."},
+{id:17,cat:"arch",title:"Exclude commons-logging",summary:"Bridge to SLF4J to prevent silent log loss",fact:"All transitive commons-logging excluded globally. jcl-over-slf4j bridges remaining calls.",why:"Multiple logging frameworks: some classes bind to one, some to other. Wrong-framework logs vanish.",apply:"Global exclusion + jcl-over-slf4j bridge. Verify dependency tree after every new dependency."},
+{id:18,cat:"arch",title:"Redis Lock != Access Control",summary:"Distributed locks coordinate; they don't authorize",fact:"Locks provide mutual exclusion among cooperating processes. Not authentication or authorization.",why:"Lock expiry = 'no one coordinating', not 'anyone authorized'. Conflating creates security holes.",apply:"Locks for mutual exclusion. Separate authZ layer (RBAC, JWT) for permissions. Never derive permissions from lock state."},
+{id:19,cat:"arch",title:"Last-Wins Override Chain",summary:"Config precedence: defaults < file < env var < CLI flag",fact:"Strict precedence chain where last source wins.",why:"Undocumented precedence causes 'works on my machine' debugging.",apply:"Document the chain. Apply overrides in order. Log effective config source at startup."},
+{id:20,cat:"arch",title:"Interface Abstraction at Boundaries",summary:"Cross-module deps go through interfaces, not implementations",fact:"All cross-module dependencies resolved via DI container at runtime.",why:"Direct implementation deps create tight coupling. Interfaces enable testing and swapping.",apply:"Interfaces in shared/api module. Implementations in own modules. Wire via @Component or @Bean."}
+];
+
+const SM2_KEY='flashcard_sm2_v1';
+function loadSM2(){try{return JSON.parse(localStorage.getItem(SM2_KEY))||{}}catch(e){return{}}}
+function saveSM2(d){localStorage.setItem(SM2_KEY,JSON.stringify(d))}
+
+function getCardState(id){
+const d=loadSM2();
+return d[id]||{interval:0,repetition:0,easeFactor:2.5,nextReview:0,status:'new'};
+}
+
+function updateCard(id,quality){
+const d=loadSM2();const s=d[id]||{interval:0,repetition:0,easeFactor:2.5,nextReview:0,status:'new'};
+const now=Date.now();
+if(quality<2){s.repetition=0;s.interval=1;s.status='learning'}
+else{
+if(s.repetition===0)s.interval=1;
+else if(s.repetition===1)s.interval=3;
+else s.interval=Math.round(s.interval*s.easeFactor);
+s.repetition++;s.status='review';
+}
+s.easeFactor=Math.max(1.3,s.easeFactor+0.1-((3-quality)*(0.08+(3-quality)*0.02)));
+s.nextReview=now+s.interval*60000;
+if(quality>=2&&s.repetition>=3)s.status='mastered';
+d[id]=s;saveSM2(d);
+}
+
+let filter='all',currentCard=null,flipped=false;
+
+function getDueCards(){
+const now=Date.now();
+return CARDS.filter(c=>{
+const s=getCardState(c.id);
+if(filter!=='all'&&c.cat!==filter)return false;
+return s.status==='new'||s.nextReview<=now;
+}).sort((a,b)=>{
+const sa=getCardState(a.id),sb=getCardState(b.id);
+if(sa.status==='new'&&sb.status!=='new')return-1;
+if(sb.status==='new'&&sa.status!=='new')return 1;
+return(sa.nextReview||0)-(sb.nextReview||0);
+});
+}
+
+function renderStats(){
+const sm2=loadSM2();let nw=0,learn=0,review=0,mastered=0;
+CARDS.forEach(c=>{const s=sm2[c.id];if(!s||s.status==='new')nw++;else if(s.status==='learning')learn++;else if(s.status==='mastered')mastered++;else review++});
+document.getElementById('stats').innerHTML=`
+<div class="stat"><b class="new-c">${nw}</b><small>New</small></div>
+<div class="stat"><b class="learn-c">${learn}</b><small>Learning</small></div>
+<div class="stat"><b class="review-c">${review}</b><small>Review</small></div>
+<div class="stat"><b class="done-c">${mastered}</b><small>Mastered</small></div>`;
+const total=CARDS.length;
+document.getElementById('progress').innerHTML=`
+<div class="prog-done" style="width:${mastered/total*100}%"></div>
+<div class="prog-learn" style="width:${(learn+review)/total*100}%"></div>
+<div class="prog-new" style="width:${nw/total*100}%"></div>`;
+}
+
+function renderControls(){
+document.getElementById('controls').innerHTML=['all','pitfall','arch','decision','api'].map(c=>
+`<button class="ctrl-btn ${filter===c?'active':''}" onclick="setFilter('${c}')">${c}</button>`
+).join('')+`<button class="ctrl-btn" onclick="resetAll()">Reset</button>`;
+}
+
+function setFilter(f){filter=f;renderControls();showNext()}
+
+function showNext(){
+flipped=false;renderStats();
+const due=getDueCards();
+if(!due.length){
+document.getElementById('cardContainer').innerHTML=`<div class="empty"><h2>All caught up!</h2><p>No cards due for review. Come back later or reset progress.</p></div>`;
+document.getElementById('ratingBar').style.display='none';return;
+}
+currentCard=due[0];
+document.getElementById('cardContainer').innerHTML=`
+<div class="flashcard" id="flashcard" onclick="flipCard()">
+<div class="card-face card-front">
+<span class="card-cat cat-${currentCard.cat}">${currentCard.cat}</span>
+<div class="card-title">${currentCard.title}</div>
+<div class="card-summary">${currentCard.summary}</div>
+<div class="flip-hint">Click to reveal answer</div>
+</div>
+<div class="card-face card-back">
+<span class="card-cat cat-${currentCard.cat}">${currentCard.cat}</span>
+<div class="card-title">${currentCard.title}</div>
+<div class="back-section"><h4>Fact</h4><p>${currentCard.fact}</p></div>
+<div class="back-section"><h4>Why</h4><p>${currentCard.why}</p></div>
+<div class="back-section"><h4>How to Apply</h4><p>${currentCard.apply}</p></div>
+</div>
+</div>`;
+document.getElementById('ratingBar').style.display='none';
+}
+
+function flipCard(){
+if(flipped)return;flipped=true;
+document.getElementById('flashcard').classList.add('flipped');
+document.getElementById('ratingBar').style.display='flex';
+}
+
+function rate(quality){
+if(!currentCard)return;
+updateCard(currentCard.id,quality);
+showNext();
+}
+
+function resetAll(){
+if(!confirm('Reset all progress?'))return;
+localStorage.removeItem(SM2_KEY);showNext();
+}
+
+renderControls();showNext();
+</script>
+</body>
+</html>

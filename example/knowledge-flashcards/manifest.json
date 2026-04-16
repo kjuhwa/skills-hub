@@ -1,0 +1,12 @@
+{
+  "slug": "knowledge-flashcards",
+  "title": "Knowledge Flashcards",
+  "summary": "Spaced repetition flashcard system from architecture, decision, pitfall, and API knowledge entries. SM-2 algorithm tracks mastery per card across sessions via localStorage.",
+  "stack": ["html", "css", "js"],
+  "tags": ["flashcards", "spaced-repetition", "sm2", "learning", "knowledge"],
+  "created_at": "2026-04-16",
+  "source_project": "hub-make",
+  "runtime": "browser",
+  "entrypoint": "index.html",
+  "author": "kjuhwa@nkia.co.kr"
+}
