@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flow Valve Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Flow Valve Simulator</h1>
+    <p class="subtitle">Adjust the downstream valve. Watch pressure build upstream.</p>
+  </header>
+  <div class="stage">
+    <canvas id="pipe" width="820" height="280"></canvas>
+  </div>
+  <div class="controls">
+    <div class="control">
+      <label>Inflow Rate <span id="inflowVal">60</span></label>
+      <input type="range" id="inflow" min="0" max="100" value="60">
+    </div>
+    <div class="control">
+      <label>Valve Opening <span id="valveVal">80</span>%</label>
+      <input type="range" id="valve" min="0" max="100" value="80">
+    </div>
+  </div>
+  <div class="gauges">
+    <div class="gauge"><span class="label">Pressure</span><span id="pressure" class="val">0</span><span class="unit">kPa</span></div>
+    <div class="gauge"><span class="label">Outflow</span><span id="outflow" class="val">0</span><span class="unit">u/s</span></div>
+    <div class="gauge"><span class="label">Buffer</span><span id="buffer" class="val">0</span><span class="unit">%</span></div>
+    <div class="gauge" id="statusGauge"><span class="label">Status</span><span id="status" class="val">OK</span></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

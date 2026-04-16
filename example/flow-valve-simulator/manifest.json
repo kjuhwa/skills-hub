@@ -1,0 +1,12 @@
+{
+  "slug": "flow-valve-simulator",
+  "title": "Flow Valve Simulator",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T20:05:22.100Z",
+  "source_project": "100-flow-valve-simulator",
+  "author": "kjuhwa@nkia.co.kr"
+}
