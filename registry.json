@@ -1,44 +1,6 @@
 {
   "version": 2,
   "skills": {
-    "swagger-ai-optimization": {
-      "category": "workflow",
-      "version": "1.0.0",
-      "scope": "global",
-      "path": "~/.claude/skills/swagger-ai-optimization",
-      "source_commit": "ca698572bf73213c2c35d8845519159b7c1326a4",
-      "installed_at": "2026-04-15",
-      "linked_knowledge": []
-    },
-    "openapi-to-mcp-tag-grouping": {
-      "category": "ai",
-      "version": "0.1.0-draft",
-      "scope": "global",
-      "path": "~/.claude/skills/openapi-to-mcp-tag-grouping",
-      "source_commit": "ca698572bf73213c2c35d8845519159b7c1326a4",
-      "installed_at": "2026-04-15",
-      "linked_knowledge": []
-    },
-    "polestar10-dev": {
-      "category": "local",
-      "version": "1.0.0-local",
-      "scope": "user",
-      "path": "~/.claude/skills/omc-learned/polestar10-dev",
-      "source_commit": "local",
-      "installed_at": "2026-04-15",
-      "linked_knowledge": [],
-      "notes": "local-only; generic anonymized versions published to skills-hub"
-    },
-    "slack-notify": {
-      "category": "local",
-      "version": "1.0.0-local",
-      "scope": "user",
-      "path": "~/.claude/skills/omc-learned/slack-notify",
-      "source_commit": "local",
-      "installed_at": "2026-04-15",
-      "linked_knowledge": [],
-      "notes": "local-only; generic anonymized versions published to skills-hub"
-    },
     "adaptive-strategy-hot-swap": {
       "category": "arch",
       "scope": "user",
