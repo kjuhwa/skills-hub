@@ -1,0 +1,19 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:'Segoe UI',sans-serif;height:100vh;display:flex}
+.app{display:flex;width:100%;max-width:860px;margin:auto;height:90vh;border-radius:12px;overflow:hidden;border:1px solid #2a2e3a}
+.sidebar{width:200px;background:#141720;padding:16px;display:flex;flex-direction:column}
+.sidebar h2{color:#6ee7b7;font-size:1rem;margin-bottom:16px}
+#users{flex:1;font-size:.8rem;line-height:2}
+.user-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.online{background:#6ee7b7}.idle{background:#fbbf24}
+.conn{font-size:.7rem;color:#6ee7b7;margin-top:auto}
+.main{flex:1;display:flex;flex-direction:column;background:#1a1d27}
+.messages{flex:1;overflow-y:auto;padding:16px}
+.msg{margin-bottom:12px}.msg .name{font-size:.75rem;font-weight:700;margin-bottom:2px}
+.msg .text{font-size:.85rem;line-height:1.4;color:#aab2bf}
+.msg .time{font-size:.6rem;color:#555;margin-top:2px}
+.me .name{color:#6ee7b7}.other .name{color:#60a5fa}
+form{display:flex;padding:12px;gap:8px;border-top:1px solid #2a2e3a}
+input{flex:1;background:#0f1117;border:1px solid #2a2e3a;border-radius:6px;padding:8px 12px;color:#c9d1d9;outline:none;font-size:.85rem}
+input:focus{border-color:#6ee7b7}
+button{background:#6ee7b7;color:#0f1117;border:none;border-radius:6px;padding:8px 16px;cursor:pointer;font-weight:700}
