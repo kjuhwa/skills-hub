@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Priority Queue Puzzle</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Priority Queue Puzzle</h1>
+    <p>Drag messages into the queue. Highest priority always exits first.</p>
+  </header>
+  <section class="board">
+    <div class="panel">
+      <h2>Inbox</h2>
+      <div id="inbox" class="bin"></div>
+      <button id="generate">+ Generate Message</button>
+    </div>
+    <div class="panel">
+      <h2>Priority Queue (Heap)</h2>
+      <div id="queue" class="bin queue"></div>
+      <div class="actions">
+        <button id="dequeue" class="primary">Dequeue Top →</button>
+        <button id="clear">Clear</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Processed</h2>
+      <div id="processed" class="bin"></div>
+      <div id="score">Score: <b>0</b> | Mistakes: <b>0</b></div>
+    </div>
+  </section>
+  <footer>
+    <p>Tip: drop a message into the queue. The system auto-sorts by priority. Click "Dequeue Top" to process.</p>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
