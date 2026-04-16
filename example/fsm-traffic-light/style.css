@@ -1,0 +1,20 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 24px; }
+#app { width: 640px; }
+h1 { color: #6ee7b7; font-size: 1.4rem; }
+.sub { color: #555; font-size: .85rem; margin-bottom: 16px; }
+.row { display: flex; gap: 20px; justify-content: center; align-items: center; }
+.intersection { background: #1a1d27; padding: 16px 24px; border-radius: 10px; text-align: center; }
+.intersection h2 { font-size: .9rem; color: #888; margin-bottom: 10px; }
+.light { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.bulb { width: 40px; height: 40px; border-radius: 50%; background: #222; border: 2px solid #333; transition: .4s; }
+.bulb.on.r { background: #f87171; box-shadow: 0 0 16px #f87171; }
+.bulb.on.y { background: #fbbf24; box-shadow: 0 0 16px #fbbf24; }
+.bulb.on.g { background: #6ee7b7; box-shadow: 0 0 16px #6ee7b7; }
+.state-box { background: #1a1d27; padding: 16px 24px; border-radius: 10px; text-align: center; min-width: 160px; }
+#state-label { color: #6ee7b7; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+#timer { font-size: 2rem; color: #c9d1d9; margin-bottom: 10px; font-family: monospace; }
+button { display: block; width: 100%; background: #2a2d37; color: #c9d1d9; border: 1px solid #6ee7b744; padding: 7px 0; border-radius: 6px; cursor: pointer; margin-bottom: 6px; font-size: .85rem; }
+button:hover { background: #6ee7b7; color: #0f1117; }
+#history { margin-top: 14px; background: #1a1d27; border-radius: 8px; padding: 10px 14px; max-height: 110px; overflow-y: auto; font-size: .8rem; color: #555; }
+#history div span { color: #6ee7b7; }

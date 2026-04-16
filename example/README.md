@@ -152,6 +152,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [idempotency-proof-canvas](idempotency-proof-canvas/) | Idempotency Proof Canvas — auto-generated idempotency tool | html, css, vanilla-js | 2026-04-16 |
 
+| [fsm-traffic-light](fsm-traffic-light/) | Fsm Traffic Light — auto-generated finite-state-machine tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
