@@ -3,16 +3,16 @@ description: Scan kjuhwa/skills.git for merge and split candidates and produce b
 argument-hint: [--scope=all|<category>] [--merge-threshold=<float>] [--split-min-lines=<n>] [--max-merges=<n>] [--max-splits=<n>] [--dry-run] [--yes]
 ---
 
-# /skills_refactor $ARGUMENTS
+# /hub-refactor $ARGUMENTS
 
 One-shot refactor pass over the remote skills repo. Identifies:
 
 - **Merge candidates** — clusters of skills/knowledge with overlapping intent, similar tags, or near-duplicate content.
 - **Split candidates** — entries that are too large or cover multiple distinct concerns.
 
-For each candidate, produces a draft (or set of drafts) in `.skills-draft/` / `.knowledge-draft/` by delegating to `/skills_merge` and `/skills_split` respectively. Nothing on the remote is modified. Output is reviewed and shipped via `/publish_all`.
+For each candidate, produces a draft (or set of drafts) in `.skills-draft/` / `.knowledge-draft/` by delegating to `/hub-merge` and `/hub-split` respectively. Nothing on the remote is modified. Output is reviewed and shipped via `/hub-publish-all`.
 
-Use this periodically (monthly, or after a burst of `/skills_publish` activity) to keep the remote registry coherent. For targeted single-operation refactors, use `/skills_merge` or `/skills_split` directly.
+Use this periodically (monthly, or after a burst of `/hub-publish-skills` activity) to keep the remote registry coherent. For targeted single-operation refactors, use `/hub-merge` or `/hub-split` directly.
 
 ## Arguments
 
@@ -42,7 +42,7 @@ Use this periodically (monthly, or after a burst of `/skills_publish` activity) 
 
 4. **Detect split candidates**
    - For each entry with body lines ≥ `--split-min-lines`:
-     - Run a lightweight version of `/skills_split`'s strategy detector (`auto` mode dry-run) to confirm at least 2 clean splits would emerge.
+     - Run a lightweight version of `/hub-split`'s strategy detector (`auto` mode dry-run) to confirm at least 2 clean splits would emerge.
      - If yes, mark as split candidate. If detector says "no clean splits" — even though the entry is large — skip; oversize alone isn't a reason.
    - Rank by (body-lines × detected-cluster-count); take top `--max-splits`.
 
@@ -52,7 +52,7 @@ Use this periodically (monthly, or after a burst of `/skills_publish` activity) 
 6. **Candidate report** (always shown)
    - Two tables:
      ```
-     === skills_refactor candidates (scope: all) ===
+     === hub-refactor candidates (scope: all) ===
 
      MERGE candidates (3):
        M1  cluster-size=3  max-sim=0.81
@@ -83,9 +83,9 @@ Use this periodically (monthly, or after a burst of `/skills_publish` activity) 
    - Else prompt per candidate: `accept / skip / edit-args / cancel-all`. `--yes` accepts everything.
      - `edit-args` lets the user override `--name`, `--category`, `--by`, `--max` for that candidate before delegation.
 
-7. **Delegate to /skills_merge and /skills_split**
-   - For each accepted **merge** candidate: invoke `/skills_merge <selectors...> --as=<auto-or-user-override> --name=<proposed-or-user> --category=<resolved> --yes` (the inner `--yes` is safe here because the outer prompt already constituted the per-candidate review).
-   - For each accepted **split** candidate: invoke `/skills_split <selector> --by=<auto-or-user> --max=<auto-or-user> --yes`.
+7. **Delegate to /hub-merge and /hub-split**
+   - For each accepted **merge** candidate: invoke `/hub-merge <selectors...> --as=<auto-or-user-override> --name=<proposed-or-user> --category=<resolved> --yes` (the inner `--yes` is safe here because the outer prompt already constituted the per-candidate review).
+   - For each accepted **split** candidate: invoke `/hub-split <selector> --by=<auto-or-user> --max=<auto-or-user> --yes`.
    - Aggregate the resulting draft paths.
 
 8. **Persist a refactor manifest**
@@ -97,40 +97,40 @@ Use this periodically (monthly, or after a burst of `/skills_publish` activity) 
 
 9. **Report**
    - Print summary: `M merge drafts written, S × splits-per-source split drafts written, K skipped`.
-   - Recommend next step: `/publish_all --pr` so all refactor drafts ship as one branch + one PR with cross-links intact.
+   - Recommend next step: `/hub-publish-all --pr` so all refactor drafts ship as one branch + one PR with cross-links intact.
 
 ## Rules
 
 - **Read-only on the remote cache.** All output is drafts.
-- **Never auto-publish.** Refactor proposals always go through `/publish_all` (or `/skills_publish` + `/knowledge_publish`) under user control.
+- **Never auto-publish.** Refactor proposals always go through `/hub-publish-all` (or `/hub-publish-skills` + `/hub-publish-knowledge`) under user control.
 - **Heuristic only.** Similarity scoring is bag-of-tokens; it surfaces *candidates*, not decisions. The user is the arbiter — never proceed past the candidate prompt without explicit acceptance unless `--yes` was passed.
 - **Bias toward merge over split** when an entry qualifies for both (Step 5). Splitting a duplicate produces more duplicates.
-- **No cascading refactors in one run.** A skill produced by Step 7's merge isn't fed back into Step 4's split detector — that would oscillate. Run `/skills_refactor` again after publishing if needed.
+- **No cascading refactors in one run.** A skill produced by Step 7's merge isn't fed back into Step 4's split detector — that would oscillate. Run `/hub-refactor` again after publishing if needed.
 - **Honor caps strictly.** `--max-merges` and `--max-splits` are hard caps. The cluster ranker discards low-rank candidates rather than expanding the queue.
-- **Inherits sanitization, provenance, and "do not modify source" rules** from `/skills_merge` and `/skills_split`.
+- **Inherits sanitization, provenance, and "do not modify source" rules** from `/hub-merge` and `/hub-split`.
 - **Refuse empty scope.** If the inventory under `--scope` has fewer than 5 entries, refuse with a clear message — the heuristic isn't useful at small N.
 
 ## Examples
 
 ```
 # Periodic full-repo refactor pass (interactive review)
-/skills_refactor
+/hub-refactor
 
 # Just look — no drafts written
-/skills_refactor --dry-run
+/hub-refactor --dry-run
 
 # Tighter merge threshold, only the backend category
-/skills_refactor --scope=backend --merge-threshold=0.80
+/hub-refactor --scope=backend --merge-threshold=0.80
 
 # Split-heavy pass: only consider entries above 600 lines
-/skills_refactor --split-min-lines=600 --max-merges=0
+/hub-refactor --split-min-lines=600 --max-merges=0
 
 # Trust the heuristic for everything (still preview, then auto-write)
-/skills_refactor --yes
+/hub-refactor --yes
 ```
 
 ## When NOT to use
 
-- You already know exactly which entries to merge or split → use `/skills_merge` or `/skills_split` directly. They're cheaper and don't waste a heuristic pass.
+- You already know exactly which entries to merge or split → use `/hub-merge` or `/hub-split` directly. They're cheaper and don't waste a heuristic pass.
 - You haven't published anything in a while → there's nothing new to refactor.
 - The remote has fewer than ~10 entries in the chosen scope — heuristics need volume to be useful.

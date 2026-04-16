@@ -3,7 +3,7 @@ description: Search knowledge base by keyword and optionally inject top matches 
 argument-hint: <keyword> [--inject] [--top <N>] [--category <cat>] [--tag <tag>]
 ---
 
-# /knowledge_search $ARGUMENTS
+# /hub-search-knowledge $ARGUMENTS
 
 Locate relevant knowledge entries before acting. Optionally inject the top matches into the current conversation so the next step benefits from prior lessons.
 
@@ -20,7 +20,7 @@ Locate relevant knowledge entries before acting. Optionally inject the top match
 4. **Present** top-`N` (default 5):
 
 ```
-# knowledge_search "token refresh"
+# hub-search-knowledge "token refresh"
 1. api/oauth-token-refresh-strategy        conf=medium  score=3.0
    한 줄 요약 ...
 2. pitfall/springdoc-opid-collision        conf=high    score=1.7
@@ -34,5 +34,5 @@ Locate relevant knowledge entries before acting. Optionally inject the top match
 
 - Read-only.
 - Never inject full bodies; only `Fact` + `Applies when` to conserve tokens.
-- If zero matches, report "no hits" and suggest `/knowledge_list` to browse.
+- If zero matches, report "no hits" and suggest `/hub-list-knowledge` to browse.
 - Empty keyword → error ("provide at least one keyword").

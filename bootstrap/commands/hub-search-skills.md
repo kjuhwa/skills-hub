@@ -3,13 +3,13 @@ description: Preview skills in kjuhwa/skills.git matching a keyword without inst
 argument-hint: <keyword> [--category=<name>]
 ---
 
-# /skills_search $ARGUMENTS
+# /hub-search-skills $ARGUMENTS
 
 Read-only search of the remote skill repository.
 
 ## Steps
 
-1. Ensure `~/.claude/skills-hub/remote/` exists and is fresh (see `/init_skills` step 1).
+1. Ensure `~/.claude/skills-hub/remote/` exists and is fresh (see `/hub-install` step 1).
 2. Load `index.json` or walk `**/SKILL.md`.
 3. Filter by keyword (name/description/tags/triggers/category, case-insensitive) and optional `--category`.
 4. For each match, output:

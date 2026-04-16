@@ -3,15 +3,15 @@ description: One-shot publish of both `.skills-draft/` and `.knowledge-draft/` t
 argument-hint: [--all] [--pr] [--branch=<name>] [--bump=major|minor|patch] [--only skills|knowledge]
 ---
 
-# /publish_all $ARGUMENTS
+# /hub-publish-all $ARGUMENTS
 
-Combined publisher — runs the `/skills_publish` and `/knowledge_publish` pipelines back-to-back, on the **same feature branch**, producing one PR that captures both the procedure (skills) and the rationale (knowledge) from a single extraction round.
+Combined publisher — runs the `/hub-publish-skills` and `/hub-publish-knowledge` pipelines back-to-back, on the **same feature branch**, producing one PR that captures both the procedure (skills) and the rationale (knowledge) from a single extraction round.
 
-Use when `/skills_extract_project` (or `/skills_extract_knowledge`) produced drafts in **both** `.skills-draft/` and `.knowledge-draft/` and you want them shipped as one logical change.
+Use when `/hub-extract` (or `/hub-extract`) produced drafts in **both** `.skills-draft/` and `.knowledge-draft/` and you want them shipped as one logical change.
 
 ## Preconditions
 
-- Union of `/skills_publish` and `/knowledge_publish` preconditions.
+- Union of `/hub-publish-skills` and `/hub-publish-knowledge` preconditions.
 - At least one draft under `.skills-draft/` OR `.knowledge-draft/` (if both empty, stop).
 - `~/.claude/skills-hub/remote/` clean (no uncommitted local changes).
 
@@ -40,8 +40,8 @@ Use when `/skills_extract_project` (or `/skills_extract_knowledge`) produced dra
    - Branch name: `--branch=<name>` OR auto `release/combined-<YYYYMMDD>` so it's clear the branch carries both kinds.
    - **Commit order**: knowledge first, then skills.
      - Reason: skills can declare `linked_knowledge` in their SKILL.md; landing knowledge first means the skill commit can already reference the knowledge slug in the same branch.
-   - Per-knowledge commit: same as `/knowledge_publish` step 3.
-   - Per-skill commit: same as `/skills_publish` step 3 (version resolution, tag prep). If a skill's `linked_knowledge` names a slug published in this run, record the cross-link in registry.json (skills entry → `linked_knowledge: [<slug>]`, knowledge entry → `linked_skills: [<skill>]`).
+   - Per-knowledge commit: same as `/hub-publish-knowledge` step 3.
+   - Per-skill commit: same as `/hub-publish-skills` step 3 (version resolution, tag prep). If a skill's `linked_knowledge` names a slug published in this run, record the cross-link in registry.json (skills entry → `linked_knowledge: [<slug>]`, knowledge entry → `linked_skills: [<skill>]`).
    - `registry.json` rebuilt once at the end of the commit sequence, not per-commit, to avoid churn — add a final `Rebuild registry.json` commit if any entries changed.
 
 4. **Push + tag + PR** (requires confirmation)
@@ -70,6 +70,6 @@ Use when `/skills_extract_project` (or `/skills_extract_knowledge`) produced dra
 
 ## When NOT to use
 
-- If you only have skill drafts → `/skills_publish` is simpler.
-- If you only have knowledge drafts → `/knowledge_publish` is simpler.
+- If you only have skill drafts → `/hub-publish-skills` is simpler.
+- If you only have knowledge drafts → `/hub-publish-knowledge` is simpler.
 - If drafts come from unrelated sessions → publish separately so PR history stays coherent.

@@ -3,7 +3,7 @@ description: Split a single skill or knowledge entry from kjuhwa/skills.git into
 argument-hint: <selector> [--by=section|step|concern|auto] [--max=<n>] [--keep-original] [--dry-run] [--yes]
 ---
 
-# /skills_split $ARGUMENTS
+# /hub-split $ARGUMENTS
 
 Decompose one oversized or multi-purpose entry from the remote skills repo (`kjuhwa/skills.git`) into N smaller, single-purpose drafts. Each split draft is independent and can be published separately. The original on the remote is **not** modified.
 
@@ -11,13 +11,13 @@ Use when an existing skill has grown to cover multiple distinct procedures, or a
 
 ## Selector
 
-Same form as `/skills_merge`:
+Same form as `/hub-merge`:
 
 - `skill:<category>/<name>[@<version>]`
 - `knowledge:<category>/<slug>`
 - `<category>/<name>` — kind auto-detected; ambiguous selectors are an error.
 
-Exactly **one** selector. To split multiple sources in one shot, use `/skills_refactor`.
+Exactly **one** selector. To split multiple sources in one shot, use `/hub-refactor`.
 
 ## Arguments
 
@@ -28,7 +28,7 @@ Exactly **one** selector. To split multiple sources in one shot, use `/skills_re
   - `concern`: split by orthogonal concerns detected in the body — different categories of advice (e.g. "performance" vs "security" vs "observability") become separate drafts. Heuristic: clusters of tags + repeated keywords across paragraphs.
   - `auto`: try `concern` first; if it yields fewer than 2 clean clusters, fall back to `section`; if that also fails, fall back to `step` (skills only). If nothing yields ≥2 splits, refuse with a clear message — the entry doesn't actually need splitting.
 - `--max=<n>` — cap the number of resulting drafts. Default `5`. If the strategy would produce more, the smallest groups are merged into a single residual draft slug `<original>-misc` (preview will show this clearly).
-- `--keep-original` — record-only flag; the source entry on the remote is not touched regardless. With this flag set, frontmatter omits the `replaces: <original-slug>` hint that `/skills_cleanup` would otherwise use to propose retiring the original.
+- `--keep-original` — record-only flag; the source entry on the remote is not touched regardless. With this flag set, frontmatter omits the `replaces: <original-slug>` hint that `/hub-cleanup` would otherwise use to propose retiring the original.
 - `--dry-run` — preview the proposed splits and stop without writing.
 - `--yes` — accept the proposed split set without the interactive review step.
 
@@ -38,7 +38,7 @@ Exactly **one** selector. To split multiple sources in one shot, use `/skills_re
    - `git -C ~/.claude/skills-hub/remote fetch --tags --prune origin`. Read-only.
 
 2. **Resolve selector**
-   - Same resolution as `/skills_merge` step 3 (including `@<version>` tag resolution for skills).
+   - Same resolution as `/hub-merge` step 3 (including `@<version>` tag resolution for skills).
    - On miss: list 3 closest matches by edit distance, stop.
 
 3. **Load + parse**
@@ -77,7 +77,7 @@ Exactly **one** selector. To split multiple sources in one shot, use `/skills_re
      - `siblings`: list of the other split slugs produced in the same run (helps users navigate).
      - `content.md`: the standard template populated from the corresponding source section/cluster. Include a `## See also` block listing siblings.
    - **Knowledge split** (per child entry):
-     - Same conventions as `/skills_extract_knowledge` template.
+     - Same conventions as `/hub-extract` template.
      - `confidence`: inherits from the original — never upgraded by splitting.
      - `summary`: rewritten one-liner per split.
      - `split_from`, `replaces`, `siblings`: as above.
@@ -86,7 +86,7 @@ Exactly **one** selector. To split multiple sources in one shot, use `/skills_re
 7. **Dry-run preview** (always shown)
    - Render:
      ```
-     === skills_split dry-run ===
+     === hub-split dry-run ===
      Source: skill:backend/retry-strategy@v1.4.0
        body: 612 lines, 4 top-level sections, 7 numbered steps
        chosen strategy: auto → concern (3 clusters, 4 lines residual)
@@ -118,8 +118,8 @@ Exactly **one** selector. To split multiple sources in one shot, use `/skills_re
    - Write a sibling note `_SPLIT_SOURCE.md` next to the first draft only (not duplicated per split): records the original selector, commit SHA, strategy used, and the full split list with their paths. Publish commands ignore files starting with `_`.
 
 9. **Report**
-   - Show every draft path and the proposed publish command (`/publish_all` is usually the right call for split sets so cross-links land together).
-   - Remind: original entry on remote is **not modified**. Use `/skills_cleanup` after publishing to act on the `replaces` hint (proposes deprecation PR).
+   - Show every draft path and the proposed publish command (`/hub-publish-all` is usually the right call for split sets so cross-links land together).
+   - Remind: original entry on remote is **not modified**. Use `/hub-cleanup` after publishing to act on the `replaces` hint (proposes deprecation PR).
 
 ## Rules
 
@@ -129,24 +129,24 @@ Exactly **one** selector. To split multiple sources in one shot, use `/skills_re
 - **No fabrication.** Splits inherit content from the source; do not invent new examples, pitfalls, or evidence to "round out" a small split. Smaller is fine.
 - **Refuse trivial inputs.** Per Step 4. Splitting a 100-line skill is busywork, not value.
 - **Inherit confidence (knowledge).** A `low`-confidence source produces `low`-confidence splits. Splitting cannot improve confidence.
-- **Sanitization** inherits from `/skills_publish` rules.
-- **Selector ambiguity is fatal.** Same as `/skills_merge`.
+- **Sanitization** inherits from `/hub-publish-skills` rules.
+- **Selector ambiguity is fatal.** Same as `/hub-merge`.
 
 ## Examples
 
 ```
 # Auto-strategy split of a sprawling skill
-/skills_split skill:backend/retry-strategy
+/hub-split skill:backend/retry-strategy
 
 # Force per-section split, cap at 4 drafts
-/skills_split skill:devops/full-deploy-pipeline --by=section --max=4
+/hub-split skill:devops/full-deploy-pipeline --by=section --max=4
 
 # Step-wise split of a numbered procedure (skills only)
-/skills_split skill:db/zero-downtime-migration --by=step
+/hub-split skill:db/zero-downtime-migration --by=step
 
 # Knowledge split — separate orthogonal facts
-/skills_split knowledge:arch/event-sourcing-everything --by=concern --dry-run
+/hub-split knowledge:arch/event-sourcing-everything --by=concern --dry-run
 
 # Pin to a specific version
-/skills_split skill:backend/retry-strategy@v1.4.0 --by=concern --yes
+/hub-split skill:backend/retry-strategy@v1.4.0 --by=concern --yes
 ```

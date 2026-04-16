@@ -1,11 +1,11 @@
 ---
-description: List projects already published under example/ in the skills-hub remote — use this before /make_something to avoid duplication
+description: List projects already published under example/ in the skills-hub remote — use this before /hub-make to avoid duplication
 argument-hint: [--refresh] [--verbose]
 ---
 
-# /example_list $ARGUMENTS
+# /hub-list-examples $ARGUMENTS
 
-Enumerate every subfolder under `example/` in the `kjuhwa/skills-hub` remote cache and render a compact catalog. Intended as the first step of `/make_something` so new creations don't re-invent something that already lives there.
+Enumerate every subfolder under `example/` in the `kjuhwa/skills-hub` remote cache and render a compact catalog. Intended as the first step of `/hub-make` so new creations don't re-invent something that already lives there.
 
 ## Steps
 
@@ -38,4 +38,4 @@ Enumerate every subfolder under `example/` in the `kjuhwa/skills-hub` remote cac
 
 - Read-only — never mutate the cache beyond the fetch/reset above.
 - Treat slug as the source of truth for uniqueness checks elsewhere.
-- If cache clone is missing, instruct the user to run `/init_skills` first; do not auto-clone here.
+- If cache clone is missing, instruct the user to run `/hub-install` first; do not auto-clone here.

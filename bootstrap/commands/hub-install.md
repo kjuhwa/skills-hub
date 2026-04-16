@@ -3,7 +3,7 @@ description: Search kjuhwa/skills.git by keyword/category and install matching s
 argument-hint: <keyword | name@version> [--global] [--category=<name>] [--version=<x.y.z>]
 ---
 
-# /init_skills $ARGUMENTS
+# /hub-install $ARGUMENTS
 
 Install skills from the central repository matching the keyword.
 
@@ -47,7 +47,7 @@ Install skills from the central repository matching the keyword.
      - `category`, `scope`, `installed_at`
      - `version` (resolved version string)
      - `source_commit` (tag's commit SHA, or `main` HEAD SHA if unversioned)
-     - `pinned: true` when an explicit version was supplied — `/skills_sync` must skip pinned entries unless `--force`.
+     - `pinned: true` when an explicit version was supplied — `/hub-sync` must skip pinned entries unless `--force`.
 
 8. **Report**
    - List installed skills with their local path.

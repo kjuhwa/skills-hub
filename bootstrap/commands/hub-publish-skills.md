@@ -3,7 +3,7 @@ description: Review skill drafts and push them to kjuhwa/skills.git as a branch,
 argument-hint: [--all | --draft=<name>] [--pr] [--branch=<name>] [--bump=major|minor|patch]
 ---
 
-# /skills_publish $ARGUMENTS
+# /hub-publish-skills $ARGUMENTS
 
 Publish `.skills-draft/` contents to the remote repository.
 
@@ -36,7 +36,7 @@ Publish `.skills-draft/` contents to the remote repository.
 4. **Push + tag** (requires confirmation)
    - `git push -u origin <branch>`.
    - For each published skill, create annotated tag: `git tag -a skills/<name>/v<version> -m "<name> v<version>"` pointing at that skill's commit, then `git push origin skills/<name>/v<version>`.
-   - Tags are pushed even before PR merge so `skills_sync --version=` can resolve them from the branch; note in output that tags on feature branches are discoverable but only authoritative after merge.
+   - Tags are pushed even before PR merge so `hub-sync --version=` can resolve them from the branch; note in output that tags on feature branches are discoverable but only authoritative after merge.
    - If `--pr` flag and `gh` CLI available: `gh pr create --title ... --body ...` using draft's description + source_project; include published version list in PR body.
    - Otherwise print the branch name, tag list, and compare URL.
 

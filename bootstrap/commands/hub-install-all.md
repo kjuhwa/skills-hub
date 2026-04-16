@@ -3,10 +3,10 @@ description: Install every skill and every knowledge entry from kjuhwa/skills.gi
 argument-hint: [--global] [--skills-only] [--knowledge-only] [--yes] [--category=<name>]
 ---
 
-# /init_skills_all $ARGUMENTS
+# /hub-install-all $ARGUMENTS
 
 Bulk-install **all** skills and **all** knowledge entries from the central repository.
-For targeted installs (keyword / version pinning), use `/init_skills` instead.
+For targeted installs (keyword / version pinning), use `/hub-install` instead.
 
 ## Steps
 
@@ -28,7 +28,7 @@ For targeted installs (keyword / version pinning), use `/init_skills` instead.
    - Skills: read `~/.claude/skills-hub/remote/index.json` → `skills[]`. Fallback to scanning `skills/**/SKILL.md` frontmatter if index missing.
    - Knowledge: read `index.json` → `knowledge[]`. Fallback to scanning `knowledge/**/*.md` frontmatter.
    - Apply `--category` filter when set.
-   - Install from `main` HEAD (no version pinning in bulk mode — use `/init_skills name@version` for pinning).
+   - Install from `main` HEAD (no version pinning in bulk mode — use `/hub-install name@version` for pinning).
 
 4. **Preview counts**
    - Show totals grouped by category for both skills and knowledge, e.g.:
@@ -49,7 +49,7 @@ For targeted installs (keyword / version pinning), use `/init_skills` instead.
      - `--global` flag OR no `.claude/` dir in cwd → `~/.claude/skills/<name>/`
      - else → `.claude/skills/<name>/`
    - For each skill:
-     - On name collision: **skip** (log `[SKIP existing] <name>`). Do NOT prompt per-skill in bulk mode — user can re-run `/init_skills <name>` to overwrite individually.
+     - On name collision: **skip** (log `[SKIP existing] <name>`). Do NOT prompt per-skill in bulk mode — user can re-run `/hub-install <name>` to overwrite individually.
      - Copy entire skill directory (`SKILL.md` + `content.md` + `examples/` + any other files).
      - Update `~/.claude/skills-hub/registry.json` entry with: `category`, `scope`, `installed_at`, `version` (from index), `source_commit` (current `main` HEAD SHA), `pinned: false`.
 
@@ -74,7 +74,7 @@ For targeted installs (keyword / version pinning), use `/init_skills` instead.
 ## Rules
 
 - Never modify the remote clone cache's working tree (read-only usage).
-- Bulk mode always installs from `main` HEAD — use `/init_skills` for version-pinned installs.
-- Collisions are silently **skipped**, not overwritten — this is a bulk-install convenience, not a sync. For overwrites use `/skills_sync` or targeted `/init_skills <name>`.
+- Bulk mode always installs from `main` HEAD — use `/hub-install` for version-pinned installs.
+- Collisions are silently **skipped**, not overwritten — this is a bulk-install convenience, not a sync. For overwrites use `/hub-sync` or targeted `/hub-install <name>`.
 - Registry writes must be atomic (write to temp file, rename) to avoid corruption on partial runs.
 - If `--category=<name>` matches zero skills AND zero knowledge, stop with a clear message.
