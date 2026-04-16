@@ -1,0 +1,12 @@
+{
+  "slug": "fsm-playground",
+  "title": "Fsm Playground",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T16:22:21.709Z",
+  "source_project": "100-fsm-playground",
+  "author": "kjuhwa@nkia.co.kr"
+}
