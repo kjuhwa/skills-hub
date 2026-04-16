@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BFF Metrics Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>⚡ BFF Metrics Dashboard</h1>
+<span class="live">● LIVE</span>
+</header>
+<div class="grid">
+<div class="card" id="card-mobile"><h2>Mobile BFF</h2><canvas id="chart-mobile" width="300" height="120"></canvas><div class="stats" id="stats-mobile"></div></div>
+<div class="card" id="card-web"><h2>Web BFF</h2><canvas id="chart-web" width="300" height="120"></canvas><div class="stats" id="stats-web"></div></div>
+<div class="card" id="card-tv"><h2>TV BFF</h2><canvas id="chart-tv" width="300" height="120"></canvas><div class="stats" id="stats-tv"></div></div>
+</div>
+<div class="card wide"><h2>Aggregated Throughput</h2><canvas id="chart-total" width="940" height="130"></canvas></div>
+<script src="app.js"></script>
+</body>
+</html>
