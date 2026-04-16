@@ -1,0 +1,27 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Stream Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>📡 Event Stream Monitor</h1>
+  <p class="sub">Live event stream with real-time aggregate projections</p>
+  <div class="controls">
+    <button id="toggle">⏸ Pause</button>
+    <span id="counter" class="counter">0 events</span>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>Events/sec</h3><canvas id="rateChart" width="360" height="100"></canvas></div>
+    <div class="card"><h3>By Type</h3><svg id="pie" viewBox="0 0 120 120" width="120" height="120"></svg><div id="legend"></div></div>
+    <div class="card wide"><h3>Live Feed</h3><div id="feed" class="scroll-box"></div></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
+```
