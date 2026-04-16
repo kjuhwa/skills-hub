@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Topic Pub/Sub Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+  <nav>
+    <h1>📡 Pub/Sub Monitor</h1>
+    <div class="topic-list" id="topicList"></div>
+    <div class="add-topic">
+      <input id="newTopic" placeholder="new.topic.name" />
+      <button id="addTopic">+</button>
+    </div>
+    <button id="publishRandom" class="primary">Publish Random</button>
+  </nav>
+  <main>
+    <div class="header">
+      <h2 id="currentTopic">Select a topic</h2>
+      <div class="meta">
+        <span>Subscribers: <b id="subCount">0</b></span>
+        <span>Total: <b id="totalCount">0</b></span>
+        <span>Rate: <b id="rate">0/s</b></span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="chart-box">
+        <svg id="chart" viewBox="0 0 600 200"></svg>
+      </div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
