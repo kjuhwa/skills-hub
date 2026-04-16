@@ -1,6 +1,6 @@
 ---
 name: pub-sub-visualization-pattern
-description: Canvas-based spatial visualization of pub/sub topic-subscriber topology with animated message delivery particles.
+description: Canvas-based layout for rendering publishers, broker topics, and subscriber fan-out with animated message flow
 category: design
 triggers:
   - pub sub visualization pattern
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # pub-sub-visualization-pattern
 
-Pub/sub systems become intuitive when topics are rendered as anchored focal nodes and subscribers orbit them at varying radii. In the galaxy pattern, each topic is a glowing circle positioned at a fixed coordinate with a distinct color (e.g., orders=green, payments=blue, alerts=gold). Subscribers are small satellite dots that continuously rotate around their topic using angle-based trigonometric positioning (`x = center + cos(angle) * distance`). The orbit speed and distance are randomized per subscriber to prevent visual overlap and convey that subscribers are independent consumers operating at their own pace.
+Pub-sub visualizations share a recurring three-column topology: publishers on the left, a central topic/broker column (often split into per-topic lanes), and subscribers on the right grouped by subscription group. Each topic lane should be rendered as a horizontal swimlane with a visible backlog depth indicator (unacked count) and a retention window marker so viewers can distinguish a slow consumer from a dropped message. Use SVG or Canvas with a fixed coordinate grid keyed off topic name so subscriber reordering does not reflow the publisher side.
 
-Message delivery is visualized as animated particles that spawn at the topic center and lerp toward each subscriber's current position. The particle's opacity decays over time (`globalAlpha = 1 - t`) and is garbage-collected once fully faded (`filter(p => p.t < 1)`). This creates a "fan-out" visual — one publish triggers N simultaneous particles — which directly maps to the pub/sub broadcast semantic. Clicking a topic node triggers an immediate publish, while a background `setInterval` auto-publishes to random topics, keeping the visualization alive without user interaction.
+Animate message flow as discrete tokens traveling along bezier paths from publisher → topic → each matched subscriber, with the token carrying its routing key/headers as a tooltip. Fan-out must be visualized as parallel token emission at the topic node (not sequential), otherwise users misread pub-sub as point-to-point. Color-code tokens by topic and fade them on ack; use a red pulse on the subscriber node when a NACK or redelivery occurs. Keep the broker node "fat" (tall rectangle) to visually accommodate multiple topic partitions stacked vertically.
 
-The color-per-topic convention carries across all three apps: the heartbeat monitor uses it for channel cards with active/inactive states, and the sandbox uses topic-tag chips. When building pub/sub dashboards, assign a stable color to each topic at creation time and propagate that color to every UI element (particles, cards, log entries, progress bars) to give users an instant visual grouping without reading labels.
+For scale, cap visible in-flight tokens (e.g., 50) and render aggregate throughput counters on edges when exceeded — trying to animate every message at 10k msg/s kills the browser. Persist a mini-timeline strip below the canvas showing publish rate vs. consume rate per topic so lag is visible at a glance, which is the single most important diagnostic signal in pub-sub systems.
