@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Canary in the Coalmine</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="mine">
+  <div class="hud">
+    <h1>🐦 Canary in the Coalmine</h1>
+    <div class="stats">
+      <div>Release: <b id="release">v2.4.1</b></div>
+      <div>Health: <b id="health">100</b>%</div>
+      <div>Users Served: <b id="users">0</b></div>
+      <div>Deploy Age: <b id="age">0s</b></div>
+    </div>
+  </div>
+  <svg id="stage" viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="glow"><stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.5"/><stop offset="100%" stop-color="#6ee7b7" stop-opacity="0"/></radialGradient>
+    </defs>
+    <rect width="800" height="380" fill="#0f1117"/>
+    <path d="M0 300 Q 200 260 400 300 T 800 300 L 800 380 L 0 380 Z" fill="#1a1d27"/>
+    <circle id="sunglow" cx="400" cy="190" r="120" fill="url(#glow)"/>
+    <g id="canary"></g>
+    <g id="gasParticles"></g>
+  </svg>
+  <div class="panel">
+    <button id="deploy">🚀 Deploy New Version</button>
+    <button id="inject">☠️ Inject Fault</button>
+    <button id="resolve">🔧 Fix Issue</button>
+    <div class="metrics">
+      <div class="bar"><span>Latency</span><div class="track"><div id="latBar"></div></div></div>
+      <div class="bar"><span>Errors</span><div class="track"><div id="errBar"></div></div></div>
+      <div class="bar"><span>CPU</span><div class="track"><div id="cpuBar"></div></div></div>
+    </div>
+    <div id="alert" class="alert"></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
