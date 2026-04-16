@@ -1,0 +1,8 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:system-ui,sans-serif;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:200px;background:#1a1d27;padding:16px;border-right:1px solid #ffffff0a;overflow-y:auto}
+h1{color:#6ee7b7;font-size:1rem;margin-bottom:12px}
+#agg-list{list-style:none}
+#agg-list li{padding:8px 10px;border-radius:6px;cursor:pointer;font-size:.8rem;margin-bottom:4px;transition:background .15s}
+#agg-list li:hover,#agg-list li.active{background:#6ee7b718;color:#6ee7b7}
+canvas{flex:1;display:block}
