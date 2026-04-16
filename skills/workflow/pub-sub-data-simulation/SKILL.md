@@ -1,6 +1,6 @@
 ---
 name: pub-sub-data-simulation
-description: Timer-driven synthetic message generation with rate tracking, fan-out delivery, and bounded log accumulation for pub/sub demos.
+description: Generate realistic publisher bursts, subscription group fan-out, and lag scenarios for pub-sub demos
 category: workflow
 triggers:
   - pub sub data simulation
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # pub-sub-data-simulation
 
-All three pub/sub apps simulate realistic traffic without a real broker by using `setInterval` at domain-appropriate cadences — 2.2s for the galaxy (slow enough to watch particles travel), 1.0s for the heartbeat monitor (mimics per-second rate sampling), and 1.8s for the sandbox (fast enough to feel live, slow enough to read). Each tick selects a random topic and generates a payload, then fans out delivery to all registered subscribers. The heartbeat app adds a 60% activity probability gate (`Math.random() < 0.6`) so channels go idle periodically, which is critical for making rate meters and peak tracking feel authentic rather than perpetually maxed out.
+Pub-sub simulations need three independent clocks: a publisher tick (bursty, poisson-distributed), a broker delivery tick (steady), and per-subscriber consume ticks (variable, some intentionally slow). Drive publishers from a scenario script that emits to named topics with routing keys drawn from a weighted distribution — uniform keys hide the hot-partition problem that real pub-sub systems exhibit. Include at least one wildcard subscription and one exact-match subscription per topic so matching logic is exercised.
 
-Rate and volume metrics are accumulated in-place on channel objects: `rate` (current tick), `msgs` (running total), and `peak` (high-water mark updated via `if (r > ch.peak) ch.peak = r`). This three-field pattern is the minimum needed for a useful pub/sub health card — current throughput, historical volume, and burst ceiling. The sandbox takes a different angle by maintaining per-subscriber inboxes capped at 10 entries (`if (inbox.length > 10) inbox.pop()`), modeling the consumer-side backlog view rather than the broker-side rate view.
+Model subscription groups as the unit of fan-out: N groups each receive every message, but within a group only one consumer gets it (competing consumers). The simulator should expose a "slow consumer" toggle per subscriber that inflates its consume latency, producing a growing lag that cascades into visible backlog. Seed scripted scenarios for the canonical failure modes: publisher burst, subscriber crash + redelivery, poison message + DLQ routing, and a rebalance event where in-flight messages get reassigned.
 
-All apps enforce bounded DOM growth: the heartbeat log caps at 50 entries, the sandbox event stream at 80, both using `lastChild.remove()` or `pop()` after prepending new items. This is non-negotiable for pub/sub simulations — without eviction, a high-throughput demo will leak DOM nodes and degrade within minutes. The pattern is: prepend new events to the top (most recent first), count children, and trim from the tail on every write.
+Keep the simulator deterministic under a seed (for reproducible demos and tests) but allow a "live" mode with wall-clock jitter. Emit a structured event log (publish, enqueue, deliver, ack, nack, redeliver, dlq) that the visualization consumes — this decouples sim from render and lets the same scenario feed unit tests, the canvas, and a throughput chart without duplication.
