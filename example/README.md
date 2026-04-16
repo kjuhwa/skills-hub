@@ -114,6 +114,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [oauth-token-inspector](oauth-token-inspector/) | Oauth Token Inspector — auto-generated oauth tool | html, css, vanilla-js | 2026-04-16 |
 
+| [shard-ring-router](shard-ring-router/) | Shard Ring Router — auto-generated database-sharding tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
