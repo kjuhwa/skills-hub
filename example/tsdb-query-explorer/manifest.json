@@ -1,0 +1,12 @@
+{
+  "slug": "tsdb-query-explorer",
+  "title": "Tsdb Query Explorer",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T08:45:32.585Z",
+  "source_project": "37-tsdb-query-explorer",
+  "author": "kjuhwa@nkia.co.kr"
+}

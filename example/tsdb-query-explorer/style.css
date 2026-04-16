@@ -1,0 +1,20 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', monospace; height: 100vh; }
+.app { display: flex; height: 100%; }
+.sidebar { width: 200px; background: #1a1d27; padding: 16px; border-right: 1px solid #2d333b; display: flex; flex-direction: column; gap: 12px; }
+.sidebar h2 { font-size: 0.85rem; color: #6ee7b7; }
+.metric-item { padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: background 0.15s; }
+.metric-item:hover, .metric-item.active { background: #2d333b; color: #6ee7b7; }
+.range-btns { display: flex; flex-wrap: wrap; gap: 4px; }
+.range-btns button { background: #0f1117; border: 1px solid #2d333b; color: #c9d1d9; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+.range-btns button.active, .range-btns button:hover { border-color: #6ee7b7; color: #6ee7b7; }
+.main { flex: 1; display: flex; flex-direction: column; padding: 16px; gap: 12px; overflow: hidden; }
+.query-bar { display: flex; gap: 8px; }
+.query-bar input { flex: 1; background: #1a1d27; border: 1px solid #2d333b; color: #6ee7b7; padding: 8px 12px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; }
+.query-bar button { background: #6ee7b7; color: #0f1117; border: none; padding: 8px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.result-area { flex: 1; background: #1a1d27; border-radius: 8px; overflow: hidden; min-height: 0; }
+#svg { display: block; }
+.table-wrap { max-height: 160px; overflow-y: auto; background: #1a1d27; border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+th { background: #2d333b; color: #6ee7b7; padding: 6px 10px; text-align: left; position: sticky; top: 0; }
+td { padding: 5px 10px; border-bottom: 1px solid #2d333b; }
