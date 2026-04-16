@@ -1,6 +1,6 @@
 ---
 name: service-mesh-implementation-pitfall
-description: Conflating mesh-layer (Envoy) circuit breaking with application-layer retry logic produces misleading simulations
+description: Common traps when building service mesh tooling: stale config, identity confusion, and sidecar startup races
 category: pitfall
 tags:
   - service
@@ -9,8 +9,8 @@ tags:
 
 # service-mesh-implementation-pitfall
 
-A common mistake in service-mesh demos is modeling circuit breakers as a single boolean per service. In real Istio/Envoy, circuit breaking happens at the **upstream cluster + host** granularity inside each sidecar — service A's sidecar may have ejected one of B's three pods while still routing to the other two. If your simulator shows a single open/closed state for "service B," users will build wrong mental models and be surprised when their production policies don't behave as expected. Always model per-endpoint state and aggregate up for display.
+The most pervasive pitfall is conflating the service identity with the sidecar identity. In a real mesh, the SPIFFE ID is bound to the ServiceAccount, not the pod or service name — tools that label edges by Kubernetes service name silently misrepresent authorization failures because AuthorizationPolicy actually matches on `principals` (SPIFFE URI). mesh-policy-composer especially must render the SPIFFE identity prominently; showing only the service name leads users to author policies that "look right" but never match. Always derive identity from ServiceAccount + namespace + trust domain, and validate policy selectors against that triplet.
 
-Another pitfall: simulating retries at the application layer when Istio handles them via VirtualService `retries` config. If both layers retry, the actual request amplification is multiplicative (app retries × mesh retries), which can turn a single user request into 9+ upstream calls during a partial outage and accelerate circuit trips. Demos should explicitly show the retry budget consumption and the request-id propagation so users see why mesh-level retries must replace, not augment, app-level retries.
+A second trap is stale config visualization. Control plane push (xDS) is eventually consistent, so a policy added in the UI is not instantly effective at every sidecar — there's a 1–10s propagation window. Tools that show policies as "active" the moment they're composed mislead users during troubleshooting. Model an explicit "pending → pushed → acknowledged" state machine per sidecar and visualize NACKs loudly (red badge on the sidecar), since a rejected xDS config is the #1 reason "my policy isn't working." Similarly, sidecar startup races (app container starts before istio-proxy is ready) drop early traffic — simulate this in sidecar-proxy-playground by showing a ~2s "warming" state after pod start where outbound requests fail with connection refused.
 
-Finally, AuthorizationPolicy evaluation order trips up most simulator authors: DENY policies always win regardless of specificity, and the *absence* of any ALLOW policy in a namespace with at least one ALLOW results in default-deny — not default-allow. If your simulator implements "most specific rule wins" or treats policies as additive, the simulated outcomes will diverge from real Istio behavior on the exact edge cases (cross-namespace calls, JWT-less requests to JWT-required workloads) that operators most need to test.
+Third, avoid rendering the mesh as a purely logical graph divorced from locality. Real meshes route preferentially to same-zone endpoints via locality-weighted load balancing, and ignoring topology_keys/localityLbSetting hides the dominant latency factor. Include zone/region metadata on nodes and dim cross-zone edges to make locality routing visible — users debugging p99 spikes almost always find the answer in a cross-region hop their tooling wasn't showing.
