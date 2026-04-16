@@ -1,0 +1,12 @@
+{
+  "slug": "graphql-query-builder",
+  "title": "Graphql Query Builder",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T21:27:00.631Z",
+  "source_project": "100-graphql-query-builder",
+  "author": "kjuhwa@nkia.co.kr"
+}

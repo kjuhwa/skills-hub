@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GraphQL Query Builder</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><h1>GraphQL Query Builder</h1><p>Click fields to build your query</p></header>
+<main>
+  <section class="schema">
+    <h2>Schema</h2>
+    <div id="schema-tree"></div>
+  </section>
+  <section class="query">
+    <h2>Generated Query</h2>
+    <pre id="query-output"></pre>
+    <button id="run-btn">Run Query</button>
+  </section>
+  <section class="result">
+    <h2>Response</h2>
+    <pre id="response-output">// Run a query to see results</pre>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
