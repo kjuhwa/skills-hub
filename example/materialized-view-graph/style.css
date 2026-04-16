@@ -1,0 +1,21 @@
+:root { --bg:#0f1117; --surface:#1a1d27; --accent:#6ee7b7; --text:#e4e6eb; --dim:#8a8f9b; --table:#60a5fa; --view:#f59e0b; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", sans-serif; padding: 20px; }
+header h1 { color: var(--accent); font-size: 22px; }
+header p { color: var(--dim); font-size: 13px; margin-top: 4px; margin-bottom: 16px; }
+main { display: grid; grid-template-columns: 1fr 280px; gap: 16px; }
+#graph { background: var(--surface); border-radius: 8px; width: 100%; height: 520px; border: 1px solid #252834; }
+aside { background: var(--surface); border-radius: 8px; padding: 16px; border: 1px solid #252834; }
+aside h2 { font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; margin-top: 12px; }
+aside h2:first-child { margin-top: 0; }
+#info { font-size: 13px; font-family: "SF Mono", monospace; background: #0f1117; padding: 10px; border-radius: 6px; min-height: 60px; color: var(--text); }
+#info .label { color: var(--dim); font-size: 11px; }
+#log { list-style: none; font-family: "SF Mono", monospace; font-size: 11px; max-height: 280px; overflow-y: auto; }
+#log li { padding: 4px 0; border-bottom: 1px dashed #22242f; color: var(--dim); }
+#log li.fresh { color: var(--accent); }
+.node-circle { cursor: pointer; transition: all 0.3s; }
+.node-label { font-family: "SF Mono", monospace; font-size: 11px; fill: var(--text); pointer-events: none; text-anchor: middle; }
+.edge { stroke: #3a3d48; stroke-width: 1.5; fill: none; }
+.edge.active { stroke: var(--accent); stroke-width: 2.5; }
+.pulse { animation: pulse 1.2s ease-out; }
+@keyframes pulse { 0% { r: var(--base); } 50% { r: calc(var(--base) + 10px); opacity: 0.5; } 100% { r: var(--base); } }
