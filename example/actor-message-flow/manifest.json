@@ -1,0 +1,12 @@
+{
+  "slug": "actor-message-flow",
+  "title": "Actor Message Flow",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T11:51:34.870Z",
+  "source_project": "100-actor-message-flow",
+  "author": "kjuhwa@nkia.co.kr"
+}
