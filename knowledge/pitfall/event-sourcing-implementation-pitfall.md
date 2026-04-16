@@ -1,6 +1,6 @@
 ---
 name: event-sourcing-implementation-pitfall
-description: Common failures when building event-sourced demos: mutable events, hidden snapshots, and projection non-determinism
+description: Schema evolution and non-deterministic projections break replay guarantees
 category: pitfall
 tags:
   - event
@@ -9,8 +9,8 @@ tags:
 
 # event-sourcing-implementation-pitfall
 
-The most common pitfall is treating events as mutable records — code that "fixes" a past event by editing its payload destroys the core invariant of event sourcing and makes replay produce different results than the live projection. Any correction must be expressed as a new compensating event (Reversal, Adjustment) appended to the log. Equally dangerous is storing computed state inside the event itself (e.g., `balanceAfter` on a Deposit event); this works until you change the projection logic or replay from a different starting point, at which point the embedded value and the recomputed value diverge silently.
+The most insidious event-sourcing failure is silently changing event payload schemas without versioning. Old events in the log were serialized under v1, but the current projector deserializes as v2 — fields go missing, defaults silently fill in wrong values, and a full replay produces a different state than the live system. Always stamp every event with a `schemaVersion` and keep upcaster functions (v1→v2→v3) so old events can be transformed at read time. Never mutate historical events to "fix" them; emit a corrective event instead.
 
-Projection non-determinism is a subtler trap: if projections use `Date.now()`, `Math.random()`, iteration over unordered maps, or floating-point accumulation in a different order than event arrival, rebuilding from the log produces a different state than the live system. Always fold events in strict sequence order, use integer arithmetic for monetary values (cents, not dollars), and treat the projection function as pure `(state, event) => newState`. In race-style demos this shows up as two lanes disagreeing on final balance even though both consumed identical events — the bug is the projection, not the stream.
+Non-deterministic projection handlers are the second trap. If a handler calls `Date.now()`, `Math.random()`, or fetches external data, replaying the same log twice yields different state — defeating the entire point of event sourcing. All side-effecting or time-dependent values must come from the event payload itself (recorded at write time). Apps like time-travel-tree expose this by replaying the same offset twice and diffing the result; any divergence is a determinism bug.
 
-Finally, beware the snapshot shortcut: loading a cached snapshot and applying only "new" events is a valid optimization in production but catastrophic in a teaching/demo context because it hides the replay mechanic entirely. Always provide a visible "rebuild from zero" path, and if you snapshot, version the snapshot against the projection code hash so stale snapshots are detected rather than trusted.
+Finally, beware unbounded projection lag and snapshot strategy. Without periodic snapshots, replaying millions of events on cold start takes minutes. But snapshots taken at the wrong granularity (per-event = storage bloat; per-million = slow recovery) or without including the schemaVersion become poisoned after an upcaster change. Snapshot every N events, store the schemaVersion with the snapshot, and invalidate snapshots when any handler in the fold chain changes.
