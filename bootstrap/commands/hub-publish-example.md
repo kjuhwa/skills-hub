@@ -9,7 +9,8 @@ Copy a local project folder (or the current working directory) into `example/<sl
 
 ## Arguments
 
-- `<slug>` — required. kebab-case. Becomes the folder name under `example/`.
+- `<slug>` — required. kebab-case. Becomes the folder name under `example/<category>/`.
+- `--category=<str>` — category subdirectory (e.g. `messaging`, `circuit-breaker`). If omitted, infer from slug or ask the user. Valid categories: `actor-model`, `algorithms`, `api-patterns`, `architecture`, `auth`, `caching`, `chaos-engineering`, `circuit-breaker`, `concurrency`, `consensus`, `data-pipeline`, `ddd`, `deployment`, `event-driven`, `feature-flags`, `graphql`, `hub-tools`, `idempotency`, `interactive`, `load-balancing`, `messaging`, `misc`, `observability`, `rate-limiting`, `resilience`, `schema`, `storage`, `websocket`.
 - `--from=<path>` — source directory to copy (default: current cwd).
 - `--title=<str>` — human title for README H1 (default: Title-cased slug).
 - `--why=<str>` — one-sentence motivation; if omitted, prompt the user.
@@ -19,7 +20,7 @@ Copy a local project folder (or the current working directory) into `example/<sl
 ## Steps
 
 1. **Duplication check**
-   - Run the logic of `/hub-list-examples` (without rendering) and stop if `example/<slug>/` already exists on `origin/main`. Suggest a new slug.
+   - Run the logic of `/hub-list-examples` (without rendering) and stop if `example/<category>/<slug>/` already exists on `origin/main`. Suggest a new slug.
    - Also refuse if a local branch `example/<slug>` already exists in the cache.
 
 2. **Collect metadata**
@@ -33,10 +34,10 @@ Copy a local project folder (or the current working directory) into `example/<sl
    - `git -C ~/.claude/skills-hub/remote fetch origin main --prune`
    - `git -C ~/.claude/skills-hub/remote checkout main`
    - `git -C ~/.claude/skills-hub/remote reset --hard origin/main`
-   - `git -C ~/.claude/skills-hub/remote checkout -b example/<slug>`
+   - `git -C ~/.claude/skills-hub/remote checkout -b example/<category>/<slug>`
 
 4. **Copy files**
-   - `mkdir -p ~/.claude/skills-hub/remote/example/<slug>/`
+   - `mkdir -p ~/.claude/skills-hub/remote/example/<category>/<slug>/`
    - Copy approved files preserving relative paths.
    - Write `example/<slug>/manifest.json`:
      ```json
@@ -75,16 +76,16 @@ Copy a local project folder (or the current working directory) into `example/<sl
    - Source working copy: `<abs-path>`
    ```
 
-6. **Update top-level `example/README.md`** (create if missing) — append row to a catalog table so `/hub-list-examples` can read it without walking every folder.
+6. **Skip catalog update** — `example/README.md` is regenerated separately to avoid merge conflicts. Do NOT modify it per-PR.
 
 7. **Commit + push**
-   - `git add example/<slug>/ example/README.md`
-   - Commit message: `example(<slug>): add <title>` (heredoc; include the `why:` line in body).
-   - `git push -u origin example/<slug>`
+   - `git add example/<category>/<slug>/`
+   - Commit message: `example(<category>/<slug>): add <title>` (heredoc; include the `why:` line in body).
+   - `git push -u origin example/<category>/<slug>`
 
 8. **Pull request** (unless `--no-pr`)
-   - `gh pr create --title "example(<slug>): add <title>" --body "$(cat <<EOF ... EOF)"`
-   - Body: the same `why` + features bullets + a preview URL `https://github.com/kjuhwa/skills-hub/tree/example/<slug>/example/<slug>`.
+   - `gh pr create --title "example(<category>/<slug>): add <title>" --body "$(cat <<EOF ... EOF)"`
+   - Body: the same `why` + features bullets + a preview URL `https://github.com/kjuhwa/skills-hub/tree/example/<category>/<slug>/example/<category>/<slug>`.
    - Print the returned PR URL.
 
 9. **Report**
