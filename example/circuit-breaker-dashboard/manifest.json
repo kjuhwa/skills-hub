@@ -1,0 +1,12 @@
+{
+  "slug": "circuit-breaker-dashboard",
+  "title": "Circuit Breaker Dashboard",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T09:05:19.575Z",
+  "source_project": "48-circuit-breaker-dashboard",
+  "author": "kjuhwa@nkia.co.kr"
+}
