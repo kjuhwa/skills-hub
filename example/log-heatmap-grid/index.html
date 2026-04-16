@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log Heatmap Grid</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>Log Aggregation Heatmap</h1>
+  <p class="sub">Error density across services over 24h — click a cell for details</p>
+  <div class="legend"><span class="lo"></span> Low <span class="md"></span> Medium <span class="hi"></span> High</div>
+  <svg id="heatmap"></svg>
+  <div id="tooltip" class="tip"></div>
+  <div id="detail" class="detail"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
