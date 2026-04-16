@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Command-Query Bus Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>CQ Bus Simulator</h1>
+  <div class="bus-layout">
+    <div class="panel" id="input-panel">
+      <h2>Dispatch</h2>
+      <select id="opType"><option value="command">Command</option><option value="query">Query</option></select>
+      <input id="opName" placeholder="e.g. CreateUser" />
+      <button id="dispatch">Dispatch →</button>
+    </div>
+    <svg id="busSvg" width="220" height="320"></svg>
+    <div class="panel" id="log-panel">
+      <h2>Handler Log</h2>
+      <ul id="log"></ul>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
