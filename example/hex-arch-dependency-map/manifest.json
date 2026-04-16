@@ -1,0 +1,12 @@
+{
+  "slug": "hex-arch-dependency-map",
+  "title": "Hex Arch Dependency Map",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T10:27:18.016Z",
+  "source_project": "102-hex-arch-dependency-map",
+  "author": "kjuhwa@nkia.co.kr"
+}
