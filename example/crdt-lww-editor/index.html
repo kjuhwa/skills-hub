@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LWW-Register Collaborative Note</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Last-Writer-Wins Register</h1>
+  <p>Two users edit the same note. On sync, the write with the highest timestamp wins per field.</p>
+</header>
+<main>
+  <div class="panels">
+    <section class="panel" data-user="alice">
+      <h2>Alice <span class="clock" id="clock-alice">t=0</span></h2>
+      <label>Title</label>
+      <input type="text" data-field="title" />
+      <label>Body</label>
+      <textarea data-field="body" rows="5"></textarea>
+      <div class="meta" id="meta-alice"></div>
+    </section>
+    <section class="panel" data-user="bob">
+      <h2>Bob <span class="clock" id="clock-bob">t=0</span></h2>
+      <label>Title</label>
+      <input type="text" data-field="title" />
+      <label>Body</label>
+      <textarea data-field="body" rows="5"></textarea>
+      <div class="meta" id="meta-bob"></div>
+    </section>
+  </div>
+  <div class="controls">
+    <button id="sync">Sync Replicas</button>
+    <span class="hint">Edits are buffered locally. Click sync to merge via LWW.</span>
+  </div>
+  <div class="resolved" id="resolved">
+    <h3>Merged Document</h3>
+    <div id="resolvedBody"></div>
+  </div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
