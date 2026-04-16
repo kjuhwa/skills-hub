@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APM Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top-bar">
+  <div class="logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="#6ee7b7" stroke-width="2"/>
+      <path d="M7 13l3-6 4 8 3-5" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>APM Suite</span>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" data-view="traces">Traces</button>
+    <button class="tab" data-view="metrics">Metrics</button>
+    <button class="tab" data-view="topology">Topology</button>
+  </nav>
+  <div class="top-right">
+    <span class="clock" id="clock"></span>
+    <span class="status-dot" id="statusDot" title="Simulation running"></span>
+  </div>
+</header>
+
+<main>
+  <!-- Trace Waterfall View -->
+  <section class="view active" id="view-traces">
+    <div class="toolbar">
+      <button id="btnNewTrace" class="btn-primary">Generate Trace</button>
+      <select id="traceSelect"></select>
+      <span class="trace-summary" id="traceSummary"></span>
+    </div>
+    <div class="waterfall-container" id="waterfallContainer"></div>
+    <div class="span-detail-panel" id="spanDetail">
+      <div class="detail-header">Span Detail</div>
+      <div class="detail-body" id="spanDetailBody">Click a span to inspect</div>
+    </div>
+  </section>
+
+  <!-- Metrics Dashboard View -->
+  <section class="view" id="view-metrics">
+    <div class="toolbar">
+      <select id="serviceFilter">
+        <option value="all">All Services</option>
+      </select>
+      <label class="toggle-label">
+        <input type="checkbox" id="toggleBaseline" checked> Baseline
+      </label>
+      <label class="toggle-label">
+        <input type="checkbox" id="toggleAlerts" checked> Alerts
+      </label>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-title">Latency (ms)</span>
+          <span class="metric-value" id="latencyValue">--</span>
+          <span class="alert-badge hidden" id="latencyAlert">ALERT</span>
+        </div>
+        <canvas id="chartLatency" width="600" height="180"></canvas>
+        <div class="metric-footer">
+          <span>P50: <b id="latP50">--</b></span>
+          <span>P95: <b id="latP95">--</b></span>
+          <span>P99: <b id="latP99">--</b></span>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-title">Throughput (req/s)</span>
+          <span class="metric-value" id="throughputValue">--</span>
+          <span class="alert-badge hidden" id="throughputAlert">ALERT</span>
+        </div>
+        <canvas id="chartThroughput" width="600" height="180"></canvas>
+      </div>
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-title">Error Rate (%)</span>
+          <span class="metric-value" id="errorValue">--</span>
+          <span class="alert-badge hidden" id="errorAlert">ALERT</span>
+        </div>
+        <canvas id="chartError" width="600" height="180"></canvas>
+      </div>
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-title">Saturation (%)</span>
+          <span class="metric-value" id="saturationValue">--</span>
+          <span class="frozen-badge hidden" id="frozenBadge">FROZEN</span>
+        </div>
+        <canvas id="chartSaturation" width="600" height="180"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Topology View -->
+  <section class="view" id="view-topology">
+    <div class="toolbar">
+      <button id="btnResetLayout" class="btn-secondary">Reset Layout</button>
+      <label class="toggle-label">
+        <input type="checkbox" id="toggleTraffic" checked> Animate Traffic
+      </label>
+      <label class="toggle-label">
+        <input type="checkbox" id="toggleErrors" checked> Show Errors
+      </label>
+    </div>
+    <canvas id="topoCanvas" width="1200" height="700"></canvas>
+    <div class="topo-detail-panel" id="topoDetail">
+      <div class="detail-header" id="topoDetailTitle">Service Detail</div>
+      <div class="detail-body" id="topoDetailBody">Click a node</div>
+    </div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
