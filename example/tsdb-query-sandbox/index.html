@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSDB Query Sandbox</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="toolbar">
+  <h1>🔍 TSDB Query Sandbox</h1>
+  <span class="badge" id="rowCount">0 rows</span>
+</div>
+<div class="main">
+  <div class="editor-panel">
+    <textarea id="query" spellcheck="false">SELECT time, avg(value) FROM metrics
+WHERE sensor = 'temp-01'
+  AND time > now() - 1h
+GROUP BY time(5m)</textarea>
+    <button onclick="runQuery()">▶ Execute</button>
+    <div id="elapsed"></div>
+    <div id="explain"></div>
+  </div>
+  <div class="result-panel">
+    <canvas id="resultChart"></canvas>
+    <div class="table-scroll">
+      <table id="resultTable"><thead></thead><tbody></tbody></table>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
