@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Materialized View Dependency Graph</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>View Dependency Graph</h1>
+  <p>Click a node to trigger a refresh — watch propagation through dependents</p>
+</header>
+<main>
+  <svg id="graph" viewBox="0 0 800 520"></svg>
+  <aside>
+    <h2>Selected</h2>
+    <div id="info">Click any node</div>
+    <h2>Refresh Log</h2>
+    <ul id="log"></ul>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
