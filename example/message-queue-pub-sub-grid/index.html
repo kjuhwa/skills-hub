@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pub/Sub Topic Grid</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Pub/Sub Topic Grid</h1>
+  <p>Click a publisher to broadcast. Watch messages flow to subscribers via topic routing.</p>
+</header>
+<div class="board">
+  <div class="column">
+    <h2>Publishers</h2>
+    <div id="publishers"></div>
+  </div>
+  <div class="column wide">
+    <h2>Topic Bus</h2>
+    <canvas id="bus" width="500" height="500"></canvas>
+  </div>
+  <div class="column">
+    <h2>Subscribers</h2>
+    <div id="subscribers"></div>
+  </div>
+</div>
+<div class="footer">
+  <span>Total messages: <b id="total">0</b></span>
+  <button id="auto">Toggle Auto-Publish</button>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
