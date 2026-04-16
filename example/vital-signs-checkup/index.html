@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Personal Vital Signs Check</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <h1>Daily Vital Signs Check</h1>
+  <p class="subtitle">Answer a few prompts — we'll score your wellness in real time.</p>
+  <div class="layout">
+    <section class="questions" id="questions"></section>
+    <section class="result">
+      <svg viewBox="0 0 200 200" id="gauge">
+        <circle cx="100" cy="100" r="80" stroke="#1a1d27" stroke-width="16" fill="none"/>
+        <circle cx="100" cy="100" r="80" stroke="#6ee7b7" stroke-width="16" fill="none"
+          stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round"
+          transform="rotate(-90 100 100)" id="arc"/>
+        <text x="100" y="95" text-anchor="middle" fill="#e6e8ef" font-size="42" font-weight="700" id="scoreT">0</text>
+        <text x="100" y="120" text-anchor="middle" fill="#9aa0b4" font-size="12" id="labelT">checking…</text>
+      </svg>
+      <div class="breakdown" id="breakdown"></div>
+      <button id="resetBtn">Reset All</button>
+    </section>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

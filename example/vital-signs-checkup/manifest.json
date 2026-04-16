@@ -1,0 +1,12 @@
+{
+  "slug": "vital-signs-checkup",
+  "title": "Vital Signs Checkup",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T21:07:01.137Z",
+  "source_project": "101-vital-signs-checkup",
+  "author": "kjuhwa@nkia.co.kr"
+}
