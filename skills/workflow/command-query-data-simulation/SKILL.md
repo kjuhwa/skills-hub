@@ -1,6 +1,6 @@
 ---
 name: command-query-data-simulation
-description: Seed-and-stream simulation workflow that generates interleaved command/query operations with realistic names, durations, and handler responses.
+description: Generate realistic command/query/event streams with controllable lag and conflict patterns for CQRS demos
 category: workflow
 triggers:
   - command query data simulation
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # command-query-data-simulation
 
-Command-query simulations share a common data generation pattern: a typed entry object containing an operation type (command or query), a domain-specific name drawn from curated pools, a timestamp, and a measurable attribute like duration or handler result. The timeline app seeds 12 entries at startup using weighted randomness (60% queries, 40% commands) and caps the rolling window at 30 entries, shifting old ones out. The bus simulator dispatches 6 seed operations on staggered 400ms intervals to demonstrate the animated flow. Both use parallel arrays of realistic operation names — commands are verbs (CreateUser, UpdateOrder, DeleteItem, PublishEvent) and queries are accessors (GetUsers, FindOrder, ListItems, CountEvents).
+Seed the simulation with a small domain (e.g., orders, inventory, user profiles) and define a command catalog (CreateOrder, CancelOrder, AdjustStock) alongside a query catalog (GetOrderById, ListOpenOrders, GetInventoryLevel). Generate command streams via a weighted random picker — 70% reads, 30% writes mirrors real traffic — and ensure every command deterministically produces one or more domain events with a stable event ID, aggregate ID, and version number. Maintain two in-memory stores: an append-only event log for the write side and a mutable view map for the read side, populated by synchronous or delayed projectors.
 
-The reusable simulation workflow follows three phases: (1) seed phase — generate N initial entries with weighted type distribution to show a realistic starting state, (2) interactive phase — let the user dispatch ad-hoc operations with type selection and optional naming, and (3) response phase — commands yield a state-mutation acknowledgment ("state mutated") while queries yield a data-return signal ("data returned"). Handler naming follows the convention of appending "Handler" to the operation name (CreateUserHandler, GetUsersHandler), mirroring real CQRS bus implementations. Duration values are randomized within a bounded range (20–100ms) to simulate realistic variance.
+Expose tunable knobs the user can drive live: projection-lag-ms (delay between event append and read-model update), command-failure-rate (simulates validation rejects), and conflict-rate (forces concurrent commands on the same aggregate to trigger version conflicts). Replay determinism matters — persist the seeded RNG state and the full command log so a session can be exported, shared, and re-run to produce identical event sequences. This lets the three simulators cross-validate that their flow models agree.
 
-For the CQS analyzer, the simulation takes a different form: instead of generating runtime events, it provides a sample class with methods that represent pure commands (void mutators), pure queries (side-effect-free getters), and intentional violations (methods that both mutate and return). The detection heuristics check for `return` statements combined with `this.*` assignments, `.push()`, `.splice()`, or `console.log()` calls. This three-bucket classification (command / query / violation) is the core data model that all command-query simulations should produce.
+For query simulation, cache read-model snapshots keyed by (queryName, args, asOfEventVersion) so the UI can show "this query was served from version N, current version is N+k → staleness = k events". Emitting this staleness metric on every query response is what turns the simulator from a toy into a teaching tool about eventual consistency windows.
