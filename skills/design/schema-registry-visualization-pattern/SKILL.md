@@ -1,6 +1,6 @@
 ---
 name: schema-registry-visualization-pattern
-description: Multi-panel visualization combining schema tree, version timeline, and compatibility matrix for schema registry exploration
+description: Visualization patterns for schema registry evolution, compatibility, and dependency graphs
 category: design
 triggers:
   - schema registry visualization pattern
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # schema-registry-visualization-pattern
 
-Schema registry UIs benefit from a three-panel layout that exposes the registry's inherent dimensions: subject hierarchy (left nav tree grouping by namespace/topic), version history (horizontal timeline with BACKWARD/FORWARD/FULL compatibility badges per version transition), and field-level diff (right pane rendering Avro/Protobuf/JSON Schema as collapsible tree with added/removed/modified field highlights). Use color semantics consistently across panels: green for additive/backward-compatible changes, amber for potentially breaking (field renames, type widening), red for breaking (required field removal, type narrowing, enum value removal).
+Schema registry visualizations cluster around three complementary views: a **timeline view** that plots schema versions along a horizontal axis with version nodes colored by compatibility mode (BACKWARD=green, FORWARD=blue, FULL=purple, NONE=red) and annotated with breaking-change markers; a **compatibility matrix** that renders an NxN grid of writer-schema × reader-schema cells, each cell encoding pass/fail plus the specific rule violated (field-removed, type-narrowed, default-missing); and a **subject dependency graph** that uses a force-directed or Sugiyama layout to show subject → referenced-subject edges (Avro `references`, Protobuf imports), with node size proportional to version count and edge thickness proportional to cross-subject field reuse.
 
-For the evolution timeline specifically, render each version as a node on a horizontal axis with edges labeled by compatibility mode, and overlay a "compatibility boundary" line showing which versions a consumer pinned to version N can still read. Hover states should reveal the specific schema-resolution rules that apply (default values filling missing fields, aliases resolving renames). The compatibility checker panel should show a side-by-side schema diff with inline annotations explaining *why* a change breaks compatibility in a given mode — not just that it does — since this is the primary learning goal users come to a registry explorer with.
+The visual grammar should make compatibility semantics legible at a glance. Use diffable field-level overlays on hover: added fields glow green, removed fields strike through red, type-changed fields pulse amber, and default-value changes show an inline `old → new` pill. For timeline views, collapse patch-level versions into expandable clusters to keep the axis readable when a subject has hundreds of versions. Always display the compatibility mode as a persistent badge on the subject header, because the same schema diff is "safe" or "breaking" depending on whether the subject is in BACKWARD, FORWARD, or FULL mode.
 
-Field-level rendering must handle nested records, unions (especially `["null", T]` optionality), logical types (decimal, timestamp-millis), and schema references (Protobuf imports, Avro named type references). Flatten on demand but preserve the ability to drill into referenced schemas without losing scroll position in the parent.
+Interactivity should mirror the registry's check API: clicking any version pair runs a client-side simulated compatibility check and highlights the exact field paths that would fail, mapping them back to the Avro/Protobuf/JSONSchema rule codes (e.g., `avro-field-removed-no-default`, `protobuf-tag-renumbered`). Keep the rule-code taxonomy in a sidebar legend so users learn the registry's vocabulary while exploring.
