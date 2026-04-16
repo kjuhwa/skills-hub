@@ -1,0 +1,12 @@
+{
+  "slug": "cdc-pipeline-monitor",
+  "title": "Cdc Pipeline Monitor",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T14:57:14.997Z",
+  "source_project": "102-cdc-pipeline-monitor",
+  "author": "kjuhwa@nkia.co.kr"
+}

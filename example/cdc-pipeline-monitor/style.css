@@ -1,0 +1,15 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; }
+.app { max-width: 960px; margin: 0 auto; }
+h1 { color: #6ee7b7; font-size: 18px; margin-bottom: 16px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.card { background: #1a1d27; border-radius: 8px; padding: 14px; border: 1px solid #2a2d37; }
+.card-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.card-status { font-size: 12px; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot.running { background: #6ee7b7; box-shadow: 0 0 6px #6ee7b766; }
+.dot.lagging { background: #fbbf24; box-shadow: 0 0 6px #fbbf2466; }
+.dot.stopped { background: #f87171; }
+.card-stats { font-size: 11px; color: #94a3b8; }
+.card-stats span { display: block; margin-top: 2px; }
+#chart { background: #1a1d27; border-radius: 8px; border: 1px solid #2a2d37; display: block; }
