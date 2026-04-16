@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CQ Live Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <h1>Command-Query Live Monitor</h1>
+  <div class="stats">
+    <div class="stat"><span class="label">Commands</span><span id="cmdCount" class="val cmd-c">0</span></div>
+    <div class="stat"><span class="label">Queries</span><span id="qryCount" class="val qry-c">0</span></div>
+    <div class="stat"><span class="label">Ratio C:Q</span><span id="ratio" class="val">-</span></div>
+    <div class="stat"><span class="label">Avg Latency</span><span id="avgLat" class="val">0ms</span></div>
+  </div>
+  <svg id="chart" width="760" height="180"></svg>
+  <div id="feed" class="feed"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -208,6 +208,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [retry-strategy-timeline](retry-strategy-timeline/) | Retry Strategy Timeline — auto-generated retry-strategy tool | html, css, vanilla-js | 2026-04-16 |
 
+| [command-query-monitor](command-query-monitor/) | Command Query Monitor — auto-generated command-query tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
