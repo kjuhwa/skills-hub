@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CQRS Event Flow Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>CQRS Event Flow</h1>
+<div class="container">
+  <div class="panel" id="command-panel">
+    <h2>Commands (Write)</h2>
+    <button onclick="sendCommand('CreateOrder')">CreateOrder</button>
+    <button onclick="sendCommand('UpdateStock')">UpdateStock</button>
+    <button onclick="sendCommand('CancelOrder')">CancelOrder</button>
+    <div id="command-log" class="log"></div>
+  </div>
+  <canvas id="flow-canvas" width="200" height="400"></canvas>
+  <div class="panel" id="query-panel">
+    <h2>Queries (Read)</h2>
+    <div id="read-model"></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
