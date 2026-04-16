@@ -1,0 +1,15 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; padding: 24px; max-width: 900px; margin: auto; }
+h1 { color: #6ee7b7; text-align: center; font-size: 1.4rem; }
+.sub { text-align: center; font-size: .85rem; color: #8b949e; margin: 6px 0 18px; }
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.panel { background: #1a1d27; border-radius: 10px; padding: 16px; }
+.scope-btn { display: inline-block; padding: 6px 14px; margin: 4px; border-radius: 20px; cursor: pointer; font-size: .8rem; border: 1px solid #333; transition: all .2s; user-select: none; }
+.scope-btn.on { background: #6ee7b733; border-color: #6ee7b7; color: #6ee7b7; }
+.scope-btn.off { background: #1a1d27; color: #555; }
+.ep { padding: 8px 12px; margin: 4px 0; border-radius: 6px; font-family: monospace; font-size: .8rem; display: flex; justify-content: space-between; transition: all .3s; }
+.ep.ok { background: #6ee7b715; color: #6ee7b7; }
+.ep.denied { background: #f8514910; color: #484f58; }
+.ep .method { font-weight: bold; min-width: 50px; }
+.ep .lock { font-size: .75rem; }
+#viz { display: block; margin-top: 16px; }
