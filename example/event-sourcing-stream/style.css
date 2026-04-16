@@ -1,0 +1,22 @@
+```css
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:monospace;display:flex;justify-content:center;padding:20px}
+#app{max-width:780px;width:100%}
+h1{color:#6ee7b7;font-size:1.4rem}
+.sub{color:#555;font-size:.8rem;margin-bottom:14px}
+h3{color:#6ee7b7;font-size:.8rem;margin-bottom:6px}
+.controls{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+button{background:#1a1d27;color:#6ee7b7;border:1px solid #6ee7b744;padding:5px 14px;border-radius:4px;cursor:pointer;font-family:monospace}
+button:hover{background:#6ee7b722}
+.counter{color:#6ee7b7;font-size:.85rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:#1a1d27;border-radius:6px;padding:12px}
+.card.wide{grid-column:span 2}
+canvas{display:block;width:100%}
+.scroll-box{max-height:150px;overflow-y:auto;font-size:.72rem}
+.scroll-box div{padding:2px 0;border-bottom:1px solid #ffffff06}
+#legend{font-size:.7rem;margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+.leg{display:flex;align-items:center;gap:3px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+svg{display:block;margin:0 auto}
+```

@@ -204,6 +204,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [cqrs-event-flow](cqrs-event-flow/) | Cqrs Event Flow — auto-generated cqrs tool | html, css, vanilla-js | 2026-04-16 |
 
+| [event-sourcing-stream](event-sourcing-stream/) | Event Sourcing Stream — auto-generated event-sourcing tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
