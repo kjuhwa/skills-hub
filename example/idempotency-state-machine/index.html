@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idempotency State Machine</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h1>⚙️ Idempotency State Machine</h1>
+  <p class="subtitle">Watch how an idempotent processor transitions through states — repeated inputs never cause re-transitions</p>
+  <svg id="stateSvg" viewBox="0 0 760 320"></svg>
+  <div class="controls">
+    <button onclick="fireEvent('CREATE')">CREATE</button>
+    <button onclick="fireEvent('PROCESS')">PROCESS</button>
+    <button onclick="fireEvent('COMPLETE')">COMPLETE</button>
+    <button onclick="fireEvent('CREATE')" class="dup">RETRY CREATE</button>
+    <button onclick="fireEvent('PROCESS')" class="dup">RETRY PROCESS</button>
+    <button onclick="resetMachine()">Reset</button>
+  </div>
+  <div id="eventLog" class="event-log"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
