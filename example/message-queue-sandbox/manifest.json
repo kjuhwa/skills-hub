@@ -1,0 +1,12 @@
+{
+  "slug": "message-queue-sandbox",
+  "title": "Message Queue Sandbox",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T12:58:04.803Z",
+  "source_project": "102-message-queue-sandbox",
+  "author": "kjuhwa@nkia.co.kr"
+}

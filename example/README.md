@@ -182,6 +182,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [dlq-autopsy-table](dlq-autopsy-table/) | Dlq Autopsy Table — auto-generated dead-letter-queue tool | html, css, vanilla-js | 2026-04-16 |
 
+| [message-queue-sandbox](message-queue-sandbox/) | Message Queue Sandbox — auto-generated message-queue tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
