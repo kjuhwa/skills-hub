@@ -1,0 +1,12 @@
+{
+  "slug": "sidecar-proxy-traffic-flow",
+  "title": "Sidecar Proxy Traffic Flow",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T14:05:02.517Z",
+  "source_project": "100-sidecar-proxy-traffic-flow",
+  "author": "kjuhwa@nkia.co.kr"
+}
