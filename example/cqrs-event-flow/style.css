@@ -1,0 +1,13 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; padding: 20px; text-align: center; }
+h1 { color: #6ee7b7; margin-bottom: 18px; font-size: 1.4rem; }
+h2 { color: #6ee7b7; font-size: 1rem; margin-bottom: 10px; }
+.container { display: flex; justify-content: center; align-items: flex-start; gap: 10px; }
+.panel { background: #1a1d27; border-radius: 10px; padding: 16px; width: 260px; min-height: 400px; }
+button { background: #6ee7b7; color: #0f1117; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; margin: 4px; font-weight: 600; font-size: .85rem; }
+button:hover { opacity: .85; }
+.log { margin-top: 12px; text-align: left; font-size: .78rem; max-height: 280px; overflow-y: auto; }
+.log-entry { padding: 4px 6px; border-left: 3px solid #6ee7b7; margin-bottom: 4px; background: #0f1117; border-radius: 3px; }
+#read-model { text-align: left; font-size: .82rem; }
+.read-row { padding: 6px; background: #0f1117; margin-bottom: 4px; border-radius: 4px; }
+canvas { flex-shrink: 0; }
