@@ -1,0 +1,12 @@
+{
+  "slug": "graphql-subscription-feed",
+  "title": "Graphql Subscription Feed",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T21:27:18.071Z",
+  "source_project": "102-graphql-subscription-feed",
+  "author": "kjuhwa@nkia.co.kr"
+}

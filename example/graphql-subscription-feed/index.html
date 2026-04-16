@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GraphQL Subscription Feed</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>GraphQL Subscription Monitor</h1>
+  <div class="status">
+    <span id="indicator" class="dot"></span>
+    <span id="status-text">Connecting...</span>
+    <span class="counter">Events: <b id="count">0</b></span>
+  </div>
+</header>
+<main>
+  <aside class="sub-panel">
+    <h2>Active Subscriptions</h2>
+    <div id="subs"></div>
+    <button id="toggle-conn">Disconnect</button>
+  </aside>
+  <section class="feed">
+    <h2>Live Event Stream</h2>
+    <div id="events"></div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
