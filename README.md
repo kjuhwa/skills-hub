@@ -47,6 +47,7 @@ bootstrap/
     hub-list-skills.md
     hub-list-knowledge.md
     hub-list-examples.md
+    hub-install-example.md
     hub-show.md
     hub-status.md
     hub-sync.md
@@ -124,6 +125,7 @@ Should report "no skills installed yet" plus the empty registry — proves the h
 | `/hub-list-skills` | Show installed skills with source, version, pin state | no |
 | `/hub-list-knowledge [--category/--tag/--linked-to/--orphans]` | List locally installed knowledge entries | no |
 | `/hub-list-examples [--refresh/--verbose]` | List projects published under `example/` in the remote | no |
+| `/hub-install-example [keyword] [--list/--stack=/--open]` | Browse and install example projects from `example/` into cwd | local copy |
 | `/hub-show <name>` | Display the full content of an installed skill or knowledge entry | no |
 | `/hub-status` | Show a compact summary of the skills hub (counts, staleness, health) | no |
 | `/hub-sync [--skill=.. --version=..]` | Refresh cache; bulk update, targeted rollback, or `--unpin` | local |
@@ -174,6 +176,10 @@ Should report "no skills installed yet" plus the empty registry — proves the h
 /hub-install backend         → grab useful backend patterns
 
 # During work — nothing needed, installed skills auto-activate via triggers
+
+# Browse & install example projects
+/hub-install-example dashboard → search + install matching examples
+/hub-install-example --list    → browse all available examples
 
 # Extract what you learned
 /hub-extract-session          → drafts from just this session
