@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chaos Blast Radius Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Blast Radius Simulator</h1>
+  <p>Click any service node to inject a fault and watch the cascade propagate.</p>
+</header>
+<main>
+  <div class="toolbar">
+    <button id="reset">Reset Topology</button>
+    <button id="randomize">Randomize</button>
+    <label>Severity <input type="range" id="severity" min="1" max="10" value="6"></label>
+    <span id="severityVal">6</span>
+  </div>
+  <svg id="canvas" viewBox="0 0 900 560"></svg>
+  <aside id="log">
+    <h2>Incident Log</h2>
+    <ul id="logList"></ul>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

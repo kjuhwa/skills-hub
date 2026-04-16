@@ -1,0 +1,12 @@
+{
+  "slug": "chaos-blast-radius-simulator",
+  "title": "Chaos Blast Radius Simulator",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T17:30:45.084Z",
+  "source_project": "100-chaos-blast-radius-simulator",
+  "author": "kjuhwa@nkia.co.kr"
+}
