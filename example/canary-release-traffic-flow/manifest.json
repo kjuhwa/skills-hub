@@ -1,0 +1,12 @@
+{
+  "slug": "canary-release-traffic-flow",
+  "title": "Canary Release Traffic Flow",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T12:26:03.534Z",
+  "source_project": "32-canary-release-traffic-flow",
+  "author": "kjuhwa@nkia.co.kr"
+}
