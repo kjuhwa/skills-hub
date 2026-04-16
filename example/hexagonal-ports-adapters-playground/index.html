@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hexagonal Ports & Adapters Playground</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Ports & Adapters Playground</h1>
+  <p>Swap adapters at runtime and watch requests flow through the hexagon.</p>
+</header>
+<main>
+  <section class="controls">
+    <div class="adapter-group">
+      <label>Driving (Primary)</label>
+      <select id="primary">
+        <option value="rest">REST Adapter</option>
+        <option value="cli">CLI Adapter</option>
+        <option value="grpc">gRPC Adapter</option>
+      </select>
+    </div>
+    <div class="adapter-group">
+      <label>Persistence</label>
+      <select id="persistence">
+        <option value="postgres">PostgreSQL</option>
+        <option value="memory">In-Memory</option>
+        <option value="mongo">MongoDB</option>
+      </select>
+    </div>
+    <div class="adapter-group">
+      <label>Notification</label>
+      <select id="notify">
+        <option value="email">Email</option>
+        <option value="sms">SMS</option>
+        <option value="webhook">Webhook</option>
+      </select>
+    </div>
+    <button id="send">Send Request</button>
+  </section>
+  <section class="stage">
+    <svg id="hex" viewBox="0 0 600 520"></svg>
+    <aside id="log"><h3>Event Log</h3><ul id="logList"></ul></aside>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

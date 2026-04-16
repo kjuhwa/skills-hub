@@ -404,6 +404,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [cqrs-flow-simulator](cqrs-flow-simulator/) | Cqrs Flow Simulator — auto-generated command-query tool | html, css, vanilla-js | 2026-04-16 |
 
+| [hexagonal-ports-adapters-playground](hexagonal-ports-adapters-playground/) | Hexagonal Ports Adapters Playground — auto-generated hexagonal-architecture tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
