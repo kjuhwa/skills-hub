@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MV Query Planner</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Materialized View Query Planner</h1>
+<div class="container">
+  <div class="panel">
+    <label>SQL Query</label>
+    <textarea id="sql" rows="4">SELECT date, SUM(amount) FROM orders JOIN products USING(product_id) WHERE date > '2025-01-01' GROUP BY date</textarea>
+    <button id="analyze">Analyze</button>
+  </div>
+  <div class="panel result" id="result"></div>
+</div>
+<svg id="plan" width="100%" height="260"></svg>
+<script src="app.js"></script>
+</body>
+</html>

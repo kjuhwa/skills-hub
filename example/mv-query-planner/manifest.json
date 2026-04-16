@@ -1,0 +1,12 @@
+{
+  "slug": "mv-query-planner",
+  "title": "Mv Query Planner",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T08:41:10.449Z",
+  "source_project": "35-mv-query-planner",
+  "author": "kjuhwa@nkia.co.kr"
+}

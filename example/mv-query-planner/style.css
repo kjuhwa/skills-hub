@@ -1,0 +1,15 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; padding: 16px; }
+h1 { text-align: center; font-size: 1.1rem; color: #6ee7b7; margin-bottom: 14px; }
+.container { display: flex; gap: 12px; margin-bottom: 14px; }
+.panel { flex: 1; background: #1a1d27; border-radius: 8px; padding: 14px; }
+label { font-size: 0.8rem; color: #8b949e; display: block; margin-bottom: 6px; }
+textarea { width: 100%; background: #0f1117; border: 1px solid #2d333b; color: #c9d1d9; border-radius: 6px; padding: 8px; font-family: monospace; font-size: 0.85rem; resize: none; }
+button { background: #6ee7b7; color: #0f1117; border: none; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 8px; }
+button:hover { background: #5ad4a4; }
+.result { font-size: 0.85rem; line-height: 1.6; }
+.result .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-right: 4px; }
+.tag.hit { background: #1a3a2a; color: #6ee7b7; }
+.tag.miss { background: #3b2020; color: #f85149; }
+.tag.partial { background: #3b3520; color: #d29922; }
+svg { display: block; background: #1a1d27; border-radius: 8px; }
