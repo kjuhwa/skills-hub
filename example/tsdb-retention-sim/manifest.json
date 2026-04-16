@@ -1,0 +1,12 @@
+{
+  "slug": "tsdb-retention-sim",
+  "title": "Tsdb Retention Sim",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T08:45:43.282Z",
+  "source_project": "38-tsdb-retention-sim",
+  "author": "kjuhwa@nkia.co.kr"
+}
