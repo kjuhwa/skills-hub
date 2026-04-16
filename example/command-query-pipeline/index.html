@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CQRS Pipeline Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>CQRS Pipeline</h1>
+  <div class="controls">
+    <button id="btnCommand" onclick="dispatch('command')">Send Command</button>
+    <button id="btnQuery" onclick="dispatch('query')">Send Query</button>
+  </div>
+  <canvas id="canvas" width="900" height="400"></canvas>
+  <div id="log"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
