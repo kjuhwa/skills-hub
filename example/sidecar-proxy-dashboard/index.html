@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidecar Proxy Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><h1>Sidecar Proxy Dashboard</h1></header>
+<div class="grid">
+  <div class="card" id="cardLatency"><h2>Latency (ms)</h2><svg id="svgLatency" viewBox="0 0 300 120"></svg></div>
+  <div class="card" id="cardRps"><h2>Requests/sec</h2><div class="big" id="rpsVal">0</div></div>
+  <div class="card" id="cardStatus"><h2>Status Codes</h2><div id="bars"></div></div>
+  <div class="card" id="cardLog"><h2>Proxy Log</h2><div id="log"></div></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

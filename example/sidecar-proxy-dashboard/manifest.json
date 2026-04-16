@@ -1,0 +1,12 @@
+{
+  "slug": "sidecar-proxy-dashboard",
+  "title": "Sidecar Proxy Dashboard",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T14:05:13.385Z",
+  "source_project": "101-sidecar-proxy-dashboard",
+  "author": "kjuhwa@nkia.co.kr"
+}
