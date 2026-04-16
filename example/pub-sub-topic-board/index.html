@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pub/Sub Topic Board</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header><h1>Topic Board</h1><span class="badge" id="msgCount">0 msgs</span></header>
+  <div class="board" id="board"></div>
+  <div class="input-bar">
+    <input id="msgInput" placeholder="Type a message..." />
+    <select id="pubTopic"></select>
+    <button id="btnSend">Publish</button>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
