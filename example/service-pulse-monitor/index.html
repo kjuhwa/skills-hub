@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Service Pulse Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Service Pulse Monitor</h1>
+  <div class="summary">
+    <span class="stat"><b id="upCount">0</b> Healthy</span>
+    <span class="stat warn"><b id="degCount">0</b> Degraded</span>
+    <span class="stat err"><b id="downCount">0</b> Down</span>
+    <span class="stat"><b id="uptime">—</b> Uptime</span>
+  </div>
+</header>
+<main>
+  <section id="serviceGrid"></section>
+  <aside>
+    <h2>Live Log</h2>
+    <ul id="logList"></ul>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
