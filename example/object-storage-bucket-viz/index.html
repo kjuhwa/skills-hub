@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Object Storage Bucket Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>Bucket Visualizer</h1>
+  <div class="controls">
+    <button onclick="addObject()">+ Upload Object</button>
+    <button onclick="clearBucket()">Clear Bucket</button>
+    <span id="stats"></span>
+  </div>
+  <canvas id="canvas" width="900" height="500"></canvas>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
