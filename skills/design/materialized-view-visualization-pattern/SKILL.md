@@ -1,6 +1,6 @@
 ---
 name: materialized-view-visualization-pattern
-description: Split-pane visualization showing base table mutations flowing into a derived view with staleness indicators
+description: Side-by-side base-table vs materialized-view panels with staleness indicators and refresh timeline
 category: design
 triggers:
   - materialized view visualization pattern
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # materialized-view-visualization-pattern
 
-Materialized view UIs work best when the screen is divided into three synchronized regions: a **base-table panel** showing raw row mutations (INSERT/UPDATE/DELETE events streaming in), a **view panel** showing the derived aggregate/projection, and a **staleness delta panel** showing the diff between "what the view says" and "what the base would say right now if recomputed." Color the view rows by age-since-last-refresh (fresh=green, stale=amber, divergent=red) so users can see at a glance how far the materialization has drifted from truth.
+Render materialized-view concepts using a dual-panel layout: the left panel shows the underlying base tables (rows streaming in, write timestamps, change counters) and the right panel shows the materialized view (aggregated/joined projection with last-refresh timestamp). Connect them with an animated refresh pipeline — a directional flow bar that pulses during REFRESH events and reports rows scanned, rows emitted, and duration. Color-code freshness: green when view age < refresh interval, amber when approaching the threshold, red when stale beyond SLA.
 
-Render the refresh operation itself as a first-class animated event, not a silent state swap. Show a sweep/progress bar across affected view rows during refresh (whether FULL, INCREMENTAL, or CONCURRENT), and briefly highlight which base-table mutations are being "absorbed" into the view on this tick. For incremental/delta refreshes, draw arrows from the source change-log entries to the view rows they update — this makes the invariant "view = f(base) at time T" visually obvious, which is the single mental model users must internalize.
+Augment with a horizontal timeline/Gantt strip that plots three overlapping series: base-table writes (ticks), refresh windows (bars), and query reads (dots colored by which snapshot they hit). This lets viewers see the core tension — writes continue while the view is frozen between refreshes, and queries land on a snapshot whose age equals `now - lastRefreshAt`. Expose controls for refresh strategy (COMPLETE vs INCREMENTAL/CONCURRENTLY), refresh cadence, and write rate so the staleness/cost tradeoff becomes visually obvious.
 
-Always expose the **refresh policy** (on-commit, scheduled, manual, lazy-on-read) as a visible control, and plot refresh ticks on a timeline axis alongside mutation ticks. The interesting bugs in materialized views live in the *gap* between mutation time and refresh time, so the UI must make that gap measurable and scrubable.
+For graph-style variants, model the view as a DAG node whose inputs are base-table nodes and whose edges carry "last propagated delta" metadata; highlight the transitive invalidation path when an upstream table receives a write, so users see which downstream views become stale.
