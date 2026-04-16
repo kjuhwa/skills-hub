@@ -1,0 +1,12 @@
+{
+  "slug": "graphql-schema-graph",
+  "title": "Graphql Schema Graph",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T21:27:09.513Z",
+  "source_project": "101-graphql-schema-graph",
+  "author": "kjuhwa@nkia.co.kr"
+}
