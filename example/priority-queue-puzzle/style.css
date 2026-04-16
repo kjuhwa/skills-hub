@@ -1,0 +1,63 @@
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --accent: #6ee7b7;
+  --text: #e4e6ee;
+  --muted: #7a8198;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh; padding: 24px;
+}
+.wrap { max-width: 1200px; margin: 0 auto; }
+header { margin-bottom: 24px; }
+h1 { color: var(--accent); font-size: 22px; }
+header p { color: var(--muted); margin-top: 4px; font-size: 13px; }
+.board {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px;
+}
+.panel {
+  background: var(--surface); border-radius: 12px; padding: 18px;
+  display: flex; flex-direction: column; min-height: 480px;
+}
+h2 {
+  font-size: 13px; color: var(--accent); margin-bottom: 12px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.bin {
+  flex: 1; background: #0f1117; border-radius: 8px; padding: 10px;
+  border: 1px dashed #353b4d; min-height: 320px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.bin.drag-over { border-color: var(--accent); background: #14181f; }
+.queue { background: linear-gradient(180deg, #1a1f1d, #0f1117); }
+.msg {
+  background: #262a36; padding: 8px 12px; border-radius: 6px;
+  cursor: grab; display: flex; justify-content: space-between;
+  align-items: center; border-left: 3px solid var(--accent);
+  font-size: 13px; transition: transform 0.2s;
+}
+.msg:active { cursor: grabbing; }
+.msg.p1 { border-color: #f87171; }
+.msg.p2 { border-color: #fbbf24; }
+.msg.p3 { border-color: #60a5fa; }
+.msg.p4 { border-color: var(--accent); }
+.prio {
+  background: #0f1117; padding: 2px 8px; border-radius: 10px;
+  font-weight: 600; font-size: 11px;
+}
+button {
+  background: #262a36; color: var(--text); border: 1px solid #353b4d;
+  padding: 8px 14px; border-radius: 6px; cursor: pointer;
+  font-size: 13px; margin-top: 10px;
+}
+button.primary { background: var(--accent); color: #0f1117; font-weight: 600; border: none; }
+button:hover { opacity: 0.9; }
+.actions { display: flex; gap: 8px; }
+#score { margin-top: 12px; color: var(--muted); font-size: 13px; }
+#score b { color: var(--accent); }
+footer { margin-top: 20px; color: var(--muted); font-size: 12px; text-align: center; }
+@keyframes pop { 0% { transform: scale(1.1); } 100% { transform: scale(1); } }
+.pop { animation: pop 0.3s ease; }
