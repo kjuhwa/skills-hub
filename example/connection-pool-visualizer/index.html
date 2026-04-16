@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Connection Pool Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Connection Pool Visualizer</h1>
+    <div class="stats">
+      <div class="stat"><span class="label">Active</span><span id="active">0</span></div>
+      <div class="stat"><span class="label">Idle</span><span id="idle">0</span></div>
+      <div class="stat"><span class="label">Waiting</span><span id="waiting">0</span></div>
+      <div class="stat"><span class="label">Total</span><span id="total">0</span></div>
+    </div>
+  </header>
+  <main>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <div class="controls">
+      <button id="request">Request Connection</button>
+      <button id="burst">Burst (10)</button>
+      <button id="release">Release Oldest</button>
+      <label>Pool Size: <input type="range" id="pool-size" min="4" max="20" value="10"></label>
+      <label>Avg Duration: <input type="range" id="duration" min="500" max="5000" value="2000"></label>
+    </div>
+    <div id="log"></div>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
