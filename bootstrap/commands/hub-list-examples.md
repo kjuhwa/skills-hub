@@ -16,19 +16,24 @@ Enumerate every subfolder under `example/` in the `kjuhwa/skills-hub` remote cac
    - If `example/` does not exist yet, print `(no examples yet — safe to build anything)` and stop.
 
 2. **Scan**
-   - For each `example/<slug>/` directory, read:
+   - Examples are organized as `example/<category>/<slug>/` (28 categories).
+   - For each `example/<category>/<slug>/` directory, read:
      - `README.md` first H1 → title
      - README's `> **Why.**` line OR first paragraph → one-line summary
      - `manifest.json` (optional) → `tags`, `stack`, `created_at`, `author`
    - Skip any entry whose `README.md` is missing (report as `[BROKEN]`).
 
-3. **Render** a single table, sorted by `created_at` desc (fallback alpha):
+3. **Render** grouped by category, sorted by `created_at` desc (fallback alpha):
    ```
-   slug                     title                     stack              created
-   skills-explorer          Skills Explorer           node, html, js     2026-04-16
+   category/slug              title                     stack              created
+   circuit-breaker/
+     circuit-breaker-dashboard  Circuit Breaker Dashboard  html, css, js   2026-04-16
+   messaging/
+     dlq-flow-visualizer        DLQ Flow Visualizer        html, css, js   2026-04-16
    ...
    ```
    - With `--verbose`: add description/tags on a wrapped second line per row.
+   - Without `--verbose`: show category totals and first 3 slugs per category for compact view.
 
 4. **Footer**
    - Print totals: `N examples · cached from <commit-sha> · fetched <timestamp>`.
