@@ -102,6 +102,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [outbox-flow-simulator](outbox-flow-simulator/) | Outbox Flow Simulator — auto-generated outbox-pattern tool | html, css, vanilla-js | 2026-04-16 |
 
+| [command-query-journal](command-query-journal/) | Command Query Journal — auto-generated command-query tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:

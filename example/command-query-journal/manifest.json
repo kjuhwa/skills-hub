@@ -1,0 +1,12 @@
+{
+  "slug": "command-query-journal",
+  "title": "Command Query Journal",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T10:52:20.841Z",
+  "source_project": "102-command-query-journal",
+  "author": "kjuhwa@nkia.co.kr"
+}
