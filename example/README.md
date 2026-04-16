@@ -272,6 +272,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [hex-arch-visualizer](hex-arch-visualizer/) | Hex Arch Visualizer — auto-generated hexagonal-architecture tool | html, css, vanilla-js | 2026-04-16 |
 
+| [command-query-timeline](command-query-timeline/) | Command Query Timeline — auto-generated command-query tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
