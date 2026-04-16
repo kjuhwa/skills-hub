@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Sourcing Timeline</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>⟡ Event Sourcing Timeline</h1>
+  <div class="controls">
+    <button id="btnAdd">+ Add Event</button>
+    <button id="btnReplay">▶ Replay All</button>
+    <button id="btnReset">⟲ Reset State</button>
+    <span id="stateDisplay" class="state-badge">Balance: $0</span>
+  </div>
+  <canvas id="timeline" width="900" height="220"></canvas>
+  <div id="eventLog"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

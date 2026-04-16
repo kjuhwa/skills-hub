@@ -64,6 +64,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [bulkhead-simulator](bulkhead-simulator/) | Bulkhead Simulator — auto-generated bulkhead tool | html, css, vanilla-js | 2026-04-16 |
 
+| [event-sourcing-timeline](event-sourcing-timeline/) | Event Sourcing Timeline — auto-generated event-sourcing tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
