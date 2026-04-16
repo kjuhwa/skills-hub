@@ -434,6 +434,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [network-health-radar](network-health-radar/) | Network Health Radar — auto-generated health-check tool | html, css, vanilla-js | 2026-04-16 |
 
+| [bloom-filter-collision-race](bloom-filter-collision-race/) | Bloom Filter Collision Race — auto-generated bloom-filter tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
