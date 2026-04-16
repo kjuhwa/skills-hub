@@ -1,0 +1,12 @@
+{
+  "slug": "pub-sub-sandbox",
+  "title": "Pub Sub Sandbox",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T14:32:05.742Z",
+  "source_project": "102-pub-sub-sandbox",
+  "author": "kjuhwa@nkia.co.kr"
+}

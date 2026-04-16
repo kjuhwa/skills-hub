@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pub/Sub Sandbox</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <h2>Topics</h2>
+    <div id="topic-list"></div>
+    <input id="new-topic" placeholder="New topic name…">
+    <button id="add-topic">+ Add Topic</button>
+    <h2 style="margin-top:16px">Publish</h2>
+    <select id="pub-select"></select>
+    <input id="pub-msg" placeholder="Message payload…">
+    <button id="pub-btn">Publish</button>
+  </div>
+  <div id="main">
+    <h2>Event Stream</h2>
+    <div id="stream"></div>
+  </div>
+  <div id="right">
+    <h2>Subscribers</h2>
+    <div id="sub-list"></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

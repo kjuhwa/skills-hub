@@ -1,0 +1,18 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; }
+#app { display: grid; grid-template-columns: 220px 1fr 240px; height: 100vh; }
+#sidebar, #right { background: #1a1d27; padding: 14px; overflow-y: auto; }
+h2 { font-size: 0.9rem; color: #6ee7b7; margin-bottom: 8px; }
+input, select { width: 100%; padding: 6px 8px; margin-bottom: 6px; background: #0f1117; border: 1px solid #333; border-radius: 4px; color: #c9d1d9; font-size: 0.8rem; }
+button { width: 100%; padding: 6px; background: #6ee7b7; color: #0f1117; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.8rem; margin-bottom: 10px; }
+button:hover { opacity: 0.85; }
+.topic-tag { display: inline-block; background: #2a2d37; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; margin: 2px; cursor: pointer; }
+.topic-tag:hover { background: #6ee7b7; color: #0f1117; }
+#main { padding: 14px; overflow-y: auto; }
+#stream { font-family: monospace; font-size: 0.75rem; }
+#stream .evt { padding: 5px 8px; margin-bottom: 4px; background: #1a1d27; border-radius: 4px; border-left: 3px solid #6ee7b7; }
+.evt .t { color: #555; } .evt .n { color: #6ee7b7; font-weight: bold; }
+.sub-card { background: #0f1117; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 0.75rem; }
+.sub-card strong { color: #7dd3fc; }
+.sub-card .topics-line { color: #555; margin-top: 2px; }
+.sub-card .inbox div { padding: 2px 0; border-bottom: 1px solid #1a1d27; }

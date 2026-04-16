@@ -212,6 +212,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [object-storage-treemap](object-storage-treemap/) | Object Storage Treemap — auto-generated object-storage tool | html, css, vanilla-js | 2026-04-16 |
 
+| [pub-sub-sandbox](pub-sub-sandbox/) | Pub Sub Sandbox — auto-generated pub-sub tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
