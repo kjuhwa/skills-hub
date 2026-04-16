@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Object Lifecycle Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>Object Lifecycle Simulator</h1>
+  <div class="toolbar">
+    <button onclick="play()">▶ Play</button>
+    <button onclick="pause()">⏸ Pause</button>
+    <button onclick="reset()">↺ Reset</button>
+    <span id="day-label">Day 0</span>
+  </div>
+  <div class="tiers">
+    <div class="tier" id="t-hot"><div class="tier-hdr">🔥 Hot (Standard)</div><div class="tier-objects" id="hot"></div><div class="tier-cost" id="hot-cost">$0.000</div></div>
+    <div class="tier" id="t-warm"><div class="tier-hdr">🌤 Warm (IA)</div><div class="tier-objects" id="warm"></div><div class="tier-cost" id="warm-cost">$0.000</div></div>
+    <div class="tier" id="t-cold"><div class="tier-hdr">❄ Cold (Glacier)</div><div class="tier-objects" id="cold"></div><div class="tier-cost" id="cold-cost">$0.000</div></div>
+    <div class="tier" id="t-del"><div class="tier-hdr">🗑 Expired</div><div class="tier-objects" id="deleted"></div></div>
+  </div>
+  <div id="total">Total cost: $0.000</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

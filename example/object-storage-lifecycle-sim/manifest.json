@@ -1,0 +1,12 @@
+{
+  "slug": "object-storage-lifecycle-sim",
+  "title": "Object Storage Lifecycle Sim",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T11:28:33.352Z",
+  "source_project": "102-object-storage-lifecycle-sim",
+  "author": "kjuhwa@nkia.co.kr"
+}

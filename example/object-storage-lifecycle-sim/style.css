@@ -1,0 +1,15 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 20px; }
+#app { max-width: 900px; width: 100%; }
+h1 { color: #6ee7b7; font-size: 1.3rem; margin-bottom: 10px; }
+.toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+.toolbar button { background: #1a1d27; color: #6ee7b7; border: 1px solid #6ee7b7; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: .82rem; }
+.toolbar button:hover { background: #6ee7b733; }
+#day-label { margin-left: auto; font-size: .85rem; color: #8b949e; }
+.tiers { display: flex; gap: 10px; margin-bottom: 12px; }
+.tier { flex: 1; background: #1a1d27; border-radius: 10px; padding: 10px; min-height: 200px; border: 1px solid #2a2d37; display: flex; flex-direction: column; }
+.tier-hdr { font-size: .8rem; margin-bottom: 8px; color: #8b949e; }
+.tier-objects { flex: 1; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start; }
+.obj { width: 32px; height: 32px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: .55rem; color: #0f1117; font-weight: 700; transition: all .4s; }
+.tier-cost { margin-top: 6px; font-size: .75rem; color: #6ee7b7; text-align: right; }
+#total { background: #1a1d27; border-radius: 8px; padding: 10px 14px; font-size: .95rem; color: #6ee7b7; text-align: center; font-weight: 600; }
