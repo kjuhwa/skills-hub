@@ -1,0 +1,12 @@
+{
+  "slug": "event-sourcing-timeline",
+  "title": "Event Sourcing Timeline",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T09:33:23.837Z",
+  "source_project": "69-event-sourcing-timeline",
+  "author": "kjuhwa@nkia.co.kr"
+}
