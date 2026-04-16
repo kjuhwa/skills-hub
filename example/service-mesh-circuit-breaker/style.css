@@ -1,0 +1,16 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #e2e8f0; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+h1 { color: #6ee7b7; font-size: 1.1rem; text-align: center; letter-spacing: 2px; }
+.sub { text-align: center; font-size: 0.75rem; color: #64748b; margin: 6px 0 16px; }
+#panel { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 800px; margin: 0 auto; }
+.svc { background: #1a1d27; border: 2px solid #2a2d37; border-radius: 10px; padding: 14px 18px; cursor: pointer; min-width: 160px; text-align: center; transition: border-color 0.3s, transform 0.15s; }
+.svc:hover { transform: scale(1.04); }
+.svc h3 { font-size: 0.8rem; margin-bottom: 6px; }
+.svc .state { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+.closed { border-color: #6ee7b7; } .closed .state { color: #6ee7b7; }
+.open { border-color: #ef4444; } .open .state { color: #ef4444; }
+.half-open { border-color: #fbbf24; } .half-open .state { color: #fbbf24; }
+.svc .meta { font-size: 0.65rem; color: #64748b; margin-top: 4px; }
+#log { max-width: 800px; margin: 16px auto 0; max-height: 180px; overflow-y: auto; font-size: 0.7rem; font-family: monospace; background: #1a1d27; border-radius: 8px; padding: 10px; }
+#log div { padding: 2px 0; border-bottom: 1px solid #2a2d37; }
+.log-ok { color: #6ee7b7; } .log-fail { color: #ef4444; } .log-warn { color: #fbbf24; }

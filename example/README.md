@@ -156,6 +156,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [strangler-fig-ecosystem](strangler-fig-ecosystem/) | Strangler Fig Ecosystem — auto-generated strangler-fig tool | html, css, vanilla-js | 2026-04-16 |
 
+| [service-mesh-circuit-breaker](service-mesh-circuit-breaker/) | Service Mesh Circuit Breaker — auto-generated service-mesh tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
