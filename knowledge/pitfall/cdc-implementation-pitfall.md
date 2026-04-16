@@ -1,6 +1,6 @@
 ---
 name: cdc-implementation-pitfall
-description: Common correctness traps when building CDC monitoring, replay, and conflict resolution tooling
+description: Common CDC mistakes: losing position state, mishandling tombstones, and breaking transaction boundaries
 category: pitfall
 tags:
   - cdc
@@ -9,8 +9,8 @@ tags:
 
 # cdc-implementation-pitfall
 
-The biggest trap is treating `ts_ms` as the ordering key. CDC events must be ordered by **LSN/binlog-offset**, not wall-clock timestamp — source clocks skew, NTP jumps, and two events in the same transaction often share `ts_ms` but have distinct LSNs. Timeline scrubbers and "replay from point X" features that key off timestamps will silently reorder rows inside transactions, which in a conflict resolver manifests as phantom conflicts that don't exist in the real source. Always store LSN as the primary sort key and display timestamp as secondary metadata only.
+The most damaging CDC bug is losing the consumer's last-committed log position. If a connector restarts without durable position state, it will either re-emit already-consumed events (causing duplicate writes downstream) or skip forward to the current tail (causing silent data loss). Position must be checkpointed *after* the downstream sink acknowledges the write, never before — at-least-once delivery requires the checkpoint to trail the ack, and sinks must be idempotent on the primary key. A surprising number of CDC demos checkpoint on event emit, which is wrong and teaches the wrong pattern.
 
-A second trap is dropping or collapsing **tombstone (delete) events** and **heartbeats**. Debezium emits a null-value tombstone after each DELETE for Kafka log compaction; naive filters drop these and the resolver loses the ability to distinguish "row deleted" from "row never existed". Heartbeats are LSN-only envelopes with no row data — they must advance your displayed LSN pointer, otherwise the monitor shows false replication lag during low-write periods and operators chase nonexistent outages.
+Tombstone handling is the second landmine. Kafka-based CDC uses null-value records as tombstones for compacted topics, meaning a DELETE is represented as a key with `value=null`. Consumers that filter out null values to "skip bad data" will silently drop deletes, leaving downstream systems with phantom rows forever. Always preserve tombstones through the pipeline and only materialize them at the terminal sink. Similarly, UPDATE events without a full "before" image make it impossible to reconstruct deletions-by-predicate downstream — always configure the source for full row images (`REPLICA IDENTITY FULL` in Postgres, `binlog_row_image=FULL` in MySQL) even though it costs log volume.
 
-Third, schema evolution breaks replay. If the user scrubs to an LSN before an `ALTER TABLE ADD COLUMN`, the `after` payload won't have that column and field-level diff in the resolver will render it as "field removed" instead of "field did not yet exist". Keep a schema history table keyed by LSN and render fields that post-date the current LSN as grayed-out "not yet in schema" rather than as diffs. Also remember that snapshot events (`op: r`) carry no `before` image — any UI that assumes `before` is always present will crash on the initial snapshot phase of every new connector.
+Transaction boundary violations are the subtlest failure. If a consumer processes events as they arrive without buffering until `COMMIT`, it can expose uncommitted intermediate state to downstream systems — a classic case is a money-transfer transaction where the debit event is applied but the credit event is dropped due to a crash, leaving a split-brain ledger. Always buffer events by `txId` and only release them to sinks after observing the commit marker, or use transactional outbox semantics on the sink side. This becomes especially tricky with large transactions that exceed memory; spill-to-disk buffering is mandatory for any production-grade CDC pipeline.
