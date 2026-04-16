@@ -1,0 +1,12 @@
+{
+  "slug": "idempotency-proof",
+  "title": "Idempotency Proof",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T13:25:16.731Z",
+  "source_project": "102-idempotency-proof",
+  "author": "kjuhwa@nkia.co.kr"
+}
