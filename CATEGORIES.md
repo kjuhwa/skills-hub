@@ -22,6 +22,7 @@ Canonical list. Keep broad (target ≤20). Use tags for fine-grained attributes.
 | `docs` | Documentation writing, API docs, diagrams, changelog |
 | `workflow` | Process/team patterns, review protocols, release flows |
 | `game-dev` | Game engines, combat, RNG/gacha, progression, status effects, turn systems |
+| `design` | UI component patterns, styling, theming, design tokens, design-dev handoff |
 | `misc` | Doesn't fit above — revisit during `/skills_cleanup` |
 
 ## Proposing a New Category
