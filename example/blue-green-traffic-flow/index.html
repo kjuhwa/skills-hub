@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue-Green Traffic Flow</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Traffic Flow Visualizer</h1>
+<div class="split-label"><span id="pctLabel">100% Blue</span></div>
+<input type="range" id="slider" min="0" max="100" value="0">
+<canvas id="canvas" width="800" height="420"></canvas>
+<div class="stats">
+  <div class="stat blue-stat"><b>Blue</b><br>v2.1.0<br><span id="blueReq">0</span> req/s</div>
+  <div class="stat green-stat"><b>Green</b><br>v2.2.0<br><span id="greenReq">0</span> req/s</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
