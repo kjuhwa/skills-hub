@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CDC Topology Weaver</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>CDC Topology Weaver</h1>
+  <div class="legend">
+    <span class="l-src">● Source</span>
+    <span class="l-trf">● Transform</span>
+    <span class="l-snk">● Sink</span>
+    <button id="shake">Shuffle</button>
+  </div>
+</header>
+<main>
+  <svg id="graph" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg"></svg>
+  <aside id="info">
+    <h2>Node Details</h2>
+    <p class="hint">Click a node to inspect</p>
+    <div id="details"></div>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

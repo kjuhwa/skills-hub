@@ -1,0 +1,12 @@
+{
+  "slug": "cdc-topology-weaver",
+  "title": "Cdc Topology Weaver",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T21:16:57.310Z",
+  "source_project": "102-cdc-topology-weaver",
+  "author": "kjuhwa@nkia.co.kr"
+}
