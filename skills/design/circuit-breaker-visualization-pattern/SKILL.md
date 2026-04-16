@@ -1,6 +1,6 @@
 ---
 name: circuit-breaker-visualization-pattern
-description: Render circuit breaker state machines with color-coded CLOSED/OPEN/HALF_OPEN transitions and live failure metrics
+description: Visualize circuit breaker state machine (CLOSED/OPEN/HALF_OPEN) with animated request flow and failure threshold indicators
 category: design
 triggers:
   - circuit breaker visualization pattern
@@ -11,8 +11,8 @@ version: 1.0.0
 
 # circuit-breaker-visualization-pattern
 
-Circuit breaker UIs benefit from a tri-state visual language that mirrors the underlying state machine: green for CLOSED (traffic flowing), red for OPEN (traffic blocked), amber for HALF_OPEN (probing). Anchor the visualization on a prominent state badge with an animated transition timer (e.g., "Opens in 3.2s after 5 failures") and pair it with a request flow diagram showing upstream→breaker→downstream, where the breaker node pulses when rejecting calls. Use a sparkline or rolling-window chart for the failure rate (last N seconds), with a horizontal threshold line that turns the area red when the rate crosses the trip threshold.
+Circuit breaker visualizations must make the three-state machine (CLOSED, OPEN, HALF_OPEN) immediately legible. Use distinct color semantics — green for CLOSED (requests flowing), red for OPEN (fail-fast rejection), amber/yellow for HALF_OPEN (probing). Render the breaker as a central node with animated request particles flowing from client → breaker → downstream service, where rejected requests visibly short-circuit back at the breaker boundary in the OPEN state. A rolling failure-rate gauge or sliding-window bar chart should sit adjacent to the state indicator, with a clear threshold line (e.g., 50% failure over 10s window) that triggers state transitions when crossed.
 
-For dashboards monitoring multiple breakers, render each as a card with status chip, current failure ratio, time-in-state, and a mini timeline of the last state transitions. Group cards by downstream dependency and support filtering by state so operators can zero in on OPEN breakers during incidents. Always surface the next automatic action ("Will probe in 15s") because the half-open transition is non-obvious and users mentally model breakers as static.
+State transitions are the most important narrative element: animate the CLOSED→OPEN flip with a visible "trip" effect, display the OPEN-state cooldown timer as a countdown ring, and show the single probe request in HALF_OPEN as a distinct styled particle whose success/failure determines the next transition. Always surface the counters driving decisions (success count, failure count, window size, consecutive successes in HALF_OPEN) so viewers can predict transitions rather than being surprised by them.
 
-Puzzle/learning apps should expose the same primitives but let users tune `failureThreshold`, `resetTimeout`, and `halfOpenMaxCalls` via sliders and watch the state diagram react in real time. A sequence log ("T+2.1s: call failed (3/5)", "T+4.0s: breaker tripped → OPEN") converts the abstract state machine into a concrete narrative, which is what makes the pattern click for learners.
+For grid/puzzle variants, treat each cell as an independent breaker with its own state and let failures propagate to neighbors via dependency edges — this externalizes cascading failure patterns. Interactive controls should let users inject failures, adjust thresholds, and force state transitions; a timeline strip at the bottom replaying state history is essential for understanding hysteresis and flapping behavior.
