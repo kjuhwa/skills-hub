@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloom Filter Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h1>Bloom Filter <span class="accent">Visualizer</span></h1>
+  <div class="controls">
+    <input type="text" id="input" placeholder="Type a word and press Enter">
+    <button id="addBtn">Add</button>
+    <button id="checkBtn">Check</button>
+    <button id="resetBtn">Reset</button>
+  </div>
+  <div class="status" id="status">Add items or check membership</div>
+  <canvas id="canvas"></canvas>
+  <div class="stats">
+    <div class="stat"><span id="countItems">0</span><label>Items Added</label></div>
+    <div class="stat"><span id="countBits">0</span><label>Bits Set</label></div>
+    <div class="stat"><span id="fillRate">0%</span><label>Fill Rate</label></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
