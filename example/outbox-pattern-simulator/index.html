@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outbox Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Transactional Outbox <span>Simulator</span></h1>
+<p class="sub">Click a service to emit a domain event. Watch it traverse the outbox pattern.</p>
+<div class="services" id="services"></div>
+<svg id="svg" viewBox="0 0 800 260"></svg>
+<div class="tables">
+  <div class="tbl"><h3>Outbox Table</h3><div id="outbox"></div></div>
+  <div class="tbl"><h3>Broker Topics</h3><div id="topics"></div></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

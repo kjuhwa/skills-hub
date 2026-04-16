@@ -1,0 +1,12 @@
+{
+  "slug": "outbox-pattern-simulator",
+  "title": "Outbox Pattern Simulator",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T12:00:49.312Z",
+  "source_project": "102-outbox-pattern-simulator",
+  "author": "kjuhwa@nkia.co.kr"
+}
