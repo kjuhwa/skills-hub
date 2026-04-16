@@ -1,0 +1,12 @@
+{
+  "slug": "retry-strategy-simulator",
+  "title": "Retry Strategy Simulator",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T11:20:26.067Z",
+  "source_project": "100-retry-strategy-simulator",
+  "author": "kjuhwa@nkia.co.kr"
+}

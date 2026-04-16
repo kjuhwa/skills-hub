@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retry Strategy Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <h1>Retry Strategy Simulator</h1>
+  <div class="controls">
+    <label>Strategy
+      <select id="strategy">
+        <option value="exponential">Exponential Backoff</option>
+        <option value="linear">Linear</option>
+        <option value="fixed">Fixed Delay</option>
+      </select>
+    </label>
+    <label>Base Delay (ms) <input id="baseDelay" type="range" min="200" max="2000" value="500"><span id="baseDelayVal">500</span></label>
+    <label>Max Retries <input id="maxRetries" type="range" min="1" max="10" value="5"><span id="maxRetriesVal">5</span></label>
+    <label>Failure Rate % <input id="failRate" type="range" min="10" max="95" value="70"><span id="failRateVal">70</span></label>
+    <button id="fireBtn">Fire Request</button>
+  </div>
+  <canvas id="timeline"></canvas>
+  <div id="log"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
