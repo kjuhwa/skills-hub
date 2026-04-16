@@ -1,0 +1,13 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; }
+.container { max-width: 720px; margin: 0 auto; padding: 24px; }
+h1 { color: #6ee7b7; font-size: 1.4rem; margin-bottom: 20px; }
+.rings { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+.ring-card { background: #1a1d27; border-radius: 12px; padding: 20px; text-align: center; width: 150px; }
+.ring-card svg { display: block; margin: 0 auto 8px; }
+.ring-card .label { font-size: .85rem; color: #8b949e; }
+.ring-card .val { font-size: 1.3rem; font-weight: 700; color: #6ee7b7; }
+.log { background: #1a1d27; border-radius: 10px; padding: 14px; max-height: 180px; overflow-y: auto; font-size: .8rem; font-family: monospace; }
+.log div { padding: 2px 0; border-bottom: 1px solid #22262e; }
+.log .warn { color: #fbbf24; }
+.log .ok { color: #6ee7b7; }

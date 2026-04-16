@@ -1,0 +1,14 @@
+* { margin: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #e2e8f0; font-family: 'Segoe UI', sans-serif; padding: 24px; }
+.container { max-width: 800px; margin: 0 auto; }
+h1 { color: #6ee7b7; font-size: 1.6rem; }
+.subtitle { color: #94a3b8; font-size: 0.85rem; margin: 6px 0 18px; }
+svg { width: 100%; background: #1a1d27; border-radius: 10px; display: block; margin-bottom: 14px; }
+.controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+button { background: #6ee7b7; color: #0f1117; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.82rem; }
+button:hover { background: #5dd4a8; }
+button.dup { background: #f472b6; }
+button.dup:hover { background: #e05aa0; }
+.event-log { background: #1a1d27; border-radius: 10px; padding: 14px; font-family: monospace; font-size: 0.78rem; line-height: 1.8; max-height: 180px; overflow-y: auto; }
+.log-ok { color: #6ee7b7; }
+.log-skip { color: #facc15; }

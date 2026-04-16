@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DLQ Retry Arena</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>Retry Arena</h1>
+  <p class="sub">Drag messages from the dead-letter queue back to retry, or purge them forever.</p>
+  <div class="columns">
+    <div class="col" id="dlq"><h2>Dead Letters <span id="dlq-count">0</span></h2><div class="list" id="dlq-list"></div></div>
+    <div class="col" id="retrying"><h2>Retrying <span id="ret-count">0</span></h2><div class="list" id="ret-list"></div></div>
+    <div class="col" id="resolved"><h2>Resolved <span id="res-count">0</span></h2><div class="list" id="res-list"></div></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

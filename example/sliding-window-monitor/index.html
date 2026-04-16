@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sliding Window Rate Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Sliding Window Rate Monitor</h1>
+<div class="dashboard">
+  <div class="panel">
+    <div class="stat"><span id="rps">0</span><small>req/s</small></div>
+    <div class="stat"><span id="allowed">0</span><small>allowed</small></div>
+    <div class="stat"><span id="denied">0</span><small>denied</small></div>
+    <div class="stat"><span id="ratio">100%</span><small>success</small></div>
+  </div>
+  <svg id="chart" viewBox="0 0 800 200"></svg>
+  <div class="endpoints" id="endpoints"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

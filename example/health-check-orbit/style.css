@@ -1,0 +1,6 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; }
+canvas { display: block; }
+.hud { position: fixed; top: 20px; left: 20px; z-index: 10; }
+.hud h1 { color: #6ee7b7; font-size: 1.3rem; }
+#info { color: #94a3b8; margin-top: 8px; font-size: .85rem; background: #1a1d27; padding: 10px 14px; border-radius: 8px; min-width: 180px; line-height: 1.5; }

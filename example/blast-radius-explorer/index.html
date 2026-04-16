@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blast Radius Explorer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>💥 Blast Radius Explorer</h1>
+  <p class="hint">Click a service node to simulate a failure and see the cascade</p>
+  <svg id="graph" viewBox="0 0 800 500"></svg>
+  <div id="panel">
+    <div id="panelTitle">Select a service</div>
+    <div id="panelBody">Click any node above to explore its blast radius.</div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idempotent State Machine</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <h1>🔄 Idempotent State Machine</h1>
+  <p class="subtitle">Dispatch the same event multiple times — state transitions only fire once</p>
+  <svg id="diagram" width="700" height="220"></svg>
+  <div class="controls">
+    <button data-ev="SUBMIT">dispatch(SUBMIT)</button>
+    <button data-ev="APPROVE">dispatch(APPROVE)</button>
+    <button data-ev="SHIP">dispatch(SHIP)</button>
+    <button data-ev="DELIVER">dispatch(DELIVER)</button>
+    <button id="resetBtn" data-ev="">Reset</button>
+  </div>
+  <div id="eventLog" class="log"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring Boot Starter Wizard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f172a;--card:#1e293b;--border:rgba(255,255,255,0.08);--accent:#6366f1;--accent2:#818cf8;--green:#4ade80;--amber:#fbbf24;--text:#e2e8f0;--muted:#94a3b8;--radius:12px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{text-align:center;padding:32px 20px 24px;border-bottom:1px solid var(--border)}
+h1{font-size:1.8rem;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:var(--muted);font-size:.85rem;margin-top:6px}
+.container{max-width:1000px;margin:0 auto;padding:24px}
+.step-indicator{display:flex;justify-content:center;gap:8px;margin-bottom:28px}
+.step-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all .3s}
+.step-dot.active{background:var(--accent);transform:scale(1.3)}
+.step-dot.done{background:var(--green)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.card h2{font-size:1.2rem;margin-bottom:4px}.card p{color:var(--muted);font-size:.85rem;margin-bottom:16px}
+.options-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.opt{padding:14px;background:rgba(255,255,255,0.02);border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;text-align:center}
+.opt:hover{border-color:rgba(255,255,255,0.15)}
+.opt.selected{border-color:var(--accent);background:rgba(99,102,241,0.1)}
+.opt-icon{font-size:1.5rem;margin-bottom:6px}
+.opt-name{font-weight:600;font-size:.9rem}.opt-desc{font-size:.72rem;color:var(--muted);margin-top:4px}
+.nav{display:flex;justify-content:space-between;margin-top:20px}
+.btn{padding:10px 28px;border:none;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent2)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}.btn-outline:hover{background:rgba(255,255,255,0.05)}
+.result-section{margin-bottom:24px}
+.result-section h3{font-size:1rem;margin-bottom:12px;color:var(--accent2)}
+.skill-card{display:flex;align-items:start;gap:12px;padding:12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
+.skill-order{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+.skill-info{flex:1}.skill-name{font-weight:600;font-size:.85rem}.skill-desc{font-size:.75rem;color:var(--muted);margin-top:2px}
+.dep-graph{padding:16px;background:rgba(0,0,0,0.2);border-radius:8px;overflow-x:auto}
+.dep-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.8rem}
+.dep-box{padding:4px 10px;border-radius:6px;font-size:.75rem;white-space:nowrap}
+.dep-arrow{color:var(--muted)}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.65rem;margin:1px}
+.tag-backend{background:rgba(99,102,241,0.15);color:var(--accent2)}
+.tag-infra{background:rgba(74,222,128,0.15);color:var(--green)}
+.tag-security{background:rgba(251,191,36,0.15);color:var(--amber)}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Spring Boot Starter Wizard</h1>
+<p class="sub">Pick your requirements. Get an ordered skill recipe with implementation dependencies.</p>
+</div>
+<div class="container">
+<div class="step-indicator" id="steps"></div>
+<div id="content"></div>
+</div>
+
+<script>
+const CATEGORIES=[
+{id:'data',name:'Data Layer',icon:'\ud83d\uddc4\ufe0f',options:[
+{id:'mongo',name:'MongoDB',desc:'Document store with Spring Data Mongo'},
+{id:'jpa',name:'JPA / SQL',desc:'Relational DB with Hibernate'},
+{id:'redis',name:'Redis',desc:'Cache and distributed locks'},
+{id:'multi-db',name:'Multi-Database',desc:'Polyglot persistence'}
+]},
+{id:'messaging',name:'Messaging',icon:'\ud83d\udce8',options:[
+{id:'kafka',name:'Kafka',desc:'Event streaming platform'},
+{id:'kafka-avro',name:'Kafka + Avro',desc:'Schema Registry with Avro codegen'},
+{id:'websocket',name:'WebSocket / STOMP',desc:'Real-time bidirectional communication'},
+{id:'sse',name:'SSE',desc:'Server-Sent Events streaming'}
+]},
+{id:'auth',name:'Auth & Security',icon:'\ud83d\udd12',options:[
+{id:'jwt',name:'JWT Auth',desc:'Access + refresh token rotation'},
+{id:'rbac',name:'RBAC',desc:'Role-based access control'},
+{id:'mfa',name:'MFA',desc:'Multi-factor authentication'},
+{id:'encryption',name:'PII Encryption',desc:'Encrypt sensitive data at rest'}
+]},
+{id:'multi-tenant',name:'Multi-tenancy',icon:'\ud83c\udfe2',options:[
+{id:'tenant-db',name:'DB per Tenant',desc:'Tenant-isolated databases'},
+{id:'tenant-header',name:'Header Propagation',desc:'Tenant context via HTTP/Kafka headers'},
+{id:'tenant-scheduler',name:'Tenant-aware Jobs',desc:'Scheduled tasks iterate all tenants'}
+]},
+{id:'observability',name:'Observability',icon:'\ud83d\udcca',options:[
+{id:'actuator',name:'Actuator Health',desc:'Health endpoint monitoring'},
+{id:'otel',name:'OpenTelemetry',desc:'Distributed tracing'},
+{id:'metrics',name:'Metrics Pipeline',desc:'Collect, aggregate, alert on metrics'},
+{id:'audit',name:'Audit Logging',desc:'Before/after change tracking'}
+]},
+{id:'infra',name:'Infrastructure',icon:'\u2699\ufe0f',options:[
+{id:'docker',name:'Docker',desc:'Containerized deployment'},
+{id:'testcontainers',name:'Testcontainers',desc:'Integration tests with real services'},
+{id:'ci-jenkins',name:'Jenkins CI',desc:'Build and deploy pipelines'},
+{id:'config',name:'Typed Config',desc:'Type-safe configuration properties'}
+]}
+];
+
+const SKILL_MAP={
+'mongo':['spring-data-mongo-repository-custom-split','spring-mongo-lightweight-migration','mongo-aggregation-filter-optimization'],
+'jpa':['json-seeded-jpa-loader','hibernate-multi-dialect-swap','spring-dual-profile-flyway'],
+'redis':['redis-lock-recheck-flag-pattern','distributed-lock-mongodb','cache-variance-ttl-jitter'],
+'multi-db':['multi-dbms-resource-provider-pattern','spring-profile-datasource-activation','concurrent-jdbc-pool-datasource-lifecycle'],
+'kafka':['kafka-batch-consumer-partition-tuning','kafka-consumer-semaphore-chunking','kafka-producer-async-callback','kafka-consumer-config-3-factories'],
+'kafka-avro':['avro-gradle-kafka-schema-pipeline','kafka-avro-topic-auto-create-config','kafka-producer-config-avro-schema-registry','avro-event-with-change-flags'],
+'websocket':['stomp-cookie-auth-handshake','stomp-principal-jwt-channel','websocket-stomp-channel-pool-config'],
+'sse':['feed-envelope-frame','reactor-subscription-router-backpressure'],
+'jwt':['jwt-refresh-rotation-spring','jwt-extraction-via-base-controller','challenge-response-auth-redis-ttl'],
+'rbac':['annotation-driven-authz-via-function-id','tsv-driven-permission-bootstrap','policy-target-evaluation-with-groups-tags'],
+'mfa':['challenge-response-auth-redis-ttl','encrypted-pii-decrypt-before-send'],
+'encryption':['encrypted-pii-decrypt-before-send'],
+'tenant-db':['tenant-per-database-mongo-routing','tenant-isolated-mongo-collection','dynamic-gridfs-template-multi-tenant'],
+'tenant-header':['multi-tenant-kafka-header-organization-context','tenant-context-holder-propagation','kafka-consumer-tenant-fan-out'],
+'tenant-scheduler':['multi-tenant-scheduler-iteration','thread-pool-config-tenant-aware','event-driven-kafka-scheduling'],
+'actuator':['spring-actuator-health-collector','service-readiness-event-listener-pattern','k8s-health-via-getnodelist'],
+'otel':['opentelemetry-java-bootstrap','transaction-trace-pack-serialization-with-step-hierarchy'],
+'metrics':['baseline-historical-comparison-threshold','measurement-grouping-combiner','second-aggregation-snapshot-merge','availability-ttl-punctuate-processor'],
+'audit':['audit-change-data-capture-pattern','immutable-action-event-log'],
+'docker':['docker-compose-v1-v2-auto-detect','docker-compose-service-inventory-files','dual-jre-docker-oz-report','font-cache-alpine-locale-docker'],
+'testcontainers':['testcontainers-mongo-kafka-abstract-base','spring-testcontainers-multitenant-base','testcontainers-reuse-disabled'],
+'ci-jenkins':['jenkins-dual-registry-docker-push','gradle-bootjar-conditional-archive-bundle','gradle-bootrun-local-dev-env'],
+'config':['spring-typed-config-properties','dotenv-multi-env-routing','spring-profile-datasource-activation']
+};
+
+const SKILL_DESCS={
+'spring-data-mongo-repository-custom-split':'Standard 3-file split for MongoRepository with custom query methods',
+'spring-mongo-lightweight-migration':'Annotation-driven MongoDB migration runner for schema evolution',
+'mongo-aggregation-filter-optimization':'Replace $unwind+$match with $filter for better performance',
+'kafka-batch-consumer-partition-tuning':'Size partition count + max-poll-records for throughput',
+'kafka-consumer-semaphore-chunking':'Bound in-flight async work with semaphore + chunks',
+'kafka-producer-async-callback':'Fire-and-log send pattern using async callbacks',
+'kafka-consumer-config-3-factories':'Three listener container factories for different deserialization',
+'avro-gradle-kafka-schema-pipeline':'Avro Gradle plugin wiring for Schema Registry',
+'kafka-avro-topic-auto-create-config':'Auto-create topics with Avro schema on startup',
+'jwt-refresh-rotation-spring':'Short-lived access + rotating refresh tokens',
+'jwt-extraction-via-base-controller':'Consolidate JWT extraction in base controller',
+'challenge-response-auth-redis-ttl':'Replay-resistant two-step login with Redis TTL',
+'tenant-per-database-mongo-routing':'Route Mongo operations to tenant-specific databases',
+'multi-tenant-kafka-header-organization-context':'Propagate tenant ID through Kafka headers',
+'tenant-context-holder-propagation':'Set tenant context in request interceptor',
+'kafka-consumer-tenant-fan-out':'Fan out messages to tenant-specific processors',
+'spring-actuator-health-collector':'Poll remote services via Actuator health endpoints',
+'opentelemetry-java-bootstrap':'Minimal OpenTelemetry bootstrap for Spring Boot',
+'audit-change-data-capture-pattern':'Before/after diffs for audit logs',
+'spring-typed-config-properties':'Type-safe nested @ConfigurationProperties',
+'redis-lock-recheck-flag-pattern':'Redis lock with recheck flag for race conditions',
+'cache-variance-ttl-jitter':'Random jitter on cache TTLs to prevent thundering herd',
+'testcontainers-mongo-kafka-abstract-base':'Abstract test base with MongoDB + Kafka via Testcontainers',
+'docker-compose-v1-v2-auto-detect':'Shell helper preferring docker compose v2',
+'jenkins-dual-registry-docker-push':'Build once, push to two container registries',
+'baseline-historical-comparison-threshold':'Dynamic threshold from historical metric baseline',
+'annotation-driven-authz-via-function-id':'AuthZ by function ID annotations, not URL patterns',
+'multi-tenant-scheduler-iteration':'Scheduled jobs iterating over all tenants',
+'encrypted-pii-decrypt-before-send':'Decrypt PII only at notification send-time'
+};
+
+const DEPS={'kafka-avro':['kafka'],'tenant-header':['kafka'],'tenant-scheduler':['tenant-header'],'tenant-db':['mongo'],'mfa':['jwt'],'rbac':['jwt'],'metrics':['actuator'],'testcontainers':['docker']};
+
+let step=0,selections={};
+
+function renderSteps(){
+$('#steps').innerHTML=CATEGORIES.map((_,i)=>`<div class="step-dot ${i<step?'done':i===step?'active':''}"></div>`).join('')+'<div class="step-dot '+(step>=CATEGORIES.length?'active':'')+'"></div>';
+}
+
+function render(){
+renderSteps();
+if(step<CATEGORIES.length){
+const cat=CATEGORIES[step];const sel=selections[cat.id]||[];
+$('#content').innerHTML=`
+<div class="card">
+<h2>${cat.icon} ${cat.name}</h2>
+<p>Select what you need (multiple allowed). Skip if not needed.</p>
+<div class="options-grid">
+${cat.options.map(o=>`<div class="opt ${sel.includes(o.id)?'selected':''}" onclick="toggleOpt('${cat.id}','${o.id}',this)">
+<div class="opt-name">${o.name}</div>
+<div class="opt-desc">${o.desc}</div>
+</div>`).join('')}
+</div>
+</div>
+<div class="nav">
+<button class="btn btn-outline" onclick="prev()" ${step===0?'disabled':''}>Back</button>
+<div>
+<button class="btn btn-outline" onclick="skip()" style="margin-right:8px">Skip</button>
+<button class="btn btn-primary" onclick="next()">Next</button>
+</div>
+</div>`;
+}else showResults();
+}
+
+function toggleOpt(catId,optId,el){
+if(!selections[catId])selections[catId]=[];
+const idx=selections[catId].indexOf(optId);
+if(idx>=0)selections[catId].splice(idx,1);else selections[catId].push(optId);
+el.classList.toggle('selected');
+}
+
+function next(){step++;render()}
+function prev(){step=Math.max(0,step-1);render()}
+function skip(){step++;render()}
+function $(s){return document.querySelector(s)}
+
+function showResults(){
+const allSelected=[];
+Object.values(selections).forEach(arr=>arr.forEach(id=>allSelected.push(id)));
+if(!allSelected.length){$('#content').innerHTML='<div class="card"><h2>No selections made</h2><p>Go back and pick some requirements.</p><div class="nav"><button class="btn btn-outline" onclick="step=0;render()">Start Over</button></div></div>';return}
+
+// Resolve dependencies
+const resolved=new Set(allSelected);
+allSelected.forEach(id=>{if(DEPS[id])DEPS[id].forEach(d=>{if(!resolved.has(d))resolved.add(d)})});
+
+// Collect skills in order
+const skillOrder=[];const seen=new Set();
+[...resolved].forEach(optId=>{
+const skills=SKILL_MAP[optId]||[];
+skills.forEach(s=>{if(!seen.has(s)){seen.add(s);skillOrder.push({skill:s,from:optId})}});
+});
+
+// Build dependency graph
+const depPairs=[];
+[...resolved].forEach(id=>{if(DEPS[id])DEPS[id].forEach(d=>depPairs.push({from:d,to:id}))});
+
+$('#content').innerHTML=`
+<div class="card">
+<h2>Your Skill Recipe</h2>
+<p>${skillOrder.length} skills across ${resolved.size} requirements</p>
+</div>
+<div class="result-section">
+<h3>Implementation Order</h3>
+${skillOrder.map((s,i)=>`<div class="skill-card">
+<div class="skill-order">${i+1}</div>
+<div class="skill-info">
+<div class="skill-name">${s.skill}</div>
+<div class="skill-desc">${SKILL_DESCS[s.skill]||'Skill pattern from hub'}</div>
+<span class="tag tag-backend">${s.from}</span>
+</div>
+</div>`).join('')}
+</div>
+${depPairs.length?`<div class="result-section">
+<h3>Dependency Graph</h3>
+<div class="dep-graph">
+${depPairs.map(d=>`<div class="dep-row">
+<span class="dep-box" style="background:rgba(99,102,241,0.15);color:var(--accent2)">${d.from}</span>
+<span class="dep-arrow">\u2192 required by \u2192</span>
+<span class="dep-box" style="background:rgba(74,222,128,0.15);color:var(--green)">${d.to}</span>
+</div>`).join('')}
+</div>
+</div>`:''}
+<div class="nav">
+<button class="btn btn-outline" onclick="step=0;selections={};render()">Start Over</button>
+<button class="btn btn-primary" onclick="copyRecipe()">Copy as Text</button>
+</div>`;
+}
+
+function copyRecipe(){
+const allSelected=[];Object.values(selections).forEach(arr=>arr.forEach(id=>allSelected.push(id)));
+const resolved=new Set(allSelected);allSelected.forEach(id=>{if(DEPS[id])DEPS[id].forEach(d=>resolved.add(d))});
+const skills=[];const seen=new Set();
+[...resolved].forEach(optId=>{(SKILL_MAP[optId]||[]).forEach(s=>{if(!seen.has(s)){seen.add(s);skills.push(s)}})});
+const text='Spring Boot Starter Recipe\n'+skills.map((s,i)=>`${i+1}. ${s}`).join('\n');
+navigator.clipboard.writeText(text).then(()=>alert('Copied!'));
+}
+
+render();
+</script>
+</body>
+</html>

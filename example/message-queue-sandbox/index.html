@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MQ Sandbox</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>MQ Sandbox</h1>
+  <div class="panels">
+    <div class="panel">
+      <h2>Publish</h2>
+      <select id="topic"><option>orders</option><option>alerts</option><option>logs</option></select>
+      <input id="msgInput" placeholder="Message body..." />
+      <button id="btnSend">Send</button>
+    </div>
+    <div class="panel queue-panel">
+      <h2>Queues</h2>
+      <div id="queues"></div>
+    </div>
+    <div class="panel">
+      <h2>Dead Letter</h2>
+      <div id="dlq" class="log"></div>
+    </div>
+  </div>
+  <div class="timeline" id="timeline"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

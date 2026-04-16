@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CQRS Latency Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>CQRS Latency Monitor</h1>
+<p class="sub">Real-time command write vs query read latency</p>
+<div class="wrap">
+  <canvas id="chart" width="700" height="260"></canvas>
+  <div class="legend"><span class="dot cmd"></span> Command (write) <span class="dot qry"></span> Query (read)</div>
+  <div class="metrics" id="metrics"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

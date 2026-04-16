@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Priority Queue Heap</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <h1>Priority Queue</h1>
+    <p class="hint">Min-heap visualization. Lower priority = served first.</p>
+    <div class="form">
+      <input id="topic" placeholder="message topic" value="email.send">
+      <select id="prio">
+        <option value="1">P1 - Critical</option>
+        <option value="2">P2 - High</option>
+        <option value="3" selected>P3 - Normal</option>
+        <option value="4">P4 - Low</option>
+        <option value="5">P5 - Trivial</option>
+      </select>
+      <button id="enqueue">Enqueue</button>
+      <button id="dequeue" class="alt">Dequeue Top</button>
+      <button id="autogen" class="alt">Auto Generate</button>
+    </div>
+    <h2>Recently Processed</h2>
+    <ul id="log"></ul>
+  </aside>
+  <main>
+    <svg id="tree" viewBox="0 0 800 500"></svg>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

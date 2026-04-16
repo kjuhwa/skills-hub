@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aggregate Lifecycle Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Aggregate Lifecycle Simulator</h1>
+<div id="app">
+  <div id="controls">
+    <select id="command"><option>CreateOrder</option><option>AddItem</option><option>RemoveItem</option><option>SubmitOrder</option><option>CancelOrder</option></select>
+    <button id="dispatch">Dispatch Command</button>
+  </div>
+  <div id="panels">
+    <div class="panel"><h2>Aggregate State</h2><pre id="state"></pre></div>
+    <div class="panel"><h2>Event Stream</h2><div id="events"></div></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

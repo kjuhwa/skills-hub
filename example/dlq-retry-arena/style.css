@@ -1,0 +1,20 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:system-ui,sans-serif;padding:20px;display:flex;justify-content:center}
+#app{width:960px}
+h1{color:#6ee7b7;font-size:1.3rem;margin-bottom:4px}
+.sub{font-size:.75rem;color:#555;margin-bottom:16px}
+.columns{display:flex;gap:12px}
+.col{flex:1;background:#1a1d27;border-radius:10px;padding:12px;min-height:400px}
+.col h2{font-size:.85rem;color:#888;margin-bottom:10px;display:flex;justify-content:space-between}
+.col h2 span{color:#6ee7b7}
+.list{display:flex;flex-direction:column;gap:6px}
+.card{background:#0f1117;border:1px solid #2a2d37;border-radius:6px;padding:10px;font-size:.72rem;cursor:pointer;transition:border-color .2s,transform .15s}
+.card:hover{border-color:#6ee7b7;transform:scale(1.02)}
+.card .id{color:#6ee7b7;font-weight:bold}.card .reason{color:#f87171;margin-top:4px}
+.card .meta{color:#555;margin-top:2px}
+.card.retrying{border-color:#fbbf24;animation:blink 1s infinite alternate}
+.card.success{border-color:#6ee7b7;opacity:.7}
+.card .actions{margin-top:6px;display:flex;gap:6px}
+.card button{background:#6ee7b733;color:#6ee7b7;border:none;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.65rem}
+.card button.purge{background:#f8717133;color:#f87171}
+@keyframes blink{from{opacity:.6}to{opacity:1}}

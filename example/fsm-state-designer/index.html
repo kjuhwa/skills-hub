@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSM State Designer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <h1>Interactive FSM Designer</h1>
+  <div class="toolbar">
+    <button id="add-state">+ State</button>
+    <button id="add-trans">+ Transition</button>
+    <button id="sim-btn">Simulate</button>
+    <button id="clear-btn">Clear</button>
+    <span id="mode-label">Design Mode</span>
+  </div>
+  <canvas id="canvas" width="700" height="420"></canvas>
+  <div id="info">Click "+ State" then click canvas to place. Drag states to move.</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

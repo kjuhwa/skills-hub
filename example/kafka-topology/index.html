@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kafka Topology Designer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e17;--panel:#111827;--border:rgba(255,255,255,0.08);--accent:#06b6d4;--producer:#22d3ee;--topic:#f59e0b;--consumer:#a78bfa;--connector:#34d399;--text:#e2e8f0;--muted:#64748b;--radius:10px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;overflow:hidden}
+.sidebar{width:260px;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.sidebar h1{font-size:1.1rem;padding:16px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--accent),#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.palette{padding:12px;flex:1;overflow-y:auto}
+.palette-section{margin-bottom:16px}
+.palette-section h3{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px}
+.palette-item{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:4px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;cursor:grab;transition:background .15s;font-size:.82rem}
+.palette-item:hover{background:rgba(255,255,255,0.06)}
+.palette-item:active{cursor:grabbing}
+.dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.dot-producer{background:var(--producer)}.dot-topic{background:var(--topic)}.dot-consumer{background:var(--consumer)}.dot-connector{background:var(--connector)}
+.skills-panel{border-top:1px solid var(--border);padding:12px;max-height:200px;overflow-y:auto}
+.skills-panel h3{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px}
+.skill-tag{display:inline-block;padding:2px 7px;margin:2px;border-radius:4px;font-size:.65rem;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);color:var(--accent)}
+.canvas-wrap{flex:1;position:relative;overflow:hidden}
+.toolbar{position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:5}
+.tool-btn{padding:6px 12px;background:var(--panel);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.75rem;cursor:pointer;transition:all .15s}
+.tool-btn:hover{background:rgba(255,255,255,0.05)}
+.tool-btn.active{border-color:var(--accent);color:var(--accent)}
+.info-bar{position:absolute;bottom:12px;left:12px;right:12px;display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);z-index:5}
+svg{width:100%;height:100%;cursor:crosshair}
+.node{cursor:move}
+.node rect,.node circle{stroke-width:2;transition:filter .15s}
+.node:hover rect,.node:hover circle{filter:brightness(1.3)}
+.node text{font-family:'Segoe UI',sans-serif;font-size:11px;fill:var(--text);pointer-events:none}
+.node .label{font-size:10px;fill:var(--muted)}
+.edge{stroke:rgba(255,255,255,0.2);stroke-width:1.5;fill:none;marker-end:url(#arrow)}
+.edge:hover{stroke:var(--accent);stroke-width:2}
+.grid-line{stroke:rgba(255,255,255,0.02);stroke-width:1}
+.selection-box{fill:rgba(6,182,212,0.1);stroke:var(--accent);stroke-width:1;stroke-dasharray:4}
+.context-menu{position:absolute;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:4px;z-index:20;min-width:140px;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.ctx-item{padding:6px 12px;font-size:.8rem;cursor:pointer;border-radius:4px;transition:background .1s}
+.ctx-item:hover{background:rgba(255,255,255,0.06)}
+.ctx-item.danger{color:#ef4444}
+.hidden{display:none}
+@media(max-width:768px){.sidebar{width:200px}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+<h1>Kafka Topology Designer</h1>
+<div class="palette">
+<div class="palette-section">
+<h3>Components</h3>
+<div class="palette-item" draggable="true" data-type="producer"><div class="dot dot-producer"></div>Producer</div>
+<div class="palette-item" draggable="true" data-type="topic"><div class="dot dot-topic"></div>Topic</div>
+<div class="palette-item" draggable="true" data-type="consumer"><div class="dot dot-consumer"></div>Consumer</div>
+<div class="palette-item" draggable="true" data-type="connector"><div class="dot dot-connector"></div>Connector / Stream</div>
+</div>
+<div class="palette-section">
+<h3>Templates</h3>
+<div class="palette-item" onclick="loadTemplate('fanout')"><div class="dot dot-topic"></div>Fan-out Pattern</div>
+<div class="palette-item" onclick="loadTemplate('pipeline')"><div class="dot dot-connector"></div>Stream Pipeline</div>
+<div class="palette-item" onclick="loadTemplate('multitenant')"><div class="dot dot-consumer"></div>Multi-tenant</div>
+</div>
+</div>
+<div class="skills-panel">
+<h3>Related Skills</h3>
+<span class="skill-tag">kafka-batch-consumer-partition-tuning</span>
+<span class="skill-tag">kafka-consumer-semaphore-chunking</span>
+<span class="skill-tag">kafka-debounce-event-coalescing</span>
+<span class="skill-tag">kafka-consumer-tenant-fan-out</span>
+<span class="skill-tag">kafka-message-header-metadata</span>
+<span class="skill-tag">kafka-producer-async-callback</span>
+<span class="skill-tag">kafka-avro-topic-auto-create-config</span>
+<span class="skill-tag">kafka-consumer-config-3-factories</span>
+<span class="skill-tag">kafka-consumer-errorhandling-wrapper</span>
+<span class="skill-tag">multi-tenant-kafka-header-organization-context</span>
+<span class="skill-tag">event-driven-kafka-scheduling</span>
+<span class="skill-tag">avro-gradle-kafka-schema-pipeline</span>
+<span class="skill-tag">kafka-engine-distributed-job-framework</span>
+<span class="skill-tag">thread-pool-queue-backpressure</span>
+<span class="skill-tag">availability-ttl-punctuate-processor</span>
+</div>
+</div>
+<div class="canvas-wrap" id="canvasWrap">
+<div class="toolbar">
+<button class="tool-btn active" data-tool="select" onclick="setTool('select')">Select</button>
+<button class="tool-btn" data-tool="connect" onclick="setTool('connect')">Connect</button>
+<button class="tool-btn" onclick="clearAll()">Clear</button>
+<button class="tool-btn" onclick="exportPNG()">Export PNG</button>
+</div>
+<div class="info-bar">
+<span id="nodeCount">Nodes: 0</span>
+<span id="edgeCount">Edges: 0</span>
+<span>Drag components from palette | Right-click to edit/delete</span>
+</div>
+<svg id="svg" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+<path d="M0,0 L10,3 L0,6 z" fill="rgba(255,255,255,0.3)"/>
+</marker>
+<pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+<path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+</pattern>
+</defs>
+<rect width="100%" height="100%" fill="url(#grid)"/>
+<g id="edgesGroup"></g>
+<g id="nodesGroup"></g>
+</svg>
+<div class="context-menu hidden" id="ctxMenu">
+<div class="ctx-item" onclick="renameNode()">Rename</div>
+<div class="ctx-item" onclick="duplicateNode()">Duplicate</div>
+<div class="ctx-item danger" onclick="deleteNode()">Delete</div>
+</div>
+</div>
+
+<script>
+const COLORS={producer:'#22d3ee',topic:'#f59e0b',consumer:'#a78bfa',connector:'#34d399'};
+const SHAPES={producer:'rect',topic:'hex',consumer:'rect',connector:'diamond'};
+let nodes=[],edges=[],nextId=1,tool='select',dragNode=null,dragOff={x:0,y:0},connectFrom=null,tempLine=null,ctxNode=null;
+
+function $(s){return document.querySelector(s)}
+function svgPt(e){const svg=$('#svg'),p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+
+function addNode(type,x,y,name){
+const id=nextId++;const n={id,type,x,y,name:name||(type.charAt(0).toUpperCase()+type.slice(1)+'-'+id)};
+nodes.push(n);renderNodes();updateCounts();return n;
+}
+
+function renderNodes(){
+const g=$('#nodesGroup');g.innerHTML='';
+nodes.forEach(n=>{
+const grp=document.createElementNS('http://www.w3.org/2000/svg','g');
+grp.classList.add('node');grp.dataset.id=n.id;grp.setAttribute('transform',`translate(${n.x},${n.y})`);
+const c=COLORS[n.type];
+if(n.type==='topic'){
+const hex=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+hex.setAttribute('points','-50,-25 -35,-40 35,-40 50,-25 50,25 35,40 -35,40 -50,25');
+hex.setAttribute('fill',c+'15');hex.setAttribute('stroke',c);grp.appendChild(hex);
+}else if(n.type==='connector'){
+const d=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+d.setAttribute('points','0,-30 50,0 0,30 -50,0');
+d.setAttribute('fill',c+'15');d.setAttribute('stroke',c);grp.appendChild(d);
+}else{
+const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+r.setAttribute('x',-50);r.setAttribute('y',-25);r.setAttribute('width',100);r.setAttribute('height',50);
+r.setAttribute('rx',8);r.setAttribute('fill',c+'15');r.setAttribute('stroke',c);grp.appendChild(r);
+}
+const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+t.setAttribute('text-anchor','middle');t.setAttribute('dy','4');t.textContent=n.name.length>12?n.name.slice(0,11)+'..':n.name;grp.appendChild(t);
+const lb=document.createElementNS('http://www.w3.org/2000/svg','text');
+lb.classList.add('label');lb.setAttribute('text-anchor','middle');lb.setAttribute('dy','18');lb.textContent=n.type;grp.appendChild(lb);
+
+grp.addEventListener('mousedown',e=>{
+if(e.button===2){e.preventDefault();return}
+if(tool==='connect'){connectFrom=n;return}
+dragNode=n;const pt=svgPt(e);dragOff={x:pt.x-n.x,y:pt.y-n.y};
+});
+grp.addEventListener('contextmenu',e=>{e.preventDefault();showCtx(e,n)});
+g.appendChild(grp);
+});
+}
+
+function renderEdges(){
+const g=$('#edgesGroup');g.innerHTML='';
+edges.forEach(e=>{
+const from=nodes.find(n=>n.id===e.from),to=nodes.find(n=>n.id===e.to);
+if(!from||!to)return;
+const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+line.classList.add('edge');line.setAttribute('x1',from.x);line.setAttribute('y1',from.y);
+line.setAttribute('x2',to.x);line.setAttribute('y2',to.y);
+line.addEventListener('contextmenu',ev=>{ev.preventDefault();if(confirm('Delete this connection?')){edges=edges.filter(x=>x!==e);renderEdges();updateCounts()}});
+g.appendChild(line);
+});
+}
+
+function updateCounts(){$('#nodeCount').textContent='Nodes: '+nodes.length;$('#edgeCount').textContent='Edges: '+edges.length}
+
+const svg=$('#svg');
+svg.addEventListener('mousemove',e=>{
+if(dragNode){const pt=svgPt(e);dragNode.x=pt.x-dragOff.x;dragNode.y=pt.y-dragOff.y;renderNodes();renderEdges()}
+if(connectFrom){
+if(!tempLine){tempLine=document.createElementNS('http://www.w3.org/2000/svg','line');tempLine.setAttribute('stroke','rgba(6,182,212,0.5)');tempLine.setAttribute('stroke-width','1.5');tempLine.setAttribute('stroke-dasharray','5');svg.appendChild(tempLine)}
+const pt=svgPt(e);tempLine.setAttribute('x1',connectFrom.x);tempLine.setAttribute('y1',connectFrom.y);tempLine.setAttribute('x2',pt.x);tempLine.setAttribute('y2',pt.y);
+}
+});
+
+svg.addEventListener('mouseup',e=>{
+if(connectFrom){
+const pt=svgPt(e);const target=nodes.find(n=>Math.abs(n.x-pt.x)<50&&Math.abs(n.y-pt.y)<40&&n.id!==connectFrom.id);
+if(target&&!edges.find(x=>x.from===connectFrom.id&&x.to===target.id)){edges.push({from:connectFrom.id,to:target.id});renderEdges();updateCounts()}
+connectFrom=null;if(tempLine){tempLine.remove();tempLine=null}
+}
+dragNode=null;
+});
+
+svg.addEventListener('contextmenu',e=>e.preventDefault());
+
+// Drop from palette
+document.querySelectorAll('.palette-item[draggable]').forEach(el=>{
+el.addEventListener('dragstart',e=>{e.dataTransfer.setData('type',el.dataset.type)});
+});
+$('#canvasWrap').addEventListener('dragover',e=>e.preventDefault());
+$('#canvasWrap').addEventListener('drop',e=>{
+e.preventDefault();const type=e.dataTransfer.getData('type');if(!type)return;
+const pt=svgPt(e);addNode(type,pt.x,pt.y);
+});
+
+function setTool(t){tool=t;document.querySelectorAll('.tool-btn[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));svg.style.cursor=t==='connect'?'crosshair':'default'}
+function clearAll(){if(!confirm('Clear all?'))return;nodes=[];edges=[];nextId=1;renderNodes();renderEdges();updateCounts()}
+
+function showCtx(e,n){ctxNode=n;const m=$('#ctxMenu');m.classList.remove('hidden');m.style.left=e.clientX+'px';m.style.top=e.clientY+'px'}
+document.addEventListener('click',()=>{$('#ctxMenu').classList.add('hidden')});
+function renameNode(){if(!ctxNode)return;const name=prompt('Name:',ctxNode.name);if(name){ctxNode.name=name;renderNodes()}}
+function duplicateNode(){if(!ctxNode)return;addNode(ctxNode.type,ctxNode.x+60,ctxNode.y+40,ctxNode.name+'-copy')}
+function deleteNode(){if(!ctxNode)return;nodes=nodes.filter(n=>n.id!==ctxNode.id);edges=edges.filter(e=>e.from!==ctxNode.id&&e.to!==ctxNode.id);ctxNode=null;renderNodes();renderEdges();updateCounts()}
+
+function exportPNG(){
+const svgEl=$('#svg');const clone=svgEl.cloneNode(true);
+clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+const bg=clone.querySelector('rect');if(bg)bg.setAttribute('fill','#0a0e17');
+const data=new XMLSerializer().serializeToString(clone);
+const blob=new Blob([data],{type:'image/svg+xml'});
+const url=URL.createObjectURL(blob);const a=document.createElement('a');
+a.href=url;a.download='kafka-topology.svg';a.click();URL.revokeObjectURL(url);
+}
+
+function loadTemplate(name){
+clearAllSilent();
+if(name==='fanout'){
+addNode('producer',150,200,'OrderService');addNode('topic',350,200,'orders-topic');
+addNode('consumer',550,100,'EmailConsumer');addNode('consumer',550,200,'InventoryConsumer');addNode('consumer',550,300,'AnalyticsConsumer');
+edges.push({from:1,to:2},{from:2,to:3},{from:2,to:4},{from:2,to:5});
+}else if(name==='pipeline'){
+addNode('producer',100,200,'DataIngester');addNode('topic',280,200,'raw-events');
+addNode('connector',460,200,'StreamProcessor');addNode('topic',640,200,'enriched-events');addNode('consumer',820,200,'DashboardConsumer');
+edges.push({from:1,to:2},{from:2,to:3},{from:3,to:4},{from:4,to:5});
+}else if(name==='multitenant'){
+addNode('producer',150,200,'APIGateway');addNode('topic',350,200,'tenant-events');
+addNode('connector',550,200,'TenantRouter');addNode('consumer',750,100,'Tenant-A DB');addNode('consumer',750,200,'Tenant-B DB');addNode('consumer',750,300,'Tenant-C DB');
+edges.push({from:1,to:2},{from:2,to:3},{from:3,to:4},{from:3,to:5},{from:3,to:6});
+}
+renderNodes();renderEdges();updateCounts();
+}
+function clearAllSilent(){nodes=[];edges=[];nextId=1;renderNodes();renderEdges();updateCounts()}
+</script>
+</body>
+</html>

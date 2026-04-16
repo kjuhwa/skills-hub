@@ -1,0 +1,18 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; display: flex; justify-content: center; padding: 2rem; }
+.app { max-width: 900px; width: 100%; }
+h1 { color: #6ee7b7; margin-bottom: 0.25rem; }
+.subtitle { color: #94a3b8; margin-bottom: 1.5rem; font-size: 0.9rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+.card { background: #1a1d27; border-radius: 10px; padding: 1rem; }
+.card h3 { font-size: 0.9rem; margin-bottom: 0.25rem; }
+.card .fn { color: #6ee7b7; font-family: monospace; font-size: 0.8rem; margin-bottom: 0.5rem; }
+.card canvas { width: 100%; height: 80px; border-radius: 6px; background: #12141c; }
+.card .val { font-family: monospace; font-size: 0.8rem; color: #94a3b8; margin-top: 0.4rem; }
+.card button { margin-top: 0.5rem; background: #6ee7b7; color: #0f1117; border: none; padding: 0.35rem 0.8rem; border-radius: 5px; cursor: pointer; font-size: 0.78rem; font-weight: 600; }
+.card.stable { border: 1px solid rgba(110,231,183,0.3); }
+.card.unstable { border: 1px solid rgba(251,113,133,0.3); }
+.legend { margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #94a3b8; font-size: 0.85rem; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot.stable { background: #6ee7b7; }
+.dot.unstable { background: #fb7185; }
