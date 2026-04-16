@@ -1,0 +1,12 @@
+{
+  "slug": "message-queue-flow",
+  "title": "Message Queue Flow",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T12:57:46.427Z",
+  "source_project": "100-message-queue-flow",
+  "author": "kjuhwa@nkia.co.kr"
+}
