@@ -1,0 +1,12 @@
+{
+  "slug": "queue-conductor",
+  "title": "Queue Conductor",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T19:51:42.244Z",
+  "source_project": "100-queue-conductor",
+  "author": "kjuhwa@nkia.co.kr"
+}
