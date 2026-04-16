@@ -252,6 +252,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [hex-arch-port-adapter-sim](hex-arch-port-adapter-sim/) | Hex Arch Port Adapter Sim — auto-generated hexagonal-architecture tool | html, css, vanilla-js | 2026-04-16 |
 
+| [service-topology-map](service-topology-map/) | Service Topology Map — auto-generated distributed-tracing tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
