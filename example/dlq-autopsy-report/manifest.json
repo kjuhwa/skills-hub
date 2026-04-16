@@ -1,0 +1,12 @@
+{
+  "slug": "dlq-autopsy-report",
+  "title": "Dlq Autopsy Report",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T22:01:35.989Z",
+  "source_project": "102-dlq-autopsy-report",
+  "author": "kjuhwa@nkia.co.kr"
+}

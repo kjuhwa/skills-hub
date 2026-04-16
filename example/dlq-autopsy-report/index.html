@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DLQ Autopsy Report</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>DLQ Autopsy</h1>
+  <p>Post-mortem analysis of <b id="total">0</b> dead-lettered messages over last <b>24h</b></p>
+</header>
+<main>
+  <section class="panel">
+    <h2>Failure Reasons</h2>
+    <svg id="donut" viewBox="0 0 200 200"></svg>
+    <ul id="legend"></ul>
+  </section>
+  <section class="panel">
+    <h2>Failures Over Time</h2>
+    <svg id="timeline" viewBox="0 0 400 200" preserveAspectRatio="none"></svg>
+  </section>
+  <section class="panel wide">
+    <h2>Top Failing Topics</h2>
+    <div id="bars"></div>
+  </section>
+  <section class="panel wide">
+    <h2>Recommended Actions</h2>
+    <ul id="actions"></ul>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

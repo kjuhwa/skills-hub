@@ -458,6 +458,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [materialized-view-query-planner](materialized-view-query-planner/) | Materialized View Query Planner — auto-generated materialized-view tool | html, css, vanilla-js | 2026-04-16 |
 
+| [dlq-autopsy-report](dlq-autopsy-report/) | Dlq Autopsy Report — auto-generated dead-letter-queue tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:
