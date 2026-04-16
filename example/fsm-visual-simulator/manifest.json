@@ -1,0 +1,12 @@
+{
+  "slug": "fsm-visual-simulator",
+  "title": "Fsm Visual Simulator",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T10:43:22.531Z",
+  "source_project": "100-fsm-visual-simulator",
+  "author": "kjuhwa@nkia.co.kr"
+}
