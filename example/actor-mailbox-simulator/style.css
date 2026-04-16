@@ -1,0 +1,25 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f1117; color: #e5e7eb; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+header { padding: 18px 28px; border-bottom: 1px solid #1a1d27; }
+header h1 { color: #6ee7b7; font-size: 20px; margin-bottom: 4px; }
+header p { font-size: 13px; color: #9ca3af; }
+main { display: grid; grid-template-columns: 1fr 340px; gap: 16px; padding: 16px; height: calc(100vh - 78px); }
+#stage { background: #1a1d27; border-radius: 10px; position: relative; overflow: hidden; }
+#panel { background: #1a1d27; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+#panel h2 { color: #6ee7b7; font-size: 15px; }
+#mailbox { min-height: 120px; background: #0f1117; border-radius: 6px; padding: 8px; font-size: 12px; font-family: monospace; }
+.msg { padding: 4px 6px; margin-bottom: 3px; background: #1a1d27; border-left: 2px solid #6ee7b7; border-radius: 3px; animation: slide .3s; }
+@keyframes slide { from { transform: translateX(-10px); opacity: 0; } }
+.controls { display: flex; flex-direction: column; gap: 8px; }
+.controls label { font-size: 12px; color: #9ca3af; display: flex; flex-direction: column; gap: 4px; }
+.controls input, .controls select { background: #0f1117; color: #e5e7eb; border: 1px solid #2d3142; padding: 6px; border-radius: 4px; font-family: inherit; }
+.controls button { background: #6ee7b7; color: #0f1117; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+.controls button:hover { background: #4ade9b; }
+#log { font-family: monospace; font-size: 11px; color: #9ca3af; max-height: 120px; overflow-y: auto; background: #0f1117; padding: 6px; border-radius: 4px; }
+.actor { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, #2d3142, #1a1d27); border: 2px solid #6ee7b7; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; color: #e5e7eb; transition: transform .2s, box-shadow .2s; }
+.actor:hover { transform: scale(1.05); box-shadow: 0 0 20px #6ee7b7; }
+.actor.selected { box-shadow: 0 0 25px #6ee7b7; transform: scale(1.1); }
+.actor.busy { border-color: #fbbf24; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 15px #fbbf24; } }
+.badge { position: absolute; top: -6px; right: -6px; background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; min-width: 20px; text-align: center; }
+.wire { position: absolute; pointer-events: none; }

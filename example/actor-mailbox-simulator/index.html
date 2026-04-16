@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Actor Mailbox Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Actor Mailbox Simulator</h1>
+  <p>Click an actor to inspect its mailbox. Click "Send" to dispatch a message.</p>
+</header>
+<main>
+  <div id="stage"></div>
+  <aside id="panel">
+    <h2 id="panel-title">No actor selected</h2>
+    <div id="mailbox"></div>
+    <div class="controls">
+      <label>Target:
+        <select id="target"></select>
+      </label>
+      <label>Payload:
+        <input id="payload" value="ping" />
+      </label>
+      <button id="send">Send Message</button>
+      <button id="toggle">Pause System</button>
+    </div>
+    <div id="log"></div>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
