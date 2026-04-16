@@ -1,0 +1,12 @@
+{
+  "slug": "hex-arch-flow-sim",
+  "title": "Hex Arch Flow Sim",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T16:26:47.353Z",
+  "source_project": "102-hex-arch-flow-sim",
+  "author": "kjuhwa@nkia.co.kr"
+}
