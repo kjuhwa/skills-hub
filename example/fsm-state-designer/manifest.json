@@ -1,0 +1,12 @@
+{
+  "slug": "fsm-state-designer",
+  "title": "Fsm State Designer",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T10:43:40.475Z",
+  "source_project": "102-fsm-state-designer",
+  "author": "kjuhwa@nkia.co.kr"
+}

@@ -1,0 +1,10 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:'Segoe UI',sans-serif;display:flex;justify-content:center;padding:20px}
+.app{max-width:750px;width:100%}
+h1{color:#6ee7b7;font-size:1.3rem;margin-bottom:10px}
+.toolbar{display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
+button{background:#2d333b;color:#6ee7b7;border:1px solid #6ee7b7;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:.85rem}
+button:hover{background:#6ee7b733}
+#mode-label{margin-left:auto;font-size:.8rem;color:#6ee7b7;background:#6ee7b718;padding:3px 10px;border-radius:4px}
+canvas{background:#1a1d27;border-radius:10px;width:100%;cursor:crosshair;display:block}
+#info{margin-top:8px;font-size:.8rem;color:#8b949e;background:#1a1d27;padding:8px 12px;border-radius:8px}
