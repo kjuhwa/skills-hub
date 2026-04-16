@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shard Rebalancer Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>Shard Rebalancer</h1>
+  <p class="sub">Drag the slider to add data — watch shards rebalance automatically</p>
+  <div class="controls">
+    <label>Records: <input type="range" id="load" min="100" max="10000" value="500"></label>
+    <span id="loadVal">500</span>
+    <button id="btnAdd">Add Shard</button>
+    <button id="btnRebalance">Rebalance</button>
+  </div>
+  <div id="shards"></div>
+  <div id="log"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
