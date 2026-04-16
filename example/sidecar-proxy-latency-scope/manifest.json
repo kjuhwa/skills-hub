@@ -1,0 +1,12 @@
+{
+  "slug": "sidecar-proxy-latency-scope",
+  "title": "Sidecar Proxy Latency Scope",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T17:03:04.457Z",
+  "source_project": "102-sidecar-proxy-latency-scope",
+  "author": "kjuhwa@nkia.co.kr"
+}
