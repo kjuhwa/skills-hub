@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Event Replay Timeline</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Event Replay Timeline</h1>
+  <p>Scrub through the event log and watch the aggregate state rebuild at each point in time.</p>
+</header>
+<main>
+  <section class="canvas-wrap">
+    <canvas id="timeline" width="960" height="160"></canvas>
+    <div class="controls">
+      <button id="play">▶ Play</button>
+      <button id="reset">⟲ Reset</button>
+      <label>Speed
+        <input id="speed" type="range" min="1" max="10" value="5">
+      </label>
+      <span id="position">Event 0 / 0</span>
+    </div>
+  </section>
+  <section class="state">
+    <div class="panel">
+      <h2>Projected State</h2>
+      <ul id="state-list"></ul>
+    </div>
+    <div class="panel">
+      <h2>Event at Cursor</h2>
+      <pre id="event-detail">—</pre>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
