@@ -1,0 +1,12 @@
+{
+  "slug": "chaos-gameday-sim",
+  "title": "Chaos Gameday Sim",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T12:42:34.956Z",
+  "source_project": "43-chaos-gameday-sim",
+  "author": "kjuhwa@nkia.co.kr"
+}
