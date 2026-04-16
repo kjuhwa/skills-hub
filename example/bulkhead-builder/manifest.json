@@ -1,0 +1,12 @@
+{
+  "slug": "bulkhead-builder",
+  "title": "Bulkhead Builder",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T09:29:23.425Z",
+  "source_project": "68-bulkhead-builder",
+  "author": "kjuhwa@nkia.co.kr"
+}
