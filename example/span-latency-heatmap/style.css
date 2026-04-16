@@ -1,0 +1,13 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0f1117; color:#c9d1d9; font-family:'Courier New',monospace; }
+header { background:#1a1d27; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #2a2d37; }
+h1 { font-size:15px; color:#6ee7b7; }
+.legend { display:flex; align-items:center; gap:4px; font-size:10px; }
+.legend span { display:inline-block; width:18px; height:10px; border-radius:2px; }
+.grid-wrap { display:flex; padding:20px 20px 0; }
+.y-labels { display:flex; flex-direction:column; justify-content:space-between; padding-right:8px; width:110px; }
+.y-labels div { font-size:10px; color:#8b949e; height:24px; display:flex; align-items:center; }
+canvas { flex:1; border-radius:4px; }
+.x-labels { display:flex; justify-content:space-between; padding:4px 20px 16px 130px; font-size:10px; color:#555; }
+.tooltip { position:fixed; background:#1a1d27; border:1px solid #6ee7b7; padding:8px 12px; border-radius:4px; font-size:11px; pointer-events:none; z-index:99; }
+.tooltip.hidden { display:none; }

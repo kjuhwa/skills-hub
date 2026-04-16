@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Span Latency Heatmap</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>Span Latency Heatmap</h1>
+    <div class="legend" id="legend"></div>
+  </header>
+  <div class="grid-wrap">
+    <div class="y-labels" id="yLabels"></div>
+    <canvas id="heatmap"></canvas>
+  </div>
+  <div class="x-labels" id="xLabels"></div>
+  <div id="tooltip" class="tooltip hidden"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
