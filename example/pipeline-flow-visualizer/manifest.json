@@ -1,0 +1,12 @@
+{
+  "slug": "pipeline-flow-visualizer",
+  "title": "Pipeline Flow Visualizer",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T18:59:52.190Z",
+  "source_project": "100-pipeline-flow-visualizer",
+  "author": "kjuhwa@nkia.co.kr"
+}
