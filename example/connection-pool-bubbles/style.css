@@ -1,0 +1,8 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0f1117; color:#e2e8f0; font-family:system-ui; display:flex; flex-direction:column; align-items:center; padding:24px; gap:16px; }
+h1 { color:#6ee7b7; font-size:1.3rem; }
+.sub { color:#94a3b8; font-size:.8rem; }
+svg { background:#1a1d27; border-radius:12px; width:100%; max-width:620px; }
+circle { cursor:pointer; transition: fill .3s; }
+text { pointer-events:none; fill:#0f1117; font-size:11px; font-weight:600; font-family:system-ui; }
+#log { background:#1a1d27; border-radius:8px; padding:12px; width:100%; max-width:620px; height:100px; overflow-y:auto; font-size:.75rem; color:#94a3b8; }
