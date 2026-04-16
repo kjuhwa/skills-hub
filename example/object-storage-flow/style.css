@@ -1,0 +1,9 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f1117;color:#c9d1d9;font-family:system-ui,sans-serif;display:flex;justify-content:center;padding:20px}
+#app{text-align:center}
+h1{color:#6ee7b7;font-size:1.3rem;margin-bottom:8px}
+.controls{margin-bottom:8px;display:flex;align-items:center;gap:14px;justify-content:center}
+button{background:#6ee7b733;color:#6ee7b7;border:1px solid #6ee7b755;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:.8rem}
+button:hover{background:#6ee7b755}
+#count{font-size:.7rem;color:#888}
+canvas{background:#0f1117;border:1px solid #1a1d27;border-radius:10px}
