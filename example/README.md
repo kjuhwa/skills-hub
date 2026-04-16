@@ -458,6 +458,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [circuit-breaker-race](circuit-breaker-race/) | Circuit Breaker Race — auto-generated circuit-breaker tool | html, css, vanilla-js | 2026-04-16 |
 
+| [reactive-stream-juggler](reactive-stream-juggler/) | Reactive Stream Juggler — auto-generated backpressure tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:

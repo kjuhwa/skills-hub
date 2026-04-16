@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reactive Stream Juggler</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Reactive Stream Juggler</h1>
+<p class="sub">Click the subscriber to <b>request(n)</b>. The publisher only emits what's demanded.</p>
+<div class="board">
+  <div class="lane" id="publisher">
+    <div class="tag">Publisher</div>
+    <div class="count"><span id="emitted">0</span> emitted</div>
+  </div>
+  <svg id="sky" viewBox="0 0 800 300"></svg>
+  <div class="lane" id="subscriber">
+    <div class="tag">Subscriber</div>
+    <div class="demand">demand: <span id="demand">0</span></div>
+    <button id="req1">request(1)</button>
+    <button id="req5">request(5)</button>
+    <button id="reset">reset</button>
+  </div>
+</div>
+<div class="log" id="log"></div>
+<script src="app.js"></script>
+</body>
+</html>
