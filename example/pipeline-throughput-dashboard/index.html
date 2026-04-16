@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline Throughput Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Pipeline Throughput Dashboard</h1>
+<div id="cards"></div>
+<div class="chart-row">
+  <div class="panel"><h2>Events / sec</h2><canvas id="throughput" width="560" height="200"></canvas></div>
+  <div class="panel"><h2>Stage Latency (ms)</h2><canvas id="latency" width="340" height="200"></canvas></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
