@@ -1,0 +1,12 @@
+{
+  "slug": "saga-choreography-swarm",
+  "title": "Saga Choreography Swarm",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T19:06:38.322Z",
+  "source_project": "101-saga-choreography-swarm",
+  "author": "kjuhwa@nkia.co.kr"
+}
