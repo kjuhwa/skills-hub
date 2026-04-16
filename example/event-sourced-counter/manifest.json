@@ -1,0 +1,12 @@
+{
+  "slug": "event-sourced-counter",
+  "title": "Event Sourced Counter",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T19:23:47.040Z",
+  "source_project": "101-event-sourced-counter",
+  "author": "kjuhwa@nkia.co.kr"
+}
