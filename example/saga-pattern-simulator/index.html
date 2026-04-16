@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saga Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <h1>Interactive Saga Simulator</h1>
+  <p class="sub">Toggle switches to inject failures, then run the saga</p>
+  <div id="pipeline"></div>
+  <div class="controls"><button id="go">▶ Execute Saga</button><span id="result"></span></div>
+  <svg id="flow" width="700" height="90"></svg>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
