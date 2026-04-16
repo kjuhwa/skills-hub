@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Event-Sourced Counter</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <section class="write-side">
+    <h2>⚡ Write Side (Commands)</h2>
+    <div class="counter-display" id="writeVal">0</div>
+    <div class="cmd-buttons">
+      <button data-cmd="increment">Increment</button>
+      <button data-cmd="decrement">Decrement</button>
+      <button data-cmd="double">Double</button>
+      <button data-cmd="reset">Reset</button>
+    </div>
+    <h3>Event Log</h3>
+    <ul id="eventLog"></ul>
+  </section>
+  <section class="read-side">
+    <h2>📊 Read Side (Projections)</h2>
+    <div class="projections">
+      <div class="proj"><span>Current Value</span><b id="pCurrent">0</b></div>
+      <div class="proj"><span>Total Events</span><b id="pTotal">0</b></div>
+      <div class="proj"><span>Increments</span><b id="pInc">0</b></div>
+      <div class="proj"><span>Decrements</span><b id="pDec">0</b></div>
+      <div class="proj"><span>Max Reached</span><b id="pMax">0</b></div>
+      <div class="proj"><span>Min Reached</span><b id="pMin">0</b></div>
+    </div>
+    <h3>Replay</h3>
+    <input type="range" id="replay" min="0" max="0" value="0">
+    <div class="replay-val">State at event <span id="replayIdx">0</span>: <b id="replayState">0</b></div>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
