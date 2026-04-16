@@ -1,0 +1,12 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f1117; color: #e5e7eb; font-family: 'Segoe UI', system-ui, sans-serif; height: 100vh; overflow: hidden; }
+header { padding: 14px 22px; border-bottom: 1px solid #1a1d27; }
+header h1 { color: #6ee7b7; font-size: 18px; margin-bottom: 2px; }
+header p { font-size: 12px; color: #9ca3af; }
+.toolbar { background: #1a1d27; padding: 10px 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid #2d3142; }
+.toolbar button { background: #0f1117; color: #6ee7b7; border: 1px solid #6ee7b7; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+.toolbar button:hover { background: #6ee7b7; color: #0f1117; }
+.stats { margin-left: auto; font-size: 12px; color: #9ca3af; font-family: monospace; }
+.stats b { color: #6ee7b7; }
+#field { display: block; width: 100%; height: calc(100vh - 125px); background: radial-gradient(ellipse at center, #15181f, #0f1117); cursor: grab; }
+#field:active { cursor: grabbing; }
