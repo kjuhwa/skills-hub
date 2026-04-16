@@ -1,6 +1,6 @@
 ---
 name: actor-model-implementation-pitfall
-description: Common mistakes when modeling actors, mailboxes, and supervision in educational simulations
+description: Common mistakes when simulating mailboxes, supervision strategies, and message transport in the browser
 category: pitfall
 tags:
   - actor
@@ -9,8 +9,6 @@ tags:
 
 # actor-model-implementation-pitfall
 
-The most frequent mistake is treating actor message passing as synchronous function calls — using `actor.receive(msg)` directly instead of enqueueing into a mailbox and letting the scheduler dispatch later. This silently eliminates the asynchrony and ordering guarantees the model is meant to teach: callers appear to block, causality looks linear, and deadlocks or mailbox-overflow scenarios become impossible to reproduce. Always insert the mailbox and the tick boundary between send and receive, even if it feels like indirection for a small demo.
+The biggest trap is treating message arrays as shared state instead of per-actor queues — once you push directly into `to.mailbox` at `send()` time instead of at arrival (`t >= 1`), you lose the visualization of transport latency and any drop-in-flight semantics. The mailbox-theater code correctly defers `m.to.mailbox.push()` until arrival; copying the send() shape without that delay collapses the whole model. Similarly, processing with `setTimeout(() => state='idle', 300)` is *not* a real mutex — a second message can still be shifted on the next tick because the guard is only `mailbox.length > 0`, so fast speeds produce overlapping "busy" flips that under-represent true serialization.
 
-A second trap is conflating actor identity with object reference. When a supervisor restarts a child, the restarted actor must keep the same logical PID but get a fresh state — if the visualization holds a direct object pointer, restarts appear to "do nothing" because the old instance is still referenced. Use a PID→actor registry and look up by PID on every dispatch. Related: forgetting that children started *after* a crashed sibling must also be restarted under rest-for-one strategy is a classic supervision-tree bug that only surfaces with specific spawn orderings.
-
-Finally, unbounded mailboxes in simulations produce misleading steady-state visuals — queues grow forever under any arrival rate ≥ service rate, so the demo looks "fine" until memory explodes. Always enforce a mailbox capacity with an explicit drop or block policy, surface drops as a metric, and show backpressure propagating upstream. Without this, learners walk away thinking actors magically absorb load, which is the opposite of the lesson.
+Supervision strategies are easy to mis-implement: `rest-for-one` must restart the crashed sibling and everyone *after* it in `siblings.slice(idx)`, not everyone before. The supervision-tree code also has a subtle bug where `targets.forEach(t => { if (t.status !== 'crashed') t.status = 'crashed'; t.status = 'restarting'; })` unconditionally overwrites to `'restarting'`, making the first-line check dead code — acceptable for a visualization but wrong if you consume `status` elsewhere. Finally, for ping-pong, always gate the re-send on a `running` flag inside the `setTimeout` callback (not before scheduling it), otherwise pressing Stop leaves orphan timers that resurrect traffic 200ms later. And cap in-flight/log arrays (`log.children > 60`, `history > 60`) — unbounded arrays will tank framerate within a minute at high speed settings.
