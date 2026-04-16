@@ -410,6 +410,8 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 
 | [sidecar-proxy-explorer](sidecar-proxy-explorer/) | Sidecar Proxy Explorer — auto-generated sidecar-proxy tool | html, css, vanilla-js | 2026-04-16 |
 
+| [gameday-scenario-runner](gameday-scenario-runner/) | Gameday Scenario Runner — auto-generated chaos-engineering tool | html, css, vanilla-js | 2026-04-16 |
+
 ## Adding an example
 
 Use the `/example_add <slug>` slash command from a working copy that contains the artifact. It will:

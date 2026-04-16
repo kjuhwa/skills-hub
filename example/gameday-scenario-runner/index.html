@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GameDay Scenario Runner</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>GameDay Scenario Runner</h1>
+  <p class="sub">Pick a chaos experiment. Watch steady-state metrics react in real time.</p>
+  <section class="scenarios" id="scenarios"></section>
+  <section class="metrics">
+    <div class="metric"><label>Latency (p99)</label><div class="bar"><div id="m-latency" class="fill"></div></div><span id="v-latency"></span></div>
+    <div class="metric"><label>Error Rate</label><div class="bar"><div id="m-errors" class="fill"></div></div><span id="v-errors"></span></div>
+    <div class="metric"><label>Throughput</label><div class="bar"><div id="m-tps" class="fill"></div></div><span id="v-tps"></span></div>
+    <div class="metric"><label>CPU</label><div class="bar"><div id="m-cpu" class="fill"></div></div><span id="v-cpu"></span></div>
+  </section>
+  <canvas id="chart" width="780" height="200"></canvas>
+  <div class="verdict" id="verdict">Steady state: nominal.</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
