@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Load Balancer Arena</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Load Balancer Arena</h1>
+  <p>Pick a strategy and watch requests flow to backend servers.</p>
+</header>
+<main>
+  <section class="controls">
+    <div class="strategy-picker">
+      <button data-strategy="round-robin" class="active">Round Robin</button>
+      <button data-strategy="least-conn">Least Connections</button>
+      <button data-strategy="weighted">Weighted</button>
+      <button data-strategy="random">Random</button>
+    </div>
+    <div class="rate">
+      <label>Request rate: <span id="rateLabel">8</span>/s</label>
+      <input type="range" id="rate" min="1" max="30" value="8">
+    </div>
+    <button id="toggle">Pause</button>
+  </section>
+  <canvas id="stage" width="900" height="420"></canvas>
+  <section class="stats" id="stats"></section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
