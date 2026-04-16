@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sidecar Proxy Playground</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <h1>Sidecar Proxy Request Flow</h1>
+  <p class="sub">Configure mesh policies and watch a request traverse the sidecars.</p>
+  <div class="grid">
+    <div class="config">
+      <h2>Policies</h2>
+      <label><input type="checkbox" id="mtls" checked> mTLS Encryption</label>
+      <label><input type="checkbox" id="retry" checked> Auto Retry (3x)</label>
+      <label><input type="checkbox" id="cb"> Circuit Breaker</label>
+      <label><input type="checkbox" id="rate"> Rate Limit (5 rps)</label>
+      <label><input type="checkbox" id="trace" checked> Distributed Tracing</label>
+      <label>Fault Injection: <select id="fault"><option value="none">None</option><option value="delay">500ms Delay</option><option value="error">503 Error</option><option value="abort">Abort 50%</option></select></label>
+      <button id="send">Send Request</button>
+    </div>
+    <div class="flow">
+      <svg id="diagram" viewBox="0 0 600 400"></svg>
+    </div>
+    <div class="log">
+      <h2>Request Log</h2>
+      <div id="logs"></div>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
