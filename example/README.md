@@ -28,6 +28,7 @@ End-to-end, runnable **example projects** built from (and demonstrating) skills 
 | [agent-orchestration-dashboard](agent-orchestration-dashboard/) | AI Agent Orchestration Dashboard — D3.js force graph visualizing multi-agent workflows with particle animations, live stats, 3 cycling scenarios | html, js, css, d3 | 2026-04-16 |
 | [mcp-protocol-playground](mcp-protocol-playground/) | MCP Protocol Playground — VS Code-inspired IDE for designing, validating, and simulating MCP tool schemas with 10 templates | html, js, css | 2026-04-16 |
 | [vibe-coding-canvas](vibe-coding-canvas/) | Vibe Coding Canvas — natural language to UI component generator, Korean/English input, live preview with generated HTML/CSS | html, js, css | 2026-04-16 |
+| [apm-dashboard](apm-dashboard/) | APM Suite Dashboard — trace waterfall, metrics dashboard (4 golden signals), service topology map with 7+ monitoring skills | html, css, vanilla-js | 2026-04-16 |
 
 ## Adding an example
 
