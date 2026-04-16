@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CQRS Event Replay</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Event Sourcing Time Machine</h1>
+  <p>Scrub through the event log to replay projections at any point in time.</p>
+</header>
+<main>
+  <section class="panel">
+    <h2>Event Log (append-only)</h2>
+    <ol id="log"></ol>
+  </section>
+  <section class="panel view">
+    <h2>Read Model @ <span id="cursor-label">t = 0</span></h2>
+    <svg id="chart" viewBox="0 0 400 240"></svg>
+    <div class="stats">
+      <div><span>Total Orders</span><strong id="s-orders">0</strong></div>
+      <div><span>Revenue</span><strong id="s-rev">$0</strong></div>
+      <div><span>Avg Ticket</span><strong id="s-avg">$0</strong></div>
+    </div>
+  </section>
+</main>
+<footer>
+  <input type="range" id="scrubber" min="0" max="0" value="0">
+  <div class="controls">
+    <button id="play">▶ Play</button>
+    <button id="reset">⟲ Reset</button>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
