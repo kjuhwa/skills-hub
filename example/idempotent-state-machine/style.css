@@ -1,0 +1,12 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1117; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; display: flex; justify-content: center; padding: 2rem; }
+.app { max-width: 760px; width: 100%; }
+h1 { color: #6ee7b7; margin-bottom: 0.25rem; }
+.subtitle { color: #94a3b8; margin-bottom: 1.5rem; font-size: 0.9rem; }
+svg { background: #1a1d27; border-radius: 10px; display: block; margin-bottom: 1.5rem; width: 100%; }
+.controls { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+button { background: #6ee7b7; color: #0f1117; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; cursor: pointer; font-family: monospace; font-size: 0.85rem; }
+button:hover { background: #5dd4a8; }
+#resetBtn { background: #64748b; color: #e2e8f0; }
+.log { background: #1a1d27; border-radius: 8px; padding: 1rem; font-family: monospace; font-size: 0.8rem; line-height: 1.7; max-height: 200px; overflow-y: auto; }
+.t { color: #6ee7b7; } .d { color: #f59e0b; } .i { color: #64748b; }

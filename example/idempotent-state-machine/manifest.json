@@ -1,0 +1,12 @@
+{
+  "slug": "idempotent-state-machine",
+  "title": "Idempotent State Machine",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-16T10:07:23.434Z",
+  "source_project": "95-idempotent-state-machine",
+  "author": "kjuhwa@nkia.co.kr"
+}
