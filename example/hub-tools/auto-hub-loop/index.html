@@ -296,6 +296,7 @@ main{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 4
     <span class="u-seg"><span class="u-label">out</span><span class="u-val" id="uTokOut">0</span></span>
     <span class="u-seg"><span class="u-label">$</span><span class="u-val" id="uCost">0.00</span></span>
     <span class="u-seg"><span class="u-label">calls</span><span class="u-val" id="uCalls">0</span></span>
+    <span class="u-seg" title="Estimated % of your 5-hour plan limit consumed by this loop (runtime-calibrated)"><span class="u-label">5h</span><span class="u-val" id="uPct5h">—</span></span>
   </div>
   <div class="controls">
     <button class="btn btn-go" id="btnStart" onclick="start()">Start Loop</button>
@@ -1052,13 +1053,22 @@ function fmtNum(n) {
   if (n >= 1e3) return (n/1e3).toFixed(1) + 'k';
   return String(n);
 }
-function applyUsage(u) {
+function applyUsage(u, cal) {
   if (!u) return;
   const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
   set('uTokIn',  fmtNum((u.input || 0) + (u.cacheRead || 0) + (u.cacheCreation || 0)));
   set('uTokOut', fmtNum(u.output || 0));
   set('uCost',   (u.costUsd || 0).toFixed(4));
   set('uCalls',  String(u.calls || 0));
+  const c = cal || u.calibration;
+  if (c && c.loop5hPercent != null) {
+    const p = c.loop5hPercent;
+    set('uPct5h', p.toFixed(2) + '%');
+    const el = document.getElementById('uPct5h');
+    if (el) el.title = `Estimated: ${c.samples} calibration samples, ~${Math.round((c.estimatedLimit||0)/1000)}k tokens per 1% of 5h limit`;
+  } else {
+    set('uPct5h', '— (calibrating)');
+  }
 }
 async function refreshUsage() {
   try {
@@ -1070,7 +1080,7 @@ refreshUsage();
 setInterval(refreshUsage, 15000);
 const _origHandle = handleEvent;
 handleEvent = function(data) {
-  if (data && data.type === 'usage') { applyUsage(data.usage); return; }
+  if (data && data.type === 'usage') { applyUsage(data.usage, data.calibration); return; }
   return _origHandle(data);
 };
 </script>
