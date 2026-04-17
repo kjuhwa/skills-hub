@@ -1,0 +1,37 @@
+:root{
+  --bg:#0f1117;
+  --surface:#1a1d27;
+  --accent:#6ee7b7;
+  --copper:#c88a5b;
+  --copper-deep:#7a4a2c;
+  --moon:#f4e9c1;
+  --ink:#e7e3d4;
+  --rule:rgba(200,138,91,.25);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:13px/1.45 ui-monospace,Menlo,Consolas,monospace}
+.topbar{display:flex;gap:16px;align-items:baseline;padding:10px 16px;border-bottom:1px solid var(--rule);background:#12141d}
+.topbar h1{font-size:14px;margin:0;letter-spacing:.08em;color:var(--copper)}
+.sub{color:#b6a98d;font-size:11px}
+main{display:grid;grid-template-columns:320px 1fr 260px;height:calc(100vh - 56px)}
+.input-pane{padding:14px;border-right:1px solid var(--rule);background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.input-pane label{display:block;font-size:11px;color:#b6a98d}
+textarea{width:100%;background:#111420;color:var(--ink);border:1px solid var(--rule);border-radius:4px;padding:8px;font:12px ui-monospace;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=range]{accent-color:var(--accent)}
+select{background:#111420;color:var(--ink);border:1px solid var(--rule);border-radius:4px;padding:3px}
+button{background:#1a1d27;border:1px solid var(--rule);color:var(--ink);padding:6px 10px;border-radius:4px;cursor:pointer;transition:box-shadow .2s}
+button:hover{box-shadow:inset 0 0 0 1px var(--accent)}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-size:11px;color:#b6a98d;margin-top:6px}
+.meta b{color:var(--accent);font-weight:500}
+.preview{position:relative;background:radial-gradient(ellipse at 50% 110%,#2a1d14,#0b0708);overflow:hidden;display:flex;flex-direction:column}
+#forge-svg{flex:1;width:100%;height:100%}
+#forge-svg .star{filter:drop-shadow(0 0 4px var(--moon))}
+#forge-svg .edge{stroke:var(--copper);stroke-width:.6;stroke-opacity:.5}
+#forge-svg text{fill:var(--copper);font:10px ui-monospace}
+#rune-line{margin:0;padding:8px 12px;color:var(--moon);background:#0c0e15;border-top:1px solid var(--rule);font:14px ui-monospace;letter-spacing:.3em;white-space:pre-wrap}
+.side{background:var(--surface);border-left:1px solid var(--rule);padding:12px;overflow:auto}
+.side h2{font-size:11px;color:var(--copper);letter-spacing:.1em;margin:4px 0 8px}
+.side ul{list-style:none;padding:0;margin:0}
+.side li{font-size:11px;padding:4px 0;border-bottom:1px dashed var(--rule);color:#d6ccb3}
+.status{padding:6px 16px;border-top:1px solid var(--rule);background:#0c0e15;color:#b6a98d;font-size:11px}

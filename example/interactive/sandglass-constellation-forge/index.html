@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Sandglass Constellation Forge</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header class="topbar">
+  <h1>sandglass-constellation-forge</h1>
+  <span class="sub">forge verse → constellation → copper-map engraving</span>
+</header>
+<main>
+  <section class="input-pane">
+    <label>verse
+      <textarea id="verse" rows="3">Desert nomads trace constellations on copper maps while sandstorms sculpt forgotten cities beneath twin moons rising slowly.</textarea>
+    </label>
+    <div class="row">
+      <label>stars <input id="count" type="range" min="5" max="60" value="18"/></label>
+      <label>density <input id="density" type="range" min="0" max="100" value="55"/></label>
+      <label>moon Δ <input id="moondelta" type="range" min="0" max="360" value="120"/></label>
+      <label>palette
+        <select id="palette">
+          <option value="copper">copper ember</option>
+          <option value="lunar">twin-moon lunar</option>
+          <option value="indigo">indigo dust</option>
+          <option value="verdant">verdant oasis</option>
+        </select>
+      </label>
+    </div>
+    <div class="row">
+      <button id="forge">forge ✦</button>
+      <button id="copy-svg">copy SVG</button>
+      <button id="copy-json">copy JSON</button>
+      <button id="copy-runes">copy runes</button>
+      <button id="permalink">permalink</button>
+    </div>
+    <div class="meta">
+      <span>seed <b id="m-seed">—</b></span>
+      <span>glyph <b id="m-glyph">—</b></span>
+      <span>moon phase <b id="m-phase">—</b></span>
+      <span>byte-safe name <b id="m-name">—</b></span>
+      <span>storm risk <b id="m-storm">—</b></span>
+    </div>
+  </section>
+  <section class="preview">
+    <svg id="forge-svg" viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet"></svg>
+    <pre id="rune-line"></pre>
+  </section>
+  <aside class="side">
+    <h2>forge console</h2>
+    <ul id="log"></ul>
+  </aside>
+</main>
+<footer class="status" id="status">awaiting a verse · hammer the copper when ready</footer>
+<script src="app.js" defer></script>
+</body>
+</html>
