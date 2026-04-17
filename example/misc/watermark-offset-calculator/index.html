@@ -1,0 +1,3507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watermark Offset Calculator // kafka lag projector</title>
+<script src="https://unpkg.com/d3@7/dist/d3.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #1a1a1a;
+    --surface-2: #151515;
+    --surface-hi: #222222;
+    --accent: #33ff33;
+    --accent-dim: #1a8a1a;
+    --accent-glow: rgba(51, 255, 51, 0.35);
+    --accent-soft: rgba(51, 255, 51, 0.08);
+    --warn: #ffb347;
+    --danger: #ff4d4d;
+    --cyan: #33ffd1;
+    --muted: #5a7a5a;
+    --text: #c3e8c3;
+    --text-dim: #7ab07a;
+    --border: #254a25;
+    --border-hi: #3a7a3a;
+    --mono: 'Courier New', 'Consolas', 'Monaco', monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    overflow: hidden;
+  }
+
+  body {
+    display: grid;
+    grid-template-rows: 42px 1fr 26px;
+    grid-template-columns: 1fr;
+    height: 100vh;
+  }
+
+  /* ===== scanline and crt vibe ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(51,255,51,0.02) 0px,
+      rgba(51,255,51,0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    z-index: 9999;
+    mix-blend-mode: overlay;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+    z-index: 9998;
+  }
+
+  /* ===== top bar ===== */
+  header.topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    gap: 18px;
+    user-select: none;
+  }
+
+  .brand {
+    color: var(--accent);
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px var(--accent-glow);
+    font-size: 14px;
+  }
+
+  .brand .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent); }
+    50% { opacity: 0.5; box-shadow: 0 0 2px var(--accent); }
+  }
+
+  .topbar nav {
+    display: flex;
+    gap: 2px;
+    margin-left: 20px;
+  }
+
+  .tab {
+    padding: 6px 14px;
+    color: var(--text-dim);
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-bottom: none;
+    position: relative;
+    top: 1px;
+    font-size: 12px;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tab:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .tab.active {
+    color: var(--accent);
+    background: var(--bg);
+    border-color: var(--border-hi);
+    text-shadow: 0 0 6px var(--accent-glow);
+  }
+
+  .tab .num {
+    opacity: 0.5;
+    margin-right: 4px;
+  }
+
+  .topbar-right {
+    margin-left: auto;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .topbar-right .kv {
+    display: flex;
+    gap: 6px;
+  }
+
+  .topbar-right .kv b {
+    color: var(--accent);
+    font-weight: normal;
+    text-shadow: 0 0 4px var(--accent-glow);
+  }
+
+  button.btn {
+    font-family: var(--mono);
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    color: var(--accent);
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+
+  button.btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  button.btn:active {
+    transform: translateY(1px);
+  }
+
+  button.btn.danger {
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+
+  button.btn.danger:hover {
+    background: var(--danger);
+    color: var(--bg);
+  }
+
+  /* ===== main grid ===== */
+  main {
+    display: grid;
+    grid-template-columns: 340px 1fr 340px;
+    grid-template-rows: 1fr;
+    overflow: hidden;
+  }
+
+  aside.left, aside.right {
+    background: var(--surface-2);
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+  }
+
+  aside.right {
+    border-right: none;
+    border-left: 1px solid var(--border);
+  }
+
+  section.workspace {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 14px;
+  }
+
+  .panel h3 {
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 6px var(--accent-glow);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .panel h3::before {
+    content: '▸';
+    color: var(--accent-dim);
+  }
+
+  .panel .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  /* ===== sliders ===== */
+  .control {
+    margin-bottom: 14px;
+  }
+
+  .control:last-child { margin-bottom: 0; }
+
+  .control-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+  }
+
+  .control-head label {
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+
+  .control-head .val {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: bold;
+    text-shadow: 0 0 6px var(--accent-glow);
+    font-variant-numeric: tabular-nums;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 16px;
+    background: var(--accent);
+    cursor: grab;
+    box-shadow: 0 0 8px var(--accent-glow);
+    border-radius: 1px;
+  }
+
+  input[type=range]::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    background: #fff;
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  input[type=range]::-moz-range-thumb {
+    width: 12px;
+    height: 16px;
+    background: var(--accent);
+    border: none;
+    cursor: grab;
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+
+  .control-footnote {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 3px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .control.derived .val { color: var(--cyan); text-shadow: 0 0 6px rgba(51,255,209,0.4); }
+
+  /* ===== workspace tabs & panes ===== */
+  .pane {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    display: none;
+  }
+
+  .pane.active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pane-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface-2);
+  }
+
+  .pane-header h2 {
+    font-size: 13px;
+    color: var(--accent);
+    text-shadow: 0 0 6px var(--accent-glow);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: normal;
+  }
+
+  .pane-header .meta {
+    font-size: 10px;
+    color: var(--muted);
+    display: flex;
+    gap: 18px;
+  }
+
+  .pane-header .meta b {
+    color: var(--text);
+    font-weight: normal;
+    margin-left: 4px;
+  }
+
+  .pane-body {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+  }
+
+  /* ===== svg charts ===== */
+  svg {
+    display: block;
+    font-family: var(--mono);
+  }
+
+  .axis path, .axis line {
+    stroke: var(--border);
+    shape-rendering: crispEdges;
+  }
+
+  .axis text {
+    fill: var(--text-dim);
+    font-size: 10px;
+    font-family: var(--mono);
+  }
+
+  .grid line {
+    stroke: var(--border);
+    stroke-opacity: 0.4;
+    stroke-dasharray: 2,3;
+  }
+
+  .grid path {
+    stroke-width: 0;
+  }
+
+  /* ===== stat cards ===== */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+  }
+
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-soft) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .stat .k {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+  }
+
+  .stat .v {
+    font-size: 18px;
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--accent-glow);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat .v.cyan { color: var(--cyan); text-shadow: 0 0 6px rgba(51,255,209,0.4); }
+  .stat .v.warn { color: var(--warn); text-shadow: 0 0 6px rgba(255,179,71,0.4); }
+  .stat .v.danger { color: var(--danger); text-shadow: 0 0 6px rgba(255,77,77,0.4); }
+
+  .stat .u {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-left: 4px;
+  }
+
+  .stat .trend {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ===== tables ===== */
+  table.grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  table.grid-table th, table.grid-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+
+  table.grid-table th {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 9px;
+    font-weight: normal;
+    position: sticky;
+    top: 0;
+    background: var(--surface-2);
+    z-index: 1;
+  }
+
+  table.grid-table tr:hover td {
+    background: var(--accent-soft);
+  }
+
+  table.grid-table td.num {
+    text-align: right;
+  }
+
+  table.grid-table td.bar {
+    padding: 2px 4px;
+  }
+
+  .minibar {
+    height: 10px;
+    background: var(--surface-hi);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .minibar-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+    box-shadow: 0 0 6px var(--accent-glow);
+    transition: width 0.3s;
+  }
+
+  .minibar-fill.warn { background: linear-gradient(90deg, #7a5222, var(--warn)); box-shadow: 0 0 6px rgba(255,179,71,0.4); }
+  .minibar-fill.danger { background: linear-gradient(90deg, #7a2222, var(--danger)); box-shadow: 0 0 6px rgba(255,77,77,0.4); }
+
+  /* ===== footer bar ===== */
+  footer.statusbar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 14px;
+    font-size: 10px;
+    color: var(--text-dim);
+    user-select: none;
+  }
+
+  footer .seg {
+    padding: 0 8px;
+    border-right: 1px solid var(--border);
+    height: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  footer .seg:last-child { border-right: none; }
+
+  footer .seg b {
+    color: var(--accent);
+    font-weight: normal;
+    margin-left: 4px;
+  }
+
+  footer .ticker {
+    margin-left: auto;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  /* ===== log feed ===== */
+  .log {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 10px;
+    padding: 8px;
+    max-height: 160px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    line-height: 1.5;
+  }
+
+  .log .entry {
+    color: var(--text-dim);
+  }
+
+  .log .entry.info b { color: var(--accent); }
+  .log .entry.warn { color: var(--warn); }
+  .log .entry.danger { color: var(--danger); }
+  .log .entry .ts { color: var(--muted); margin-right: 6px; }
+
+  /* ===== chart tooltips ===== */
+  .tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(10,10,10,0.95);
+    border: 1px solid var(--border-hi);
+    padding: 8px 10px;
+    font-size: 10px;
+    color: var(--text);
+    box-shadow: 0 0 12px var(--accent-glow);
+    z-index: 1000;
+    min-width: 180px;
+    white-space: pre;
+    backdrop-filter: blur(4px);
+  }
+
+  .tooltip b { color: var(--accent); font-weight: normal; }
+
+  /* ===== scrollbars ===== */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--surface-2); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border: 2px solid var(--surface-2); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-hi); }
+
+  /* ===== misc utility ===== */
+  .hr { height: 1px; background: var(--border); margin: 10px 0; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .row.space { justify-content: space-between; }
+  .flex1 { flex: 1; }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .dim { color: var(--text-dim); }
+  .muted { color: var(--muted); }
+  .accent { color: var(--accent); }
+  .warn { color: var(--warn); }
+  .danger { color: var(--danger); }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 7px;
+    font-size: 9px;
+    border: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .pill.ok { color: var(--accent); border-color: var(--border-hi); }
+  .pill.warn { color: var(--warn); border-color: #7a5222; }
+  .pill.danger { color: var(--danger); border-color: #7a2222; }
+
+  /* JSON viewer */
+  pre.json {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 12px;
+    overflow: auto;
+    font-size: 10px;
+    line-height: 1.5;
+    color: var(--text);
+    max-height: 420px;
+    white-space: pre;
+  }
+
+  pre.json .k { color: var(--cyan); }
+  pre.json .s { color: var(--accent); }
+  pre.json .n { color: var(--warn); }
+  pre.json .b { color: var(--danger); }
+
+  /* animated threshold line */
+  .threshold-line {
+    stroke: var(--warn);
+    stroke-width: 1.5;
+    stroke-dasharray: 8, 4;
+    filter: drop-shadow(0 0 4px rgba(255,179,71,0.5));
+    animation: dash 1.6s linear infinite;
+  }
+
+  @keyframes dash {
+    to { stroke-dashoffset: -24; }
+  }
+
+  .watermark-line {
+    stroke: var(--cyan);
+    stroke-width: 1.2;
+    stroke-dasharray: 4, 3;
+    filter: drop-shadow(0 0 3px rgba(51,255,209,0.5));
+  }
+
+  /* partition boxes */
+  .partition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .part-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px;
+    font-size: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .part-cell:hover {
+    border-color: var(--border-hi);
+    background: var(--surface-hi);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px var(--accent-glow);
+  }
+
+  .part-cell .pid {
+    color: var(--accent);
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .part-cell .role {
+    color: var(--muted);
+    font-size: 9px;
+    float: right;
+  }
+
+  .part-cell .lo { display: flex; justify-content: space-between; margin-top: 6px; }
+  .part-cell .lo span:first-child { color: var(--text-dim); }
+  .part-cell .lo span:last-child { color: var(--text); }
+
+  .part-cell .lag-bar {
+    margin-top: 6px;
+    height: 4px;
+    background: var(--surface-hi);
+    position: relative;
+  }
+
+  .part-cell .lag-bar-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--accent);
+    box-shadow: 0 0 4px var(--accent-glow);
+  }
+
+  .part-cell.laggy .lag-bar-fill { background: var(--warn); box-shadow: 0 0 4px rgba(255,179,71,0.5); }
+  .part-cell.stuck .lag-bar-fill { background: var(--danger); box-shadow: 0 0 4px rgba(255,77,77,0.5); }
+  .part-cell.laggy { border-color: #7a5222; }
+  .part-cell.stuck { border-color: #7a2222; }
+
+  /* timeline ticker */
+  .consumer-group {
+    margin-bottom: 12px;
+    padding: 10px;
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    border-top: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .consumer-group.warn { border-left-color: var(--warn); }
+  .consumer-group.danger { border-left-color: var(--danger); }
+
+  .consumer-group .cg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .consumer-group .cg-head .name {
+    color: var(--accent);
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+
+  .consumer-group .cg-head .meta {
+    font-size: 9px;
+    color: var(--muted);
+  }
+
+  .consumer-group .assignment {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 4px;
+  }
+
+  .assign-pill {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 9px;
+    background: var(--surface-hi);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  .assign-pill.owned { color: var(--accent); border-color: var(--border-hi); }
+
+  /* optimizer suggestion card */
+  .opt-card {
+    background: var(--surface);
+    border: 1px solid var(--border-hi);
+    padding: 14px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .opt-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-soft), transparent);
+    pointer-events: none;
+  }
+
+  .opt-card h4 {
+    color: var(--accent);
+    font-size: 11px;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 0 6px var(--accent-glow);
+  }
+
+  .opt-card .explain {
+    font-size: 10px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .opt-card .kvs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 12px;
+    margin-top: 8px;
+    font-size: 11px;
+  }
+
+  .opt-card .kvs .k { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .opt-card .kvs .v { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  /* preset chips */
+  .chip-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    padding: 3px 8px;
+    font-size: 10px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.12s;
+    letter-spacing: 0.5px;
+  }
+
+  .chip:hover {
+    color: var(--accent);
+    border-color: var(--border-hi);
+    background: var(--accent-soft);
+  }
+
+  .chip.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    text-shadow: 0 0 6px var(--accent-glow);
+  }
+
+  /* keyboard hint */
+  kbd {
+    font-family: var(--mono);
+    padding: 1px 5px;
+    border: 1px solid var(--border-hi);
+    border-radius: 2px;
+    background: var(--surface);
+    color: var(--accent);
+    font-size: 10px;
+  }
+
+  /* checkbox */
+  .chk {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--text);
+  }
+
+  .chk input { display: none; }
+  .chk .box {
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--border-hi);
+    display: inline-block;
+    position: relative;
+  }
+
+  .chk input:checked + .box::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 4px var(--accent-glow);
+  }
+
+  /* broker nodes */
+  .brokers-svg { background: var(--bg); }
+  .broker circle { fill: var(--surface); stroke: var(--accent); stroke-width: 1.5; filter: drop-shadow(0 0 6px var(--accent-glow)); }
+  .broker.leader circle { stroke: var(--cyan); filter: drop-shadow(0 0 8px rgba(51,255,209,0.6)); }
+  .broker text { fill: var(--accent); font-family: var(--mono); font-size: 11px; text-anchor: middle; dominant-baseline: central; }
+  .broker.controller circle { stroke-width: 2.5; }
+
+  .link {
+    stroke: var(--border-hi);
+    stroke-width: 1;
+    fill: none;
+    opacity: 0.7;
+  }
+
+  .link.replicated {
+    stroke: var(--accent);
+    stroke-dasharray: 3, 2;
+    opacity: 0.9;
+  }
+
+  /* context box */
+  .context-box {
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    padding: 8px;
+    background: var(--surface);
+    border-left: 2px solid var(--accent-dim);
+  }
+
+  .context-box b { color: var(--accent); font-weight: normal; }
+
+  /* flash animation */
+  @keyframes flash {
+    0% { background: var(--accent-soft); }
+    100% { background: transparent; }
+  }
+
+  .flash { animation: flash 0.5s ease-out; }
+
+  /* blinking cursor */
+  .cursor::after {
+    content: '_';
+    color: var(--accent);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* broker heatmap */
+  .heatmap rect {
+    stroke: var(--bg);
+    stroke-width: 1;
+  }
+
+  .heatmap-label {
+    fill: var(--text-dim);
+    font-size: 9px;
+  }
+
+  /* rebalance timeline */
+  .timeline-track {
+    fill: var(--surface);
+    stroke: var(--border);
+  }
+
+  .timeline-event {
+    cursor: pointer;
+  }
+
+  .timeline-event:hover {
+    filter: brightness(1.3);
+  }
+
+  /* error / empty */
+  .empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  /* recommendations list */
+  .rec-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .rec {
+    border-left: 3px solid var(--accent-dim);
+    padding: 8px 12px;
+    background: var(--surface);
+    font-size: 11px;
+  }
+
+  .rec.ok { border-left-color: var(--accent); }
+  .rec.warn { border-left-color: var(--warn); }
+  .rec.danger { border-left-color: var(--danger); }
+
+  .rec .title {
+    color: var(--accent);
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+  }
+
+  .rec.warn .title { color: var(--warn); }
+  .rec.danger .title { color: var(--danger); }
+
+  .rec .body {
+    color: var(--text-dim);
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  /* highlight row */
+  .highlight-row {
+    background: var(--accent-soft);
+  }
+
+  /* JSON tabs */
+  .json-section {
+    padding: 12px 16px;
+  }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .section-head h4 {
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: normal;
+  }
+
+  .copied-toast {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 6px 12px;
+    font-size: 11px;
+    box-shadow: 0 0 16px var(--accent-glow);
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    letter-spacing: 1px;
+  }
+
+  .copied-toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="dot"></span>WATERMARK OFFSET CALCULATOR<span class="cursor"></span></div>
+  <nav id="tabs">
+    <div class="tab active" data-tab="projection"><span class="num">01</span>LAG PROJECTION</div>
+    <div class="tab" data-tab="partitions"><span class="num">02</span>PARTITIONS</div>
+    <div class="tab" data-tab="optimizer"><span class="num">03</span>OPTIMIZER</div>
+    <div class="tab" data-tab="cluster"><span class="num">04</span>CLUSTER</div>
+    <div class="tab" data-tab="rebalance"><span class="num">05</span>REBALANCE</div>
+    <div class="tab" data-tab="report"><span class="num">06</span>REPORT</div>
+  </nav>
+  <div class="topbar-right">
+    <div class="kv">CLUSTER:<b id="tb-cluster">prod-east-1</b></div>
+    <div class="kv">TOPIC:<b id="tb-topic">events.ingest</b></div>
+    <div class="kv">UPTIME:<b id="tb-uptime">00:00:00</b></div>
+    <button class="btn" id="btn-randomize" title="Randomize inputs (R)">RANDOMIZE</button>
+    <button class="btn" id="btn-reset" title="Reset defaults (Z)">RESET</button>
+  </div>
+</header>
+
+<main>
+  <!-- ======================== LEFT SIDEBAR: INPUTS ======================== -->
+  <aside class="left">
+    <div class="panel">
+      <h3>INGESTION CONTROLS</h3>
+      <div class="sub">Configure the producer throughput and flow characteristics feeding the topic.</div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-produce">produce_rate</label>
+          <span class="val"><span id="v-produce">8200</span> <span class="u">msg/s</span></span>
+        </div>
+        <input type="range" id="sl-produce" min="100" max="50000" step="100" value="8200">
+        <div class="control-footnote"><span>100</span><span>50,000</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-msgsize">avg_msg_size</label>
+          <span class="val"><span id="v-msgsize">1.2</span> <span class="u">KiB</span></span>
+        </div>
+        <input type="range" id="sl-msgsize" min="0.1" max="64" step="0.1" value="1.2">
+        <div class="control-footnote"><span>0.1</span><span>64</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-burst">burst_factor</label>
+          <span class="val"><span id="v-burst">1.6</span><span class="u">×</span></span>
+        </div>
+        <input type="range" id="sl-burst" min="1" max="8" step="0.1" value="1.6">
+        <div class="control-footnote"><span>1.0× (flat)</span><span>8.0× (spiky)</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>CONSUMER CONTROLS</h3>
+      <div class="sub">Processing throughput and delivery semantics of the downstream consumer group.</div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-consume">consume_rate</label>
+          <span class="val"><span id="v-consume">6800</span> <span class="u">msg/s</span></span>
+        </div>
+        <input type="range" id="sl-consume" min="100" max="50000" step="100" value="6800">
+        <div class="control-footnote"><span>100</span><span>50,000</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-consumers">consumer_instances</label>
+          <span class="val"><span id="v-consumers">6</span></span>
+        </div>
+        <input type="range" id="sl-consumers" min="1" max="64" step="1" value="6">
+        <div class="control-footnote"><span>1</span><span>64</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-proctime">per_msg_proc_time</label>
+          <span class="val"><span id="v-proctime">2.4</span> <span class="u">ms</span></span>
+        </div>
+        <input type="range" id="sl-proctime" min="0.1" max="50" step="0.1" value="2.4">
+        <div class="control-footnote"><span>fast batch</span><span>heavy enrich</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>TOPIC TOPOLOGY</h3>
+      <div class="sub">Partition count, replication factor, and retention drive rebalance cost.</div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-parts">partitions</label>
+          <span class="val"><span id="v-parts">24</span></span>
+        </div>
+        <input type="range" id="sl-parts" min="1" max="256" step="1" value="24">
+        <div class="control-footnote"><span>1</span><span>256</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-replicas">replication_factor</label>
+          <span class="val"><span id="v-replicas">3</span></span>
+        </div>
+        <input type="range" id="sl-replicas" min="1" max="5" step="1" value="3">
+        <div class="control-footnote"><span>1 (none)</span><span>5 (overkill)</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-brokers">broker_count</label>
+          <span class="val"><span id="v-brokers">5</span></span>
+        </div>
+        <input type="range" id="sl-brokers" min="1" max="32" step="1" value="5">
+        <div class="control-footnote"><span>1</span><span>32</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-retention">retention_hours</label>
+          <span class="val"><span id="v-retention">72</span> <span class="u">h</span></span>
+        </div>
+        <input type="range" id="sl-retention" min="1" max="720" step="1" value="72">
+        <div class="control-footnote"><span>1h</span><span>30d</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>CHECKPOINT / COMMIT</h3>
+      <div class="sub">Offset commit cadence, isolation semantics, and acceptable recovery loss on failover.</div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-commit">commit_interval</label>
+          <span class="val"><span id="v-commit">5000</span> <span class="u">ms</span></span>
+        </div>
+        <input type="range" id="sl-commit" min="100" max="60000" step="100" value="5000">
+        <div class="control-footnote"><span>100ms (tight)</span><span>60s (relaxed)</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-horizon">time_horizon</label>
+          <span class="val"><span id="v-horizon">30</span> <span class="u">min</span></span>
+        </div>
+        <input type="range" id="sl-horizon" min="5" max="240" step="5" value="30">
+        <div class="control-footnote"><span>5 min</span><span>4 h</span></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="sl-target">target_max_lag</label>
+          <span class="val"><span id="v-target">50000</span> <span class="u">msg</span></span>
+        </div>
+        <input type="range" id="sl-target" min="100" max="1000000" step="100" value="50000">
+        <div class="control-footnote"><span>strict</span><span>lenient</span></div>
+      </div>
+
+      <label class="chk" style="margin-top:6px;">
+        <input type="checkbox" id="chk-autocommit" checked>
+        <span class="box"></span>
+        <span>enable.auto.commit</span>
+      </label>
+      <label class="chk" style="margin-top:6px;">
+        <input type="checkbox" id="chk-exactlyonce">
+        <span class="box"></span>
+        <span>exactly_once_semantics</span>
+      </label>
+    </div>
+
+    <div class="panel">
+      <h3>SCENARIO PRESETS</h3>
+      <div class="sub">One-click parameter bundles for common workloads.</div>
+      <div class="chip-row" id="chips">
+        <div class="chip active" data-preset="balanced">balanced</div>
+        <div class="chip" data-preset="overwhelmed">overwhelmed</div>
+        <div class="chip" data-preset="bursty">bursty-ingest</div>
+        <div class="chip" data-preset="overprovisioned">over-provisioned</div>
+        <div class="chip" data-preset="iot">iot-firehose</div>
+        <div class="chip" data-preset="cdc">change-data-capture</div>
+        <div class="chip" data-preset="clickstream">clickstream</div>
+        <div class="chip" data-preset="slow-consumer">slow-consumer</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ======================== CENTER WORKSPACE ======================== -->
+  <section class="workspace">
+
+    <!-- =============== PANE 01: LAG PROJECTION =============== -->
+    <div class="pane active" data-pane="projection">
+      <div class="pane-header">
+        <h2>▸ LAG PROJECTION / STACKED AREA</h2>
+        <div class="meta">
+          <span>window:<b id="pm-window">30 min</b></span>
+          <span>break_even:<b id="pm-breakeven">–</b></span>
+          <span>peak_lag:<b id="pm-peaklag">–</b></span>
+          <span>watermark_drift:<b id="pm-drift">–</b></span>
+        </div>
+      </div>
+      <div class="pane-body">
+        <div style="padding: 12px 16px;">
+          <div class="stat-grid" id="headline-stats"></div>
+        </div>
+        <div style="padding: 0 16px 12px;">
+          <svg id="chart-projection" width="100%" height="420"></svg>
+        </div>
+        <div style="padding: 0 16px 16px;">
+          <div class="row" style="gap:16px; font-size:10px; color: var(--text-dim); flex-wrap: wrap; margin-bottom: 10px;">
+            <div class="row"><span style="display:inline-block;width:10px;height:10px;background:#1f5a1f;margin-right:4px;"></span>produced_cumulative</div>
+            <div class="row"><span style="display:inline-block;width:10px;height:10px;background:var(--accent);margin-right:4px;"></span>consumed_cumulative</div>
+            <div class="row"><span style="display:inline-block;width:10px;height:10px;background:var(--warn);margin-right:4px;"></span>lag_envelope</div>
+            <div class="row"><span style="display:inline-block;width:10px;height:10px;background:var(--cyan);margin-right:4px;"></span>watermark_low</div>
+            <div class="row"><span style="display:inline-block;width:10px;height:2px;background:var(--warn);margin-right:4px;border:none;"></span>break_even_threshold</div>
+          </div>
+          <div class="context-box">
+            <b>watermark</b> is the minimum committed offset across all partitions; the stacked area shows
+            produced-vs-consumed cumulative counts. When <b>produce_rate &gt; consume_rate</b> the lag envelope
+            expands unboundedly — the <b>break-even line</b> marks the rate at which the consumer group just
+            keeps up with burst-adjusted ingestion.
+          </div>
+        </div>
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>DERIVED CHECKPOINT METRICS</h4>
+            <span class="pill ok" id="pill-status">stable</span>
+          </div>
+          <div class="stat-grid" id="derived-stats"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============== PANE 02: PARTITIONS =============== -->
+    <div class="pane" data-pane="partitions">
+      <div class="pane-header">
+        <h2>▸ PER-PARTITION OFFSETS &amp; CONSUMER ASSIGNMENT</h2>
+        <div class="meta">
+          <span>partitions:<b id="pm-parts">24</b></span>
+          <span>log_end_offset:<b id="pm-leo">–</b></span>
+          <span>committed:<b id="pm-committed">–</b></span>
+          <span>stuck:<b id="pm-stuck">0</b></span>
+        </div>
+      </div>
+      <div class="pane-body">
+        <div style="padding: 14px 16px;">
+          <div class="section-head">
+            <h4>PARTITION GRID</h4>
+            <div class="row" style="gap:10px; font-size:10px;">
+              <span class="pill ok">healthy</span>
+              <span class="pill warn">laggy</span>
+              <span class="pill danger">stuck</span>
+            </div>
+          </div>
+          <div class="partition-grid" id="partition-grid"></div>
+        </div>
+
+        <div style="padding: 14px 16px;">
+          <div class="section-head">
+            <h4>CONSUMER GROUPS</h4>
+            <button class="btn" id="btn-rebalance">TRIGGER REBALANCE</button>
+          </div>
+          <div id="consumer-groups"></div>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>OFFSET LADDER</h4>
+          </div>
+          <svg id="chart-offsets" width="100%" height="260"></svg>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>PARTITION-LEVEL DETAIL</h4>
+          </div>
+          <table class="grid-table" id="partition-table">
+            <thead>
+              <tr>
+                <th>pid</th>
+                <th>leader</th>
+                <th class="num">log_start</th>
+                <th class="num">log_end</th>
+                <th class="num">committed</th>
+                <th class="num">lag</th>
+                <th>lag_health</th>
+                <th class="num">ingest/s</th>
+                <th class="num">consume/s</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============== PANE 03: OPTIMIZER =============== -->
+    <div class="pane" data-pane="optimizer">
+      <div class="pane-header">
+        <h2>▸ CHECKPOINT FREQUENCY OPTIMIZER</h2>
+        <div class="meta">
+          <span>target_lag:<b id="pm-targetlag">–</b></span>
+          <span>suggested_commit:<b id="pm-sugcommit">–</b></span>
+          <span>confidence:<b id="pm-confidence">–</b></span>
+        </div>
+      </div>
+      <div class="pane-body">
+        <div style="padding: 14px 16px;">
+          <div class="opt-card" id="opt-suggest"></div>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>COMMIT INTERVAL SWEEP</h4>
+            <span class="muted" style="font-size:10px;">lag @ horizon / commits per min / recovery window</span>
+          </div>
+          <svg id="chart-optimizer" width="100%" height="300"></svg>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>TRADE-OFF TABLE</h4>
+          </div>
+          <table class="grid-table" id="optimizer-table">
+            <thead>
+              <tr>
+                <th class="num">commit_ms</th>
+                <th class="num">commits/min</th>
+                <th class="num">worst_lag</th>
+                <th class="num">recovery_msg</th>
+                <th class="num">rebalance_tax</th>
+                <th>verdict</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>RECOMMENDATIONS</h4>
+          </div>
+          <div class="rec-list" id="recs"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============== PANE 04: CLUSTER =============== -->
+    <div class="pane" data-pane="cluster">
+      <div class="pane-header">
+        <h2>▸ BROKER CLUSTER TOPOLOGY</h2>
+        <div class="meta">
+          <span>brokers:<b id="pm-brokers">5</b></span>
+          <span>controller:<b id="pm-controller">–</b></span>
+          <span>in_sync_replicas:<b id="pm-isr">–</b></span>
+        </div>
+      </div>
+      <div class="pane-body">
+        <div style="padding: 12px 16px;">
+          <div class="section-head">
+            <h4>FORCE-DIRECTED CLUSTER LAYOUT</h4>
+            <span class="muted" style="font-size:10px;">drag brokers to reposition • cyan ring = controller</span>
+          </div>
+          <svg id="chart-cluster" width="100%" height="380"></svg>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>PARTITION-BROKER HEATMAP</h4>
+            <span class="muted" style="font-size:10px;">leadership + replica count per broker</span>
+          </div>
+          <svg id="chart-heatmap" width="100%" height="260"></svg>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>BROKER LOAD SUMMARY</h4>
+          </div>
+          <table class="grid-table" id="brokers-table">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>role</th>
+                <th class="num">leader_parts</th>
+                <th class="num">replica_parts</th>
+                <th class="num">bytes/s in</th>
+                <th class="num">bytes/s out</th>
+                <th class="num">disk_used</th>
+                <th>saturation</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============== PANE 05: REBALANCE =============== -->
+    <div class="pane" data-pane="rebalance">
+      <div class="pane-header">
+        <h2>▸ REBALANCE COST / WATERMARK TIMELINE</h2>
+        <div class="meta">
+          <span>est_rebalance_ms:<b id="pm-rebal">–</b></span>
+          <span>msg_replay_on_fail:<b id="pm-replay">–</b></span>
+          <span>stw_assignments:<b id="pm-stw">–</b></span>
+        </div>
+      </div>
+      <div class="pane-body">
+        <div style="padding: 12px 16px;">
+          <div class="stat-grid" id="rebal-stats"></div>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>WATERMARK vs PROCESSING-TIME</h4>
+            <span class="muted" style="font-size:10px;">event-time watermark drift compared to wall clock</span>
+          </div>
+          <svg id="chart-watermark" width="100%" height="300"></svg>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>SIMULATED REBALANCE EVENTS</h4>
+          </div>
+          <svg id="chart-rebalance" width="100%" height="200"></svg>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>REBALANCE COST BREAKDOWN</h4>
+          </div>
+          <table class="grid-table" id="rebal-table">
+            <thead>
+              <tr>
+                <th>phase</th>
+                <th class="num">duration_ms</th>
+                <th class="num">stw</th>
+                <th>description</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <div class="section-head">
+            <h4>EVENT FEED</h4>
+            <button class="btn" id="btn-clearlog">CLEAR</button>
+          </div>
+          <div class="log" id="log-feed"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============== PANE 06: REPORT =============== -->
+    <div class="pane" data-pane="report">
+      <div class="pane-header">
+        <h2>▸ COMPUTED OFFSETS / WATERMARKS / REBALANCE COST</h2>
+        <div class="meta">
+          <span>serialized_bytes:<b id="pm-bytes">–</b></span>
+          <span>generated:<b id="pm-generated">–</b></span>
+          <span>sha256:<b id="pm-hash">–</b></span>
+        </div>
+      </div>
+      <div class="pane-body">
+        <div class="json-section">
+          <div class="section-head">
+            <h4>EXPORTABLE JSON REPORT</h4>
+            <div class="row">
+              <button class="btn" id="btn-copy">COPY</button>
+              <button class="btn" id="btn-download">DOWNLOAD .JSON</button>
+              <button class="btn" id="btn-regen">REGENERATE</button>
+            </div>
+          </div>
+          <pre class="json" id="json-out"></pre>
+        </div>
+
+        <div class="json-section">
+          <div class="section-head">
+            <h4>NARRATIVE SUMMARY</h4>
+          </div>
+          <div class="context-box" id="narrative"></div>
+        </div>
+
+        <div class="json-section">
+          <div class="section-head">
+            <h4>COMPUTED FIELDS INDEX</h4>
+          </div>
+          <table class="grid-table" id="fields-table">
+            <thead>
+              <tr>
+                <th>field</th>
+                <th>value</th>
+                <th>unit</th>
+                <th>description</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================== RIGHT SIDEBAR ======================== -->
+  <aside class="right">
+    <div class="panel">
+      <h3>LIVE METRICS</h3>
+      <div class="sub">Updated from the current input vector each tick.</div>
+      <div class="stat-grid" id="live-metrics"></div>
+    </div>
+
+    <div class="panel">
+      <h3>BREAK-EVEN ANALYZER</h3>
+      <div class="sub">Throughput the consumer must sustain to match burst-adjusted ingestion.</div>
+      <div id="breakeven-panel"></div>
+    </div>
+
+    <div class="panel">
+      <h3>HEALTH SCORE</h3>
+      <svg id="chart-health" width="100%" height="120"></svg>
+      <div class="row space" style="margin-top:6px; font-size:10px;">
+        <span class="dim">score</span>
+        <span id="health-score" class="accent">–</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>ACTIVE ALERTS</h3>
+      <div id="alerts"></div>
+    </div>
+
+    <div class="panel">
+      <h3>KEYBOARD SHORTCUTS</h3>
+      <div style="font-size:10px; line-height:1.8;">
+        <div><kbd>1</kbd>–<kbd>6</kbd> switch tab</div>
+        <div><kbd>R</kbd> randomize inputs</div>
+        <div><kbd>Z</kbd> reset defaults</div>
+        <div><kbd>E</kbd> export JSON</div>
+        <div><kbd>B</kbd> trigger rebalance</div>
+        <div><kbd>C</kbd> copy report</div>
+        <div><kbd>Space</kbd> play/pause live tick</div>
+        <div><kbd>←</kbd>/<kbd>→</kbd> adjust focus slider</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>TICKER</h3>
+      <div class="sub">Virtual clock driving the live simulation.</div>
+      <svg id="chart-pulse" width="100%" height="80"></svg>
+    </div>
+  </aside>
+</main>
+
+<footer class="statusbar">
+  <div class="seg">status: <b id="sb-status">READY</b></div>
+  <div class="seg">tick: <b id="sb-tick">0</b></div>
+  <div class="seg">partitions: <b id="sb-parts">24</b></div>
+  <div class="seg">λ_produce: <b id="sb-lambda">–</b></div>
+  <div class="seg">μ_consume: <b id="sb-mu">–</b></div>
+  <div class="seg">ρ (utilization): <b id="sb-rho">–</b></div>
+  <div class="ticker" id="ticker">kafka-watermark-calculator v1.0.0 · d3@7 · single-file · all computation client-side</div>
+</footer>
+
+<div class="copied-toast" id="toast">COPIED TO CLIPBOARD</div>
+<div class="tooltip" id="tooltip" style="display:none;"></div>
+
+<script>
+/* =====================================================================
+ *  WATERMARK OFFSET CALCULATOR
+ *  Single-file D3-powered consumer-lag projection tool.
+ *  All computation is derived from slider inputs with zero network I/O.
+ * ===================================================================== */
+
+(() => {
+  'use strict';
+
+  // ------------------------------------------------------------------
+  // STATE
+  // ------------------------------------------------------------------
+  const DEFAULTS = {
+    produce: 8200,
+    msgsize: 1.2,
+    burst: 1.6,
+    consume: 6800,
+    consumers: 6,
+    proctime: 2.4,
+    parts: 24,
+    replicas: 3,
+    brokers: 5,
+    retention: 72,
+    commit: 5000,
+    horizon: 30,
+    target: 50000,
+    autocommit: true,
+    exactlyonce: false
+  };
+
+  const PRESETS = {
+    'balanced':      { produce: 8200,  consume: 6800,  parts: 24, consumers: 6, commit: 5000, burst: 1.6, brokers: 5, replicas: 3, proctime: 2.4 },
+    'overwhelmed':   { produce: 38000, consume: 7200,  parts: 32, consumers: 8, commit: 10000, burst: 2.4, brokers: 6, replicas: 3, proctime: 4.1 },
+    'bursty':        { produce: 12000, consume: 9500,  parts: 48, consumers: 12, commit: 2000, burst: 4.5, brokers: 8, replicas: 3, proctime: 1.8 },
+    'overprovisioned': { produce: 900, consume: 18000, parts: 64, consumers: 32, commit: 1000, burst: 1.1, brokers: 12, replicas: 3, proctime: 0.4 },
+    'iot':           { produce: 42000, consume: 22000, parts: 128, consumers: 24, commit: 15000, burst: 2.1, brokers: 10, replicas: 2, proctime: 1.1 },
+    'cdc':           { produce: 3500,  consume: 2800,  parts: 12, consumers: 4, commit: 500, burst: 1.2, brokers: 3, replicas: 3, proctime: 8.4 },
+    'clickstream':   { produce: 26000, consume: 24000, parts: 64, consumers: 16, commit: 3000, burst: 3.2, brokers: 8, replicas: 3, proctime: 1.4 },
+    'slow-consumer': { produce: 6000,  consume: 3200,  parts: 16, consumers: 3, commit: 8000, burst: 1.3, brokers: 5, replicas: 3, proctime: 12.6 }
+  };
+
+  const state = {
+    ...DEFAULTS,
+    tick: 0,
+    running: true,
+    startedAt: Date.now(),
+    activeTab: 'projection',
+    activePreset: 'balanced',
+    simSeed: 1337,
+    partitions: [],
+    brokersList: [],
+    consumerGroups: [],
+    rebalanceEvents: [],
+    log: []
+  };
+
+  // ------------------------------------------------------------------
+  // UTILITIES
+  // ------------------------------------------------------------------
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => [...document.querySelectorAll(sel)];
+
+  const fmt = {
+    int: n => d3.format(',')(Math.round(n)),
+    k: n => d3.format('.3s')(n).replace('G', 'B'),
+    pct: n => d3.format('.1%')(n),
+    num: (n, p=1) => d3.format(`,.${p}f`)(n),
+    ms: n => n < 1000 ? `${Math.round(n)}ms` : `${(n/1000).toFixed(2)}s`,
+    bytes: n => {
+      if (n < 1024) return `${n.toFixed(0)}B`;
+      if (n < 1024*1024) return `${(n/1024).toFixed(1)}KiB`;
+      if (n < 1024*1024*1024) return `${(n/1024/1024).toFixed(1)}MiB`;
+      if (n < 1024*1024*1024*1024) return `${(n/1024/1024/1024).toFixed(2)}GiB`;
+      return `${(n/1024/1024/1024/1024).toFixed(2)}TiB`;
+    }
+  };
+
+  // Seeded PRNG
+  function mulberry32(seed) {
+    return function() {
+      seed = (seed + 0x6D2B79F5) | 0;
+      let t = seed;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  let rng = mulberry32(state.simSeed);
+
+  function reseed(s) {
+    state.simSeed = s;
+    rng = mulberry32(s);
+  }
+
+  // Stable hash for partition assignment
+  function stableHash(str) {
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return (h >>> 0);
+  }
+
+  function logEvent(msg, level='info') {
+    const ts = new Date().toISOString().substring(11, 19);
+    const entry = { ts, msg, level, id: state.tick };
+    state.log.unshift(entry);
+    if (state.log.length > 120) state.log.pop();
+    renderLog();
+  }
+
+  // ------------------------------------------------------------------
+  // CORE MODEL: offsets / lag / watermarks
+  // ------------------------------------------------------------------
+  function computeCoreMetrics() {
+    const λ_total = state.produce;                            // total produce msg/s
+    const μ_total = state.consume;                            // total consume msg/s
+    const utilization = λ_total / μ_total;                    // ρ
+    const peakλ = λ_total * state.burst;                      // burst-adjusted peak
+    const breakEven = peakλ / state.consumers;                // per-consumer required throughput
+    const perPartλ = λ_total / state.parts;
+    const perPartμ = μ_total / state.parts;
+    const perConsumerμ = μ_total / state.consumers;
+    const partsPerConsumer = state.parts / state.consumers;
+    const saturationMargin = 1 - utilization;                 // >0 healthy
+    const netGap = λ_total - μ_total;                         // msg/s added to lag
+    const peakNetGap = peakλ - μ_total;
+    const horizonSec = state.horizon * 60;
+    const projectedLag = Math.max(0, netGap) * horizonSec;
+    const peakProjectedLag = Math.max(0, peakNetGap) * horizonSec;
+    const msgSizeBytes = state.msgsize * 1024;
+    const ingestBytes = λ_total * msgSizeBytes;               // bytes/s
+    const consumeBytes = μ_total * msgSizeBytes;
+    const retentionBytes = ingestBytes * state.retention * 3600 * state.replicas;
+    const commitFreq = 1000 / state.commit;
+    const unCommittedWorstCase = μ_total * (state.commit / 1000);
+    const rebalanceTimeMs = estimateRebalanceMs();
+    const rebalanceCostMsg = unCommittedWorstCase;
+    const endToEndLatencyMs = state.proctime + (state.commit / 2);
+    const watermarkDriftMs = 1000 * partsPerConsumer * (state.proctime / 1000);
+    const exactlyOncePenalty = state.exactlyonce ? 1.4 : 1.0;
+    const effectiveMu = μ_total / exactlyOncePenalty;
+    const backpressureIndex = utilization > 1 ? utilization - 1 : 0;
+    const stability = Math.max(0, Math.min(1, 1 - backpressureIndex * 2));
+
+    return {
+      λ_total, μ_total, utilization, peakλ, breakEven, perPartλ, perPartμ,
+      perConsumerμ, partsPerConsumer, saturationMargin, netGap, peakNetGap,
+      horizonSec, projectedLag, peakProjectedLag, msgSizeBytes, ingestBytes,
+      consumeBytes, retentionBytes, commitFreq, unCommittedWorstCase,
+      rebalanceTimeMs, rebalanceCostMsg, endToEndLatencyMs, watermarkDriftMs,
+      exactlyOncePenalty, effectiveMu, backpressureIndex, stability
+    };
+  }
+
+  function estimateRebalanceMs() {
+    // crude model: base + linear partitions + linear consumers + replica tax
+    const base = 250;
+    const partCost = state.parts * 8;
+    const consumerCost = state.consumers * 40;
+    const replicaTax = (state.replicas - 1) * 180;
+    const brokerBonus = Math.max(0, state.brokers - 3) * -8;
+    return Math.max(200, base + partCost + consumerCost + replicaTax + brokerBonus);
+  }
+
+  // ------------------------------------------------------------------
+  // PARTITION / BROKER SIMULATION
+  // ------------------------------------------------------------------
+  function regeneratePartitions() {
+    const parts = [];
+    for (let i = 0; i < state.parts; i++) {
+      const seed = stableHash(`p${i}-${state.simSeed}`);
+      const r = (seed % 10000) / 10000;
+      const start = 0;
+      const end = Math.floor(state.produce * 60 * (0.8 + r * 0.4) * (1 + state.tick * 0.01));
+      // lag is biased by rng for realism, bounded
+      const laggyBias = rng() < 0.12 ? 1 + rng() * 8 : rng() * 2;
+      const stuckBias = rng() < 0.03 ? 50 + rng() * 100 : 1;
+      const lagFraction = Math.min(0.95, Math.max(0, (1 - state.consume / state.produce) * (0.3 + rng() * 1.2) * laggyBias * stuckBias));
+      const lag = Math.floor((end - start) * lagFraction);
+      const committed = end - lag;
+      const leader = i % state.brokers;
+      const replicas = [];
+      for (let r2 = 0; r2 < state.replicas; r2++) {
+        replicas.push((leader + r2) % state.brokers);
+      }
+      const ingestRate = state.produce / state.parts * (0.7 + rng() * 0.6);
+      const consumeRate = state.consume / state.parts * (0.7 + rng() * 0.6);
+      const status = lagFraction > 0.6 ? 'stuck' : lagFraction > 0.25 ? 'laggy' : 'healthy';
+      parts.push({
+        id: i, start, end, committed, lag,
+        leader, replicas, ingestRate, consumeRate, status,
+        lagFraction, lastUpdated: Date.now()
+      });
+    }
+    state.partitions = parts;
+  }
+
+  function regenerateBrokers() {
+    const brokers = [];
+    const controllerIdx = Math.floor(rng() * state.brokers);
+    for (let i = 0; i < state.brokers; i++) {
+      const leaderParts = state.partitions.filter(p => p.leader === i).length;
+      const replicaParts = state.partitions.filter(p => p.replicas.includes(i)).length;
+      const bytesIn = leaderParts * state.produce / state.parts * state.msgsize * 1024 * (0.9 + rng() * 0.2);
+      const bytesOut = replicaParts * state.consume / state.parts * state.msgsize * 1024 * (0.9 + rng() * 0.2);
+      const diskUsed = replicaParts * state.retention * 3600 * state.produce / state.parts * state.msgsize * 1024;
+      const saturation = Math.min(1, (bytesIn + bytesOut) / (500 * 1024 * 1024));
+      brokers.push({
+        id: i, role: i === controllerIdx ? 'controller' : 'broker',
+        leaderParts, replicaParts, bytesIn, bytesOut, diskUsed,
+        saturation,
+        host: `kafka-${String(i).padStart(2,'0')}.prod-east-1.internal`
+      });
+    }
+    state.brokersList = brokers;
+  }
+
+  function regenerateConsumerGroups() {
+    const groups = [];
+    const groupNames = ['analytics-writer', 'feature-store-sink', 'fraud-detector', 'pii-enricher', 'audit-logger'];
+    const numGroups = Math.min(5, Math.max(1, Math.floor(state.parts / 12) + 1));
+    const consumersPerGroup = Math.max(1, Math.floor(state.consumers / numGroups));
+    for (let g = 0; g < numGroups; g++) {
+      const members = [];
+      for (let m = 0; m < consumersPerGroup; m++) {
+        const assigned = [];
+        for (let p = 0; p < state.parts; p++) {
+          if ((p + g) % consumersPerGroup === m) assigned.push(p);
+        }
+        members.push({
+          id: `consumer-${g}-${m}-${(stableHash('c'+g+m)%999).toString(36)}`,
+          assigned,
+          heartbeatAgo: Math.floor(rng() * 3000),
+          generation: 17 + Math.floor(rng() * 80)
+        });
+      }
+      const totalLag = members.reduce((acc, mb) => acc + mb.assigned.reduce((a, p) => a + (state.partitions[p]?.lag || 0), 0), 0);
+      const status = totalLag > state.target * 2 ? 'danger' : totalLag > state.target ? 'warn' : 'ok';
+      groups.push({ name: groupNames[g % groupNames.length], members, totalLag, status, generation: 17 + Math.floor(rng() * 80) });
+    }
+    state.consumerGroups = groups;
+  }
+
+  function regenerateRebalanceEvents() {
+    const events = [];
+    const now = Date.now();
+    const window = state.horizon * 60 * 1000;
+    const count = 3 + Math.floor(rng() * 6);
+    for (let i = 0; i < count; i++) {
+      const t = now - rng() * window;
+      const dur = 400 + rng() * 3200;
+      const types = ['member-join', 'member-leave', 'partition-reassign', 'leader-election', 'isr-shrink'];
+      events.push({
+        t, duration: dur,
+        type: types[Math.floor(rng() * types.length)],
+        cost: Math.floor(rng() * 5000),
+        affectedParts: Math.floor(rng() * state.parts)
+      });
+    }
+    events.sort((a, b) => a.t - b.t);
+    state.rebalanceEvents = events;
+  }
+
+  // ------------------------------------------------------------------
+  // CHART: LAG PROJECTION (stacked area)
+  // ------------------------------------------------------------------
+  const chartProjection = {
+    svg: null,
+    init() {
+      this.svg = d3.select('#chart-projection');
+      this.render();
+    },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+      const margin = { top: 20, right: 60, bottom: 36, left: 64 };
+      const innerW = w - margin.left - margin.right;
+      const innerH = h - margin.top - margin.bottom;
+
+      const core = computeCoreMetrics();
+      const steps = 120;
+      const dtSec = core.horizonSec / steps;
+
+      const data = [];
+      let prodCum = 0, consCum = 0, wm = 0;
+      for (let i = 0; i <= steps; i++) {
+        const tMin = (i * dtSec) / 60;
+        const burstPhase = Math.sin(tMin * 0.6 + state.tick * 0.1);
+        const burstMul = 1 + (state.burst - 1) * (0.5 + burstPhase * 0.5);
+        const prodRate = core.λ_total * burstMul;
+        const consRate = Math.min(core.μ_total, prodCum - consCum > 0 ? core.μ_total : prodRate);
+        prodCum += prodRate * dtSec;
+        consCum += consRate * dtSec;
+        const lag = Math.max(0, prodCum - consCum);
+        wm = consCum - state.consume * 0.5 * (1 + Math.sin(tMin * 0.3) * 0.3);
+        data.push({
+          t: tMin, prodCum, consCum, lag,
+          watermark: Math.max(0, wm),
+          prodRate, consRate
+        });
+      }
+
+      const x = d3.scaleLinear().domain([0, core.horizonSec / 60]).range([0, innerW]);
+      const maxY = d3.max(data, d => Math.max(d.prodCum, d.consCum, d.lag));
+      const y = d3.scaleLinear().domain([0, maxY * 1.1]).range([innerH, 0]).nice();
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      g.append('g').attr('class', 'grid')
+        .call(d3.axisLeft(y).tickSize(-innerW).tickFormat(''));
+      g.append('g').attr('class', 'grid')
+        .attr('transform', `translate(0,${innerH})`)
+        .call(d3.axisBottom(x).tickSize(-innerH).tickFormat(''));
+
+      // Area: produced cumulative
+      const areaProd = d3.area()
+        .x(d => x(d.t)).y0(innerH).y1(d => y(d.prodCum))
+        .curve(d3.curveMonotoneX);
+      const areaCons = d3.area()
+        .x(d => x(d.t)).y0(innerH).y1(d => y(d.consCum))
+        .curve(d3.curveMonotoneX);
+      const areaLag = d3.area()
+        .x(d => x(d.t)).y0(d => y(d.consCum)).y1(d => y(d.prodCum))
+        .curve(d3.curveMonotoneX);
+      const lineWm = d3.line()
+        .x(d => x(d.t)).y(d => y(d.watermark))
+        .curve(d3.curveMonotoneX);
+
+      // gradients
+      const defs = svg.append('defs');
+      const gradProd = defs.append('linearGradient').attr('id', 'gradProd').attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', 1);
+      gradProd.append('stop').attr('offset', '0%').attr('stop-color', '#1f5a1f').attr('stop-opacity', 0.55);
+      gradProd.append('stop').attr('offset', '100%').attr('stop-color', '#0a280a').attr('stop-opacity', 0.15);
+
+      const gradLag = defs.append('linearGradient').attr('id', 'gradLag').attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', 1);
+      gradLag.append('stop').attr('offset', '0%').attr('stop-color', 'var(--warn)').attr('stop-opacity', 0.7);
+      gradLag.append('stop').attr('offset', '100%').attr('stop-color', 'var(--warn)').attr('stop-opacity', 0.1);
+
+      g.append('path').datum(data).attr('d', areaProd)
+        .attr('fill', 'url(#gradProd)').attr('stroke', '#1f5a1f').attr('stroke-width', 1);
+
+      g.append('path').datum(data).attr('d', areaLag)
+        .attr('fill', 'url(#gradLag)').attr('stroke', 'var(--warn)').attr('stroke-width', 1).attr('opacity', 0.85);
+
+      g.append('path').datum(data).attr('d', areaCons)
+        .attr('fill', 'var(--accent)').attr('fill-opacity', 0.18)
+        .attr('stroke', 'var(--accent)').attr('stroke-width', 1.6)
+        .style('filter', 'drop-shadow(0 0 4px var(--accent-glow))');
+
+      g.append('path').datum(data).attr('d', lineWm)
+        .attr('fill', 'none').attr('class', 'watermark-line');
+
+      // Break-even threshold as horizontal line at consume rate cumulative after horizon
+      const breakEvenY = y(core.μ_total * core.horizonSec);
+      g.append('line')
+        .attr('class', 'threshold-line')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', breakEvenY).attr('y2', breakEvenY);
+
+      g.append('text')
+        .attr('x', innerW - 4).attr('y', breakEvenY - 6)
+        .attr('fill', 'var(--warn)').attr('text-anchor', 'end').attr('font-size', 10)
+        .text(`break-even @ μ·t = ${fmt.k(core.μ_total * core.horizonSec)} msg`);
+
+      // Axes
+      g.append('g').attr('class', 'axis')
+        .attr('transform', `translate(0,${innerH})`)
+        .call(d3.axisBottom(x).ticks(8).tickFormat(d => `${d.toFixed(0)}m`));
+
+      g.append('g').attr('class', 'axis')
+        .call(d3.axisLeft(y).ticks(6).tickFormat(d => d3.format('.2s')(d)));
+
+      g.append('text')
+        .attr('x', -innerH/2).attr('y', -48).attr('transform', 'rotate(-90)')
+        .attr('text-anchor', 'middle').attr('fill', 'var(--muted)')
+        .attr('font-size', 10).text('cumulative_msg');
+
+      g.append('text')
+        .attr('x', innerW/2).attr('y', innerH + 30).attr('text-anchor', 'middle')
+        .attr('fill', 'var(--muted)').attr('font-size', 10).text('minutes_from_now');
+
+      // Interactive focus
+      const focus = g.append('g').style('display', 'none');
+      focus.append('line').attr('y1', 0).attr('y2', innerH)
+        .attr('stroke', 'var(--accent)').attr('stroke-dasharray', '2,2').attr('opacity', 0.6);
+      focus.append('circle').attr('r', 3).attr('fill', 'var(--accent)');
+
+      const tooltip = $('#tooltip');
+      const bisect = d3.bisector(d => d.t).left;
+
+      svg.on('mousemove', (ev) => {
+        const [mx] = d3.pointer(ev, g.node());
+        const tx = x.invert(mx);
+        const i = bisect(data, tx);
+        const d = data[Math.min(i, data.length - 1)];
+        if (!d) return;
+        focus.style('display', null)
+          .attr('transform', `translate(${x(d.t)},0)`);
+        focus.select('circle').attr('cy', y(d.prodCum));
+        tooltip.style.display = 'block';
+        tooltip.style.left = (ev.pageX + 14) + 'px';
+        tooltip.style.top = (ev.pageY - 10) + 'px';
+        tooltip.innerHTML =
+          `t = ${d.t.toFixed(1)} min\n` +
+          `produced   = ${fmt.int(d.prodCum)}\n` +
+          `consumed   = ${fmt.int(d.consCum)}\n` +
+          `lag        = ${fmt.int(d.lag)}\n` +
+          `watermark  = ${fmt.int(d.watermark)}\n` +
+          `prodRate   = ${fmt.int(d.prodRate)} msg/s\n` +
+          `consRate   = ${fmt.int(d.consRate)} msg/s`;
+      }).on('mouseleave', () => {
+        focus.style('display', 'none');
+        tooltip.style.display = 'none';
+      });
+
+      // summary
+      $('#pm-window').textContent = `${state.horizon} min`;
+      $('#pm-breakeven').textContent = `${fmt.int(core.breakEven)} msg/s/c`;
+      $('#pm-peaklag').textContent = fmt.int(data[data.length-1].lag);
+      $('#pm-drift').textContent = `${core.watermarkDriftMs.toFixed(0)}ms`;
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // CHART: OFFSET LADDER (per-partition offsets bars)
+  // ------------------------------------------------------------------
+  const chartOffsets = {
+    svg: null,
+    init() { this.svg = d3.select('#chart-offsets'); this.render(); },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+      const margin = { top: 14, right: 20, bottom: 30, left: 56 };
+      const innerW = w - margin.left - margin.right;
+      const innerH = h - margin.top - margin.bottom;
+
+      const data = state.partitions;
+      if (!data.length) return;
+
+      const x = d3.scaleBand().domain(data.map(d => d.id))
+        .range([0, innerW]).padding(0.15);
+      const maxY = d3.max(data, d => d.end) || 1;
+      const y = d3.scaleLinear().domain([0, maxY * 1.05]).range([innerH, 0]);
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      g.append('g').attr('class', 'grid')
+        .call(d3.axisLeft(y).tickSize(-innerW).tickFormat(''));
+
+      // log_end bar
+      g.selectAll('.leo').data(data).enter().append('rect')
+        .attr('class', 'leo')
+        .attr('x', d => x(d.id))
+        .attr('width', x.bandwidth())
+        .attr('y', d => y(d.end))
+        .attr('height', d => innerH - y(d.end))
+        .attr('fill', 'var(--surface-hi)')
+        .attr('stroke', 'var(--border)')
+        .attr('stroke-width', 0.5);
+
+      // committed bar
+      g.selectAll('.committed').data(data).enter().append('rect')
+        .attr('class', 'committed')
+        .attr('x', d => x(d.id))
+        .attr('width', x.bandwidth())
+        .attr('y', d => y(d.committed))
+        .attr('height', d => innerH - y(d.committed))
+        .attr('fill', d => d.status === 'stuck' ? 'var(--danger)' : d.status === 'laggy' ? 'var(--warn)' : 'var(--accent)')
+        .attr('fill-opacity', 0.75)
+        .style('filter', 'drop-shadow(0 0 3px var(--accent-glow))');
+
+      // axes
+      const xSkip = Math.max(1, Math.floor(data.length / 16));
+      g.append('g').attr('class', 'axis')
+        .attr('transform', `translate(0,${innerH})`)
+        .call(d3.axisBottom(x).tickValues(data.map(d=>d.id).filter((_,i) => i % xSkip === 0)));
+      g.append('g').attr('class', 'axis')
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d => d3.format('.2s')(d)));
+
+      // hover
+      const tooltip = $('#tooltip');
+      g.selectAll('rect').on('mousemove', (ev, d) => {
+        tooltip.style.display = 'block';
+        tooltip.style.left = (ev.pageX + 12) + 'px';
+        tooltip.style.top = (ev.pageY - 10) + 'px';
+        tooltip.innerHTML =
+          `partition ${d.id}\n` +
+          `status     = ${d.status}\n` +
+          `log_start  = ${fmt.int(d.start)}\n` +
+          `log_end    = ${fmt.int(d.end)}\n` +
+          `committed  = ${fmt.int(d.committed)}\n` +
+          `lag        = ${fmt.int(d.lag)}\n` +
+          `leader_brk = ${d.leader}`;
+      }).on('mouseleave', () => { tooltip.style.display = 'none'; });
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // CHART: OPTIMIZER SWEEP
+  // ------------------------------------------------------------------
+  const chartOptimizer = {
+    svg: null,
+    init() { this.svg = d3.select('#chart-optimizer'); this.render(); },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+      const margin = { top: 20, right: 80, bottom: 36, left: 60 };
+      const innerW = w - margin.left - margin.right;
+      const innerH = h - margin.top - margin.bottom;
+
+      const core = computeCoreMetrics();
+      const commitValues = d3.range(100, 60100, 500);
+      const data = commitValues.map(c => {
+        const unCommitted = core.μ_total * (c / 1000);
+        const commitsPerMin = 60000 / c;
+        const rebalanceTax = (estimateRebalanceMs() * commitsPerMin) / 60;
+        const worstLag = Math.max(core.projectedLag, unCommitted * (core.parts / state.parts));
+        const recoveryMsg = unCommitted;
+        const targetOk = worstLag <= state.target;
+        return { c, unCommitted, commitsPerMin, rebalanceTax, worstLag, recoveryMsg, targetOk };
+      });
+
+      const x = d3.scaleLog().domain([100, 60000]).range([0, innerW]);
+      const yLag = d3.scaleLog().domain([1, d3.max(data, d => Math.max(d.worstLag, 1000))]).range([innerH, 0]).nice();
+      const yTax = d3.scaleLinear().domain([0, d3.max(data, d => d.rebalanceTax)]).range([innerH, 0]);
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      g.append('g').attr('class', 'grid')
+        .call(d3.axisLeft(yLag).tickSize(-innerW).tickFormat(''));
+
+      // lag line
+      const lineLag = d3.line().x(d => x(d.c)).y(d => yLag(d.worstLag)).curve(d3.curveMonotoneX);
+      g.append('path').datum(data).attr('d', lineLag)
+        .attr('fill', 'none').attr('stroke', 'var(--accent)').attr('stroke-width', 2)
+        .style('filter', 'drop-shadow(0 0 4px var(--accent-glow))');
+
+      const lineRec = d3.line().x(d => x(d.c)).y(d => yLag(d.recoveryMsg)).curve(d3.curveMonotoneX);
+      g.append('path').datum(data).attr('d', lineRec)
+        .attr('fill', 'none').attr('stroke', 'var(--warn)').attr('stroke-width', 1.3).attr('stroke-dasharray', '4,3');
+
+      // target line
+      g.append('line').attr('class', 'threshold-line')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', yLag(state.target)).attr('y2', yLag(state.target));
+
+      g.append('text').attr('x', innerW - 4).attr('y', yLag(state.target) - 6)
+        .attr('fill', 'var(--warn)').attr('text-anchor', 'end').attr('font-size', 10)
+        .text(`target_lag = ${fmt.k(state.target)}`);
+
+      // current commit marker
+      g.append('line').attr('x1', x(state.commit)).attr('x2', x(state.commit))
+        .attr('y1', 0).attr('y2', innerH)
+        .attr('stroke', 'var(--cyan)').attr('stroke-width', 1.5).attr('stroke-dasharray', '2,2');
+
+      g.append('text').attr('x', x(state.commit) + 4).attr('y', 14)
+        .attr('fill', 'var(--cyan)').attr('font-size', 10)
+        .text(`current = ${state.commit}ms`);
+
+      // axes
+      g.append('g').attr('class', 'axis')
+        .attr('transform', `translate(0,${innerH})`)
+        .call(d3.axisBottom(x).ticks(6, '~s').tickFormat(d => d < 1000 ? d + 'ms' : (d/1000) + 's'));
+      g.append('g').attr('class', 'axis')
+        .call(d3.axisLeft(yLag).ticks(5, '~s'));
+
+      g.append('text')
+        .attr('x', innerW/2).attr('y', innerH + 30).attr('text-anchor', 'middle')
+        .attr('fill', 'var(--muted)').attr('font-size', 10).text('commit_interval (log)');
+
+      g.append('text')
+        .attr('x', -innerH/2).attr('y', -46).attr('transform', 'rotate(-90)')
+        .attr('text-anchor', 'middle').attr('fill', 'var(--muted)')
+        .attr('font-size', 10).text('msg (log)');
+
+      // legend
+      const lg = g.append('g').attr('transform', `translate(${innerW - 110},0)`);
+      lg.append('rect').attr('width', 110).attr('height', 44)
+        .attr('fill', 'var(--surface)').attr('stroke', 'var(--border)');
+      lg.append('line').attr('x1', 6).attr('x2', 20).attr('y1', 12).attr('y2', 12)
+        .attr('stroke', 'var(--accent)').attr('stroke-width', 2);
+      lg.append('text').attr('x', 24).attr('y', 15).attr('fill', 'var(--text)').attr('font-size', 9).text('worst_lag');
+      lg.append('line').attr('x1', 6).attr('x2', 20).attr('y1', 28).attr('y2', 28)
+        .attr('stroke', 'var(--warn)').attr('stroke-width', 1.3).attr('stroke-dasharray', '3,2');
+      lg.append('text').attr('x', 24).attr('y', 31).attr('fill', 'var(--text)').attr('font-size', 9).text('recovery_msg');
+
+      // tooltip
+      const focus = g.append('g').style('display', 'none');
+      focus.append('line').attr('y1', 0).attr('y2', innerH)
+        .attr('stroke', 'var(--accent)').attr('stroke-dasharray', '2,2').attr('opacity', 0.4);
+      focus.append('circle').attr('r', 3).attr('fill', 'var(--accent)');
+
+      const tooltip = $('#tooltip');
+      const bisect = d3.bisector(d => d.c).left;
+      svg.on('mousemove.opt', (ev) => {
+        const [mx] = d3.pointer(ev, g.node());
+        const cx = x.invert(mx);
+        const i = bisect(data, cx);
+        const d = data[Math.max(0, Math.min(i, data.length - 1))];
+        if (!d) return;
+        focus.style('display', null)
+          .attr('transform', `translate(${x(d.c)},0)`);
+        focus.select('circle').attr('cy', yLag(d.worstLag));
+        tooltip.style.display = 'block';
+        tooltip.style.left = (ev.pageX + 12) + 'px';
+        tooltip.style.top = (ev.pageY - 10) + 'px';
+        tooltip.innerHTML =
+          `commit     = ${d.c}ms\n` +
+          `commits/m  = ${d.commitsPerMin.toFixed(1)}\n` +
+          `worst_lag  = ${fmt.int(d.worstLag)}\n` +
+          `recovery   = ${fmt.int(d.recoveryMsg)} msg\n` +
+          `rebal_tax  = ${d.rebalanceTax.toFixed(1)} ms/s\n` +
+          `verdict    = ${d.targetOk ? 'WITHIN TARGET' : 'EXCEEDS TARGET'}`;
+      }).on('mouseleave.opt', () => {
+        focus.style('display', 'none');
+        tooltip.style.display = 'none';
+      });
+
+      return data;
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // CHART: CLUSTER FORCE LAYOUT
+  // ------------------------------------------------------------------
+  const chartCluster = {
+    svg: null, sim: null,
+    init() {
+      this.svg = d3.select('#chart-cluster').classed('brokers-svg', true);
+      this.render();
+    },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+
+      const nodes = state.brokersList.map(b => ({ ...b }));
+      const links = [];
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          // link if they share any replica partition
+          const iParts = state.partitions.filter(p => p.replicas.includes(nodes[i].id));
+          const jParts = state.partitions.filter(p => p.replicas.includes(nodes[j].id));
+          const shared = iParts.filter(p => jParts.some(p2 => p2.id === p.id)).length;
+          if (shared > 0) {
+            links.push({
+              source: nodes[i].id, target: nodes[j].id,
+              weight: shared,
+              replicated: true
+            });
+          }
+        }
+      }
+
+      const sim = d3.forceSimulation(nodes)
+        .force('charge', d3.forceManyBody().strength(-600))
+        .force('center', d3.forceCenter(w/2, h/2))
+        .force('collide', d3.forceCollide(42))
+        .force('link', d3.forceLink(links).id(d => d.id).distance(140))
+        .alpha(1).alphaDecay(0.05);
+
+      const linkSel = svg.append('g').selectAll('line')
+        .data(links).enter().append('line').attr('class', 'link replicated')
+        .attr('stroke-width', d => Math.max(0.5, Math.log(d.weight + 1) * 1.2));
+
+      const nodeG = svg.append('g').selectAll('g')
+        .data(nodes).enter().append('g')
+        .attr('class', d => `broker ${d.role === 'controller' ? 'leader controller' : ''}`)
+        .call(d3.drag()
+          .on('start', (ev, d) => { if (!ev.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+          .on('drag', (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
+          .on('end', (ev, d) => { if (!ev.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+      nodeG.append('circle').attr('r', d => 22 + Math.sqrt(d.leaderParts) * 3);
+      nodeG.append('text').text(d => `br${d.id}`);
+
+      // mini saturation ring
+      nodeG.append('circle')
+        .attr('r', d => 22 + Math.sqrt(d.leaderParts) * 3 + 4)
+        .attr('fill', 'none')
+        .attr('stroke', d => d.saturation > 0.8 ? 'var(--danger)' : d.saturation > 0.5 ? 'var(--warn)' : 'var(--accent-dim)')
+        .attr('stroke-width', 1.5)
+        .attr('stroke-dasharray', d => `${d.saturation * 120} 120`)
+        .attr('opacity', 0.7);
+
+      nodeG.on('mousemove', (ev, d) => {
+        const t = $('#tooltip');
+        t.style.display = 'block';
+        t.style.left = (ev.pageX + 12) + 'px';
+        t.style.top = (ev.pageY - 10) + 'px';
+        t.innerHTML =
+          `${d.host}\n` +
+          `role          = ${d.role}\n` +
+          `leader_parts  = ${d.leaderParts}\n` +
+          `replica_parts = ${d.replicaParts}\n` +
+          `bytes_in      = ${fmt.bytes(d.bytesIn)}/s\n` +
+          `bytes_out     = ${fmt.bytes(d.bytesOut)}/s\n` +
+          `disk_used     = ${fmt.bytes(d.diskUsed)}\n` +
+          `saturation    = ${(d.saturation*100).toFixed(1)}%`;
+      }).on('mouseleave', () => { $('#tooltip').style.display = 'none'; });
+
+      sim.on('tick', () => {
+        linkSel.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+        nodeG.attr('transform', d => {
+          d.x = Math.max(30, Math.min(w - 30, d.x));
+          d.y = Math.max(30, Math.min(h - 30, d.y));
+          return `translate(${d.x},${d.y})`;
+        });
+      });
+
+      this.sim = sim;
+      const controller = nodes.find(n => n.role === 'controller');
+      $('#pm-controller').textContent = controller ? `br${controller.id}` : '–';
+      $('#pm-isr').textContent = `${nodes.length * state.replicas}/${state.parts * state.replicas}`;
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // CHART: HEATMAP
+  // ------------------------------------------------------------------
+  const chartHeatmap = {
+    svg: null,
+    init() { this.svg = d3.select('#chart-heatmap').classed('heatmap', true); this.render(); },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+      const margin = { top: 20, right: 20, bottom: 28, left: 60 };
+      const innerW = w - margin.left - margin.right;
+      const innerH = h - margin.top - margin.bottom;
+
+      const brokers = state.brokersList;
+      const parts = state.partitions;
+      if (!brokers.length || !parts.length) return;
+
+      const partCols = Math.min(parts.length, 64);
+      const cols = parts.slice(0, partCols);
+
+      const cellW = innerW / cols.length;
+      const cellH = innerH / brokers.length;
+
+      const colorLeader = d3.scaleLinear().domain([0, 1]).range(['#0a2a0a', '#33ff33']);
+      const colorReplica = d3.scaleLinear().domain([0, 1]).range(['#0a0a0a', '#1a5a1a']);
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      brokers.forEach((b, bi) => {
+        cols.forEach((p, pi) => {
+          const isLeader = p.leader === b.id;
+          const isReplica = p.replicas.includes(b.id) && !isLeader;
+          let color = '#0a0a0a';
+          if (isLeader) color = colorLeader(0.7 + p.lagFraction * 0.3);
+          else if (isReplica) color = colorReplica(0.7);
+          g.append('rect')
+            .attr('x', pi * cellW).attr('y', bi * cellH)
+            .attr('width', cellW - 1).attr('height', cellH - 1)
+            .attr('fill', color)
+            .attr('opacity', isLeader ? 1 : isReplica ? 0.6 : 0.3)
+            .on('mousemove', (ev) => {
+              const t = $('#tooltip');
+              t.style.display = 'block';
+              t.style.left = (ev.pageX + 12) + 'px';
+              t.style.top = (ev.pageY - 10) + 'px';
+              t.innerHTML =
+                `broker br${b.id}\n` +
+                `partition p${p.id}\n` +
+                `role      = ${isLeader ? 'LEADER' : isReplica ? 'replica' : '–'}\n` +
+                `lag       = ${fmt.int(p.lag)}\n` +
+                `status    = ${p.status}`;
+            }).on('mouseleave', () => { $('#tooltip').style.display = 'none'; });
+        });
+      });
+
+      // broker labels
+      brokers.forEach((b, bi) => {
+        g.append('text')
+          .attr('class', 'heatmap-label')
+          .attr('x', -6).attr('y', bi * cellH + cellH/2 + 3)
+          .attr('text-anchor', 'end')
+          .text(`br${b.id}${b.role === 'controller' ? '✦' : ''}`);
+      });
+
+      // partition x-ticks
+      const xSkip = Math.max(1, Math.floor(cols.length / 12));
+      cols.forEach((p, pi) => {
+        if (pi % xSkip === 0) {
+          g.append('text')
+            .attr('class', 'heatmap-label')
+            .attr('x', pi * cellW + cellW/2).attr('y', innerH + 14)
+            .attr('text-anchor', 'middle')
+            .text(`p${p.id}`);
+        }
+      });
+
+      if (parts.length > partCols) {
+        g.append('text').attr('x', innerW/2).attr('y', innerH + 26)
+          .attr('text-anchor', 'middle').attr('fill', 'var(--muted)').attr('font-size', 10)
+          .text(`showing first ${partCols} of ${parts.length} partitions`);
+      }
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // CHART: WATERMARK
+  // ------------------------------------------------------------------
+  const chartWatermark = {
+    svg: null,
+    init() { this.svg = d3.select('#chart-watermark'); this.render(); },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+      const margin = { top: 14, right: 80, bottom: 30, left: 56 };
+      const innerW = w - margin.left - margin.right;
+      const innerH = h - margin.top - margin.bottom;
+
+      const steps = 200;
+      const data = [];
+      const core = computeCoreMetrics();
+      const horizonSec = core.horizonSec;
+      let wm = 0, pt = 0;
+      for (let i = 0; i < steps; i++) {
+        const t = (i / steps) * horizonSec;
+        const drift = core.watermarkDriftMs / 1000 * (1 + Math.sin(t * 0.05) * 0.4);
+        pt = t;
+        wm = Math.max(0, t - drift - Math.sin(t * 0.2) * 2);
+        data.push({ t, wm, pt, skew: pt - wm });
+      }
+
+      const x = d3.scaleLinear().domain([0, horizonSec / 60]).range([0, innerW]);
+      const y = d3.scaleLinear().domain([0, horizonSec / 60]).range([innerH, 0]);
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      g.append('g').attr('class', 'grid')
+        .call(d3.axisLeft(y).tickSize(-innerW).tickFormat(''));
+
+      // diagonal: perfect sync
+      g.append('line').attr('x1', 0).attr('y1', innerH).attr('x2', innerW).attr('y2', 0)
+        .attr('stroke', 'var(--border-hi)').attr('stroke-dasharray', '4,3');
+
+      const linePt = d3.line().x(d => x(d.pt/60)).y(d => y(d.pt/60)).curve(d3.curveMonotoneX);
+      const lineWm = d3.line().x(d => x(d.pt/60)).y(d => y(d.wm/60)).curve(d3.curveMonotoneX);
+
+      g.append('path').datum(data).attr('d', linePt)
+        .attr('fill', 'none').attr('stroke', 'var(--cyan)').attr('stroke-width', 1.5)
+        .style('filter', 'drop-shadow(0 0 3px rgba(51,255,209,0.5))');
+
+      g.append('path').datum(data).attr('d', lineWm)
+        .attr('fill', 'none').attr('stroke', 'var(--accent)').attr('stroke-width', 2)
+        .style('filter', 'drop-shadow(0 0 4px var(--accent-glow))');
+
+      // skew area
+      const areaSkew = d3.area().x(d => x(d.pt/60)).y0(d => y(d.pt/60)).y1(d => y(d.wm/60));
+      g.append('path').datum(data).attr('d', areaSkew)
+        .attr('fill', 'var(--warn)').attr('fill-opacity', 0.12);
+
+      g.append('g').attr('class', 'axis')
+        .attr('transform', `translate(0,${innerH})`)
+        .call(d3.axisBottom(x).ticks(6).tickFormat(d => `${d.toFixed(0)}m`));
+      g.append('g').attr('class', 'axis')
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d => `${d.toFixed(0)}m`));
+
+      g.append('text')
+        .attr('x', innerW/2).attr('y', innerH + 24).attr('text-anchor', 'middle')
+        .attr('fill', 'var(--muted)').attr('font-size', 10).text('processing_time');
+
+      g.append('text')
+        .attr('x', -innerH/2).attr('y', -42).attr('transform', 'rotate(-90)')
+        .attr('text-anchor', 'middle').attr('fill', 'var(--muted)')
+        .attr('font-size', 10).text('event_time / watermark');
+
+      // Legend
+      const lg = g.append('g').attr('transform', `translate(${innerW - 70}, 10)`);
+      lg.append('line').attr('x1',0).attr('x2',14).attr('y1',0).attr('y2',0)
+        .attr('stroke', 'var(--accent)').attr('stroke-width', 2);
+      lg.append('text').attr('x', 18).attr('y', 3).attr('fill', 'var(--text)').attr('font-size', 9).text('watermark');
+      lg.append('line').attr('x1',0).attr('x2',14).attr('y1',14).attr('y2',14)
+        .attr('stroke', 'var(--cyan)').attr('stroke-width', 1.5);
+      lg.append('text').attr('x', 18).attr('y', 17).attr('fill', 'var(--text)').attr('font-size', 9).text('proc_time');
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // CHART: REBALANCE EVENTS
+  // ------------------------------------------------------------------
+  const chartRebalance = {
+    svg: null,
+    init() { this.svg = d3.select('#chart-rebalance'); this.render(); },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+      const margin = { top: 14, right: 20, bottom: 28, left: 70 };
+      const innerW = w - margin.left - margin.right;
+      const innerH = h - margin.top - margin.bottom;
+
+      const events = state.rebalanceEvents;
+      if (!events.length) return;
+
+      const now = Date.now();
+      const winStart = now - state.horizon * 60 * 1000;
+
+      const x = d3.scaleLinear().domain([winStart, now]).range([0, innerW]);
+      const lanes = ['member-join', 'member-leave', 'partition-reassign', 'leader-election', 'isr-shrink'];
+      const y = d3.scaleBand().domain(lanes).range([0, innerH]).padding(0.35);
+
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+      // lane tracks
+      lanes.forEach(l => {
+        g.append('rect').attr('class', 'timeline-track')
+          .attr('x', 0).attr('y', y(l))
+          .attr('width', innerW).attr('height', y.bandwidth());
+        g.append('text').attr('x', -6).attr('y', y(l) + y.bandwidth()/2 + 3)
+          .attr('text-anchor', 'end').attr('fill', 'var(--text-dim)').attr('font-size', 10)
+          .text(l);
+      });
+
+      // events
+      const color = { 'member-join': 'var(--accent)', 'member-leave': 'var(--warn)',
+        'partition-reassign': 'var(--cyan)', 'leader-election': '#ffaaff', 'isr-shrink': 'var(--danger)' };
+
+      g.selectAll('.evt').data(events).enter().append('rect')
+        .attr('class', 'timeline-event')
+        .attr('x', d => x(d.t))
+        .attr('y', d => y(d.type) + 2)
+        .attr('width', d => Math.max(2, x(d.t + d.duration) - x(d.t)))
+        .attr('height', y.bandwidth() - 4)
+        .attr('fill', d => color[d.type])
+        .attr('opacity', 0.85)
+        .style('filter', 'drop-shadow(0 0 4px var(--accent-glow))')
+        .on('mousemove', (ev, d) => {
+          const t = $('#tooltip');
+          t.style.display = 'block';
+          t.style.left = (ev.pageX + 12) + 'px';
+          t.style.top = (ev.pageY - 10) + 'px';
+          t.innerHTML =
+            `type          = ${d.type}\n` +
+            `timestamp     = ${new Date(d.t).toISOString().substring(11,19)}\n` +
+            `duration      = ${fmt.ms(d.duration)}\n` +
+            `cost          = ${fmt.int(d.cost)} msg\n` +
+            `affected_pts  = ${d.affectedParts}`;
+        }).on('mouseleave', () => { $('#tooltip').style.display = 'none'; });
+
+      g.append('g').attr('class', 'axis').attr('transform', `translate(0,${innerH})`)
+        .call(d3.axisBottom(x).tickFormat(d => new Date(d).toISOString().substring(11,19)).ticks(6));
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // CHART: HEALTH GAUGE
+  // ------------------------------------------------------------------
+  const chartHealth = {
+    svg: null,
+    init() { this.svg = d3.select('#chart-health'); this.render(); },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+      const cx = w/2, cy = h * 0.95;
+      const r = Math.min(w, h*2) * 0.42;
+
+      const core = computeCoreMetrics();
+      let score = 100;
+      if (core.utilization > 0.8) score -= (core.utilization - 0.8) * 200;
+      if (core.utilization > 1.0) score -= (core.utilization - 1.0) * 300;
+      if (core.rebalanceTimeMs > 3000) score -= (core.rebalanceTimeMs - 3000) / 80;
+      if (core.watermarkDriftMs > 1000) score -= (core.watermarkDriftMs - 1000) / 50;
+      const stuck = state.partitions.filter(p => p.status === 'stuck').length;
+      score -= stuck * 8;
+      score = Math.max(0, Math.min(100, score));
+
+      const color = score > 75 ? 'var(--accent)' : score > 40 ? 'var(--warn)' : 'var(--danger)';
+
+      // Arc
+      const arc = d3.arc().innerRadius(r - 6).outerRadius(r)
+        .startAngle(-Math.PI / 2).endAngle(Math.PI / 2);
+      const arcFill = d3.arc().innerRadius(r - 6).outerRadius(r)
+        .startAngle(-Math.PI / 2)
+        .endAngle(-Math.PI / 2 + Math.PI * (score / 100));
+
+      const g = svg.append('g').attr('transform', `translate(${cx},${cy})`);
+      g.append('path').attr('d', arc).attr('fill', 'var(--surface-hi)');
+      g.append('path').attr('d', arcFill).attr('fill', color)
+        .style('filter', `drop-shadow(0 0 6px ${color})`);
+
+      // ticks
+      for (let i = 0; i <= 10; i++) {
+        const ang = -Math.PI/2 + Math.PI * (i / 10);
+        const x1 = Math.cos(ang) * (r - 8);
+        const y1 = Math.sin(ang) * (r - 8);
+        const x2 = Math.cos(ang) * (r - 2);
+        const y2 = Math.sin(ang) * (r - 2);
+        g.append('line').attr('x1', x1).attr('y1', y1).attr('x2', x2).attr('y2', y2)
+          .attr('stroke', 'var(--border-hi)').attr('stroke-width', i % 5 === 0 ? 1.5 : 0.6);
+      }
+
+      // needle
+      const ang = -Math.PI/2 + Math.PI * (score / 100);
+      const nx = Math.cos(ang) * (r - 14);
+      const ny = Math.sin(ang) * (r - 14);
+      g.append('line').attr('x1', 0).attr('y1', 0).attr('x2', nx).attr('y2', ny)
+        .attr('stroke', color).attr('stroke-width', 2).style('filter', `drop-shadow(0 0 4px ${color})`);
+      g.append('circle').attr('r', 4).attr('fill', color);
+
+      // label
+      g.append('text').attr('x', 0).attr('y', -r + 6).attr('text-anchor', 'middle')
+        .attr('fill', 'var(--muted)').attr('font-size', 9).text('HEALTH');
+
+      $('#health-score').textContent = score.toFixed(0);
+      $('#health-score').style.color = color;
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // CHART: PULSE (mini live ticker)
+  // ------------------------------------------------------------------
+  const chartPulse = {
+    svg: null, history: [],
+    init() { this.svg = d3.select('#chart-pulse'); this.history = []; },
+    render() {
+      const svg = this.svg;
+      svg.selectAll('*').remove();
+      const w = svg.node().clientWidth;
+      const h = +svg.attr('height');
+      const core = computeCoreMetrics();
+
+      const burstMul = 1 + (state.burst - 1) * (0.5 + Math.sin(state.tick * 0.3) * 0.5);
+      const currentRate = core.λ_total * burstMul;
+      this.history.push(currentRate);
+      if (this.history.length > 80) this.history.shift();
+
+      if (this.history.length < 2) return;
+
+      const x = d3.scaleLinear().domain([0, 79]).range([0, w]);
+      const y = d3.scaleLinear()
+        .domain([Math.min(...this.history) * 0.9, Math.max(...this.history) * 1.1])
+        .range([h - 6, 6]);
+
+      const line = d3.line().x((d,i) => x(i)).y(d => y(d)).curve(d3.curveMonotoneX);
+      const area = d3.area().x((d,i) => x(i)).y0(h).y1(d => y(d)).curve(d3.curveMonotoneX);
+
+      svg.append('path').datum(this.history).attr('d', area).attr('fill', 'var(--accent-soft)');
+      svg.append('path').datum(this.history).attr('d', line)
+        .attr('fill', 'none').attr('stroke', 'var(--accent)').attr('stroke-width', 1.5)
+        .style('filter', 'drop-shadow(0 0 3px var(--accent-glow))');
+
+      // label
+      svg.append('text').attr('x', 6).attr('y', 14).attr('fill', 'var(--accent)')
+        .attr('font-size', 10).text(`λ(t) = ${fmt.int(currentRate)} msg/s`);
+    }
+  };
+
+  // ------------------------------------------------------------------
+  // RENDERERS: sidebar stats, tables, etc.
+  // ------------------------------------------------------------------
+  function renderHeadlineStats() {
+    const core = computeCoreMetrics();
+    const stats = [
+      { k: 'produce_rate', v: fmt.int(core.λ_total), u: 'msg/s', cls: '' },
+      { k: 'consume_rate', v: fmt.int(core.μ_total), u: 'msg/s', cls: 'cyan' },
+      { k: 'utilization_ρ', v: fmt.num(core.utilization, 3), u: '', cls: core.utilization > 0.95 ? 'danger' : core.utilization > 0.8 ? 'warn' : '' },
+      { k: 'net_gap', v: (core.netGap >= 0 ? '+' : '') + fmt.int(core.netGap), u: 'msg/s', cls: core.netGap > 0 ? 'warn' : '' },
+      { k: 'peak_λ', v: fmt.int(core.peakλ), u: 'msg/s', cls: 'warn' },
+      { k: 'break_even', v: fmt.int(core.breakEven), u: 'msg/s·c', cls: '' },
+      { k: 'projected_lag', v: fmt.int(core.projectedLag), u: `@ ${state.horizon}m`, cls: core.projectedLag > state.target ? 'danger' : '' },
+      { k: 'rebalance_est', v: fmt.ms(core.rebalanceTimeMs), u: '', cls: '' }
+    ];
+    const container = $('#headline-stats');
+    container.innerHTML = stats.map(s =>
+      `<div class="stat"><div class="k">${s.k}</div><div class="v ${s.cls}">${s.v}<span class="u">${s.u}</span></div></div>`
+    ).join('');
+  }
+
+  function renderDerivedStats() {
+    const core = computeCoreMetrics();
+    const stats = [
+      { k: 'commit_freq', v: fmt.num(core.commitFreq, 2), u: '/s' },
+      { k: 'uncommitted_worst_case', v: fmt.int(core.unCommittedWorstCase), u: 'msg' },
+      { k: 'end_to_end_latency', v: fmt.ms(core.endToEndLatencyMs), u: '' },
+      { k: 'watermark_drift', v: fmt.ms(core.watermarkDriftMs), u: '' },
+      { k: 'parts_per_consumer', v: fmt.num(core.partsPerConsumer, 1), u: '' },
+      { k: 'ingest_throughput', v: fmt.bytes(core.ingestBytes), u: '/s' },
+      { k: 'retention_footprint', v: fmt.bytes(core.retentionBytes), u: '' },
+      { k: 'stability', v: fmt.pct(core.stability), u: '' }
+    ];
+    $('#derived-stats').innerHTML = stats.map(s =>
+      `<div class="stat"><div class="k">${s.k}</div><div class="v">${s.v}<span class="u">${s.u}</span></div></div>`
+    ).join('');
+
+    const status = core.utilization > 0.95 ? 'overwhelmed'
+      : core.utilization > 0.8 ? 'stressed'
+      : core.utilization < 0.3 ? 'over-provisioned'
+      : 'stable';
+    const pill = $('#pill-status');
+    pill.textContent = status;
+    pill.className = 'pill ' + (status === 'overwhelmed' ? 'danger' : status === 'stressed' ? 'warn' : 'ok');
+  }
+
+  function renderLiveMetrics() {
+    const core = computeCoreMetrics();
+    const stats = [
+      { k: 'tick', v: state.tick, u: '' },
+      { k: 'λ/μ', v: fmt.num(core.utilization, 2), u: '' },
+      { k: 'peak_lag', v: fmt.k(core.peakProjectedLag), u: 'msg' },
+      { k: 'stuck_parts', v: state.partitions.filter(p => p.status === 'stuck').length, u: '' }
+    ];
+    $('#live-metrics').innerHTML = stats.map(s =>
+      `<div class="stat"><div class="k">${s.k}</div><div class="v">${s.v}<span class="u">${s.u}</span></div></div>`
+    ).join('');
+  }
+
+  function renderBreakEvenPanel() {
+    const core = computeCoreMetrics();
+    const gapPct = ((core.peakλ - core.μ_total) / core.peakλ);
+    const html = `
+      <div class="row space">
+        <span class="dim">peak_λ</span><span class="accent mono">${fmt.int(core.peakλ)} msg/s</span>
+      </div>
+      <div class="row space">
+        <span class="dim">current_μ</span><span class="mono">${fmt.int(core.μ_total)} msg/s</span>
+      </div>
+      <div class="row space">
+        <span class="dim">gap</span><span class="${core.peakλ > core.μ_total ? 'warn' : 'accent'} mono">${(core.peakλ > core.μ_total ? '+' : '')}${fmt.int(core.peakλ - core.μ_total)} msg/s</span>
+      </div>
+      <div class="row space">
+        <span class="dim">needed/consumer</span><span class="accent mono">${fmt.int(core.breakEven)} msg/s</span>
+      </div>
+      <div class="hr"></div>
+      <div class="minibar" title="utilization bar">
+        <div class="minibar-fill ${core.utilization > 0.95 ? 'danger' : core.utilization > 0.8 ? 'warn' : ''}"
+             style="width:${Math.min(100, core.utilization * 100)}%"></div>
+      </div>
+      <div style="font-size:10px; color: var(--muted); margin-top:4px;">
+        ρ = λ/μ = ${fmt.num(core.utilization, 3)} — ${core.utilization < 1 ? 'sub-critical (queue drains)' : 'over-critical (lag unbounded)'}
+      </div>
+    `;
+    $('#breakeven-panel').innerHTML = html;
+  }
+
+  function renderPartitionGrid() {
+    const grid = $('#partition-grid');
+    grid.innerHTML = state.partitions.slice(0, 64).map(p => `
+      <div class="part-cell ${p.status === 'stuck' ? 'stuck' : p.status === 'laggy' ? 'laggy' : ''}" data-pid="${p.id}">
+        <span class="pid">p${String(p.id).padStart(2,'0')}</span>
+        <span class="role">leader=br${p.leader}</span>
+        <div class="lo"><span>start</span><span>${fmt.k(p.start)}</span></div>
+        <div class="lo"><span>end</span><span>${fmt.k(p.end)}</span></div>
+        <div class="lo"><span>commit</span><span>${fmt.k(p.committed)}</span></div>
+        <div class="lo"><span>lag</span><span class="${p.status === 'stuck' ? 'danger' : p.status === 'laggy' ? 'warn' : 'accent'}">${fmt.int(p.lag)}</span></div>
+        <div class="lag-bar"><div class="lag-bar-fill" style="width:${Math.min(100, p.lagFraction * 100)}%"></div></div>
+      </div>
+    `).join('') + (state.partitions.length > 64 ? `<div class="empty" style="grid-column:1/-1;">+ ${state.partitions.length - 64} more partitions hidden</div>` : '');
+
+    grid.querySelectorAll('.part-cell').forEach(el => {
+      el.addEventListener('click', () => {
+        const pid = +el.dataset.pid;
+        logEvent(`Partition p${pid} selected (lag=${fmt.int(state.partitions[pid].lag)})`, 'info');
+        el.classList.add('flash');
+        setTimeout(() => el.classList.remove('flash'), 500);
+      });
+    });
+
+    $('#pm-parts').textContent = state.parts;
+    const leo = d3.sum(state.partitions, p => p.end);
+    $('#pm-leo').textContent = fmt.k(leo);
+    $('#pm-committed').textContent = fmt.k(d3.sum(state.partitions, p => p.committed));
+    $('#pm-stuck').textContent = state.partitions.filter(p => p.status === 'stuck').length;
+  }
+
+  function renderPartitionTable() {
+    const tbody = $('#partition-table tbody');
+    const rows = state.partitions.slice(0, 32).map(p => `
+      <tr ${p.status === 'stuck' ? 'class="highlight-row"' : ''}>
+        <td>p${String(p.id).padStart(2,'0')}</td>
+        <td>br${p.leader}</td>
+        <td class="num">${fmt.int(p.start)}</td>
+        <td class="num">${fmt.int(p.end)}</td>
+        <td class="num">${fmt.int(p.committed)}</td>
+        <td class="num ${p.status === 'stuck' ? 'danger' : p.status === 'laggy' ? 'warn' : 'accent'}">${fmt.int(p.lag)}</td>
+        <td class="bar"><div class="minibar"><div class="minibar-fill ${p.status === 'stuck' ? 'danger' : p.status === 'laggy' ? 'warn' : ''}" style="width:${Math.min(100, p.lagFraction*100)}%"></div></div></td>
+        <td class="num">${fmt.num(p.ingestRate,0)}</td>
+        <td class="num">${fmt.num(p.consumeRate,0)}</td>
+      </tr>
+    `).join('');
+    tbody.innerHTML = rows || `<tr><td colspan="9" class="empty">no partitions</td></tr>`;
+  }
+
+  function renderConsumerGroups() {
+    const container = $('#consumer-groups');
+    container.innerHTML = state.consumerGroups.map(g => `
+      <div class="consumer-group ${g.status === 'ok' ? '' : g.status}">
+        <div class="cg-head">
+          <span class="name">${g.name}</span>
+          <span class="meta">gen:${g.generation} · members:${g.members.length} · lag:${fmt.int(g.totalLag)}</span>
+        </div>
+        ${g.members.map(m => `
+          <div style="padding:3px 0; border-top:1px dashed var(--border); font-size:10px;">
+            <div class="row space">
+              <span class="mono dim">${m.id}</span>
+              <span class="muted">hb ${m.heartbeatAgo}ms ago · gen ${m.generation}</span>
+            </div>
+            <div class="assignment">
+              ${m.assigned.slice(0,30).map(a => `<span class="assign-pill owned">p${a}</span>`).join('')}
+              ${m.assigned.length > 30 ? `<span class="assign-pill">+${m.assigned.length - 30}</span>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+  }
+
+  function renderBrokersTable() {
+    const tbody = $('#brokers-table tbody');
+    tbody.innerHTML = state.brokersList.map(b => `
+      <tr>
+        <td>br${b.id}</td>
+        <td class="${b.role === 'controller' ? 'accent' : ''}">${b.role}</td>
+        <td class="num">${b.leaderParts}</td>
+        <td class="num">${b.replicaParts}</td>
+        <td class="num">${fmt.bytes(b.bytesIn)}</td>
+        <td class="num">${fmt.bytes(b.bytesOut)}</td>
+        <td class="num">${fmt.bytes(b.diskUsed)}</td>
+        <td class="bar"><div class="minibar"><div class="minibar-fill ${b.saturation > 0.8 ? 'danger' : b.saturation > 0.5 ? 'warn' : ''}" style="width:${(b.saturation*100).toFixed(0)}%"></div></div></td>
+      </tr>
+    `).join('');
+
+    $('#pm-brokers').textContent = state.brokers;
+  }
+
+  function renderOptimizer() {
+    const core = computeCoreMetrics();
+    const target = state.target;
+    const μ = core.μ_total;
+    // The uncommitted worst case at commit C is μ*C/1000. We want ≤ target.
+    // So C ≤ target*1000/μ.
+    const suggestedMs = Math.min(60000, Math.max(100, target * 1000 / μ));
+    const commits60s = 60000 / suggestedMs;
+    const rebalRisk = commits60s > 30 ? 'high' : commits60s > 10 ? 'moderate' : 'low';
+
+    const card = $('#opt-suggest');
+    card.innerHTML = `
+      <h4>SUGGESTED COMMIT_INTERVAL</h4>
+      <div class="explain">
+        Given μ = ${fmt.int(μ)} msg/s and target_max_lag = ${fmt.int(target)} msg, the lag added per
+        commit interval is bounded by μ × commit_ms. Solving for the largest C such that μC ≤ target
+        gives the optimum — shorter is safer but burns broker capacity on commit traffic.
+      </div>
+      <div class="kvs">
+        <span class="k">suggested_commit</span><span class="v">${Math.round(suggestedMs)} ms</span>
+        <span class="k">current_commit</span><span class="v">${state.commit} ms</span>
+        <span class="k">commits/min</span><span class="v">${commits60s.toFixed(1)}</span>
+        <span class="k">worst_case_lag</span><span class="v">${fmt.int(μ * suggestedMs / 1000)} msg</span>
+        <span class="k">rebalance_risk</span><span class="v ${rebalRisk === 'high' ? 'warn' : ''}">${rebalRisk}</span>
+        <span class="k">recovery_on_crash</span><span class="v">${fmt.ms(suggestedMs / 2)}</span>
+      </div>
+    `;
+
+    $('#pm-targetlag').textContent = fmt.int(target);
+    $('#pm-sugcommit').textContent = Math.round(suggestedMs) + 'ms';
+    $('#pm-confidence').textContent = (core.stability > 0.7 ? 'high' : core.stability > 0.4 ? 'medium' : 'low');
+
+    // table
+    const rows = [100, 250, 500, 1000, 2500, 5000, 10000, 20000, 30000, 45000, 60000].map(c => {
+      const un = μ * c / 1000;
+      const cpm = 60000 / c;
+      const tax = estimateRebalanceMs() * cpm / 60;
+      const verdict = un <= target ? (c < 500 ? 'OVERKILL' : 'GOOD') : 'LAG EXCEEDS TARGET';
+      return { c, un, cpm, tax, verdict, cls: un > target ? 'danger' : c < 500 ? 'warn' : 'accent' };
+    });
+
+    $('#optimizer-table tbody').innerHTML = rows.map(r => `
+      <tr>
+        <td class="num">${r.c}</td>
+        <td class="num">${r.cpm.toFixed(1)}</td>
+        <td class="num ${r.un > target ? 'danger' : ''}">${fmt.int(r.un)}</td>
+        <td class="num">${fmt.int(r.un)}</td>
+        <td class="num">${r.tax.toFixed(1)}ms/s</td>
+        <td class="${r.cls}">${r.verdict}</td>
+      </tr>
+    `).join('');
+
+    // recs
+    const recs = [];
+    if (core.utilization > 1) recs.push({ cls: 'danger', title: 'CONSUMER_UNDERSCALED', body: `ρ=${fmt.num(core.utilization,2)} > 1. Lag grows without bound. Scale consumers from ${state.consumers} → ${Math.ceil(state.consumers * core.utilization * 1.25)} instances, or increase consume_rate.` });
+    else if (core.utilization > 0.85) recs.push({ cls: 'warn', title: 'NEAR_SATURATION', body: `Steady-state utilization ${fmt.pct(core.utilization)} leaves little burst headroom. Peak λ=${fmt.int(core.peakλ)} exceeds μ.` });
+    else recs.push({ cls: 'ok', title: 'UTILIZATION_HEALTHY', body: `ρ=${fmt.num(core.utilization,2)} — queue will drain during steady state.` });
+
+    if (state.parts < state.consumers) recs.push({ cls: 'warn', title: 'IDLE_CONSUMERS', body: `${state.consumers - state.parts} consumer(s) will be idle — partition count (${state.parts}) < consumer count (${state.consumers}). Increase partitions or shrink the group.` });
+    if (state.parts > state.consumers * 8) recs.push({ cls: 'warn', title: 'LOPSIDED_ASSIGNMENT', body: `Each consumer owns ${Math.ceil(state.parts/state.consumers)} partitions. Rebalance cost scales with this — consider scaling consumers up.` });
+    if (core.rebalanceTimeMs > 5000) recs.push({ cls: 'warn', title: 'REBALANCE_EXPENSIVE', body: `Estimated rebalance STW ≈ ${fmt.ms(core.rebalanceTimeMs)}. Use cooperative-sticky assignor and raise session.timeout.ms.` });
+    if (state.commit < 500) recs.push({ cls: 'warn', title: 'AGGRESSIVE_COMMITS', body: `commit_interval=${state.commit}ms produces ${(60000/state.commit).toFixed(0)} commits/min per consumer. Broker __consumer_offsets gets hot.` });
+    if (state.commit > 20000 && core.μ_total > 5000) recs.push({ cls: 'warn', title: 'RECOVERY_WINDOW_WIDE', body: `At commit=${state.commit}ms you could replay up to ${fmt.int(core.unCommittedWorstCase)} msgs on failover. Shrink commit_interval for tighter RPO.` });
+    if (state.replicas < 2 && state.retention > 12) recs.push({ cls: 'danger', title: 'UNREPLICATED_DATA', body: `replication_factor=${state.replicas} with ${state.retention}h retention means any broker failure is permanent data loss.` });
+    if (state.exactlyonce && state.commit < 1000) recs.push({ cls: 'warn', title: 'EOS_OVERHEAD', body: `Exactly-once with commit_interval < 1s amplifies coordinator traffic ~1.4×. Consider raising commit_interval.` });
+
+    $('#recs').innerHTML = recs.map(r => `
+      <div class="rec ${r.cls}">
+        <div class="title">${r.title}</div>
+        <div class="body">${r.body}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderRebalancePane() {
+    const core = computeCoreMetrics();
+    $('#pm-rebal').textContent = fmt.ms(core.rebalanceTimeMs);
+    $('#pm-replay').textContent = fmt.int(core.rebalanceCostMsg);
+    $('#pm-stw').textContent = '1';
+
+    $('#rebal-stats').innerHTML = [
+      { k: 'rebalance_ms', v: fmt.ms(core.rebalanceTimeMs), cls: '' },
+      { k: 'replay_msg', v: fmt.int(core.rebalanceCostMsg), cls: 'warn' },
+      { k: 'stw_per_event', v: '1', cls: '' },
+      { k: 'parts_affected', v: state.parts, cls: '' },
+      { k: 'replicas_to_sync', v: state.parts * state.replicas, cls: '' },
+      { k: 'assignor', v: state.consumers > 12 ? 'cooperative-sticky' : 'range', cls: '' },
+      { k: 'session_timeout', v: '10s', cls: '' },
+      { k: 'heartbeat_interval', v: '3s', cls: '' }
+    ].map(s => `<div class="stat"><div class="k">${s.k}</div><div class="v ${s.cls}">${s.v}</div></div>`).join('');
+
+    // phase breakdown
+    const phases = [
+      { phase: 'stop_fetching', duration_ms: 80 + state.consumers * 2, stw: true, description: 'consumers pause fetch loop and flush in-flight records' },
+      { phase: 'join_group', duration_ms: 400 + state.consumers * 30, stw: true, description: 'members send JoinGroup to coordinator, leader elected' },
+      { phase: 'sync_assignment', duration_ms: 120 + state.parts * 4, stw: true, description: 'leader distributes assignment plan to members' },
+      { phase: 'reset_committed', duration_ms: 180, stw: false, description: 'consumers fetch latest committed offset for assigned partitions' },
+      { phase: 'resume_fetch', duration_ms: 60, stw: false, description: 'fetch loops restart, backlog is consumed' }
+    ];
+    $('#rebal-table tbody').innerHTML = phases.map(p => `
+      <tr>
+        <td>${p.phase}</td>
+        <td class="num">${p.duration_ms}</td>
+        <td class="${p.stw ? 'warn' : ''}">${p.stw ? 'YES' : 'no'}</td>
+        <td class="dim">${p.description}</td>
+      </tr>
+    `).join('');
+  }
+
+  function renderLog() {
+    const feed = $('#log-feed');
+    if (!feed) return;
+    feed.innerHTML = state.log.slice(0, 60).map(e => `
+      <div class="entry ${e.level}"><span class="ts">${e.ts}</span>${e.msg}</div>
+    `).join('');
+  }
+
+  function renderAlerts() {
+    const core = computeCoreMetrics();
+    const alerts = [];
+    if (core.utilization > 1) alerts.push({ lvl: 'danger', msg: 'CONSUMER_OVERLOAD · lag growing' });
+    if (core.projectedLag > state.target) alerts.push({ lvl: 'warn', msg: 'LAG_EXCEEDS_TARGET @ horizon' });
+    if (state.partitions.filter(p => p.status === 'stuck').length > 0) alerts.push({ lvl: 'danger', msg: `${state.partitions.filter(p=>p.status==='stuck').length} STUCK PARTITION(S)` });
+    if (core.rebalanceTimeMs > 5000) alerts.push({ lvl: 'warn', msg: 'REBALANCE_COST_HIGH' });
+    if (state.replicas < 2) alerts.push({ lvl: 'danger', msg: 'REPLICATION_FACTOR_UNSAFE' });
+    if (state.brokers < 3) alerts.push({ lvl: 'warn', msg: 'CLUSTER_UNDERSIZED' });
+    if (alerts.length === 0) alerts.push({ lvl: 'ok', msg: 'ALL SYSTEMS NOMINAL' });
+
+    $('#alerts').innerHTML = alerts.map(a =>
+      `<div class="pill ${a.lvl}" style="display:block;margin-bottom:4px;text-align:center;">${a.msg}</div>`
+    ).join('');
+  }
+
+  // ------------------------------------------------------------------
+  // JSON REPORT
+  // ------------------------------------------------------------------
+  function generateReport() {
+    const core = computeCoreMetrics();
+    const now = new Date();
+    const report = {
+      meta: {
+        generated_at: now.toISOString(),
+        generator: 'watermark-offset-calculator',
+        version: '1.0.0',
+        cluster_id: 'prod-east-1',
+        topic: 'events.ingest',
+        seed: state.simSeed,
+        tick: state.tick
+      },
+      inputs: {
+        produce_rate_msg_per_s: state.produce,
+        consume_rate_msg_per_s: state.consume,
+        avg_msg_size_kib: state.msgsize,
+        burst_factor: state.burst,
+        partitions: state.parts,
+        replication_factor: state.replicas,
+        broker_count: state.brokers,
+        consumer_instances: state.consumers,
+        per_msg_processing_time_ms: state.proctime,
+        commit_interval_ms: state.commit,
+        target_max_lag_msg: state.target,
+        time_horizon_min: state.horizon,
+        retention_hours: state.retention,
+        enable_auto_commit: state.autocommit,
+        exactly_once_semantics: state.exactlyonce
+      },
+      computed: {
+        utilization_rho: +core.utilization.toFixed(4),
+        peak_lambda: Math.round(core.peakλ),
+        break_even_throughput_per_consumer: Math.round(core.breakEven),
+        per_partition_lambda: +core.perPartλ.toFixed(2),
+        per_partition_mu: +core.perPartμ.toFixed(2),
+        per_consumer_mu: +core.perConsumerμ.toFixed(2),
+        partitions_per_consumer: +core.partsPerConsumer.toFixed(2),
+        saturation_margin: +core.saturationMargin.toFixed(4),
+        net_gap_msg_per_s: Math.round(core.netGap),
+        peak_net_gap_msg_per_s: Math.round(core.peakNetGap),
+        projected_lag_at_horizon: Math.round(core.projectedLag),
+        peak_projected_lag_at_horizon: Math.round(core.peakProjectedLag),
+        ingest_bytes_per_s: Math.round(core.ingestBytes),
+        consume_bytes_per_s: Math.round(core.consumeBytes),
+        retention_footprint_bytes: Math.round(core.retentionBytes),
+        commits_per_second: +core.commitFreq.toFixed(3),
+        uncommitted_worst_case_msg: Math.round(core.unCommittedWorstCase),
+        estimated_rebalance_ms: Math.round(core.rebalanceTimeMs),
+        rebalance_replay_cost_msg: Math.round(core.rebalanceCostMsg),
+        end_to_end_latency_ms: +core.endToEndLatencyMs.toFixed(2),
+        watermark_drift_ms: +core.watermarkDriftMs.toFixed(2),
+        exactly_once_penalty_factor: core.exactlyOncePenalty,
+        stability_score: +core.stability.toFixed(3)
+      },
+      watermarks: {
+        low_watermark_offset: d3.min(state.partitions, p => p.committed) || 0,
+        high_watermark_offset: d3.max(state.partitions, p => p.end) || 0,
+        group_committed_watermark: d3.sum(state.partitions, p => p.committed),
+        event_time_low_watermark_ms: Date.now() - core.watermarkDriftMs,
+        processing_time_ms: Date.now()
+      },
+      partitions: state.partitions.map(p => ({
+        id: p.id, status: p.status, leader_broker: p.leader,
+        replicas: p.replicas, log_start: p.start, log_end: p.end,
+        committed: p.committed, lag: p.lag,
+        ingest_rate: +p.ingestRate.toFixed(2),
+        consume_rate: +p.consumeRate.toFixed(2)
+      })),
+      brokers: state.brokersList.map(b => ({
+        id: b.id, host: b.host, role: b.role,
+        leader_partition_count: b.leaderParts,
+        replica_partition_count: b.replicaParts,
+        bytes_in_per_s: Math.round(b.bytesIn),
+        bytes_out_per_s: Math.round(b.bytesOut),
+        disk_used_bytes: Math.round(b.diskUsed),
+        saturation: +b.saturation.toFixed(4)
+      })),
+      consumer_groups: state.consumerGroups.map(g => ({
+        name: g.name,
+        generation: g.generation,
+        status: g.status,
+        total_lag: g.totalLag,
+        members: g.members.map(m => ({
+          id: m.id,
+          assigned_partitions: m.assigned,
+          heartbeat_ago_ms: m.heartbeatAgo
+        }))
+      })),
+      rebalance: {
+        estimated_cost_ms: Math.round(core.rebalanceTimeMs),
+        estimated_replay_msg: Math.round(core.rebalanceCostMsg),
+        recent_events: state.rebalanceEvents.map(e => ({
+          type: e.type,
+          t_iso: new Date(e.t).toISOString(),
+          duration_ms: Math.round(e.duration),
+          cost_msg: e.cost,
+          affected_partitions: e.affectedParts
+        })),
+        phases: [
+          { phase: 'stop_fetching',   duration_ms: 80 + state.consumers * 2, stw: true },
+          { phase: 'join_group',      duration_ms: 400 + state.consumers * 30, stw: true },
+          { phase: 'sync_assignment', duration_ms: 120 + state.parts * 4, stw: true },
+          { phase: 'reset_committed', duration_ms: 180, stw: false },
+          { phase: 'resume_fetch',    duration_ms: 60, stw: false }
+        ]
+      },
+      checkpoint_optimization: {
+        target_lag: state.target,
+        suggested_commit_interval_ms: Math.min(60000, Math.max(100, state.target * 1000 / core.μ_total)),
+        current_commit_interval_ms: state.commit,
+        recommendation: core.utilization > 1 ? 'scale consumers' : core.utilization < 0.3 ? 'reduce consumers or raise commit interval' : 'current configuration viable'
+      }
+    };
+    return report;
+  }
+
+  function syntaxHighlightJson(json) {
+    return json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, m => {
+        let cls = 'n';
+        if (/^"/.test(m)) cls = /:$/.test(m) ? 'k' : 's';
+        else if (/true|false/.test(m)) cls = 'b';
+        else if (/null/.test(m)) cls = 'b';
+        return '<span class="' + cls + '">' + m + '</span>';
+      });
+  }
+
+  function renderReport() {
+    const report = generateReport();
+    const pretty = JSON.stringify(report, null, 2);
+    $('#json-out').innerHTML = syntaxHighlightJson(pretty);
+
+    const bytes = new Blob([pretty]).size;
+    $('#pm-bytes').textContent = fmt.bytes(bytes);
+    $('#pm-generated').textContent = report.meta.generated_at.substring(11, 19);
+    $('#pm-hash').textContent = (stableHash(pretty).toString(16).padStart(8, '0')).substring(0, 8);
+
+    // narrative
+    const core = computeCoreMetrics();
+    const diag = core.utilization > 1
+      ? `This configuration is <b>over-critical</b>: consumers cannot keep up with the produce rate and the lag envelope grows at ${fmt.int(core.netGap)} msg/s. Scale out or raise consume_rate.`
+      : core.utilization > 0.85
+      ? `Operating near saturation (ρ=${fmt.num(core.utilization,2)}). Steady state holds, but peak λ=${fmt.int(core.peakλ)} exceeds μ — expect transient lag on bursts.`
+      : core.utilization < 0.3
+      ? `Sub-utilized (ρ=${fmt.num(core.utilization,2)}) — consumers idle most of the time. Consider scaling in or raising commit_interval.`
+      : `Stable operation with ~${fmt.pct(core.saturationMargin)} headroom. Lag at horizon ≈ ${fmt.int(core.projectedLag)} msg.`;
+
+    $('#narrative').innerHTML = `
+      <b>Topic:</b> events.ingest · <b>partitions:</b> ${state.parts} · <b>consumers:</b> ${state.consumers}<br>
+      <b>Produce rate:</b> ${fmt.int(core.λ_total)} msg/s (peak ${fmt.int(core.peakλ)} msg/s with burst×${state.burst})<br>
+      <b>Consume rate:</b> ${fmt.int(core.μ_total)} msg/s · <b>Utilization:</b> ${fmt.num(core.utilization,3)}<br>
+      <b>Commit interval:</b> ${state.commit}ms → worst-case replay ${fmt.int(core.unCommittedWorstCase)} msg on failover<br>
+      <b>Estimated rebalance:</b> ${fmt.ms(core.rebalanceTimeMs)} STW affecting ${state.parts} partitions<br>
+      <br>${diag}<br>
+      <br>
+      <b>Break-even throughput:</b> each consumer must sustain ${fmt.int(core.breakEven)} msg/s to handle
+      burst-adjusted ingestion (λ·burst / consumer_count).
+    `;
+
+    // fields table
+    const flat = (obj, prefix='') => {
+      const rows = [];
+      for (const [k, v] of Object.entries(obj)) {
+        const key = prefix ? `${prefix}.${k}` : k;
+        if (v && typeof v === 'object' && !Array.isArray(v)) {
+          rows.push(...flat(v, key));
+        } else if (!Array.isArray(v)) {
+          rows.push([key, v]);
+        }
+      }
+      return rows;
+    };
+    const rows = [
+      ...flat(report.inputs, 'inputs'),
+      ...flat(report.computed, 'computed'),
+      ...flat(report.watermarks, 'watermarks')
+    ];
+    $('#fields-table tbody').innerHTML = rows.slice(0, 50).map(([k, v]) => {
+      const unit = k.includes('_ms') ? 'ms' : k.includes('bytes') ? 'B' : k.includes('msg') ? 'msg' : '';
+      const desc = k.includes('utilization') ? 'λ/μ ratio' :
+        k.includes('break_even') ? 'required consumer throughput' :
+        k.includes('rebalance') ? 'coordinator STW time' :
+        k.includes('watermark') ? 'event-time vs processing-time skew' :
+        k.includes('commit') ? 'offset checkpoint cadence' :
+        k.includes('retention') ? 'persisted on brokers' :
+        '—';
+      return `<tr><td class="dim">${k}</td><td class="mono accent">${v}</td><td class="muted">${unit}</td><td class="dim">${desc}</td></tr>`;
+    }).join('');
+  }
+
+  // ------------------------------------------------------------------
+  // EVENT WIRING
+  // ------------------------------------------------------------------
+  const SLIDERS = [
+    ['sl-produce', 'produce', 'v-produce'],
+    ['sl-msgsize', 'msgsize', 'v-msgsize'],
+    ['sl-burst', 'burst', 'v-burst'],
+    ['sl-consume', 'consume', 'v-consume'],
+    ['sl-consumers', 'consumers', 'v-consumers'],
+    ['sl-proctime', 'proctime', 'v-proctime'],
+    ['sl-parts', 'parts', 'v-parts'],
+    ['sl-replicas', 'replicas', 'v-replicas'],
+    ['sl-brokers', 'brokers', 'v-brokers'],
+    ['sl-retention', 'retention', 'v-retention'],
+    ['sl-commit', 'commit', 'v-commit'],
+    ['sl-horizon', 'horizon', 'v-horizon'],
+    ['sl-target', 'target', 'v-target']
+  ];
+
+  function wireSliders() {
+    SLIDERS.forEach(([id, key, vid]) => {
+      const el = $('#' + id);
+      const vl = $('#' + vid);
+      el.addEventListener('input', () => {
+        const v = +el.value;
+        state[key] = v;
+        vl.textContent = key === 'msgsize' ? v.toFixed(1)
+          : key === 'burst' ? v.toFixed(1)
+          : key === 'proctime' ? v.toFixed(1)
+          : fmt.int(v);
+        renderAll();
+      });
+    });
+
+    $('#chk-autocommit').addEventListener('change', e => { state.autocommit = e.target.checked; renderAll(); });
+    $('#chk-exactlyonce').addEventListener('change', e => { state.exactlyonce = e.target.checked; renderAll(); });
+
+    // preset chips
+    $$('.chip').forEach(c => {
+      c.addEventListener('click', () => {
+        $$('.chip').forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+        const name = c.dataset.preset;
+        state.activePreset = name;
+        const p = PRESETS[name];
+        Object.entries(p).forEach(([k, v]) => { state[k] = v; });
+        reflectSliders();
+        logEvent(`preset "${name}" loaded · λ=${p.produce} μ=${p.consume} parts=${p.parts}`, 'info');
+        renderAll();
+      });
+    });
+
+    // tabs
+    $$('.tab').forEach(t => {
+      t.addEventListener('click', () => switchTab(t.dataset.tab));
+    });
+
+    // buttons
+    $('#btn-randomize').addEventListener('click', () => {
+      reseed(Math.floor(Math.random() * 1e6));
+      state.produce = Math.floor(500 + rng() * 30000);
+      state.consume = Math.floor(500 + rng() * 30000);
+      state.parts = Math.floor(4 + rng() * 60);
+      state.consumers = Math.max(1, Math.min(state.parts, Math.floor(1 + rng() * 24)));
+      state.commit = Math.floor(200 + rng() * 15000);
+      state.burst = +(1 + rng() * 3.5).toFixed(1);
+      state.brokers = Math.max(1, Math.floor(3 + rng() * 9));
+      state.replicas = Math.min(state.brokers, Math.max(1, Math.floor(1 + rng() * 3)));
+      state.proctime = +(0.5 + rng() * 12).toFixed(1);
+      state.msgsize = +(0.2 + rng() * 8).toFixed(1);
+      state.target = Math.floor(500 + rng() * 200000);
+      state.horizon = Math.floor(5 + rng() * 180);
+      state.retention = Math.floor(2 + rng() * 300);
+      reflectSliders();
+      logEvent(`randomized inputs · seed=${state.simSeed}`, 'info');
+      renderAll();
+    });
+
+    $('#btn-reset').addEventListener('click', () => {
+      Object.assign(state, DEFAULTS);
+      reflectSliders();
+      logEvent('inputs reset to defaults', 'info');
+      renderAll();
+    });
+
+    $('#btn-rebalance').addEventListener('click', () => {
+      regenerateRebalanceEvents();
+      state.rebalanceEvents.push({
+        t: Date.now(), duration: 400 + Math.random() * 2400,
+        type: 'member-join', cost: Math.floor(100 + Math.random() * 4000),
+        affectedParts: state.parts
+      });
+      logEvent(`REBALANCE triggered manually · coordinator drained fetches`, 'warn');
+      renderAll();
+    });
+
+    $('#btn-clearlog').addEventListener('click', () => { state.log = []; renderLog(); });
+
+    $('#btn-copy').addEventListener('click', () => {
+      const report = generateReport();
+      navigator.clipboard.writeText(JSON.stringify(report, null, 2)).then(showToast);
+    });
+    $('#btn-download').addEventListener('click', () => {
+      const report = generateReport();
+      const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `kafka-watermark-report-${Date.now()}.json`;
+      a.click(); URL.revokeObjectURL(url);
+      logEvent(`report downloaded · ${fmt.bytes(blob.size)}`, 'info');
+    });
+    $('#btn-regen').addEventListener('click', () => { renderReport(); logEvent('report regenerated', 'info'); });
+  }
+
+  function reflectSliders() {
+    SLIDERS.forEach(([id, key, vid]) => {
+      $('#' + id).value = state[key];
+      const vl = $('#' + vid);
+      vl.textContent = key === 'msgsize' || key === 'burst' || key === 'proctime'
+        ? (+state[key]).toFixed(1)
+        : fmt.int(state[key]);
+    });
+    $('#chk-autocommit').checked = state.autocommit;
+    $('#chk-exactlyonce').checked = state.exactlyonce;
+  }
+
+  function switchTab(name) {
+    if (state.activeTab === name) return;
+    state.activeTab = name;
+    $$('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    $$('.pane').forEach(p => p.classList.toggle('active', p.dataset.pane === name));
+    // rerender just the active pane for perf
+    renderActivePane();
+  }
+
+  function renderActivePane() {
+    switch (state.activeTab) {
+      case 'projection':
+        renderHeadlineStats();
+        renderDerivedStats();
+        chartProjection.render();
+        break;
+      case 'partitions':
+        renderPartitionGrid();
+        renderPartitionTable();
+        renderConsumerGroups();
+        chartOffsets.render();
+        break;
+      case 'optimizer':
+        renderOptimizer();
+        chartOptimizer.render();
+        break;
+      case 'cluster':
+        renderBrokersTable();
+        chartCluster.render();
+        chartHeatmap.render();
+        break;
+      case 'rebalance':
+        renderRebalancePane();
+        chartWatermark.render();
+        chartRebalance.render();
+        break;
+      case 'report':
+        renderReport();
+        break;
+    }
+  }
+
+  function renderAll() {
+    regeneratePartitions();
+    regenerateBrokers();
+    regenerateConsumerGroups();
+    if (state.rebalanceEvents.length === 0) regenerateRebalanceEvents();
+    // side panels always re-render (cheap)
+    renderLiveMetrics();
+    renderBreakEvenPanel();
+    renderAlerts();
+    chartHealth.render();
+    renderActivePane();
+    updateStatusBar();
+  }
+
+  function updateStatusBar() {
+    const core = computeCoreMetrics();
+    $('#sb-tick').textContent = state.tick;
+    $('#sb-parts').textContent = state.parts;
+    $('#sb-lambda').textContent = fmt.int(core.λ_total) + ' msg/s';
+    $('#sb-mu').textContent = fmt.int(core.μ_total) + ' msg/s';
+    $('#sb-rho').textContent = fmt.num(core.utilization, 3);
+    $('#sb-status').textContent = core.utilization > 1 ? 'OVERLOAD'
+      : core.utilization > 0.85 ? 'STRESSED'
+      : 'READY';
+
+    const el = $('#tb-uptime');
+    const ms = Date.now() - state.startedAt;
+    const s = Math.floor(ms/1000) % 60;
+    const m = Math.floor(ms/60000) % 60;
+    const h = Math.floor(ms/3600000);
+    el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+
+  function showToast() {
+    const t = $('#toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1500);
+  }
+
+  // Keyboard
+  function wireKeyboard() {
+    document.addEventListener('keydown', (e) => {
+      if (e.target.matches('input, textarea')) return;
+      const tabMap = { '1':'projection', '2':'partitions', '3':'optimizer', '4':'cluster', '5':'rebalance', '6':'report' };
+      if (tabMap[e.key]) { switchTab(tabMap[e.key]); e.preventDefault(); }
+      else if (e.key.toLowerCase() === 'r') { $('#btn-randomize').click(); e.preventDefault(); }
+      else if (e.key.toLowerCase() === 'z') { $('#btn-reset').click(); e.preventDefault(); }
+      else if (e.key.toLowerCase() === 'e') { $('#btn-download').click(); e.preventDefault(); }
+      else if (e.key.toLowerCase() === 'b') { $('#btn-rebalance').click(); e.preventDefault(); }
+      else if (e.key.toLowerCase() === 'c') { $('#btn-copy').click(); e.preventDefault(); }
+      else if (e.key === ' ') { state.running = !state.running; logEvent(state.running ? 'tick resumed' : 'tick paused', 'info'); e.preventDefault(); }
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        // nudge produce rate
+        const delta = e.key === 'ArrowUp' ? 500 : -500;
+        state.produce = Math.max(100, Math.min(50000, state.produce + delta));
+        $('#sl-produce').value = state.produce;
+        $('#v-produce').textContent = fmt.int(state.produce);
+        renderAll();
+        e.preventDefault();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const delta = e.key === 'ArrowRight' ? 500 : -500;
+        state.consume = Math.max(100, Math.min(50000, state.consume + delta));
+        $('#sl-consume').value = state.consume;
+        $('#v-consume').textContent = fmt.int(state.consume);
+        renderAll();
+        e.preventDefault();
+      }
+    });
+  }
+
+  // Live tick
+  function startLiveTick() {
+    setInterval(() => {
+      if (!state.running) return;
+      state.tick++;
+      if (state.tick % 5 === 0) regeneratePartitions();
+      if (state.tick % 30 === 0) {
+        regenerateConsumerGroups();
+        // occasional synthetic event
+        if (Math.random() < 0.25) {
+          const types = ['member-join', 'heartbeat', 'offset-commit', 'ISR-update'];
+          const t = types[Math.floor(Math.random() * types.length)];
+          logEvent(`[${t}] cg="${state.consumerGroups[0]?.name || 'default'}" gen=${Math.floor(Math.random()*100)}`, Math.random() < 0.1 ? 'warn' : 'info');
+        }
+      }
+      updateStatusBar();
+      chartPulse.render();
+      if (state.activeTab === 'projection') renderHeadlineStats();
+      if (state.activeTab === 'partitions' && state.tick % 10 === 0) renderPartitionGrid();
+    }, 1000);
+  }
+
+  // Seed log
+  function seedLog() {
+    const starters = [
+      ['controller elected · br' + Math.floor(Math.random()*state.brokers), 'info'],
+      ['topic "events.ingest" created · partitions=' + state.parts + ' rf=' + state.replicas, 'info'],
+      ['consumer group "analytics-writer" joined · gen=1', 'info'],
+      ['offset __consumer_offsets-12 initialized', 'info'],
+      ['auto.commit.interval.ms=' + state.commit, 'info']
+    ];
+    starters.forEach(([m, l]) => logEvent(m, l));
+  }
+
+  // ------------------------------------------------------------------
+  // INIT
+  // ------------------------------------------------------------------
+  function init() {
+    wireSliders();
+    wireKeyboard();
+    reflectSliders();
+
+    regeneratePartitions();
+    regenerateBrokers();
+    regenerateConsumerGroups();
+    regenerateRebalanceEvents();
+
+    chartProjection.init();
+    chartOffsets.init();
+    chartOptimizer.init();
+    chartCluster.init();
+    chartHeatmap.init();
+    chartWatermark.init();
+    chartRebalance.init();
+    chartHealth.init();
+    chartPulse.init();
+
+    renderAll();
+    seedLog();
+    startLiveTick();
+
+    // resize
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        renderActivePane();
+        chartHealth.render();
+        chartPulse.render();
+      }, 120);
+    });
+
+    logEvent('WATERMARK OFFSET CALCULATOR · ready', 'info');
+  }
+
+  // Boot once DOM is ready (scripts at end, so synchronous)
+  init();
+
+})();
+</script>
+</body>
+</html>
