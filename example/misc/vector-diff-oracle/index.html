@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Vector Diff Oracle</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="https://unpkg.com/d3@7/dist/d3.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <header class="head">
+    <div class="glyph">▟█▘</div>
+    <h1>VECTOR DIFF ORACLE</h1>
+    <div class="prompt">&gt; gossip-reconciliation-calculator --mode=antientropy</div>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-view="sizing">[ 1 ] bloom-sizing</button>
+    <button class="tab" data-view="rounds">[ 2 ] round-projection</button>
+    <button class="tab" data-view="topology">[ 3 ] gossip-topology</button>
+    <button class="tab" data-view="diff">[ 4 ] vector-diff</button>
+  </nav>
+
+  <main class="grid">
+    <section class="controls">
+      <h2>&gt; inputs</h2>
+      <div class="input-row"><label>cluster N</label><input id="in-n" type="range" min="4" max="96" value="24"/><span id="v-n">24</span></div>
+      <div class="input-row"><label>keys per peer</label><input id="in-k" type="range" min="100" max="50000" step="100" value="5000"/><span id="v-k">5000</span></div>
+      <div class="input-row"><label>overlap %</label><input id="in-o" type="range" min="0" max="100" value="72"/><span id="v-o">72</span></div>
+      <div class="input-row"><label>fanout</label><input id="in-f" type="range" min="1" max="8" value="3"/><span id="v-f">3</span></div>
+      <div class="input-row"><label>FP budget</label><input id="in-fp" type="range" min="0" max="50" value="10"/><span id="v-fp">1.0%</span></div>
+      <div class="input-row"><label>tick ms</label><input id="in-tick" type="range" min="100" max="5000" step="50" value="1000"/><span id="v-tick">1000</span></div>
+      <div class="input-row"><label>churn /s</label><input id="in-ch" type="range" min="0" max="500" value="40"/><span id="v-ch">40</span></div>
+      <div class="input-row"><label>seed</label><input id="in-seed" type="text" value="oracle-01"/></div>
+      <div class="btn-row">
+        <button id="btn-run" class="cmd">[ run ]</button>
+        <button id="btn-reseed" class="cmd">[ reseed ]</button>
+        <button id="btn-jitter" class="cmd">[ jitter ttl ]</button>
+        <button id="btn-clear" class="cmd danger">[ clear ]</button>
+      </div>
+
+      <h2 style="margin-top:24px">&gt; derived</h2>
+      <ul class="readout" id="readout"></ul>
+
+      <h2 style="margin-top:24px">&gt; history</h2>
+      <div id="history"></div>
+    </section>
+
+    <section class="viewport">
+      <div class="view active" data-view="sizing">
+        <h2>&gt; bloom sizing against false-positive budget</h2>
+        <svg id="chart-sizing" width="820" height="420"></svg>
+        <p class="legend">m-bits / k-hashes curve respecting <code>bloom-filter-implementation-pitfall</code>.</p>
+      </div>
+      <div class="view" data-view="rounds">
+        <h2>&gt; rounds-to-converge vs fanout</h2>
+        <svg id="chart-rounds" width="820" height="420"></svg>
+        <p class="legend">log₂(N)/f model with overlap adjustment; chaos bars from <code>retry-strategy-data-simulation</code>.</p>
+      </div>
+      <div class="view" data-view="topology">
+        <h2>&gt; peer gossip topology</h2>
+        <svg id="chart-topology" width="820" height="500"></svg>
+        <p class="legend">d3-force directed — drag a node; hover for lag + bloom-sim.</p>
+      </div>
+      <div class="view" data-view="diff">
+        <h2>&gt; vector-diff matrix</h2>
+        <svg id="chart-diff" width="820" height="480"></svg>
+        <p class="legend">cell = bloom-jaccard × 100; diag masked.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>keys: <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd>/<kbd>4</kbd> views · <kbd>r</kbd> run · <kbd>shift+r</kbd> reseed</span>
+    <span id="status">ready</span>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

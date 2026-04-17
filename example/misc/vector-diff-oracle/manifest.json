@@ -1,0 +1,12 @@
+{
+  "slug": "vector-diff-oracle",
+  "title": "Vector Diff Oracle — Gossip Reconciliation Calculator",
+  "stack": [
+    "d3"
+  ],
+  "created_at": "2026-04-17T13:37:33.694Z",
+  "source_project": "34-vector-diff-oracle",
+  "author": "kjuhwa@nkia.co.kr",
+  "keyword": "bloom filter merkle tree gossip protocol anti-entropy reconciliation vector diff",
+  "cycle": 6
+}
