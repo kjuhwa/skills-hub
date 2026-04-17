@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Changelog Oracle Console</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://unpkg.com/d3@7.8.5/dist/d3.min.js"></script>
+</head>
+<body>
+<div id="term" class="term">
+  <header class="tbar">
+    <div class="bulb ok"></div>
+    <div class="bulb warn"></div>
+    <div class="bulb off"></div>
+    <span class="tbar-title">ORACLE // CHANGELOG CONSOLE // v3.14.2</span>
+    <span class="tbar-sub" id="clock"></span>
+  </header>
+  <section class="grid">
+    <section class="panel topology">
+      <h2>01 · TOPOLOGY</h2>
+      <div class="topo-controls">
+        <button data-layout="force">force</button>
+        <button data-layout="radial">radial</button>
+        <button data-layout="flow">flow</button>
+        <span class="spacer"></span>
+        <span class="hint">drag nodes · wheel = zoom · esc = reset</span>
+      </div>
+      <div id="topology"></div>
+    </section>
+    <section class="panel calculator">
+      <h2>02 · CAPACITY CALCULATOR</h2>
+      <div class="calc-grid">
+        <div class="knob" data-field="eventsPerSec">
+          <label>EVENTS / SEC</label>
+          <input type="range" min="100" max="200000" step="100" value="20000" />
+          <span class="val">—</span>
+        </div>
+        <div class="knob" data-field="avgBytes">
+          <label>AVG BYTES / EVENT</label>
+          <input type="range" min="32" max="8192" step="32" value="512" />
+          <span class="val">—</span>
+        </div>
+        <div class="knob" data-field="partitions">
+          <label>PARTITIONS</label>
+          <input type="range" min="1" max="64" step="1" value="12" />
+          <span class="val">—</span>
+        </div>
+        <div class="knob" data-field="windowMs">
+          <label>WINDOW (ms)</label>
+          <input type="range" min="500" max="60000" step="500" value="5000" />
+          <span class="val">—</span>
+        </div>
+        <div class="knob" data-field="watermarkLag">
+          <label>WATERMARK LAG (ms)</label>
+          <input type="range" min="100" max="30000" step="100" value="3000" />
+          <span class="val">—</span>
+        </div>
+        <div class="knob" data-field="checkpointMs">
+          <label>CHECKPOINT (ms)</label>
+          <input type="range" min="500" max="30000" step="500" value="10000" />
+          <span class="val">—</span>
+        </div>
+        <div class="knob" data-field="replicationFactor">
+          <label>REPLICATION FACTOR</label>
+          <input type="range" min="1" max="5" step="1" value="3" />
+          <span class="val">—</span>
+        </div>
+        <div class="knob" data-field="stateSizeGB">
+          <label>STATE SIZE (GB)</label>
+          <input type="range" min="0.1" max="500" step="0.1" value="18" />
+          <span class="val">—</span>
+        </div>
+      </div>
+      <div class="charts">
+        <div class="chart">
+          <h3>LAG / THROUGHPUT CURVE</h3>
+          <div id="lagChart"></div>
+        </div>
+        <div class="chart">
+          <h3>STATE BACKEND COST HEATMAP</h3>
+          <div id="heatmap"></div>
+        </div>
+      </div>
+    </section>
+    <section class="panel readout">
+      <h2>03 · READOUT</h2>
+      <div id="readout"></div>
+    </section>
+    <section class="panel log">
+      <h2>04 · CHANGELOG TAPE</h2>
+      <div class="log-filter">
+        <button data-filter="all" class="on">ALL</button>
+        <button data-filter="bar">BARRIER</button>
+        <button data-filter="ckpt">CHECKPOINT</button>
+        <button data-filter="wm">WATERMARK</button>
+        <button data-filter="dlq">DLQ</button>
+      </div>
+      <div id="log"></div>
+    </section>
+  </section>
+  <footer class="stat-bar" id="status"></footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
