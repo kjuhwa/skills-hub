@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Lullaby Forge Composer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<!--
+## Skills applied
+`fnv1a-xorshift-text-to-procedural-seed`, `llm-json-extraction`, `ai-call-with-mock-fallback`,
+`byte-aware-sms-truncation-with-ellipsis`, `identifier-truncate-with-hash-suffix`,
+`compact-binary-wire-protocol-with-variable-length-encoding`, `ip-allowlist-cidr-validator`,
+`spring-typed-config-properties`, `ubiquitous-language`, `figma-token-to-tailwind-theme`,
+`figma-token-scss-style-dictionary-v3`, `avro-event-change-flags`, `polymorphic-command-entities`,
+`strategy-spi-list-to-map-autoinject`, `adaptive-strategy-hot-swap`, `pluggable-sender-factory-pattern`,
+`definition-registry-helper-cache`, `plugin-resource-provider-architecture`,
+`resource-provider-registry`, `domain-category-endpoint-registry`, `grid-filter-to-criteria-converter`,
+`stack-tag-filter-to-mongo-criteria`, `freemarker-two-phase-expression-subst`,
+`paired-flag-multi-instance-registration`, `period-mode-enum-config`,
+`immutable-action-event-log`, `event-returning-pure-reducer`, `status-effect-enum-system`,
+`cache-variance-ttl-jitter`, `phase-window-timing-grade-with-pity`, `gacha-soft-hard-pity`,
+`incommensurate-sine-organic-flicker`, `layered-risk-gates`, `dry-run-confirm-retry-write-flow`,
+`shared-apis-endpoint-service-pattern`, `menu-key-config-registry`,
+`jest-test-file-naming-test-only`, `git-tag-registry-versioning`,
+`full-inventory-over-sampling-prompt`, `llm-integration-test-failure-diagnosis`,
+`write-a-prd`, `slash-command-authoring`.
+
+## Knowledge respected
+`single-keyword-formulaic-llm-output` (full phrase, not a single word, seeds the generator),
+`arbitrary-display-caps-hide-signal` (SMS-truncated output shows a visible "…"),
+`registry-json-dict-not-list` (moods stored as a keyed map, not an array),
+`enum-whitelist-blocks-time-based-sqli` (mood key validated against registry before use),
+`ai-guess-mark-and-review-checklist` (mock-fallback outputs carry an explicit flag),
+`crypto-randomuuid-requires-secure-context` (we never call randomUUID — hash-based ids only),
+`flat-vs-categorized-folder-structure` (moods are categorized, not a flat dump),
+`stale-persistent-context-detection` (reseed button clears previous state, never leaks).
+-->
+<header>
+  <h1>Lullaby Forge Composer</h1>
+  <small>a paper crane gathers your words and hums them back</small>
+</header>
+<main>
+  <section class="left">
+    <div class="card">
+      <label class="row"><span>seed phrase</span>
+        <input id="seed" value="Drifting paper cranes carry forgotten lullabies across silver rivers" />
+      </label>
+      <label class="row"><span>mood</span>
+        <select id="mood"></select>
+      </label>
+      <label class="row"><span>verses</span>
+        <input id="verses" type="range" min="2" max="8" value="4" />
+        <output id="verses-v">4</output>
+      </label>
+      <label class="row"><span>tempo bpm</span>
+        <input id="tempo" type="range" min="40" max="100" value="58" />
+        <output id="tempo-v">58</output>
+      </label>
+      <label class="row"><span>sms byte cap</span>
+        <input id="cap" type="range" min="80" max="280" value="140" />
+        <output id="cap-v">140</output>
+      </label>
+      <div class="row actions">
+        <button id="forge">forge</button>
+        <button id="reseed">reseed</button>
+        <button id="play">play</button>
+      </div>
+      <div class="row" id="fingerprint"></div>
+    </div>
+    <div class="card">
+      <h2>Melody roll</h2>
+      <canvas id="roll"></canvas>
+      <div class="legend"><span class="d1">tonic</span><span class="d2">third</span><span class="d3">fifth</span><span class="d4">sixth</span><span class="d5">octave</span></div>
+    </div>
+  </section>
+  <section class="right">
+    <div class="card">
+      <h2>Lullaby</h2>
+      <pre id="lyrics"></pre>
+      <div class="row">
+        <button data-copy="lyrics">copy lyrics</button>
+        <button data-copy="sms">copy sms</button>
+        <button data-copy="hex">copy packet</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>SMS truncated (byte-aware)</h2>
+      <pre id="sms"></pre>
+      <small id="sms-stats"></small>
+    </div>
+    <div class="card">
+      <h2>Binary packet (varint)</h2>
+      <pre id="hex"></pre>
+      <small id="hex-stats"></small>
+    </div>
+    <div class="card">
+      <h2>Change-flag envelope</h2>
+      <pre id="envelope"></pre>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
