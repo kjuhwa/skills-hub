@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Clockwork Stitch Composer</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="bar">
+  <h1>Clockwork Stitch Composer</h1>
+  <span class="sub">compose constellations from a phrase</span>
+</header>
+<main>
+  <section class="inputs">
+    <label>seed phrase
+      <input id="seed" value="clockwork hummingbirds stitch constellations" />
+    </label>
+    <label>nodes
+      <input id="nodes" type="number" min="4" max="24" value="10" />
+    </label>
+    <label>cadence bpm
+      <input id="bpm" type="number" min="30" max="180" value="72" />
+    </label>
+    <label>density
+      <input id="density" type="range" min="1" max="5" value="3" />
+      <span id="densityVal">3</span>
+    </label>
+    <div class="btn-row">
+      <button id="regen">Regenerate (⏎)</button>
+      <button id="copyJson">Copy JSON</button>
+      <button id="copySvg">Copy SVG</button>
+      <button id="copyCsv">Copy CSV</button>
+    </div>
+    <div id="toast" class="toast"></div>
+  </section>
+  <section class="preview">
+    <svg id="stage" viewBox="0 0 420 420" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="meta">
+      <dl id="metaList"></dl>
+    </div>
+  </section>
+  <section class="output">
+    <div class="tabs">
+      <button class="tab active" data-tab="json">JSON</button>
+      <button class="tab" data-tab="svg">SVG</button>
+      <button class="tab" data-tab="csv">CSV</button>
+    </div>
+    <pre id="code"></pre>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
