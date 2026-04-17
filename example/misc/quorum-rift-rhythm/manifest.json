@@ -1,0 +1,14 @@
+{
+  "slug": "quorum-rift-rhythm",
+  "title": "Quorum Rift Rhythm",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-17T12:04:09.394Z",
+  "source_project": "18-quorum-rift-rhythm",
+  "author": "kjuhwa@nkia.co.kr",
+  "keyword": "byzantine fault tolerance vector clock lamport timestamp causality conflict resolution",
+  "cycle": 1
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Quorum Rift Rhythm</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="dot"></span>
+    <h1>Quorum Rift Rhythm</h1>
+    <span class="tag">schedule · commit · survive the byzantine</span>
+  </div>
+  <div class="hud">
+    <div class="hud-block"><span class="lbl">Round</span><span id="roundNum">1</span>/12</div>
+    <div class="hud-block"><span class="lbl">Beat</span><span id="beatBar"></span></div>
+    <div class="hud-block"><span class="lbl">Score</span><span id="scoreNum">0</span></div>
+    <div class="hud-block"><span class="lbl">Pity</span><span id="pityBar"></span></div>
+    <div class="hud-block"><span class="lbl">Budget</span><span id="budgetBar"></span></div>
+  </div>
+  <div class="ctrl">
+    <button id="beginBtn">Begin Round</button>
+    <button id="commitBtn" disabled>Commit (Space)</button>
+    <button id="abortBtn">Abort</button>
+    <button id="newGameBtn">New Game</button>
+  </div>
+</header>
+<main>
+  <section class="board">
+    <canvas id="boardCanvas" width="880" height="520"></canvas>
+  </section>
+  <aside class="side">
+    <div class="panel">
+      <h3>Commander Roster</h3>
+      <div id="roster"></div>
+    </div>
+    <div class="panel">
+      <h3>Queued Actions</h3>
+      <ol id="actionQueue"></ol>
+      <div class="hint">1–7 to target · S = send prepare · C = send commit · R = rumor partition</div>
+    </div>
+    <div class="panel">
+      <h3>Status Effects</h3>
+      <div id="statusEffects" class="readout small"></div>
+    </div>
+    <div class="panel">
+      <h3>Event Log</h3>
+      <ul id="gameLog"></ul>
+    </div>
+  </aside>
+</main>
+<footer>
+  <span id="modeReadout">idle</span>
+  <span id="quorumReadout">quorum —</span>
+  <span id="hintReadout">Space = commit on beat · 1-7 = target general · S/C/R = queue action</span>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
