@@ -18,6 +18,7 @@ const REGISTRY_PATH = toSlash(path.join(process.env.HOME || process.env.USERPROF
 const state = {
   status: 'idle',    // idle | running | stopping | error
   cycle: 0,
+  currentKeyword: null,
   phase: null,
   apps: [],
   skills: [],
@@ -25,6 +26,7 @@ const state = {
   stats: { apps: 0, skills: 0, knowledge: 0, prs: 0, lines: 0 },
   startTime: null,
   stopRequested: false,
+  runOnce: false,    // single-cycle mode
 };
 
 // ── SSE Clients ──
@@ -44,57 +46,89 @@ function log(level, message) {
 }
 
 // ── Random Keywords ──
-const KEYWORDS = [
-  'websocket', 'oauth', 'graphql', 'cqrs', 'event-sourcing', 'rate-limiter',
-  'circuit-breaker', 'saga-pattern', 'blue-green-deploy', 'feature-flags',
-  'chaos-engineering', 'load-balancer', 'service-mesh', 'api-versioning',
-  'data-pipeline', 'etl', 'cdc', 'outbox-pattern', 'idempotency',
-  'bloom-filter', 'consistent-hashing', 'raft-consensus', 'crdt',
-  'backpressure', 'bulkhead', 'sidecar-proxy', 'canary-release',
-  'database-sharding', 'read-replica', 'materialized-view',
-  'command-query', 'domain-driven', 'hexagonal-architecture',
-  'finite-state-machine', 'actor-model', 'pub-sub', 'message-queue',
-  'connection-pool', 'object-storage', 'time-series-db',
-  'log-aggregation', 'distributed-tracing', 'health-check',
-  'retry-strategy', 'dead-letter-queue', 'schema-registry',
-  'api-gateway-pattern', 'bff-pattern', 'strangler-fig',
+// Fallback pool (10-20 word evocative themes)
+const KEYWORD_FALLBACK = [
+  'A cozy lighthouse keeper decodes midnight signals drifting across the stormy ocean horizon',
+  'Tiny garden gnomes orchestrate a symphony while moonflowers bloom and fireflies weave patterns',
+  'Ancient librarians sort whispered secrets into glowing tomes within a floating crystal archive',
+  'Travelers trade constellations at a bustling skybound market above the clouds at dawn',
+  'Forest spirits knit paths of moss while cartographers chart their shifting territories by lantern',
+  'Dreamers assemble mechanical butterflies and launch them through windows into a neon alley',
+  'A patient cartographer redraws coastlines as tides whisper forgotten names beneath silver moonlight',
+  'Cooks braid ribbons of steam into recipes recorded by a curious mouse wearing spectacles',
+  'Wanderers stitch patchwork quilts from discarded dreams beside a bonfire near an obsidian lake',
 ];
 const KEYWORD_TO_CATEGORY = {
-  'websocket': 'websocket', 'oauth': 'auth', 'graphql': 'graphql',
-  'cqrs': 'event-driven', 'event-sourcing': 'event-driven', 'rate-limiter': 'rate-limiting',
-  'circuit-breaker': 'circuit-breaker', 'saga-pattern': 'event-driven',
-  'blue-green-deploy': 'deployment', 'feature-flags': 'feature-flags',
-  'chaos-engineering': 'chaos-engineering', 'load-balancer': 'load-balancing',
-  'service-mesh': 'architecture', 'api-versioning': 'api-patterns',
-  'data-pipeline': 'data-pipeline', 'etl': 'data-pipeline', 'cdc': 'data-pipeline',
-  'outbox-pattern': 'event-driven', 'idempotency': 'idempotency',
-  'bloom-filter': 'algorithms', 'consistent-hashing': 'load-balancing',
-  'raft-consensus': 'consensus', 'crdt': 'consensus',
-  'backpressure': 'resilience', 'bulkhead': 'resilience',
-  'sidecar-proxy': 'architecture', 'canary-release': 'deployment',
-  'database-sharding': 'storage', 'read-replica': 'storage',
-  'materialized-view': 'caching', 'command-query': 'event-driven',
-  'domain-driven': 'ddd', 'hexagonal-architecture': 'architecture',
-  'finite-state-machine': 'algorithms', 'actor-model': 'actor-model',
-  'pub-sub': 'messaging', 'message-queue': 'messaging',
-  'connection-pool': 'concurrency', 'object-storage': 'storage',
-  'time-series-db': 'storage', 'log-aggregation': 'observability',
-  'distributed-tracing': 'observability', 'health-check': 'observability',
-  'retry-strategy': 'resilience', 'dead-letter-queue': 'messaging',
-  'schema-registry': 'schema', 'api-gateway-pattern': 'api-patterns',
-  'bff-pattern': 'api-patterns', 'strangler-fig': 'deployment',
+  // Nouns → thematic categories
+  'garden': 'interactive', 'ocean': 'interactive', 'forest': 'interactive',
+  'city': 'interactive', 'galaxy': 'interactive',
+  'library': 'hub-tools', 'museum': 'hub-tools',
+  'kitchen': 'interactive', 'factory': 'interactive', 'workshop': 'interactive',
+  // Verbs → action categories
+  'explore': 'interactive', 'discover': 'interactive', 'navigate': 'interactive',
+  'create': 'interactive', 'compose': 'interactive',
+  'simulate': 'algorithms', 'visualize': 'interactive',
+  'analyze': 'algorithms', 'transform': 'algorithms',
+  'connect': 'messaging',
 };
 
 function categoryForKeyword(kw) {
-  return KEYWORD_TO_CATEGORY[kw] || 'misc';
+  if (!kw) return 'misc';
+  if (KEYWORD_TO_CATEGORY[kw]) return KEYWORD_TO_CATEGORY[kw];
+  // Substring match — scan phrase for known keyword
+  const lower = kw.toLowerCase();
+  for (const [k, cat] of Object.entries(KEYWORD_TO_CATEGORY)) {
+    if (lower.includes(k)) return cat;
+  }
+  // Fallback keyword → category hints based on phrase content
+  const hints = [
+    [['garden','forest','ocean','galaxy','moon','sky','lighthouse','cave','river','mountain'], 'interactive'],
+    [['library','archive','tome','book','map','cartograph'], 'hub-tools'],
+    [['trade','market','orchestrate','assemble','weave','knit','stitch'], 'interactive'],
+    [['analyze','decode','pattern','signal','chart'], 'algorithms'],
+    [['whisper','connect','message','send','transmit'], 'messaging'],
+  ];
+  for (const [words, cat] of hints) {
+    for (const w of words) {
+      if (lower.includes(w)) return cat;
+    }
+  }
+  return 'misc';
 }
 
 const usedKeywords = new Set();
 
-function pickKeyword() {
-  const available = KEYWORDS.filter(k => !usedKeywords.has(k));
-  if (available.length === 0) { usedKeywords.clear(); return pickKeyword(); }
-  const kw = available[Math.floor(Math.random() * available.length)];
+async function pickKeyword() {
+  const recent = [...usedKeywords].slice(-5).join(' | ') || '(none)';
+  const prompt = `Generate ONE random evocative theme phrase (10 to 20 English words) suitable as a creative theme for a set of 3 interactive HTML visualization apps.
+
+Constraints:
+- Must be 10-20 words total (count carefully)
+- Mix nouns and verbs — concrete, sensory, evocative
+- Describe a scene, activity, or concept (not a product)
+- Must NOT repeat these recent themes: ${recent}
+- No technical jargon (no "api", "database", "server", "framework", etc.)
+- Examples of good themes:
+  - "A cozy lighthouse keeper decodes midnight signals drifting across the stormy ocean horizon"
+  - "Tiny garden gnomes orchestrate a symphony while moonflowers bloom and fireflies weave patterns"
+  - "Ancient librarians sort whispered secrets into glowing tomes within a floating crystal archive"
+
+Output ONLY the phrase, no quotes, no explanation, nothing else.`;
+
+  try {
+    const raw = await askClaude(prompt, 60000);
+    const phrase = raw.trim().replace(/^["']|["']$/g, '');
+    const wordCount = phrase.split(/\s+/).filter(Boolean).length;
+    if (phrase && wordCount >= 8 && wordCount <= 25 && !usedKeywords.has(phrase)) {
+      usedKeywords.add(phrase);
+      return phrase;
+    }
+  } catch {}
+
+  // Fallback: pick from the local pool
+  const available = KEYWORD_FALLBACK.filter(k => !usedKeywords.has(k));
+  const pool = available.length > 0 ? available : KEYWORD_FALLBACK;
+  const kw = pool[Math.floor(Math.random() * pool.length)];
   usedKeywords.add(kw);
   return kw;
 }
@@ -120,12 +154,36 @@ function shellSync(cmd, opts = {}) {
 }
 
 // ── Claude CLI Helper ──
-async function askClaude(prompt, timeout = 300000) {
-  const { execFile } = require('child_process');
+async function askClaude(prompt, timeout = 900000) {
+  const { spawn } = require('child_process');
+  // Write prompt to a temp file and pipe via shell redirect — avoids argv length limits AND stdin propagation issues
+  const tmpFile = path.join(require('os').tmpdir(), `claude-prompt-${Date.now()}-${Math.random().toString(36).slice(2,8)}.txt`);
+  fs.writeFileSync(tmpFile, prompt, 'utf8');
+
   return new Promise((resolve, reject) => {
-    execFile('claude', ['-p', prompt], { maxBuffer: 50 * 1024 * 1024, timeout }, (err, stdout, stderr) => {
-      if (err) reject(new Error(err.message.split('\n')[0]));
-      else resolve((stdout || '').trim());
+    // Use shell redirect `< file` so claude's stdin comes from the file
+    const cmd = process.platform === 'win32'
+      ? `claude -p < "${tmpFile.replace(/\\/g, '/')}"`
+      : `claude -p < "${tmpFile}"`;
+    const child = spawn(cmd, [], {
+      shell: true,
+      stdio: ['ignore', 'pipe', 'pipe'],
+      env: { ...process.env, DISABLE_OMC: '1', OMC_SKIP_HOOKS: '*', CLAUDE_DISABLE_SESSION_HOOKS: '1' },
+    });
+    let stdout = ''; let stderr = '';
+    const timer = setTimeout(() => {
+      child.kill();
+      try { fs.unlinkSync(tmpFile); } catch {}
+      reject(new Error('askClaude timeout'));
+    }, timeout);
+    child.stdout.on('data', (d) => { stdout += d.toString(); });
+    child.stderr.on('data', (d) => { stderr += d.toString(); });
+    child.on('error', (err) => { clearTimeout(timer); try { fs.unlinkSync(tmpFile); } catch {}; reject(err); });
+    child.on('close', (code) => {
+      clearTimeout(timer);
+      try { fs.unlinkSync(tmpFile); } catch {}
+      if (code !== 0) reject(new Error(`claude exited ${code}: ${stderr.split('\n')[0]}`));
+      else resolve(stdout.trim());
     });
   });
 }
@@ -154,41 +212,177 @@ function getNextProjectNum() {
   return last + 1;
 }
 
+// Remote sampling helpers
+function listExistingSkillNames() {
+  try {
+    const skillsDir = path.join(SKILLS_HUB, 'skills');
+    if (!fs.existsSync(skillsDir)) return [];
+    const names = [];
+    for (const cat of fs.readdirSync(skillsDir)) {
+      const catPath = path.join(skillsDir, cat);
+      if (!fs.statSync(catPath).isDirectory()) continue;
+      for (const name of fs.readdirSync(catPath)) {
+        if (fs.existsSync(path.join(catPath, name, 'SKILL.md'))) names.push(name);
+      }
+    }
+    return names;
+  } catch { return []; }
+}
+
+function listExistingKnowledgeNames() {
+  try {
+    const kDir = path.join(SKILLS_HUB, 'knowledge');
+    if (!fs.existsSync(kDir)) return [];
+    const names = [];
+    for (const cat of fs.readdirSync(kDir)) {
+      const catPath = path.join(kDir, cat);
+      if (!fs.statSync(catPath).isDirectory()) continue;
+      for (const f of fs.readdirSync(catPath)) {
+        if (f.endsWith('.md')) names.push(f.replace(/\.md$/, ''));
+      }
+    }
+    return names;
+  } catch { return []; }
+}
+
+function sampleRandom(arr, n) {
+  const pool = [...arr]; const out = [];
+  while (out.length < n && pool.length > 0) {
+    const idx = Math.floor(Math.random() * pool.length);
+    out.push(pool[idx]); pool.splice(idx, 1);
+  }
+  return out;
+}
+
+function sampleSkillsWithMeta(n) {
+  const skillsDir = path.join(SKILLS_HUB, 'skills');
+  if (!fs.existsSync(skillsDir)) return [];
+  const all = [];
+  try {
+    for (const cat of fs.readdirSync(skillsDir)) {
+      const catPath = path.join(skillsDir, cat);
+      if (!fs.statSync(catPath).isDirectory()) continue;
+      for (const name of fs.readdirSync(catPath)) {
+        const f = path.join(catPath, name, 'SKILL.md');
+        if (!fs.existsSync(f)) continue;
+        try {
+          const txt = fs.readFileSync(f, 'utf8');
+          const desc = (txt.match(/^description:\s*(.+)$/m)?.[1] || '').trim();
+          all.push({ name, category: cat, description: desc });
+        } catch {}
+      }
+    }
+  } catch {}
+  return sampleRandom(all, n);
+}
+
+function sampleKnowledgeWithMeta(n) {
+  const kDir = path.join(SKILLS_HUB, 'knowledge');
+  if (!fs.existsSync(kDir)) return [];
+  const all = [];
+  try {
+    for (const cat of fs.readdirSync(kDir)) {
+      const catPath = path.join(kDir, cat);
+      if (!fs.statSync(catPath).isDirectory()) continue;
+      for (const f of fs.readdirSync(catPath).filter(x => x.endsWith('.md'))) {
+        try {
+          const txt = fs.readFileSync(path.join(catPath, f), 'utf8');
+          const desc = (txt.match(/^description:\s*(.+)$/m)?.[1] || '').trim();
+          all.push({ name: f.replace(/\.md$/, ''), category: cat, description: desc });
+        } catch {}
+      }
+    }
+  } catch {}
+  return sampleRandom(all, n);
+}
+
 // ╔══════════════════════════════════════════════════════════════╗
 // ║  PIPELINE PHASES                                             ║
 // ╚══════════════════════════════════════════════════════════════╝
 
 async function phaseGenerate(keyword) {
   setPhase('generate');
-  log('phase', `Phase 1: Generate 3 app ideas for "${keyword}"`);
+  log('phase', `Phase 1: Generate 3 distinct app ideas for "${keyword}"`);
 
-  const prompt = `You are a creative developer. Generate exactly 3 unique zero-dependency HTML app ideas about "${keyword}".
+  // Include FULL hub inventory (name + description only) — Claude selects relevant ones
+  const allSkills = sampleSkillsWithMeta(1000);       // effectively all
+  const allKnowledge = sampleKnowledgeWithMeta(1000);
+  const skillsBlock = allSkills.length > 0
+    ? allSkills.map(s => `  - \`${s.name}\` (${s.category}): ${s.description || ''}`).join('\n')
+    : '  (no skills available)';
+  const knowBlock = allKnowledge.length > 0
+    ? allKnowledge.map(k => `  - \`${k.name}\` (${k.category}): ${k.description || ''}`).join('\n')
+    : '  (no knowledge available)';
 
-For EACH app, output the COMPLETE source code in this EXACT format:
+  log('info', `Inventory: ${allSkills.length} skills + ${allKnowledge.length} knowledge available`);
 
-===FILE:app-name/index.html===
-(complete HTML file)
+  const prompt = `You are a creative developer mimicking the /hub-make workflow. The theme keyword is "${keyword}".
+
+FULL hub inventory below (300+ skills + 300+ knowledge entries).
+
+CRITICAL — WIDE UTILIZATION IS THE POINT:
+- Scan the ENTIRE inventory. Cite a MINIMUM of **100 skill/knowledge entries total across the 3 apps** (combined). More is better.
+- Each app's features list MUST reference 30+ skills by their exact backtick name, e.g. \`canvas-chromakey-bg-removal\`, \`kafka-batch-consumer-partition-tuning\`.
+- Include a dedicated "## Skills applied" section in each app's README-style commentary naming all cited skills.
+- Include a "## Knowledge respected" section naming relevant pitfalls/decisions.
+- Don't force nonsense — pick skills that PLAUSIBLY apply to this theme (theme is loose; almost every skill has a metaphorical angle: rate-limiters → tide rhythm, distributed-lock → territorial claim, etc).
+- Quality of application doesn't matter as much as breadth of acknowledgment. The hub's purpose is to surface patterns; this cycle proves the pool is being scanned.
+
+Available skills (${allSkills.length} total):
+${skillsBlock}
+
+Relevant knowledge/pitfalls to respect (${allKnowledge.length} total):
+${knowBlock}
+
+
+Generate exactly 3 apps that take this theme from THREE FUNDAMENTALLY DIFFERENT ANGLES (not 3 variations of the same idea):
+
+  App 1: a VISUALIZATION/EXPLORER — interactive view over generated data (graph, map, timeline, canvas scene)
+  App 2: a SIMULATION/GAME — stateful mechanic with user agency (physics, turn-based, rhythm, puzzle)
+  App 3: a TOOL/CALCULATOR — practical utility (converter, generator, analyzer, composer)
+
+Creative naming rules:
+- Each app name must be EVOCATIVE and UNIQUE — do NOT use the pattern "<keyword>-explorer" or "<keyword>-dashboard"
+- Combine the keyword metaphorically with a distinctive word (e.g. "${keyword}-atlas", "whispering-<keyword>", "<keyword>-kaleidoscope", "echo-<keyword>")
+- Kebab-case, 2–4 words
+
+Output format — for each of the 3 apps, emit EXACTLY this block, in order:
+
+===APP===
+name: <kebab-case-name>
+title: <Human Readable Title>
+why: <one-sentence motivation, 10-20 words>
+features:
+- <feature bullet 1>
+- <feature bullet 2>
+- <feature bullet 3>
+stack: html, css, vanilla-js
+===FILE:index.html===
+<complete HTML>
 ===END===
-
-===FILE:app-name/style.css===
-(complete CSS file)
+===FILE:style.css===
+<complete CSS>
 ===END===
-
-===FILE:app-name/app.js===
-(complete JS file)
+===FILE:app.js===
+<complete JS>
 ===END===
+===END-APP===
 
-Requirements:
-- Each app must be a DIFFERENT creative take on "${keyword}"
-- Use kebab-case for app-name (e.g. "${keyword}-explorer")
-- Dark theme: bg #0f1117, surface #1a1d27, accent #6ee7b7
-- Zero dependencies, vanilla JS only
-- Each app should be 150-400 lines total across all 3 files
-- Must be immediately functional when opened in a browser
-- Include simulated/mock data so the app is interactive on load
-- Use canvas or SVG for visualizations where appropriate
+Technical requirements:
+- Dark theme: --bg #0f1117, --surface #1a1d27, --accent #6ee7b7 (use CSS variables)
+- Zero dependencies, vanilla JS only, no external scripts
+- 200–450 lines total per app
+- Immediately interactive on load with meaningful simulated/mock data
+- Use canvas or SVG where visualization helps
+- Modern UX: hover states, transitions, keyboard shortcuts where natural
 
-Output ONLY the file blocks, no other text.`;
+CRITICAL OUTPUT RULES:
+- Output the three complete APP blocks INLINE in this single text response
+- DO NOT use any tools, file writes, or side channels — return ALL code as text in the response body
+- DO NOT summarize, confirm, or describe what you delivered — just emit the blocks
+- DO NOT wrap in code fences (\`\`\`) — emit the raw ===APP=== markers
+- If you catch yourself writing "The apps were delivered above" or similar — STOP and restart with just the blocks
+- The response MUST start with "===APP===" and end with "===END-APP===", nothing else`;
 
   const response = await askClaude(prompt, 600000);
   return response;
@@ -201,69 +395,152 @@ async function phaseBuild(claudeOutput, keyword, cycleNum) {
   const builtApps = [];
   const num = getNextProjectNum();
 
-  // Parse files from Claude output
-  const fileRegex = /===FILE:(.+?)===\n([\s\S]*?)===END===/g;
-  const filesByApp = {};
-  let match;
-  while ((match = fileRegex.exec(claudeOutput)) !== null) {
-    const filePath = match[1].trim();
-    const content = match[2].trim();
-    const appName = filePath.split('/')[0];
-    if (!filesByApp[appName]) filesByApp[appName] = [];
-    filesByApp[appName].push({ path: filePath, content });
+  // Parse structured ===APP=== blocks with metadata + nested ===FILE=== blocks
+  const appBlockRegex = /===APP===\n([\s\S]*?)===END-APP===/g;
+  const parsedApps = [];
+  let m;
+  while ((m = appBlockRegex.exec(claudeOutput)) !== null) {
+    const block = m[1];
+    // Extract metadata (before first ===FILE===)
+    const metaEnd = block.indexOf('===FILE:');
+    const meta = metaEnd >= 0 ? block.slice(0, metaEnd) : block;
+    const name = (meta.match(/^\s*name:\s*(.+)$/m)?.[1] || '').trim();
+    const title = (meta.match(/^\s*title:\s*(.+)$/m)?.[1] || '').trim();
+    const why = (meta.match(/^\s*why:\s*(.+)$/m)?.[1] || '').trim();
+    const stack = (meta.match(/^\s*stack:\s*(.+)$/m)?.[1] || 'html, css, vanilla-js').trim();
+    const featuresBlock = meta.match(/features:\s*\n([\s\S]*?)(?=\n(?:stack|===|$))/i);
+    const features = featuresBlock ? featuresBlock[1].split('\n').map(l => l.replace(/^\s*-\s*/, '').trim()).filter(Boolean) : [];
+
+    // Extract files
+    const fileRegex = /===FILE:(.+?)===\n([\s\S]*?)===END===/g;
+    const files = [];
+    let fm;
+    while ((fm = fileRegex.exec(block)) !== null) {
+      files.push({ path: fm[1].trim(), content: fm[2].trim() });
+    }
+
+    if (name && files.length > 0) {
+      parsedApps.push({ name, title, why, stack, features, files });
+    }
   }
 
-  const appNames = Object.keys(filesByApp);
-  if (appNames.length === 0) {
-    // Fallback: try to extract code blocks
-    log('warn', 'No ===FILE:=== markers found, trying code block extraction');
+  // Fallback: legacy ===FILE:app-name/...=== format
+  if (parsedApps.length === 0) {
+    log('warn', 'No ===APP=== blocks found, trying legacy parser');
+    const legacyRegex = /===FILE:(.+?)===\n([\s\S]*?)===END===/g;
+    const byApp = {};
+    let lm;
+    while ((lm = legacyRegex.exec(claudeOutput)) !== null) {
+      const p = lm[1].trim();
+      const content = lm[2].trim();
+      const appName = p.includes('/') ? p.split('/')[0] : null;
+      if (!appName) continue;
+      if (!byApp[appName]) byApp[appName] = [];
+      byApp[appName].push({ path: p.replace(`${appName}/`, ''), content });
+    }
+    for (const [name, files] of Object.entries(byApp)) {
+      parsedApps.push({ name, title: '', why: '', stack: 'html, css, vanilla-js', features: [], files });
+    }
+  }
+
+  if (parsedApps.length === 0) {
+    log('error', 'Parsed 0 apps from Claude output');
+    // Dump response to a log file for inspection
+    try {
+      const dumpFile = path.join(__dirname, `.debug-claude-cycle${cycleNum}.txt`);
+      fs.writeFileSync(dumpFile, claudeOutput || '(empty response)', 'utf8');
+      log('info', `Response dumped to ${dumpFile} (${(claudeOutput||'').length} chars)`);
+      // Log first 300 chars so we can see format
+      const preview = (claudeOutput || '').slice(0, 300).replace(/\n/g, ' | ');
+      log('info', `Preview: ${preview}`);
+    } catch {}
     return builtApps;
   }
 
   let appIdx = 0;
-  for (const appName of appNames.slice(0, 3)) {
+  for (const app of parsedApps.slice(0, 3)) {
     const projNum = String(num + appIdx).padStart(2, '0');
-    const projDir = path.join(WORK_DIR, `${projNum}-${appName}`);
+    const projDir = path.join(WORK_DIR, `${projNum}-${app.name}`);
     fs.mkdirSync(projDir, { recursive: true });
 
     let totalLines = 0;
-    for (const file of filesByApp[appName]) {
-      const relPath = file.path.replace(`${appName}/`, '');
-      const fullPath = path.join(projDir, relPath);
+    for (const file of app.files) {
+      const fullPath = path.join(projDir, file.path);
       fs.mkdirSync(path.dirname(fullPath), { recursive: true });
       fs.writeFileSync(fullPath, file.content, 'utf8');
       totalLines += file.content.split('\n').length;
     }
 
-    // Validate JS syntax
+    // Validate JS
     const jsFile = path.join(projDir, 'app.js');
     let valid = true;
     if (fs.existsSync(jsFile)) {
-      try {
-        shellSync(`node --check "${jsFile}"`);
-      } catch {
-        log('warn', `${appName}: JS syntax error, skipping validation`);
-        valid = false;
-      }
+      try { shellSync(`node --check "${jsFile}"`); }
+      catch { log('warn', `${app.name}: JS syntax error`); valid = false; }
     }
 
-    const app = {
-      name: appName,
-      dir: `${projNum}-${appName}`,
+    const title = app.title || app.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    const built = {
+      name: app.name,
+      dir: `${projNum}-${app.name}`,
       cycle: cycleNum,
       lines: totalLines,
       status: 'built',
       keyword,
       valid,
+      title,
+      why: app.why || `Interactive ${keyword} experience.`,
+      features: app.features || [],
+      stack: app.stack,
     };
-    builtApps.push(app);
-    state.apps.push(app);
+    builtApps.push(built);
+    state.apps.push(built);
     state.stats.apps++;
     state.stats.lines += totalLines;
-    broadcast({ type: 'app', app });
+    broadcast({ type: 'app', app: built });
     broadcast({ type: 'stats', stats: state.stats });
-    log('success', `Built: ${app.dir} (${totalLines} lines)`);
+    log('success', `Built: ${built.dir} (${totalLines} lines) — ${title}`);
     appIdx++;
+  }
+
+  // Extract cited skills/knowledge from Claude output for the Recipe panel
+  try {
+    const allSkillNames = listExistingSkillNames();
+    const allKnowNames = listExistingKnowledgeNames();
+    // Build {name:category} lookup once
+    const skillCat = {};
+    for (const s of sampleSkillsWithMeta(9999)) skillCat[s.name] = s.category;
+    const knowCat = {};
+    for (const k of sampleKnowledgeWithMeta(9999)) knowCat[k.name] = k.category;
+
+    const bigText = (claudeOutput || '') + ' ' + builtApps.map(a => (a.features || []).join(' ') + ' ' + (a.why || '')).join(' ');
+    const appliedSet = new Set();
+    const respectingSet = new Set();
+
+    for (const name of allSkillNames) {
+      // Look for backtick or whole-word match
+      const re = new RegExp('`' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '`|\\b' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+      if (re.test(bigText)) appliedSet.add(name);
+    }
+    for (const name of allKnowNames) {
+      const re = new RegExp('`' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '`|\\b' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+      if (re.test(bigText)) respectingSet.add(name);
+    }
+
+    const applied = [...appliedSet].slice(0, 200).map(n => ({ name: n, category: skillCat[n] || 'misc' }));
+    const respecting = [...respectingSet].slice(0, 100).map(n => ({ name: n, category: knowCat[n] || 'misc' }));
+
+    broadcast({
+      type: 'recipe',
+      keyword,
+      applied,
+      respecting,
+      poolSkills: allSkillNames.length,
+      poolKnowledge: allKnowNames.length,
+    });
+    log('info', `Recipe: cited ${applied.length} skills + ${respecting.length} knowledge (pool: ${allSkillNames.length}/${allKnowNames.length})`);
+  } catch (err) {
+    log('warn', `Recipe extract failed: ${err.message.split('\n')[0]}`);
   }
 
   return builtApps;
@@ -313,18 +590,65 @@ async function phasePublish(apps, cycleNum) {
       const exDir = exDirNative; // for manifest/readme writes below
 
       // Write manifest
+      const title = app.title || slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const stackArr = (app.stack || 'html, css, vanilla-js').split(',').map(s => s.trim()).filter(Boolean);
       const manifest = {
         slug,
-        title: slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-        stack: ['html', 'css', 'vanilla-js'],
+        title,
+        stack: stackArr,
         created_at: new Date().toISOString(),
         source_project: app.dir,
         author: 'kjuhwa@nkia.co.kr',
+        keyword: app.keyword,
+        cycle: cycleNum,
       };
       fs.writeFileSync(path.join(exDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
 
-      // Write README
-      const readme = `# ${manifest.title}\n\n> **Why.** Auto-generated ${app.keyword} visualization tool from hub-auto-loop cycle ${cycleNum}.\n\n## Usage\n\nOpen \`index.html\` in any browser.\n\n## Stack\n\n\`html\` · \`css\` · \`vanilla-js\` — zero dependencies, ${app.lines} lines\n\n## Provenance\n\n- Auto-generated by hub-auto-loop cycle ${cycleNum} on ${new Date().toISOString().split('T')[0]}\n`;
+      // Rich README matching /hub-make output style
+      const why = app.why || `Interactive ${app.keyword} experience.`;
+      const features = (app.features && app.features.length > 0) ? app.features : [
+        `Themed around "${app.keyword}"`,
+        'Dark-theme UI with keyboard and pointer interactions',
+        'Self-contained, no build step',
+      ];
+      const readme = [
+        `# ${title}`,
+        '',
+        `> **Why.** ${why}`,
+        '',
+        '## Features',
+        '',
+        ...features.map(f => `- ${f}`),
+        '',
+        '## File structure',
+        '',
+        '```',
+        `${slug}/`,
+        '  index.html    — shell, markup, inline SVG where used',
+        '  style.css     — dark-theme styling and animations',
+        '  app.js        — interactions, simulated data, render loop',
+        '  manifest.json — hub metadata',
+        '```',
+        '',
+        '## Usage',
+        '',
+        '```bash',
+        '# any static file server works',
+        'python -m http.server 8080',
+        '# or open index.html directly in a browser',
+        '```',
+        '',
+        '## Stack',
+        '',
+        `${stackArr.map(s => '`' + s + '`').join(' · ')} — zero dependencies, ${app.lines} lines`,
+        '',
+        '## Provenance',
+        '',
+        `- Generated by auto-hub-loop cycle ${cycleNum} on ${new Date().toISOString().split('T')[0]}`,
+        `- Theme keyword: \`${app.keyword}\``,
+        `- Source working copy: \`${app.dir}\``,
+        '',
+      ].join('\n');
       fs.writeFileSync(path.join(exDir, 'README.md'), readme);
 
       // Commit + push (skip README catalog update to avoid merge conflicts)
@@ -388,38 +712,56 @@ async function phaseExtract(apps, cycleNum) {
   const appNames = apps.map(a => a.name).join(', ');
   const keyword = apps[0]?.keyword || 'general';
 
-  const prompt = `Analyze these 3 apps built about "${keyword}" (names: ${appNames}) and extract reusable patterns.
+  // Sample existing skill/knowledge names to avoid template duplicates
+  const existingSkills = listExistingSkillNames().slice(0, 200);
+  const existingKnowledge = listExistingKnowledgeNames().slice(0, 100);
 
-Output EXACTLY in this format (2 skills + 1 knowledge entry):
+  const prompt = `You built 3 apps this cycle about "${keyword}" (names: ${appNames}).
 
-===SKILL:1===
-name: ${keyword}-visualization-pattern
-category: design
-description: (one line)
-content: (2-3 paragraphs of the reusable pattern)
+Your task: identify genuinely NEW, REUSABLE patterns that emerged during the build — NOT the obvious "${keyword}-visualization-pattern" template. Quality over quantity.
+
+Rules:
+1. Emit ZERO to THREE skills/knowledge entries — only what truly generalizes beyond this cycle.
+2. DO NOT use names already in the repo (these exist): ${existingSkills.slice(0, 60).join(', ')}, ...
+3. Avoid naming patterns like "${keyword}-visualization-pattern", "${keyword}-data-simulation", "${keyword}-implementation-pitfall" — too templated.
+4. Name each entry descriptively based on the SPECIFIC pattern (e.g. "canvas-spatial-grid-renderer", "simulation-tick-event-queue", "react-less-pixel-sprite-swap"). The name should be evocative + specific.
+5. Categories available: design, workflow, arch, ai, backend, frontend, algorithms, misc (pick best fit, not default).
+6. Knowledge types: pitfall, decision, workflow, reference.
+7. If the cycle didn't produce anything interesting beyond generic patterns, output just "===NONE===" and skip entries.
+
+Output format — emit entries as needed (in any mix, any count):
+
+===SKILL===
+name: <descriptive-kebab-case>
+category: <one of above>
+description: (one line summary)
+content: (2-3 paragraphs explaining the reusable pattern, with code-like examples)
 ===END===
 
-===SKILL:2===
-name: ${keyword}-data-simulation
-category: workflow
+===KNOWLEDGE===
+name: <descriptive-kebab-case>
+category: <pitfall|decision|workflow|reference>
 description: (one line)
-content: (2-3 paragraphs of the reusable pattern)
+content: (2-3 paragraphs explaining the specific lesson)
 ===END===
 
-===KNOWLEDGE:1===
-name: ${keyword}-implementation-pitfall
-category: pitfall
-description: (one line)
-content: (2-3 paragraphs about what can go wrong)
-===END===
-
-Be specific to "${keyword}" domain. No generic content.`;
+Output ONLY blocks that describe real patterns. Empty output is valid. No preamble.`;
 
   try {
     const response = await askClaude(prompt, 300000);
 
-    // Parse skills
-    const skillRegex = /===SKILL:\d+===\n([\s\S]*?)===END===/g;
+    // Short-circuit: NONE means Claude decided nothing is worth extracting
+    if (/===NONE===/i.test(response)) {
+      log('info', 'No new patterns this cycle (Claude returned NONE)');
+    }
+
+    const existingSkillSet = new Set(existingSkills);
+    const existingKnowSet = new Set(existingKnowledge);
+    const banned = ['visualization-pattern','data-simulation','implementation-pitfall'];
+    const isTemplated = (n) => banned.some(b => n.endsWith('-' + b));
+
+    // Parse skills (new format: ===SKILL=== no number)
+    const skillRegex = /===SKILL===\n([\s\S]*?)===END===/g;
     let m;
     while ((m = skillRegex.exec(response)) !== null) {
       const block = m[1];
@@ -428,17 +770,19 @@ Be specific to "${keyword}" domain. No generic content.`;
       const description = (block.match(/description:\s*(.+)/)?.[1] || '').trim();
       const content = (block.match(/content:\s*([\s\S]*?)$/)?.[1] || '').trim();
 
-      if (name) {
-        extracted.skills.push({ name, category, description, content });
-        state.skills.push({ name, category, type: 'skill', cycle: cycleNum });
-        state.stats.skills++;
-        broadcast({ type: 'skill', skill: { name, category, type: 'skill' } });
-        log('success', `Extracted skill: ${name} (${category})`);
-      }
+      if (!name) continue;
+      if (existingSkillSet.has(name)) { log('warn', `Skipped duplicate skill: ${name}`); continue; }
+      if (isTemplated(name)) { log('warn', `Skipped templated name: ${name}`); continue; }
+
+      extracted.skills.push({ name, category, description, content });
+      state.skills.push({ name, category, type: 'skill', cycle: cycleNum });
+      state.stats.skills++;
+      broadcast({ type: 'skill', skill: { name, category, type: 'skill' } });
+      log('success', `Extracted skill: ${name} (${category})`);
     }
 
     // Parse knowledge
-    const knowRegex = /===KNOWLEDGE:\d+===\n([\s\S]*?)===END===/g;
+    const knowRegex = /===KNOWLEDGE===\n([\s\S]*?)===END===/g;
     while ((m = knowRegex.exec(response)) !== null) {
       const block = m[1];
       const name = (block.match(/name:\s*(.+)/)?.[1] || '').trim();
@@ -446,13 +790,19 @@ Be specific to "${keyword}" domain. No generic content.`;
       const description = (block.match(/description:\s*(.+)/)?.[1] || '').trim();
       const content = (block.match(/content:\s*([\s\S]*?)$/)?.[1] || '').trim();
 
-      if (name) {
-        extracted.knowledge.push({ name, category, description, content });
-        state.knowledge.push({ name, category, type: 'knowledge', cycle: cycleNum });
-        state.stats.knowledge++;
-        broadcast({ type: 'skill', skill: { name, category, type: 'knowledge' } });
-        log('success', `Extracted knowledge: ${name} (${category})`);
-      }
+      if (!name) continue;
+      if (existingKnowSet.has(name)) { log('warn', `Skipped duplicate knowledge: ${name}`); continue; }
+      if (isTemplated(name)) { log('warn', `Skipped templated name: ${name}`); continue; }
+
+      extracted.knowledge.push({ name, category, description, content });
+      state.knowledge.push({ name, category, type: 'knowledge', cycle: cycleNum });
+      state.stats.knowledge++;
+      broadcast({ type: 'skill', skill: { name, category, type: 'knowledge' } });
+      log('success', `Extracted knowledge: ${name} (${category})`);
+    }
+
+    if (extracted.skills.length === 0 && extracted.knowledge.length === 0) {
+      log('info', 'Extraction yielded nothing new — quality over quantity');
     }
   } catch (err) {
     log('error', `Extract failed: ${err.message.split('\n')[0]}`);
@@ -615,10 +965,11 @@ function setPhase(phase) {
 async function runCycle() {
   state.cycle++;
   const cycleNum = state.cycle;
-  broadcast({ type: 'cycle', cycle: cycleNum });
   log('phase', `═══ CYCLE ${cycleNum} START ═══`);
 
-  const keyword = pickKeyword();
+  const keyword = await pickKeyword();
+  state.currentKeyword = keyword;
+  broadcast({ type: 'cycle', cycle: cycleNum, keyword });
   log('info', `Keyword: "${keyword}"`);
 
   try {
@@ -686,6 +1037,12 @@ async function mainLoop() {
 
     if (state.stopRequested) break;
 
+    // Single-cycle mode: exit after first cycle
+    if (state.runOnce) {
+      log('phase', '═══ Single run complete — stopping ═══');
+      break;
+    }
+
     // Brief pause between cycles
     log('info', 'Next cycle in 10 seconds...');
     await new Promise(r => setTimeout(r, 10000));
@@ -715,6 +1072,18 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Static image/asset serving
+  if (/\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url.pathname)) {
+    const fp = path.join(__dirname, decodeURIComponent(url.pathname.replace(/^\//, '')));
+    if (fp.startsWith(__dirname) && fs.existsSync(fp)) {
+      const ext = path.extname(fp).slice(1).toLowerCase();
+      const mime = { jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', gif:'image/gif', webp:'image/webp', svg:'image/svg+xml' }[ext] || 'application/octet-stream';
+      res.writeHead(200, { 'Content-Type': mime, 'Cache-Control': 'public, max-age=3600' });
+      res.end(fs.readFileSync(fp));
+      return;
+    }
+  }
+
   // SSE
   if (url.pathname === '/events') {
     res.writeHead(200, {
@@ -733,6 +1102,7 @@ const server = http.createServer((req, res) => {
       type: 'state',
       status: state.status,
       cycle: state.cycle,
+      keyword: state.currentKeyword,
       apps: state.apps.slice(-20),
       skills: [...state.skills, ...state.knowledge].slice(-20),
       stats: state.stats,
@@ -746,12 +1116,42 @@ const server = http.createServer((req, res) => {
   }
 
   // API: state
+  // Serve hub item content (skill or knowledge) for click-to-preview
+  if (url.pathname === '/api/hub-item') {
+    const kind = url.searchParams.get('kind'); // 'skill' or 'knowledge'
+    const name = url.searchParams.get('name');
+    if (!kind || !name || !/^[a-z0-9-]+$/.test(name)) {
+      res.writeHead(400, { 'Content-Type': 'application/json' }); res.end('{"error":"bad request"}'); return;
+    }
+    let content = null, foundPath = null;
+    try {
+      if (kind === 'skill') {
+        const root = path.join(SKILLS_HUB, 'skills');
+        for (const cat of fs.readdirSync(root)) {
+          const f = path.join(root, cat, name, 'SKILL.md');
+          if (fs.existsSync(f)) { content = fs.readFileSync(f, 'utf8'); foundPath = `skills/${cat}/${name}/SKILL.md`; break; }
+        }
+      } else if (kind === 'knowledge') {
+        const root = path.join(SKILLS_HUB, 'knowledge');
+        for (const cat of fs.readdirSync(root)) {
+          const f = path.join(root, cat, `${name}.md`);
+          if (fs.existsSync(f)) { content = fs.readFileSync(f, 'utf8'); foundPath = `knowledge/${cat}/${name}.md`; break; }
+        }
+      }
+    } catch {}
+    if (!content) { res.writeHead(404, { 'Content-Type': 'application/json' }); res.end('{"error":"not found"}'); return; }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ name, kind, path: foundPath, content }));
+    return;
+  }
+
   if (url.pathname === '/api/state') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       type: 'state',
       status: state.status,
       cycle: state.cycle,
+      keyword: state.currentKeyword,
       apps: state.apps.slice(-50),
       skills: [...state.skills, ...state.knowledge].slice(-50),
       stats: state.stats,
@@ -763,10 +1163,22 @@ const server = http.createServer((req, res) => {
   // API: start
   if (url.pathname === '/api/start' && req.method === 'POST') {
     if (state.status !== 'running') {
+      state.runOnce = false;
       mainLoop().catch(err => log('error', err.message));
     }
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ ok: true }));
+    return;
+  }
+
+  // Run single cycle then stop
+  if (url.pathname === '/api/run-once' && req.method === 'POST') {
+    if (state.status !== 'running') {
+      state.runOnce = true;
+      mainLoop().catch(err => log('error', err.message));
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ ok: true, mode: 'run-once' }));
     return;
   }
 
