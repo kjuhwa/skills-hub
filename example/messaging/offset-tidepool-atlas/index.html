@@ -1,0 +1,96 @@
+<!--
+# Offset Tidepool Atlas
+
+A React+Canvas explorer that treats a Kafka-style cluster as a tidal reef:
+partitions are basins, consumer groups are currents, watermarks crest, and
+checkpoints deposit silt. Evocative theatre over a real lag simulator.
+
+## Skills applied
+- `kafka-batch-consumer-partition-tuning` — partition count + max-poll-records sizing informs topology
+- `kafka-consumer-config-3-factories` — 3 listener container factories (standard/batch/uuid)
+- `kafka-consumer-errorhandling-wrapper` — poison record isolation
+- `kafka-consumer-semaphore-chunking` — in-flight work bounding
+- `kafka-consumer-tenant-fan-out` — per-tenant stream routing
+- `kafka-producer-async-callback` — fire-and-log whenComplete pattern
+- `kafka-producer-config-avro-schema-registry` — Avro serde + acks=1
+- `kafka-avro-producer-gzip-30mb` — gzip + 30MB max.request.size
+- `kafka-avro-topic-auto-create-config` — ApplicationRunner topic boot
+- `kafka-avro-schema-registry-env-topology` — schema registry env topology
+- `kafka-debounce-event-coalescing` — burst coalescing with Redis windows
+- `kafka-engine-distributed-job-framework` — Publisher→Topic→Consumer→Queue→Worker
+- `kafka-message-header-metadata` — org-id/user-id in RecordHeader
+- `multi-tenant-kafka-header-organization-context` — tenant id propagation
+- `org-scoped-kafka-topic-bootstrap` — per-tenant topic creation
+- `message-queue-visualization-pattern` — canvas producer/queue/consumer flow
+- `message-queue-data-simulation` — deterministic producer-consumer events
+- `pub-sub-visualization-pattern` — topic fan-out animation
+- `pub-sub-data-simulation` — topic hierarchies + bursty publishers
+- `backpressure-visualization-pattern` — buffer fill gauges
+- `backpressure-data-simulation` — token-stepped producer/buffer/consumer
+- `dead-letter-queue-visualization-pattern` — DLQ triage flow
+- `dead-letter-queue-data-simulation` — clustered failure signatures
+- `rate-limiter-visualization-pattern` — token buckets in real time
+- `rate-limiter-data-simulation` — arrival patterns stress-test
+- `circuit-breaker-visualization-pattern` — 3-state color dashboard
+- `circuit-breaker-data-simulation` — deterministic call streams
+- `retry-strategy-visualization-pattern` — backoff + jitter bands
+- `retry-strategy-data-simulation` — synthetic failure streams
+- `bulkhead-visualization-pattern` — isolated pool saturation
+- `bulkhead-data-simulation` — failure containment
+- `thread-pool-queue-backpressure` — hysteretic pause/resume
+- `connection-pool-visualization-pattern` — connection lifecycles
+- `connection-pool-data-simulation` — acquire/validate/evict events
+- `load-balancer-visualization-pattern` — backend-pool distribution
+- `load-balancer-data-simulation` — deterministic seeded traffic
+- `consistent-hashing-visualization-pattern` — ring placement
+- `consistent-hashing-data-simulation` — rebalance event streams
+- `database-sharding-visualization-pattern` — shard topology
+- `availability-ttl-punctuate-processor` — wall-clock punctuate TTL
+- `mongo-timestamp-densification` — $dateTrunc + $densify gap-fill
+- `second-aggregation-snapshot-merge` — snapshot-and-reset publish
+- `thread-pool-config-tenant-aware` — per-tenant executor tuning
+- `event-driven-kafka-scheduling` — Kafka-delivered JobExecuteNotice
+- `realtime-vs-polling-fallback` — push-vs-polling interval
+- `feed-envelope-frame` — ACK/SNAPSHOT/DELTA/ERROR uniform payload
+- `canvas-flowfield-particle-advection` — drifting currents through vector field
+- `canvas-trail-fade-vs-clear` — alpha overpaint trails
+- `incommensurate-sine-organic-flicker` — non-integer sine sums
+- `parallax-sine-silhouette-horizon` — animated horizon backdrop
+- `phase-window-timing-grade-with-pity` — cyclic golden-window grading
+- `gacha-soft-hard-pity` — rate ramp + carryover math
+- `click-to-inspect-corpus-from-dashboard` — click-to-open detail modal
+
+## Knowledge respected
+- `kafka-batch-size-timeout-tuning` — low max-poll-records on heavy consumers
+- `kafka-partition-topology-design` — asymmetric partition counts per topic
+- `kafka-consumer-group-id-hostname-not-timezone` — stable group-id from hostname
+- `kafka-sticky-partitioner-key-null` — null-key concentrates into one partition
+- `kafka-error-handling-deserializer-fallback` — poison record fallback
+- `kafka-organization-id-record-header` — tenant routes via header first
+- `kafka-1h-topic-and-nonmetric-pool` — retention by data class not tenant
+- `scatter-topic-1min-retention` — 60s retention for scatter topics
+- `message-queue-implementation-pitfall` — correctness bugs in demo queues
+- `backpressure-implementation-pitfall` — rate limit ≠ backpressure feedback
+- `dead-letter-queue-implementation-pitfall` — replay loops, silent growth
+- `rate-limiter-implementation-pitfall` — correctness under odd patterns
+- `skip-schedule-if-previous-running` — never queue re-entrant ticks
+- `pub-sub-implementation-pitfall` — synchronous dispatch starves subscribers
+- `time-unit-consistency-us-ms-ns` — canonical internal unit
+- `canvas-event-coord-devicepixel-rescale` — rescale by canvas/rect ratio
+- `trace-context-async-execution-propagation` — MDC across executor boundaries
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Offset Tidepool Atlas</title>
+<link rel="stylesheet" href="style.css" />
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.24.4/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react" src="app.js"></script>
+</body>
+</html>
