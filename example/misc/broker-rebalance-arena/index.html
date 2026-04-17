@@ -1,0 +1,2638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Broker Rebalance Arena</title>
+<script src="https://unpkg.com/vue@3.4.27/dist/vue.global.prod.js"></script>
+<style>
+  :root {
+    --bg: #1a1410;
+    --bg-deep: #120d0a;
+    --surface: #2a2018;
+    --surface-raised: #342820;
+    --surface-hi: #3d2f24;
+    --accent: #f0a050;
+    --accent-hot: #ff7a2e;
+    --accent-soft: #c68550;
+    --copper: #b87333;
+    --copper-dim: #6d4423;
+    --muted: #8a7562;
+    --text: #f2e3d0;
+    --text-dim: #b5a392;
+    --ok: #7cc98a;
+    --warn: #f6c561;
+    --bad: #ef5a4a;
+    --violet: #a07ce0;
+    --cyan: #6bc5c0;
+    --shadow: 0 8px 24px rgba(0,0,0,.35);
+    --shadow-hi: 0 12px 40px rgba(240,160,80,.18);
+    --border: 1px solid rgba(240,160,80,.18);
+    --border-hot: 1px solid rgba(240,160,80,.4);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(ellipse at top, #231812 0%, var(--bg) 40%, var(--bg-deep) 100%);
+    color: var(--text);
+    font-family: 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent 0, transparent 28px, rgba(240,160,80,.015) 28px, rgba(240,160,80,.015) 29px),
+      repeating-linear-gradient(90deg, transparent 0, transparent 28px, rgba(240,160,80,.015) 28px, rgba(240,160,80,.015) 29px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #app { position: relative; z-index: 1; }
+
+  button, input, select {
+    font-family: inherit;
+    color: inherit;
+  }
+  button {
+    background: linear-gradient(180deg, var(--surface-raised), var(--surface));
+    border: var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: .3px;
+    transition: all .15s ease;
+  }
+  button:hover:not(:disabled) {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hi);
+    transform: translateY(-1px);
+    color: var(--accent);
+  }
+  button:active:not(:disabled) { transform: translateY(0); }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  button.primary {
+    background: linear-gradient(180deg, var(--accent) 0%, var(--copper) 100%);
+    color: #2b1a08;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  button.primary:hover:not(:disabled) {
+    background: linear-gradient(180deg, #ffb865, #d48a3d);
+    color: #1a0e04;
+  }
+  button.danger {
+    background: linear-gradient(180deg, #8f3a2c, #6d2a1f);
+    border-color: rgba(239,90,74,.5);
+    color: #ffd6cb;
+  }
+  button.danger:hover:not(:disabled) { background: linear-gradient(180deg, #ac4a38, #8f3a2c); }
+  button.ghost { background: transparent; }
+  kbd {
+    display: inline-block;
+    background: var(--surface-hi);
+    border: 1px solid rgba(240,160,80,.3);
+    border-bottom-width: 2px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'Consolas', monospace;
+    color: var(--accent);
+  }
+
+  /* HEADER */
+  .topbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 14px 24px;
+    background: linear-gradient(180deg, rgba(42,32,24,.9), rgba(26,20,16,.9));
+    border-bottom: var(--border);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--copper));
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 16px rgba(240,160,80,.35), inset 0 1px 0 rgba(255,255,255,.2);
+    position: relative;
+  }
+  .brand-logo::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px dashed rgba(43,26,8,.4);
+    border-radius: 6px;
+  }
+  .brand-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    background: linear-gradient(90deg, var(--accent), #ffd599);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .brand-sub {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+  }
+  .tab {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .4px;
+    transition: all .2s ease;
+    position: relative;
+  }
+  .tab:hover { color: var(--accent); background: rgba(240,160,80,.05); }
+  .tab.active {
+    color: var(--accent);
+    background: rgba(240,160,80,.08);
+  }
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: -2px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .hud-mini {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .hud-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: var(--surface);
+    border: var(--border);
+    font-size: 12px;
+  }
+  .hud-pill .lbl { color: var(--muted); text-transform: uppercase; font-size: 10px; letter-spacing: 1px; }
+  .hud-pill .val { color: var(--accent); font-weight: 700; font-family: 'Consolas', monospace; }
+  .hud-pill.warn .val { color: var(--warn); }
+  .hud-pill.bad .val { color: var(--bad); }
+  .hud-pill.ok .val { color: var(--ok); }
+
+  /* MAIN LAYOUT */
+  .app-body {
+    padding: 20px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .panel-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 14px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed rgba(240,160,80,.15);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .panel-title .hint { color: var(--muted); font-weight: 400; font-size: 11px; letter-spacing: .3px; text-transform: none; }
+
+  /* ARENA TAB */
+  .arena-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr 300px;
+    gap: 16px;
+  }
+  @media (max-width: 1200px) {
+    .arena-grid { grid-template-columns: 1fr; }
+  }
+
+  /* CONSUMERS */
+  .consumers-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .consumer {
+    background: linear-gradient(180deg, var(--surface-raised), var(--surface));
+    border: var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    position: relative;
+    transition: all .2s ease;
+    min-height: 220px;
+  }
+  .consumer.drop-target {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(240,160,80,.3), var(--shadow-hi);
+    transform: translateY(-2px);
+  }
+  .consumer.failed {
+    background: linear-gradient(180deg, rgba(143,58,44,.3), rgba(42,32,24,.6));
+    border-color: rgba(239,90,74,.3);
+  }
+  .consumer.failed::before {
+    content: 'FAILED';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(143,58,44,.15);
+    color: var(--bad);
+    font-size: 20px;
+    letter-spacing: 4px;
+    font-weight: 900;
+    z-index: 5;
+    pointer-events: none;
+    border-radius: 12px;
+    backdrop-filter: grayscale(.5);
+  }
+  .consumer.leader { border-color: rgba(240,160,80,.5); }
+  .consumer.leader::after {
+    content: 'LEADER';
+    position: absolute;
+    top: -8px; right: 12px;
+    background: var(--accent);
+    color: #2b1a08;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 1px;
+  }
+
+  .consumer-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .consumer-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .consumer-name .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 8px currentColor;
+    animation: pulse 2s infinite;
+  }
+  .consumer.failed .dot { background: var(--bad); }
+  .consumer-load {
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .consumer-load b { color: var(--accent); }
+
+  .partitions-bay {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 80px;
+    padding: 8px;
+    background: rgba(0,0,0,.25);
+    border-radius: 8px;
+    border: 1px dashed rgba(240,160,80,.08);
+  }
+  .partition {
+    background: linear-gradient(180deg, var(--copper-dim), #4a2f1a);
+    border: 1px solid rgba(240,160,80,.3);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    cursor: grab;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all .15s ease;
+    position: relative;
+  }
+  .partition:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.4);
+    border-color: var(--accent);
+  }
+  .partition.dragging {
+    opacity: .4;
+    cursor: grabbing;
+    transform: scale(.95);
+  }
+  .partition.hot {
+    background: linear-gradient(180deg, #8f3a2c, #6d2a1f);
+    border-color: rgba(255,122,46,.6);
+    box-shadow: 0 0 10px rgba(255,122,46,.3);
+    animation: hot-pulse 1.6s infinite;
+  }
+  .partition.warm {
+    background: linear-gradient(180deg, #8a6420, #5c3f14);
+    border-color: rgba(246,197,97,.5);
+  }
+  .partition .p-id { font-weight: 700; color: var(--text); }
+  .partition .p-lag {
+    color: var(--text-dim);
+    font-size: 10px;
+    background: rgba(0,0,0,.4);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .partition.hot .p-lag { color: #ffd6cb; background: rgba(0,0,0,.5); }
+
+  /* LAG BARS */
+  .lag-bar {
+    height: 6px;
+    background: rgba(0,0,0,.4);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  .lag-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ok), var(--warn), var(--bad));
+    transition: width .5s ease;
+  }
+
+  /* BROKER MAP */
+  .broker-panel { padding: 0; overflow: hidden; }
+  .broker-svg-wrap { position: relative; }
+  .broker-svg { width: 100%; display: block; background: radial-gradient(ellipse at center, #23170f 0%, #110a06 100%); }
+
+  /* STATS PANEL */
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(240,160,80,.08);
+    font-size: 12px;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .lbl { color: var(--muted); }
+  .stat-row .val { font-family: 'Consolas', monospace; color: var(--text); font-weight: 600; }
+  .stat-row .val.accent { color: var(--accent); }
+  .stat-row .val.ok { color: var(--ok); }
+  .stat-row .val.bad { color: var(--bad); }
+  .stat-row .val.warn { color: var(--warn); }
+
+  /* BIG SCORE */
+  .score-ring {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 10px;
+  }
+  .score-num {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--accent);
+    font-family: 'Consolas', monospace;
+    text-shadow: 0 0 20px rgba(240,160,80,.5);
+  }
+  .score-num small {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+
+  /* ACTION BAR */
+  .action-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  /* EVENT LOG */
+  .event-log {
+    max-height: 340px;
+    overflow-y: auto;
+    font-family: 'Consolas', monospace;
+    font-size: 12px;
+  }
+  .event-log::-webkit-scrollbar { width: 6px; }
+  .event-log::-webkit-scrollbar-thumb { background: var(--copper-dim); border-radius: 3px; }
+  .event-line {
+    padding: 5px 8px;
+    border-left: 2px solid transparent;
+    margin-bottom: 1px;
+    transition: all .2s;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .event-line:hover { background: rgba(240,160,80,.05); }
+  .event-line .ts { color: var(--muted); font-size: 10px; min-width: 60px; }
+  .event-line .tag {
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    min-width: 72px;
+    text-align: center;
+  }
+  .event-line .msg { color: var(--text); flex: 1; }
+  .event-line.info { border-left-color: var(--cyan); }
+  .event-line.info .tag { background: rgba(107,197,192,.2); color: var(--cyan); }
+  .event-line.warn { border-left-color: var(--warn); }
+  .event-line.warn .tag { background: rgba(246,197,97,.2); color: var(--warn); }
+  .event-line.bad { border-left-color: var(--bad); }
+  .event-line.bad .tag { background: rgba(239,90,74,.2); color: var(--bad); }
+  .event-line.ok { border-left-color: var(--ok); }
+  .event-line.ok .tag { background: rgba(124,201,138,.2); color: var(--ok); }
+  .event-line.rebalance { border-left-color: var(--accent); }
+  .event-line.rebalance .tag { background: rgba(240,160,80,.2); color: var(--accent); }
+
+  /* WAVE INDICATOR */
+  .wave-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: linear-gradient(90deg, rgba(240,160,80,.08), transparent);
+    border-radius: 10px;
+    border-left: 3px solid var(--accent);
+    margin-bottom: 12px;
+  }
+  .wave-num {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--accent);
+    font-family: 'Consolas', monospace;
+    line-height: 1;
+  }
+  .wave-desc { font-size: 11px; color: var(--text-dim); }
+  .wave-desc b { color: var(--accent); font-size: 12px; display: block; }
+
+  .throughput-bar {
+    height: 10px;
+    background: rgba(0,0,0,.4);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 8px;
+    position: relative;
+  }
+  .throughput-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--accent), var(--accent-hot), var(--bad));
+    background-size: 400% 100%;
+    animation: throughput-pulse 3s infinite;
+    transition: width .5s ease;
+  }
+
+  /* CHECKPOINT BUTTON */
+  .checkpoint-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--copper));
+    color: #2b1a08;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all .2s;
+    box-shadow: 0 4px 14px rgba(240,160,80,.3), inset 0 1px 0 rgba(255,255,255,.2);
+  }
+  .checkpoint-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240,160,80,.5), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .checkpoint-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .checkpoint-btn small { display: block; font-size: 10px; font-weight: 500; letter-spacing: 1px; margin-top: 2px; }
+  .checkpoint-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+    transition: left .6s;
+  }
+  .checkpoint-btn:hover:not(:disabled)::after { left: 100%; }
+
+  /* BUDGET PIPS */
+  .budget-pips { display: flex; gap: 3px; margin-top: 8px; }
+  .budget-pip {
+    flex: 1;
+    height: 6px;
+    background: rgba(0,0,0,.4);
+    border-radius: 2px;
+    transition: background .3s;
+  }
+  .budget-pip.on {
+    background: linear-gradient(90deg, var(--accent), var(--copper));
+    box-shadow: 0 0 6px rgba(240,160,80,.5);
+  }
+
+  /* MODAL */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,6,4,.8);
+    backdrop-filter: blur(6px);
+    display: grid;
+    place-items: center;
+    z-index: 200;
+    animation: fade-in .3s ease;
+  }
+  .modal {
+    background: var(--surface);
+    border: var(--border-hot);
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 560px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    animation: modal-pop .3s ease;
+  }
+  .modal h2 {
+    margin: 0 0 12px 0;
+    color: var(--accent);
+    font-size: 22px;
+    letter-spacing: 1px;
+  }
+  .modal p { color: var(--text-dim); line-height: 1.5; font-size: 14px; }
+
+  /* CHART */
+  .chart-container {
+    position: relative;
+    height: 200px;
+    background: rgba(0,0,0,.25);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .chart-container svg { width: 100%; height: 100%; display: block; }
+
+  /* FLOW TABLE */
+  table.flow {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  table.flow th, table.flow td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px dashed rgba(240,160,80,.1);
+  }
+  table.flow th {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+  table.flow td { font-family: 'Consolas', monospace; }
+  table.flow tr:hover td { background: rgba(240,160,80,.04); }
+  table.flow .tag-row {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* STRATEGY CARDS */
+  .strat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .strat-card {
+    background: var(--surface-raised);
+    border: var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+  }
+  .strat-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hi);
+  }
+  .strat-card.active {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, rgba(240,160,80,.12), var(--surface-raised));
+  }
+  .strat-card.active::before {
+    content: '✓';
+    position: absolute;
+    top: 10px; right: 12px;
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .strat-card h4 { margin: 0 0 6px 0; color: var(--accent); font-size: 14px; }
+  .strat-card p { margin: 0; color: var(--text-dim); font-size: 12px; line-height: 1.4; }
+  .strat-card .stats { display: flex; gap: 10px; margin-top: 10px; font-size: 10px; color: var(--muted); }
+  .strat-card .stats b { color: var(--text); font-family: 'Consolas', monospace; }
+
+  /* LEADERBOARD */
+  .lb-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto auto;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--surface-raised);
+    border: var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    align-items: center;
+    transition: all .2s;
+  }
+  .lb-row:hover { border-color: var(--accent); }
+  .lb-row.you { border-color: var(--accent); background: linear-gradient(90deg, rgba(240,160,80,.1), var(--surface-raised)); }
+  .lb-rank { font-size: 20px; font-weight: 900; color: var(--muted); text-align: center; font-family: 'Consolas', monospace; }
+  .lb-row:nth-child(1) .lb-rank { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,.5); }
+  .lb-row:nth-child(2) .lb-rank { color: #c0c0c0; }
+  .lb-row:nth-child(3) .lb-rank { color: #cd7f32; }
+  .lb-name { font-weight: 600; color: var(--text); }
+  .lb-sub { font-size: 10px; color: var(--muted); }
+  .lb-score { font-family: 'Consolas', monospace; color: var(--accent); font-weight: 700; font-size: 16px; }
+
+  /* TUTORIAL STEPS */
+  .step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 14px;
+    padding: 14px;
+    background: var(--surface-raised);
+    border-radius: 10px;
+    border: var(--border);
+    margin-bottom: 10px;
+    transition: all .2s;
+  }
+  .step:hover { border-color: var(--accent); }
+  .step-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--copper));
+    color: #2b1a08;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .step h4 { margin: 0 0 4px 0; color: var(--accent); font-size: 14px; }
+  .step p { margin: 0; color: var(--text-dim); font-size: 12px; line-height: 1.5; }
+
+  /* NOTIF TOAST */
+  .toast-stack {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 340px;
+  }
+  .toast {
+    background: var(--surface);
+    border: var(--border-hot);
+    border-radius: 10px;
+    padding: 10px 14px;
+    box-shadow: var(--shadow);
+    font-size: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    animation: toast-in .3s ease;
+  }
+  .toast .ticon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .toast.info .ticon { background: rgba(107,197,192,.2); color: var(--cyan); }
+  .toast.warn .ticon { background: rgba(246,197,97,.2); color: var(--warn); }
+  .toast.bad .ticon { background: rgba(239,90,74,.2); color: var(--bad); }
+  .toast.ok .ticon { background: rgba(124,201,138,.2); color: var(--ok); }
+  .toast .ttext b { display: block; color: var(--accent); font-size: 12px; margin-bottom: 2px; }
+  .toast .ttext span { color: var(--text-dim); font-size: 11px; }
+
+  /* ANIMATIONS */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .6; transform: scale(.85); }
+  }
+  @keyframes hot-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(255,122,46,.3); }
+    50% { box-shadow: 0 0 18px rgba(255,122,46,.7); }
+  }
+  @keyframes throughput-pulse {
+    0% { background-position: 0% 0; }
+    100% { background-position: 400% 0; }
+  }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modal-pop {
+    from { opacity: 0; transform: translateY(20px) scale(.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes toast-in { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes rotate-slow { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  @keyframes orbit {
+    from { transform: rotate(0deg) translateX(var(--r)) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); }
+  }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+  @keyframes drop-in { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: scale(1); } }
+
+  .blink { animation: blink 1s infinite; }
+
+  /* SETTINGS */
+  .setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(240,160,80,.1);
+    gap: 12px;
+  }
+  .setting-row .label { flex: 1; font-size: 13px; }
+  .setting-row .label small { display: block; color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .switch {
+    position: relative;
+    width: 44px; height: 22px;
+    background: rgba(0,0,0,.5);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background .2s;
+    border: 1px solid rgba(240,160,80,.2);
+  }
+  .switch::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: all .2s;
+  }
+  .switch.on { background: var(--copper); }
+  .switch.on::after { left: 24px; background: var(--accent); }
+  input[type=range] {
+    width: 160px;
+    accent-color: var(--accent);
+  }
+  select {
+    background: var(--surface-raised);
+    border: var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  /* HOTKEYS PANE */
+  .hotkeys { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; font-size: 12px; }
+  .hotkeys .hk-item { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed rgba(240,160,80,.08); }
+  .hotkeys .hk-item span { color: var(--text-dim); }
+
+  /* WATERMARK PANEL */
+  .wmlist { font-family: 'Consolas', monospace; font-size: 11px; }
+  .wmlist div { padding: 3px 0; display: flex; gap: 8px; }
+  .wmlist .w-id { color: var(--accent); width: 60px; }
+  .wmlist .w-bar { flex: 1; height: 6px; background: rgba(0,0,0,.4); border-radius: 3px; overflow: hidden; align-self: center; }
+  .wmlist .w-bar .fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--accent)); }
+  .wmlist .w-v { color: var(--text-dim); width: 70px; text-align: right; }
+
+  /* GRID SECTION HELPERS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) {
+    .two-col, .three-col { grid-template-columns: 1fr; }
+  }
+
+  /* HERO */
+  .hero {
+    padding: 26px 24px;
+    background: linear-gradient(135deg, rgba(240,160,80,.08), transparent 60%), var(--surface);
+    border: var(--border);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,160,80,.18), transparent 70%);
+  }
+  .hero h1 { margin: 0 0 8px 0; font-size: 28px; background: linear-gradient(90deg, var(--accent), #ffe1b5); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { margin: 0; color: var(--text-dim); font-size: 14px; max-width: 700px; line-height: 1.5; }
+
+  /* SMALL HELPERS */
+  .flex { display: flex; gap: 10px; align-items: center; }
+  .flex-between { display: flex; justify-content: space-between; align-items: center; }
+  .wrap { flex-wrap: wrap; }
+  .gap6 { gap: 6px; }
+  .mt8 { margin-top: 8px; }
+  .mt12 { margin-top: 12px; }
+  .mb8 { margin-bottom: 8px; }
+  .mb12 { margin-bottom: 12px; }
+  .mono { font-family: 'Consolas', monospace; }
+  .muted { color: var(--muted); }
+  .dim { color: var(--text-dim); }
+  .accent { color: var(--accent); }
+  .ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+  .tiny { font-size: 11px; }
+  .center { text-align: center; }
+  .tag-chip {
+    background: rgba(240,160,80,.12);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  ::selection { background: var(--accent); color: #2b1a08; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="3" fill="#2b1a08"/>
+          <circle cx="12" cy="4" r="2" fill="#2b1a08"/>
+          <circle cx="12" cy="20" r="2" fill="#2b1a08"/>
+          <circle cx="4" cy="12" r="2" fill="#2b1a08"/>
+          <circle cx="20" cy="12" r="2" fill="#2b1a08"/>
+          <path d="M12 7 L12 9 M12 17 L12 15 M7 12 L9 12 M17 12 L15 12" stroke="#2b1a08" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">Broker Rebalance Arena</div>
+        <div class="brand-sub">Cluster Coordinator Sim · v2.4.1</div>
+      </div>
+    </div>
+    <nav class="tabs">
+      <button v-for="t in tabs" :key="t.id" :class="['tab', { active: activeTab === t.id }]" @click="activeTab = t.id">
+        {{ t.label }}
+      </button>
+    </nav>
+    <div class="hud-mini">
+      <div class="hud-pill" :class="{ ok: level < 3, warn: level >= 3 && level < 6, bad: level >= 6 }">
+        <span class="lbl">Lvl</span><span class="val">{{ level }}</span>
+      </div>
+      <div class="hud-pill" :class="lagClass">
+        <span class="lbl">Lag</span><span class="val">{{ fmt(totalLag) }}</span>
+      </div>
+      <div class="hud-pill">
+        <span class="lbl">Score</span><span class="val">{{ fmt(score) }}</span>
+      </div>
+      <div class="hud-pill" :class="{ bad: actionBudget <= 2, warn: actionBudget <= 4 }">
+        <span class="lbl">Budget</span><span class="val">{{ actionBudget }}/{{ maxBudget }}</span>
+      </div>
+      <button :class="['primary', running ? 'danger' : 'primary']" @click="toggleRun">
+        {{ running ? 'PAUSE' : 'START' }}
+      </button>
+    </div>
+  </header>
+
+  <main class="app-body">
+    <!-- ARENA TAB -->
+    <section v-show="activeTab === 'arena'">
+      <div class="hero">
+        <h1>Round {{ round }} — Wave {{ wave }} / {{ maxWave }}</h1>
+        <p>Drag partitions between consumer instances to rebalance load. Commit checkpoints to persist offsets. Survive broker failures and escalating producer pressure. <b class="accent">Minimize lag. Distribute fairly. Move fast.</b></p>
+      </div>
+
+      <div class="arena-grid">
+        <!-- LEFT: BROKER MAP / WAVE / CONTROLS -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="panel broker-panel">
+            <div style="padding: 16px 16px 0;">
+              <div class="panel-title">
+                <span>Broker Topology</span>
+                <span class="hint">{{ healthyBrokers }}/{{ brokers.length }} online</span>
+              </div>
+            </div>
+            <div class="broker-svg-wrap">
+              <svg class="broker-svg" viewBox="0 0 300 260" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <radialGradient id="bg-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#f0a050" stop-opacity="0.2"/>
+                    <stop offset="100%" stop-color="#f0a050" stop-opacity="0"/>
+                  </radialGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="2" result="blur"/>
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                </defs>
+                <circle cx="150" cy="130" r="100" fill="url(#bg-glow)"/>
+                <circle cx="150" cy="130" r="70" fill="none" stroke="rgba(240,160,80,0.15)" stroke-dasharray="3 4"/>
+                <circle cx="150" cy="130" r="100" fill="none" stroke="rgba(240,160,80,0.08)" stroke-dasharray="1 6"/>
+                <!-- topic rings -->
+                <g v-for="(b, i) in brokers" :key="'b'+b.id">
+                  <g v-for="(other, j) in brokers" :key="'l'+b.id+'-'+other.id">
+                    <line v-if="j > i && b.healthy && other.healthy"
+                      :x1="brokerPos(i).x" :y1="brokerPos(i).y"
+                      :x2="brokerPos(j).x" :y2="brokerPos(j).y"
+                      stroke="rgba(240,160,80,0.12)" stroke-width="1" stroke-dasharray="2 3"/>
+                  </g>
+                </g>
+                <!-- brokers -->
+                <g v-for="(b, i) in brokers" :key="'bk'+b.id">
+                  <circle :cx="brokerPos(i).x" :cy="brokerPos(i).y" r="22"
+                    :fill="b.healthy ? '#3d2f24' : '#3a1e17'"
+                    :stroke="b.healthy ? 'var(--accent)' : 'var(--bad)'"
+                    stroke-width="2" filter="url(#glow)"/>
+                  <text :x="brokerPos(i).x" :y="brokerPos(i).y + 4" text-anchor="middle"
+                    fill="var(--accent)" font-size="11" font-weight="700" font-family="Consolas">
+                    B{{ b.id }}
+                  </text>
+                  <text :x="brokerPos(i).x" :y="brokerPos(i).y + 38" text-anchor="middle"
+                    :fill="b.healthy ? 'var(--text-dim)' : 'var(--bad)'" font-size="9" font-family="Consolas">
+                    {{ b.healthy ? b.load + '%' : 'DOWN' }}
+                  </text>
+                </g>
+                <!-- center coordinator -->
+                <circle cx="150" cy="130" r="16" fill="#2a2018" stroke="var(--accent)" stroke-width="2"/>
+                <text x="150" y="134" text-anchor="middle" fill="var(--accent)" font-size="10" font-weight="700">YOU</text>
+                <!-- pulse -->
+                <circle cx="150" cy="130" r="25" fill="none" stroke="rgba(240,160,80,0.3)" stroke-width="1">
+                  <animate attributeName="r" from="16" to="60" dur="2.5s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.5" to="0" dur="2.5s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
+            <div style="padding: 0 16px 16px;">
+              <div class="flex wrap gap6">
+                <button class="ghost tiny" v-for="b in brokers" :key="'bt'+b.id"
+                  @click="toggleBroker(b.id)"
+                  :style="{ borderColor: b.healthy ? 'var(--accent)' : 'var(--bad)' }">
+                  B{{ b.id }} {{ b.healthy ? '●' : '×' }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Wave Pressure <span class="hint">producer throughput</span></div>
+            <div class="wave-display">
+              <div class="wave-num">{{ wave }}</div>
+              <div class="wave-desc">
+                <b>{{ currentWaveName }}</b>
+                {{ throughput.toFixed(0) }} msg/s incoming
+              </div>
+            </div>
+            <div class="throughput-bar">
+              <div class="throughput-fill" :style="{ width: throughputPct + '%' }"></div>
+            </div>
+            <div class="flex-between mt8 tiny muted">
+              <span>0</span><span>{{ throughputCap }} msg/s</span>
+            </div>
+            <div class="stat-row mt12">
+              <span class="lbl">Next wave in</span>
+              <span class="val accent">{{ waveTimer.toFixed(1) }}s</span>
+            </div>
+            <div class="stat-row">
+              <span class="lbl">Active partitions</span>
+              <span class="val">{{ partitions.length }}</span>
+            </div>
+            <div class="stat-row">
+              <span class="lbl">Hot partitions</span>
+              <span class="val bad">{{ hotPartitions.length }}</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Commands</div>
+            <button class="checkpoint-btn" @click="commitCheckpoint" :disabled="actionBudget < checkpointCost || !running">
+              ⚡ COMMIT CHECKPOINT
+              <small>cost: {{ checkpointCost }} budget · persist {{ partitions.length }} offsets</small>
+            </button>
+            <div class="budget-pips">
+              <div v-for="n in maxBudget" :key="n" :class="['budget-pip', { on: n <= actionBudget }]"></div>
+            </div>
+            <div class="action-bar">
+              <button @click="autoBalance" :disabled="!running || actionBudget < 2">Auto-Balance (-2)</button>
+              <button @click="addConsumer" :disabled="!running || consumers.length >= 8">+ Consumer</button>
+              <button @click="removeConsumer" :disabled="!running || consumers.length <= 2">- Consumer</button>
+              <button class="danger" @click="triggerFailure" :disabled="!running">Chaos Test</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CENTER: CONSUMERS -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="panel">
+            <div class="panel-title">
+              <span>Consumer Group — <span class="mono accent">grp-{{ groupName }}</span></span>
+              <span class="hint">{{ consumers.filter(c => !c.failed).length }} active · generation {{ generation }}</span>
+            </div>
+            <div class="consumers-wrap">
+              <div v-for="c in consumers" :key="c.id"
+                :class="['consumer', { 'drop-target': dragOverConsumer === c.id && !c.failed, failed: c.failed, leader: c.leader }]"
+                @dragover.prevent="onDragOver(c.id)"
+                @dragleave="onDragLeave"
+                @drop="onDrop(c.id, $event)">
+                <div class="consumer-head">
+                  <div class="consumer-name">
+                    <span class="dot"></span>{{ c.name }}
+                  </div>
+                  <div class="consumer-load">load <b>{{ consumerLoad(c.id).toFixed(0) }}%</b></div>
+                </div>
+                <div class="tiny muted mb8">
+                  host: <span class="mono">{{ c.host }}</span> · {{ c.partitions.length }} partitions
+                </div>
+                <div class="partitions-bay">
+                  <div v-for="p in c.partitions" :key="p"
+                    :class="['partition', partitionHeat(p)]"
+                    draggable="true"
+                    @dragstart="onDragStart(p, c.id, $event)"
+                    @dragend="onDragEnd">
+                    <span class="p-id">{{ getPartition(p).topic }}-{{ getPartition(p).id }}</span>
+                    <span class="p-lag">{{ fmtShort(getPartition(p).lag) }}</span>
+                  </div>
+                  <div v-if="c.partitions.length === 0" class="tiny muted" style="padding: 10px; text-align: center; width: 100%;">
+                    — idle — drag partitions here —
+                  </div>
+                </div>
+                <div class="lag-bar">
+                  <div class="lag-fill" :style="{ width: Math.min(100, consumerLagPct(c.id)) + '%' }"></div>
+                </div>
+                <div class="flex-between mt8 tiny muted">
+                  <span>lag {{ fmtShort(consumerLag(c.id)) }}</span>
+                  <span>offset {{ fmtShort(c.committedOffset) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="panel">
+              <div class="panel-title">Partition Watermarks</div>
+              <div class="wmlist">
+                <div v-for="p in partitions.slice(0, 10)" :key="p.pid">
+                  <span class="w-id">{{ p.topic }}-{{ p.id }}</span>
+                  <div class="w-bar"><div class="fill" :style="{ width: watermarkPct(p) + '%' }"></div></div>
+                  <span class="w-v">{{ fmtShort(p.committed) }}/{{ fmtShort(p.offset) }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-title">Distribution Fairness</div>
+              <svg viewBox="0 0 300 160" style="width: 100%;">
+                <defs>
+                  <linearGradient id="bar-grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#f0a050"/>
+                    <stop offset="100%" stop-color="#b87333"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" :y1="avgLoadY" x2="300" :y2="avgLoadY" stroke="rgba(240,160,80,.4)" stroke-dasharray="4 3" stroke-width="1"/>
+                <text x="296" :y="avgLoadY - 4" text-anchor="end" fill="var(--accent)" font-size="9">avg</text>
+                <g v-for="(c, i) in consumers" :key="'fb'+c.id">
+                  <rect :x="i * (300/consumers.length) + 6" :y="160 - consumerLoad(c.id) * 1.4"
+                    :width="300/consumers.length - 12" :height="consumerLoad(c.id) * 1.4"
+                    fill="url(#bar-grad)" rx="3" opacity="0.9"/>
+                  <text :x="i * (300/consumers.length) + (300/consumers.length/2)" y="155"
+                    text-anchor="middle" fill="var(--text-dim)" font-size="9" font-family="Consolas">
+                    C{{ c.id }}
+                  </text>
+                </g>
+              </svg>
+              <div class="stat-row mt8">
+                <span class="lbl">Fairness index</span>
+                <span class="val" :class="fairnessIndex > 0.85 ? 'ok' : (fairnessIndex > 0.6 ? 'warn' : 'bad')">
+                  {{ (fairnessIndex * 100).toFixed(1) }}%
+                </span>
+              </div>
+              <div class="stat-row">
+                <span class="lbl">Std deviation</span>
+                <span class="val">{{ loadStdDev.toFixed(2) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: EVENTS / SCORE -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="panel" style="text-align:center;">
+            <div class="panel-title" style="justify-content:center;"><span>Score</span></div>
+            <div class="score-ring">
+              <svg viewBox="0 0 180 180" style="width:100%;height:100%;">
+                <circle cx="90" cy="90" r="78" fill="none" stroke="rgba(240,160,80,.1)" stroke-width="8"/>
+                <circle cx="90" cy="90" r="78" fill="none" stroke="url(#ring-grad)" stroke-width="8"
+                  stroke-linecap="round" :stroke-dasharray="490" :stroke-dashoffset="490 - (scoreProgress * 490)"
+                  transform="rotate(-90 90 90)" style="transition: stroke-dashoffset 1s ease;"/>
+                <defs>
+                  <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#f0a050"/>
+                    <stop offset="100%" stop-color="#ff7a2e"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="score-num">
+                {{ fmt(score) }}
+                <small>COORDINATOR RATING</small>
+              </div>
+            </div>
+            <div class="stat-row"><span class="lbl">Lag penalty</span><span class="val bad">−{{ fmt(lagPenalty) }}</span></div>
+            <div class="stat-row"><span class="lbl">Fairness bonus</span><span class="val ok">+{{ fmt(fairnessBonus) }}</span></div>
+            <div class="stat-row"><span class="lbl">Speed bonus</span><span class="val ok">+{{ fmt(speedBonus) }}</span></div>
+            <div class="stat-row"><span class="lbl">Checkpoint bonus</span><span class="val accent">+{{ fmt(checkpointBonus) }}</span></div>
+            <div class="stat-row"><span class="lbl">Rebalance count</span><span class="val">{{ rebalanceCount }}</span></div>
+            <div class="stat-row"><span class="lbl">Failures handled</span><span class="val warn">{{ failuresHandled }}</span></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">
+              <span>Event Log</span>
+              <button class="ghost tiny" @click="events = []" style="padding:4px 8px;">clear</button>
+            </div>
+            <div class="event-log" ref="logEl">
+              <div v-for="e in events.slice().reverse()" :key="e.id" :class="['event-line', e.type]">
+                <span class="ts">{{ formatTime(e.t) }}</span>
+                <span class="tag">{{ e.tag }}</span>
+                <span class="msg" v-html="e.msg"></span>
+              </div>
+              <div v-if="events.length === 0" class="tiny muted" style="padding:20px; text-align:center;">
+                — no events yet — press START to begin —
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- METRICS TAB -->
+    <section v-show="activeTab === 'metrics'">
+      <div class="hero">
+        <h1>Cluster Metrics</h1>
+        <p>Rolling windows of lag, throughput, consumer load, and commit cadence. Watermark alignment across partitions surfaces stuck consumers before they become hot spots.</p>
+      </div>
+
+      <div class="three-col mb12">
+        <div class="panel">
+          <div class="panel-title"><span>Total Lag (60s)</span></div>
+          <div class="chart-container">
+            <svg viewBox="0 0 300 200" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="lag-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ef5a4a" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#ef5a4a" stop-opacity="0.05"/>
+                </linearGradient>
+              </defs>
+              <polyline :points="lagLinePoly" fill="url(#lag-grad)" stroke="none"/>
+              <polyline :points="lagLinePolyStroke" fill="none" stroke="var(--bad)" stroke-width="1.5"/>
+              <g v-for="n in 4" :key="'lg'+n">
+                <line x1="0" :y1="n * 40" x2="300" :y2="n * 40" stroke="rgba(240,160,80,.06)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="stat-row mt8"><span class="lbl">Peak (1m)</span><span class="val bad">{{ fmt(peakLag) }}</span></div>
+          <div class="stat-row"><span class="lbl">Avg (1m)</span><span class="val">{{ fmt(avgLag) }}</span></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span>Throughput (60s)</span></div>
+          <div class="chart-container">
+            <svg viewBox="0 0 300 200" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="thr-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f0a050" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#f0a050" stop-opacity="0.05"/>
+                </linearGradient>
+              </defs>
+              <polyline :points="thrLinePoly" fill="url(#thr-grad)"/>
+              <polyline :points="thrLinePolyStroke" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+              <g v-for="n in 4" :key="'tg'+n">
+                <line x1="0" :y1="n * 40" x2="300" :y2="n * 40" stroke="rgba(240,160,80,.06)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="stat-row mt8"><span class="lbl">Peak msg/s</span><span class="val accent">{{ peakThroughput.toFixed(0) }}</span></div>
+          <div class="stat-row"><span class="lbl">Current</span><span class="val">{{ throughput.toFixed(0) }}</span></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span>Checkpoint Timeline</span></div>
+          <div class="chart-container" style="height: 200px; position: relative; padding: 12px;">
+            <div style="font-size: 11px; color: var(--muted);">Last 20 commits</div>
+            <div class="flex wrap gap6" style="margin-top: 10px; align-items: flex-end; height: 140px;">
+              <div v-for="cp in recentCheckpoints" :key="cp.t"
+                :style="{ width: '14px', height: (4 + cp.persisted / 10) + 'px', background: 'linear-gradient(180deg, var(--accent), var(--copper))', borderRadius: '2px', opacity: 0.9 }"
+                :title="cp.persisted + ' offsets at ' + formatTime(cp.t)"></div>
+              <div v-if="recentCheckpoints.length === 0" class="tiny muted">no checkpoints yet</div>
+            </div>
+          </div>
+          <div class="stat-row mt8"><span class="lbl">Checkpoints (all)</span><span class="val accent">{{ checkpointCount }}</span></div>
+          <div class="stat-row"><span class="lbl">Offsets persisted</span><span class="val">{{ fmt(offsetsPersisted) }}</span></div>
+        </div>
+      </div>
+
+      <div class="two-col mb12">
+        <div class="panel">
+          <div class="panel-title"><span>Per-Consumer Load Heatmap</span></div>
+          <svg viewBox="0 0 520 180" style="width: 100%;">
+            <g v-for="(c, i) in consumers" :key="'hm'+c.id">
+              <text x="10" :y="30 + i * 24 + 4" fill="var(--text-dim)" font-size="11" font-family="Consolas">{{ c.name }}</text>
+              <g v-for="(v, j) in heatmap(c.id)" :key="'hm'+c.id+'-'+j">
+                <rect :x="90 + j * 20" :y="18 + i * 24" width="18" height="18" rx="2"
+                  :fill="heatColor(v)" :opacity="0.4 + v * 0.6"/>
+              </g>
+            </g>
+            <text x="90" y="10" fill="var(--muted)" font-size="9">← oldest ··· most recent →</text>
+          </svg>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span>Offset Commit Flow</span></div>
+          <table class="flow">
+            <thead>
+              <tr>
+                <th>Partition</th>
+                <th>Leader</th>
+                <th>Consumer</th>
+                <th>HWM</th>
+                <th>Committed</th>
+                <th>Lag</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="p in partitions.slice(0, 8)" :key="'fr'+p.pid">
+                <td class="accent">{{ p.topic }}-{{ p.id }}</td>
+                <td>B{{ p.broker }}</td>
+                <td>{{ ownerName(p.pid) }}</td>
+                <td>{{ fmtShort(p.offset) }}</td>
+                <td>{{ fmtShort(p.committed) }}</td>
+                <td :class="p.lag > p.offset * 0.3 ? 'bad' : (p.lag > p.offset * 0.1 ? 'warn' : 'ok')">
+                  {{ fmtShort(p.lag) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>ISR Replica Topology</span></div>
+        <svg viewBox="0 0 800 220" style="width: 100%;">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill="var(--accent)"/>
+            </marker>
+          </defs>
+          <g v-for="(p, i) in partitions.slice(0, 12)" :key="'isr'+p.pid">
+            <g :transform="'translate(' + ((i % 6) * 130 + 40) + ',' + (Math.floor(i/6) * 110 + 40) + ')'">
+              <rect width="110" height="80" rx="8" fill="var(--surface-raised)" stroke="var(--accent)" stroke-width="1"/>
+              <text x="55" y="20" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">{{ p.topic }}-{{ p.id }}</text>
+              <g v-for="(r, j) in p.isr" :key="'r'+j">
+                <circle :cx="18 + j * 25" cy="45" r="10"
+                  :fill="brokers[r] && brokers[r].healthy ? 'var(--copper-dim)' : 'var(--bad)'"
+                  :stroke="j === 0 ? 'var(--accent)' : 'var(--muted)'" stroke-width="1.5"/>
+                <text :x="18 + j * 25" y="49" text-anchor="middle" fill="var(--text)" font-size="9" font-weight="700">B{{ r }}</text>
+              </g>
+              <text x="55" y="72" text-anchor="middle" fill="var(--muted)" font-size="9">ISR: {{ p.isr.length }}/3</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- STRATEGY TAB -->
+    <section v-show="activeTab === 'strategy'">
+      <div class="hero">
+        <h1>Rebalance Strategy</h1>
+        <p>Choose an assignment protocol to define how partitions redistribute when consumers join, leave, or fail. Each strategy trades off movement, latency, and sticky affinity differently.</p>
+      </div>
+
+      <div class="panel mb12">
+        <div class="panel-title"><span>Active Assignor</span><span class="hint">applied on next rebalance</span></div>
+        <div class="strat-grid">
+          <div v-for="s in strategies" :key="s.id" :class="['strat-card', { active: activeStrategy === s.id }]"
+            @click="selectStrategy(s.id)">
+            <h4>{{ s.name }}</h4>
+            <p>{{ s.desc }}</p>
+            <div class="stats">
+              <span>move <b>{{ s.move }}</b></span>
+              <span>sticky <b>{{ s.sticky }}</b></span>
+              <span>fair <b>{{ s.fair }}</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col mb12">
+        <div class="panel">
+          <div class="panel-title"><span>Rebalance Protocol Flow</span></div>
+          <svg viewBox="0 0 500 280" style="width:100%;">
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 Z" fill="var(--accent-soft)"/>
+              </marker>
+            </defs>
+            <g font-family="Consolas" font-size="11">
+              <rect x="20" y="20" width="120" height="40" rx="6" fill="var(--surface-raised)" stroke="var(--accent)"/>
+              <text x="80" y="45" text-anchor="middle" fill="var(--accent)">1. JoinGroup</text>
+              <line x1="140" y1="40" x2="200" y2="40" stroke="var(--accent-soft)" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <rect x="200" y="20" width="120" height="40" rx="6" fill="var(--surface-raised)" stroke="var(--accent)"/>
+              <text x="260" y="45" text-anchor="middle" fill="var(--accent)">2. Leader Elect</text>
+              <line x1="320" y1="40" x2="380" y2="40" stroke="var(--accent-soft)" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <rect x="380" y="20" width="100" height="40" rx="6" fill="var(--surface-raised)" stroke="var(--accent)"/>
+              <text x="430" y="45" text-anchor="middle" fill="var(--accent)">3. Assign</text>
+              <line x1="430" y1="60" x2="430" y2="100" stroke="var(--accent-soft)" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <rect x="380" y="100" width="100" height="40" rx="6" fill="var(--surface-raised)" stroke="var(--accent)"/>
+              <text x="430" y="125" text-anchor="middle" fill="var(--accent)">4. SyncGroup</text>
+              <line x1="380" y1="120" x2="320" y2="120" stroke="var(--accent-soft)" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <rect x="200" y="100" width="120" height="40" rx="6" fill="var(--surface-raised)" stroke="var(--accent)"/>
+              <text x="260" y="125" text-anchor="middle" fill="var(--accent)">5. Heartbeat</text>
+              <line x1="200" y1="120" x2="140" y2="120" stroke="var(--accent-soft)" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <rect x="20" y="100" width="120" height="40" rx="6" fill="var(--surface-raised)" stroke="var(--accent)"/>
+              <text x="80" y="125" text-anchor="middle" fill="var(--accent)">6. Fetch</text>
+              <line x1="80" y1="140" x2="80" y2="180" stroke="var(--accent-soft)" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <rect x="20" y="180" width="120" height="40" rx="6" fill="var(--surface-raised)" stroke="var(--accent)"/>
+              <text x="80" y="205" text-anchor="middle" fill="var(--accent)">7. Commit</text>
+              <line x1="140" y1="200" x2="380" y2="200" stroke="var(--accent-soft)" stroke-width="1.5" marker-end="url(#arr2)" stroke-dasharray="3 3"/>
+              <rect x="380" y="180" width="100" height="40" rx="6" fill="var(--surface-raised)" stroke="var(--accent)"/>
+              <text x="430" y="205" text-anchor="middle" fill="var(--accent)">8. Ack</text>
+              <text x="250" y="255" text-anchor="middle" fill="var(--muted)" font-size="10">Cooperative mode: steps 3–5 split into two rebalances — revoke, assign.</text>
+            </g>
+          </svg>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span>Strategy Matchup</span></div>
+          <table class="flow">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Range</th>
+                <th>Round-Robin</th>
+                <th>Sticky</th>
+                <th>Cooperative</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Movement cost</td><td>low</td><td>med</td><td class="ok">very low</td><td>low</td></tr>
+              <tr><td>Fairness</td><td>med</td><td class="ok">high</td><td>med</td><td class="ok">high</td></tr>
+              <tr><td>Co-locality</td><td class="ok">high</td><td>low</td><td class="ok">high</td><td>med</td></tr>
+              <tr><td>Stop-the-world</td><td>yes</td><td>yes</td><td>yes</td><td class="ok">no</td></tr>
+              <tr><td>Rebalance time</td><td>fast</td><td>fast</td><td>med</td><td>slow</td></tr>
+            </tbody>
+          </table>
+          <div class="mt12 tiny muted">
+            Rule of thumb: <b class="accent">Cooperative-Sticky</b> for production; <b class="accent">Range</b> for joined-key topics; <b class="accent">Round-Robin</b> for stateless fanout.
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>Session Timing</span></div>
+        <div class="three-col">
+          <div>
+            <div class="setting-row">
+              <div class="label">session.timeout.ms<small>broker detects death after this</small></div>
+              <div class="flex gap6">
+                <input type="range" min="5" max="60" v-model.number="sessionTimeoutS">
+                <span class="val mono accent">{{ sessionTimeoutS }}s</span>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="label">heartbeat.interval.ms<small>how often consumer pings coordinator</small></div>
+              <div class="flex gap6">
+                <input type="range" min="1" max="15" v-model.number="heartbeatS">
+                <span class="val mono accent">{{ heartbeatS }}s</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="setting-row">
+              <div class="label">max.poll.interval.ms<small>time allowed between poll() calls</small></div>
+              <div class="flex gap6">
+                <input type="range" min="30" max="600" step="30" v-model.number="maxPollS">
+                <span class="val mono accent">{{ maxPollS }}s</span>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="label">rebalance.timeout.ms<small>grace period for all members to re-join</small></div>
+              <div class="flex gap6">
+                <input type="range" min="30" max="300" step="10" v-model.number="rebalanceTimeoutS">
+                <span class="val mono accent">{{ rebalanceTimeoutS }}s</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="setting-row">
+              <div class="label">enable.auto.commit<small>hands-off commit cadence</small></div>
+              <div :class="['switch', { on: autoCommit }]" @click="autoCommit = !autoCommit"></div>
+            </div>
+            <div class="setting-row">
+              <div class="label">cooperative.rebalance<small>incremental without stop-the-world</small></div>
+              <div :class="['switch', { on: cooperativeRebalance }]" @click="cooperativeRebalance = !cooperativeRebalance"></div>
+            </div>
+            <div class="setting-row">
+              <div class="label">sticky.affinity<small>preserve existing assignments when possible</small></div>
+              <div :class="['switch', { on: stickyAffinity }]" @click="stickyAffinity = !stickyAffinity"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICS TAB -->
+    <section v-show="activeTab === 'topics'">
+      <div class="hero">
+        <h1>Topic Registry</h1>
+        <p>Per-topic configuration, partition count, replication factor, retention policy, and live throughput. Create topics to expand the playing field or delete stale ones to free replica slots.</p>
+      </div>
+
+      <div class="panel mb12">
+        <div class="panel-title">
+          <span>Topics ({{ topics.length }})</span>
+          <button class="primary" style="padding: 4px 10px;" @click="createTopic">+ Create Topic</button>
+        </div>
+        <table class="flow">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Partitions</th>
+              <th>Replication</th>
+              <th>Retention</th>
+              <th>Throughput</th>
+              <th>Messages</th>
+              <th>Cleanup</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="t in topics" :key="t.name">
+              <td class="accent">{{ t.name }}</td>
+              <td>{{ t.partitionCount }}</td>
+              <td>×{{ t.rf }}</td>
+              <td>{{ t.retention }}h</td>
+              <td>{{ (t.tps || 0).toFixed(1) }} /s</td>
+              <td>{{ fmt(t.totalMessages) }}</td>
+              <td>
+                <span class="tag-row" :style="{ background: t.cleanup === 'compact' ? 'rgba(160,124,224,.2)' : 'rgba(107,197,192,.2)', color: t.cleanup === 'compact' ? 'var(--violet)' : 'var(--cyan)' }">
+                  {{ t.cleanup }}
+                </span>
+              </td>
+              <td>
+                <button class="ghost tiny" @click="deleteTopic(t.name)" :disabled="topics.length <= 1">×</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-title"><span>Partition Assignment Map</span></div>
+          <div style="max-height: 420px; overflow-y: auto;">
+            <div v-for="t in topics" :key="'tam' + t.name" class="mb12">
+              <div class="accent mb8 mono" style="font-size:12px;">{{ t.name }} · {{ partitions.filter(p => p.topic === t.name).length }} partitions</div>
+              <div class="flex wrap gap6">
+                <div v-for="p in partitions.filter(p => p.topic === t.name)" :key="p.pid"
+                  :class="['partition', partitionHeat(p.pid)]" style="cursor: default;">
+                  <span class="p-id">{{ p.id }}</span>
+                  <span class="p-lag">{{ ownerShort(p.pid) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span>Topic Configuration</span></div>
+          <div class="setting-row">
+            <div class="label">Default RF<small>replication factor for new topics</small></div>
+            <select v-model.number="defaultRF">
+              <option :value="1">1</option><option :value="2">2</option><option :value="3">3</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="label">Default partitions<small>per new topic</small></div>
+            <input type="range" min="1" max="12" v-model.number="defaultPartitions"/>
+            <span class="val mono accent">{{ defaultPartitions }}</span>
+          </div>
+          <div class="setting-row">
+            <div class="label">min.insync.replicas<small>block producer below this threshold</small></div>
+            <select v-model.number="minISR">
+              <option :value="1">1</option><option :value="2">2</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="label">acks<small>producer durability knob</small></div>
+            <select v-model="producerAcks">
+              <option value="0">0</option><option value="1">1</option><option value="all">all</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="label">compression.type<small>message batch compression</small></div>
+            <select v-model="compression">
+              <option>none</option><option>gzip</option><option>snappy</option><option>lz4</option><option>zstd</option>
+            </select>
+          </div>
+          <div class="mt12 tiny muted">
+            Combine <b>acks=all</b> + <b>min.insync.replicas=2</b> + <b>RF=3</b> for leader-loss safety without sacrificing write throughput.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEADERBOARD TAB -->
+    <section v-show="activeTab === 'leaderboard'">
+      <div class="hero">
+        <h1>Coordinator Leaderboard</h1>
+        <p>Top coordinator runs across the simulator. Your score is calculated from minimized lag, distribution fairness, rebalance throughput, and commit cadence, normalized per wave survived.</p>
+      </div>
+
+      <div class="two-col mb12">
+        <div class="panel">
+          <div class="panel-title"><span>Global Rankings</span><span class="hint">all-time</span></div>
+          <div v-for="(l, i) in sortedLeaderboard" :key="l.name" :class="['lb-row', { you: l.name === 'You' }]">
+            <div class="lb-rank">#{{ i + 1 }}</div>
+            <div>
+              <div class="lb-name">{{ l.name }}</div>
+              <div class="lb-sub">wave {{ l.wave }} · lag {{ fmt(l.lag) }} · fairness {{ (l.fairness * 100).toFixed(0) }}%</div>
+            </div>
+            <div>
+              <div class="tag-chip">{{ l.strategy }}</div>
+            </div>
+            <div class="lb-score">{{ fmt(l.score) }}</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span>Your Recent Runs</span></div>
+          <div v-if="runHistory.length === 0" class="muted tiny center" style="padding:30px;">no runs yet — survive a round to log it here</div>
+          <div v-for="r in runHistory" :key="r.t" class="lb-row">
+            <div class="lb-rank">✦</div>
+            <div>
+              <div class="lb-name">Run #{{ r.id }}</div>
+              <div class="lb-sub">{{ formatTime(r.t) }} · {{ r.durationS }}s · {{ r.waves }} waves</div>
+            </div>
+            <div><div class="tag-chip">{{ r.strategy }}</div></div>
+            <div class="lb-score">{{ fmt(r.score) }}</div>
+          </div>
+          <button class="mt12 ghost" @click="runHistory = []" v-if="runHistory.length > 0">Clear history</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>Score Breakdown Explained</span></div>
+        <div class="three-col">
+          <div>
+            <h4 class="accent" style="margin-top:0;">Lag Penalty</h4>
+            <p class="tiny dim">Every 1k messages of sustained consumer lag costs you <b class="bad">−0.6 points/sec</b>. Hot partitions (top 10% lag) cost 3× as much. Reset by closing the watermark gap.</p>
+          </div>
+          <div>
+            <h4 class="accent" style="margin-top:0;">Fairness Bonus</h4>
+            <p class="tiny dim">Jain's Fairness Index over consumer loads × 200, multiplied by wave tier. Reward is exponential — going from 70% → 90% fairness nearly doubles the bonus.</p>
+          </div>
+          <div>
+            <h4 class="accent" style="margin-top:0;">Speed Bonus</h4>
+            <p class="tiny dim">Rebalance settlement time &lt; 3s gives full <b class="ok">+500</b>. Every extra second halves it. Cooperative strategies get a 1.3× multiplier for zero-downtime.</p>
+          </div>
+          <div>
+            <h4 class="accent" style="margin-top:0;">Checkpoint Bonus</h4>
+            <p class="tiny dim">Each commit persists <code>N</code> offsets for <b class="accent">+15 × N</b>. Committing during high lag (&gt;50% cap) gives a 2× clutch multiplier.</p>
+          </div>
+          <div>
+            <h4 class="accent" style="margin-top:0;">Failure Handled</h4>
+            <p class="tiny dim">Each broker failure you recover from (no lost partitions, &lt; 15s settle) is worth <b class="ok">+1200</b>. Silent failures — where lag spikes past 2× cap — cost you <b class="bad">−800</b>.</p>
+          </div>
+          <div>
+            <h4 class="accent" style="margin-top:0;">Multiplier</h4>
+            <p class="tiny dim">Final score × wave tier × strategy modifier. A level-6 cooperative-sticky run can 3× your total. Keep the combo going by surviving consecutive waves without emergency rollback.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TUTORIAL TAB -->
+    <section v-show="activeTab === 'tutorial'">
+      <div class="hero">
+        <h1>How To Coordinate</h1>
+        <p>A six-step primer on running the arena. Read once, play forever. Hotkeys are listed at the bottom of this page.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-title"><span>Onboarding</span></div>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <h4>Press START</h4>
+              <p>The arena boots with 4 consumers and 8 partitions assigned round-robin across 3 brokers. Producers begin emitting at <b>baseline throughput</b> — easy difficulty.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <h4>Watch the lag</h4>
+              <p>The top-right <kbd>Lag</kbd> pill turns warm→red as consumer offsets fall behind partition high-watermark. Hot partitions glow in the consumer bays.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <h4>Drag partitions</h4>
+              <p>Drag a hot partition from an overloaded consumer onto an idle one. The assignor commits the move immediately — cooperative mode avoids stop-the-world.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div>
+              <h4>Checkpoint often</h4>
+              <p>Press <kbd>Space</kbd> or the big amber button to spend action budget on an offset commit. Budget regens +1 every 3 seconds up to 10.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div>
+              <h4>Survive broker failure</h4>
+              <p>Every 20–40s a broker goes dark. Affected partitions appear on surviving brokers via ISR election — but their consumers may be gone. Reassign fast.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">6</div>
+            <div>
+              <h4>Level up</h4>
+              <p>Each level ups producer pressure by 35% and reduces your action budget regen by 0.1s. Survive 5 waves to advance. The best coordinators reach level 8.</p>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="panel">
+            <div class="panel-title"><span>Hotkeys</span></div>
+            <div class="hotkeys">
+              <div class="hk-item"><span>Start / Pause</span><kbd>P</kbd></div>
+              <div class="hk-item"><span>Commit checkpoint</span><kbd>Space</kbd></div>
+              <div class="hk-item"><span>Auto-balance</span><kbd>B</kbd></div>
+              <div class="hk-item"><span>Add consumer</span><kbd>+</kbd></div>
+              <div class="hk-item"><span>Remove consumer</span><kbd>-</kbd></div>
+              <div class="hk-item"><span>Trigger chaos</span><kbd>X</kbd></div>
+              <div class="hk-item"><span>Reset run</span><kbd>R</kbd></div>
+              <div class="hk-item"><span>Arena tab</span><kbd>1</kbd></div>
+              <div class="hk-item"><span>Metrics tab</span><kbd>2</kbd></div>
+              <div class="hk-item"><span>Strategy tab</span><kbd>3</kbd></div>
+              <div class="hk-item"><span>Topics tab</span><kbd>4</kbd></div>
+              <div class="hk-item"><span>Leaderboard tab</span><kbd>5</kbd></div>
+              <div class="hk-item"><span>Help tab</span><kbd>?</kbd></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title"><span>Glossary</span></div>
+            <div class="stat-row"><span class="lbl">Partition</span><span class="val dim">Ordered log of messages assigned to exactly one consumer in a group</span></div>
+            <div class="stat-row"><span class="lbl">Offset</span><span class="val dim">Sequential position of a message within a partition</span></div>
+            <div class="stat-row"><span class="lbl">Consumer lag</span><span class="val dim">Difference between partition high-watermark and committed offset</span></div>
+            <div class="stat-row"><span class="lbl">Checkpoint</span><span class="val dim">Persisted offset state the consumer resumes from on restart</span></div>
+            <div class="stat-row"><span class="lbl">ISR</span><span class="val dim">In-sync replicas: brokers caught up to leader's log</span></div>
+            <div class="stat-row"><span class="lbl">Rebalance</span><span class="val dim">Re-distribution of partitions when group membership changes</span></div>
+            <div class="stat-row"><span class="lbl">Watermark</span><span class="val dim">Highest offset replicated to all ISRs (== last safe read)</span></div>
+            <div class="stat-row"><span class="lbl">Heartbeat</span><span class="val dim">Liveness ping from consumer → coordinator</span></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title"><span>Settings</span></div>
+            <div class="setting-row">
+              <div class="label">Tick rate<small>simulation steps per second</small></div>
+              <input type="range" min="2" max="30" v-model.number="tickRate"/>
+              <span class="val mono accent">{{ tickRate }}Hz</span>
+            </div>
+            <div class="setting-row">
+              <div class="label">Enable sound<small>event SFX on rebalance/failure</small></div>
+              <div :class="['switch', { on: soundOn }]" @click="soundOn = !soundOn"></div>
+            </div>
+            <div class="setting-row">
+              <div class="label">Toast notifications<small>corner alerts for key events</small></div>
+              <div :class="['switch', { on: toastsOn }]" @click="toastsOn = !toastsOn"></div>
+            </div>
+            <div class="setting-row">
+              <div class="label">Chaos frequency<small>broker failure interval (s)</small></div>
+              <input type="range" min="10" max="90" v-model.number="chaosFreq"/>
+              <span class="val mono accent">{{ chaosFreq }}s</span>
+            </div>
+            <div class="setting-row">
+              <div class="label">Difficulty</div>
+              <select v-model="difficulty">
+                <option>easy</option><option>normal</option><option>hard</option><option>chaos</option>
+              </select>
+            </div>
+            <div class="mt12">
+              <button class="danger" @click="resetAll" style="width:100%;">⟲ Reset run</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" v-if="modal" @click.self="modal = null">
+    <div class="modal">
+      <h2>{{ modal.title }}</h2>
+      <p>{{ modal.body }}</p>
+      <div class="flex mt12 wrap gap6">
+        <button class="primary" @click="modal = null">{{ modal.primary || 'OK' }}</button>
+        <button class="ghost" @click="modal = null" v-if="modal.secondary">{{ modal.secondary }}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOASTS -->
+  <div class="toast-stack">
+    <div v-for="t in toasts" :key="t.id" :class="['toast', t.type]">
+      <div class="ticon">{{ toastIcon(t.type) }}</div>
+      <div class="ttext">
+        <b>{{ t.title }}</b>
+        <span>{{ t.msg }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const { createApp, ref, reactive, computed, onMounted, onUnmounted, watch, nextTick } = Vue;
+
+createApp({
+  setup() {
+    // =====================================================================
+    // STATE
+    // =====================================================================
+    const activeTab = ref('arena');
+    const tabs = [
+      { id: 'arena', label: 'Arena' },
+      { id: 'metrics', label: 'Metrics' },
+      { id: 'strategy', label: 'Strategy' },
+      { id: 'topics', label: 'Topics' },
+      { id: 'leaderboard', label: 'Leaderboard' },
+      { id: 'tutorial', label: 'Help' },
+    ];
+
+    const running = ref(false);
+    const level = ref(1);
+    const wave = ref(1);
+    const maxWave = ref(5);
+    const round = ref(1);
+    const waveTimer = ref(20);
+    const score = ref(0);
+    const actionBudget = ref(10);
+    const maxBudget = ref(10);
+    const budgetRegen = ref(3);
+    const budgetAccum = ref(0);
+    const generation = ref(1);
+    const groupName = ref('rebalance-arena-42');
+    const checkpointCost = ref(3);
+    const checkpointCount = ref(0);
+    const offsetsPersisted = ref(0);
+    const rebalanceCount = ref(0);
+    const failuresHandled = ref(0);
+    const recentCheckpoints = ref([]);
+    const modal = ref(null);
+    const toasts = ref([]);
+    const logEl = ref(null);
+
+    // Config knobs (Strategy / Topics tabs)
+    const sessionTimeoutS = ref(10);
+    const heartbeatS = ref(3);
+    const maxPollS = ref(300);
+    const rebalanceTimeoutS = ref(60);
+    const autoCommit = ref(false);
+    const cooperativeRebalance = ref(true);
+    const stickyAffinity = ref(true);
+    const activeStrategy = ref('cooperative');
+    const defaultRF = ref(2);
+    const defaultPartitions = ref(4);
+    const minISR = ref(1);
+    const producerAcks = ref('1');
+    const compression = ref('snappy');
+    const tickRate = ref(10);
+    const soundOn = ref(false);
+    const toastsOn = ref(true);
+    const chaosFreq = ref(30);
+    const difficulty = ref('normal');
+    const chaosTimer = ref(30);
+
+    // Metrics rolling buffers
+    const lagHistory = ref([]);
+    const thrHistory = ref([]);
+    const peakLag = ref(0);
+    const peakThroughput = ref(0);
+
+    const runHistory = ref([]);
+    const runStartT = ref(0);
+
+    const strategies = [
+      { id: 'range', name: 'Range', desc: 'Contiguous ranges of partitions per consumer. Co-locates related keys but uneven.', move: 'med', sticky: 'no', fair: 'low' },
+      { id: 'roundrobin', name: 'Round-Robin', desc: 'Partitions interleaved across consumers. Even load, poor locality.', move: 'high', sticky: 'no', fair: 'high' },
+      { id: 'sticky', name: 'Sticky', desc: 'Preserves existing assignments on rebalance, reshuffling only deltas.', move: 'low', sticky: 'yes', fair: 'med' },
+      { id: 'cooperative', name: 'Cooperative-Sticky', desc: 'Incremental revoke/assign — no stop-the-world for unaffected partitions.', move: 'low', sticky: 'yes', fair: 'high' },
+    ];
+
+    // Brokers
+    const brokers = reactive([
+      { id: 1, healthy: true, load: 20 },
+      { id: 2, healthy: true, load: 25 },
+      { id: 3, healthy: true, load: 30 },
+      { id: 4, healthy: true, load: 15 },
+      { id: 5, healthy: true, load: 35 },
+    ]);
+    const healthyBrokers = computed(() => brokers.filter(b => b.healthy).length);
+
+    // Topics
+    const topics = reactive([
+      { name: 'orders',   partitionCount: 6, rf: 2, retention: 168, cleanup: 'delete', tps: 0, totalMessages: 0 },
+      { name: 'clicks',   partitionCount: 4, rf: 2, retention: 24,  cleanup: 'delete', tps: 0, totalMessages: 0 },
+      { name: 'profiles', partitionCount: 3, rf: 3, retention: 0,   cleanup: 'compact', tps: 0, totalMessages: 0 },
+    ]);
+
+    // Partitions (derived at init from topics)
+    let nextPartitionId = 1;
+    const partitions = reactive([]);
+
+    function rebuildPartitions() {
+      partitions.splice(0);
+      topics.forEach(t => {
+        for (let i = 0; i < t.partitionCount; i++) {
+          const healthy = brokers.filter(b => b.healthy);
+          const leader = healthy[Math.floor(Math.random() * healthy.length)] || brokers[0];
+          const isr = [];
+          const others = brokers.filter(b => b.id !== leader.id && b.healthy);
+          isr.push(leader.id);
+          for (let k = 0; k < Math.min(t.rf - 1, others.length); k++) {
+            isr.push(others[k].id);
+          }
+          partitions.push({
+            pid: nextPartitionId++,
+            topic: t.name,
+            id: i,
+            broker: leader.id,
+            isr,
+            offset: Math.floor(Math.random() * 1000),
+            committed: 0,
+            lag: 0,
+            tps: 0,
+          });
+          partitions[partitions.length - 1].committed = partitions[partitions.length - 1].offset;
+        }
+      });
+    }
+
+    // Consumers
+    let nextConsumerId = 1;
+    const consumers = reactive([]);
+    const hosts = ['c1-us-east-1a', 'c2-us-east-1b', 'c3-us-west-2c', 'c4-eu-west-1a', 'c5-ap-south-1a', 'c6-us-east-2b', 'c7-eu-cen-1a', 'c8-ap-ne-1c'];
+
+    function makeConsumer() {
+      const id = nextConsumerId++;
+      return {
+        id,
+        name: `consumer-${id.toString().padStart(2, '0')}`,
+        host: hosts[(id - 1) % hosts.length],
+        partitions: [],
+        committedOffset: 0,
+        leader: id === 1,
+        failed: false,
+        lastHb: Date.now(),
+      };
+    }
+
+    function assignInitial() {
+      consumers.splice(0);
+      for (let i = 0; i < 4; i++) consumers.push(makeConsumer());
+      runStrategy(activeStrategy.value);
+    }
+
+    // =====================================================================
+    // STRATEGIES
+    // =====================================================================
+    function runStrategy(sid) {
+      const alive = consumers.filter(c => !c.failed);
+      if (alive.length === 0) return;
+      alive.forEach(c => c.partitions = []);
+      const pids = partitions.map(p => p.pid);
+      if (sid === 'roundrobin') {
+        pids.forEach((pid, i) => alive[i % alive.length].partitions.push(pid));
+      } else if (sid === 'range') {
+        const per = Math.ceil(pids.length / alive.length);
+        alive.forEach((c, i) => {
+          c.partitions = pids.slice(i * per, (i + 1) * per);
+        });
+      } else if (sid === 'sticky' || sid === 'cooperative') {
+        // Sticky: try to preserve if possible. For fresh, round-robin.
+        pids.forEach((pid, i) => alive[i % alive.length].partitions.push(pid));
+      }
+      rebalanceCount.value++;
+      generation.value++;
+      logEvent('rebalance', 'REBALANCE', `Generation ${generation.value} — <span class="accent">${sid}</span> — ${alive.length} members`);
+    }
+
+    function selectStrategy(sid) {
+      activeStrategy.value = sid;
+      logEvent('info', 'STRATEGY', `Active assignor: <b class="accent">${sid}</b>`);
+      toast('info', 'Strategy change', `Switched to ${strategies.find(s=>s.id===sid).name}`);
+      nextTick(() => runStrategy(sid));
+    }
+
+    // =====================================================================
+    // COMPUTEDS
+    // =====================================================================
+    const totalLag = computed(() => partitions.reduce((s, p) => s + p.lag, 0));
+    const hotPartitions = computed(() => {
+      const avg = totalLag.value / Math.max(1, partitions.length);
+      return partitions.filter(p => p.lag > avg * 2.5 && p.lag > 500);
+    });
+    const throughputCap = computed(() => 200 * Math.pow(1.35, level.value - 1) * (1 + (wave.value - 1) * 0.12));
+    const throughput = computed(() => {
+      const diff = { easy: 0.6, normal: 1.0, hard: 1.4, chaos: 1.8 }[difficulty.value] || 1.0;
+      return throughputCap.value * Math.min(1, wave.value / maxWave.value + 0.3) * diff;
+    });
+    const throughputPct = computed(() => Math.min(100, (throughput.value / throughputCap.value) * 100));
+    const currentWaveName = computed(() => {
+      const names = ['Baseline Drip', 'Ramp Up', 'Surge', 'Peak Load', 'Meltdown Alley', 'Black Friday', 'Doomscroll'];
+      return names[Math.min(wave.value - 1, names.length - 1)];
+    });
+
+    const fairnessIndex = computed(() => {
+      const alive = consumers.filter(c => !c.failed);
+      if (alive.length === 0) return 0;
+      const loads = alive.map(c => consumerLoad(c.id));
+      const sumSq = loads.reduce((s, l) => s + l, 0);
+      const sqSum = loads.reduce((s, l) => s + l * l, 0);
+      if (sqSum === 0) return 1;
+      return (sumSq * sumSq) / (alive.length * sqSum);
+    });
+    const loadStdDev = computed(() => {
+      const alive = consumers.filter(c => !c.failed);
+      if (alive.length === 0) return 0;
+      const loads = alive.map(c => consumerLoad(c.id));
+      const mean = loads.reduce((s, l) => s + l, 0) / loads.length;
+      return Math.sqrt(loads.reduce((s, l) => s + (l - mean) ** 2, 0) / loads.length);
+    });
+    const avgLoadY = computed(() => {
+      const alive = consumers.filter(c => !c.failed);
+      if (alive.length === 0) return 160;
+      const loads = alive.map(c => consumerLoad(c.id));
+      const mean = loads.reduce((s, l) => s + l, 0) / loads.length;
+      return 160 - mean * 1.4;
+    });
+
+    const lagPenalty = computed(() => Math.floor(totalLag.value / 50));
+    const fairnessBonus = computed(() => Math.floor(fairnessIndex.value * fairnessIndex.value * 500 * level.value));
+    const speedBonus = computed(() => Math.floor(Math.max(0, 500 - rebalanceCount.value * 30) * (cooperativeRebalance.value ? 1.3 : 1)));
+    const checkpointBonus = computed(() => checkpointCount.value * 80);
+    const lagClass = computed(() => {
+      if (totalLag.value < 1000) return 'ok';
+      if (totalLag.value < 5000) return 'warn';
+      return 'bad';
+    });
+    const scoreProgress = computed(() => Math.min(1, score.value / 50000));
+    const avgLag = computed(() => {
+      if (lagHistory.value.length === 0) return 0;
+      return lagHistory.value.reduce((s, v) => s + v, 0) / lagHistory.value.length;
+    });
+
+    // Chart polylines
+    const lagLinePoly = computed(() => {
+      if (lagHistory.value.length === 0) return '0,200 300,200';
+      const max = Math.max(...lagHistory.value, 100);
+      const step = 300 / Math.max(1, lagHistory.value.length - 1);
+      const pts = lagHistory.value.map((v, i) => `${(i * step).toFixed(1)},${(200 - (v / max) * 190).toFixed(1)}`);
+      return `0,200 ${pts.join(' ')} 300,200`;
+    });
+    const lagLinePolyStroke = computed(() => {
+      if (lagHistory.value.length === 0) return '';
+      const max = Math.max(...lagHistory.value, 100);
+      const step = 300 / Math.max(1, lagHistory.value.length - 1);
+      return lagHistory.value.map((v, i) => `${(i * step).toFixed(1)},${(200 - (v / max) * 190).toFixed(1)}`).join(' ');
+    });
+    const thrLinePoly = computed(() => {
+      if (thrHistory.value.length === 0) return '0,200 300,200';
+      const max = Math.max(...thrHistory.value, 100);
+      const step = 300 / Math.max(1, thrHistory.value.length - 1);
+      const pts = thrHistory.value.map((v, i) => `${(i * step).toFixed(1)},${(200 - (v / max) * 190).toFixed(1)}`);
+      return `0,200 ${pts.join(' ')} 300,200`;
+    });
+    const thrLinePolyStroke = computed(() => {
+      if (thrHistory.value.length === 0) return '';
+      const max = Math.max(...thrHistory.value, 100);
+      const step = 300 / Math.max(1, thrHistory.value.length - 1);
+      return thrHistory.value.map((v, i) => `${(i * step).toFixed(1)},${(200 - (v / max) * 190).toFixed(1)}`).join(' ');
+    });
+
+    // Leaderboard (static seed)
+    const baseLeaderboard = [
+      { name: 'kafka-sama', score: 48920, wave: 7, lag: 420, fairness: 0.94, strategy: 'coop' },
+      { name: 'LagSlayer', score: 42110, wave: 6, lag: 680, fairness: 0.91, strategy: 'sticky' },
+      { name: 'broker-bjorn', score: 38560, wave: 6, lag: 1050, fairness: 0.88, strategy: 'coop' },
+      { name: 'consumer-god', score: 34820, wave: 5, lag: 1400, fairness: 0.85, strategy: 'range' },
+      { name: 'offset-kun', score: 31010, wave: 5, lag: 1680, fairness: 0.82, strategy: 'roundrobin' },
+      { name: 'isr-witch', score: 27450, wave: 5, lag: 2020, fairness: 0.79, strategy: 'sticky' },
+      { name: 'cp-priest', score: 24800, wave: 4, lag: 2400, fairness: 0.76, strategy: 'coop' },
+      { name: 'rack-awake', score: 21200, wave: 4, lag: 2890, fairness: 0.73, strategy: 'range' },
+    ];
+    const sortedLeaderboard = computed(() => {
+      const list = baseLeaderboard.slice();
+      list.push({ name: 'You', score: score.value, wave: wave.value, lag: totalLag.value, fairness: fairnessIndex.value, strategy: activeStrategy.value });
+      return list.sort((a, b) => b.score - a.score);
+    });
+
+    // =====================================================================
+    // HELPERS
+    // =====================================================================
+    function brokerPos(i) {
+      const angle = (Math.PI * 2 * i) / brokers.length - Math.PI / 2;
+      return { x: 150 + Math.cos(angle) * 90, y: 130 + Math.sin(angle) * 85 };
+    }
+
+    function consumerLoad(cid) {
+      const c = consumers.find(x => x.id === cid);
+      if (!c || c.failed) return 0;
+      const totalP = partitions.length;
+      if (totalP === 0) return 0;
+      return (c.partitions.length / totalP) * 100;
+    }
+
+    function consumerLag(cid) {
+      const c = consumers.find(x => x.id === cid);
+      if (!c) return 0;
+      return c.partitions.reduce((s, pid) => {
+        const p = partitions.find(x => x.pid === pid);
+        return s + (p ? p.lag : 0);
+      }, 0);
+    }
+
+    function consumerLagPct(cid) {
+      const lag = consumerLag(cid);
+      if (totalLag.value === 0) return 0;
+      return (lag / Math.max(1, totalLag.value / consumers.length)) * 50;
+    }
+
+    function getPartition(pid) {
+      return partitions.find(p => p.pid === pid) || { topic: '?', id: 0, lag: 0 };
+    }
+
+    function partitionHeat(pid) {
+      const p = partitions.find(x => x.pid === pid);
+      if (!p) return '';
+      const avg = totalLag.value / Math.max(1, partitions.length);
+      if (p.lag > avg * 2.5 && p.lag > 500) return 'hot';
+      if (p.lag > avg * 1.4) return 'warm';
+      return '';
+    }
+
+    function watermarkPct(p) {
+      if (p.offset === 0) return 100;
+      return (p.committed / p.offset) * 100;
+    }
+
+    function ownerName(pid) {
+      const c = consumers.find(x => x.partitions.includes(pid));
+      return c ? c.name : '—';
+    }
+    function ownerShort(pid) {
+      const c = consumers.find(x => x.partitions.includes(pid));
+      return c ? `C${c.id}` : '—';
+    }
+
+    function heatmap(cid) {
+      const c = consumers.find(x => x.id === cid);
+      if (!c) return Array(20).fill(0);
+      const arr = [];
+      for (let i = 0; i < 20; i++) {
+        arr.push(Math.min(1, (c.partitions.length / 8) + Math.random() * 0.3 - 0.15));
+      }
+      return arr;
+    }
+
+    function heatColor(v) {
+      if (v < 0.3) return '#2a2018';
+      if (v < 0.6) return '#b87333';
+      if (v < 0.85) return '#f0a050';
+      return '#ff7a2e';
+    }
+
+    function fmt(n) {
+      if (n === undefined || n === null || isNaN(n)) return '—';
+      if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k';
+      return Math.round(n).toString();
+    }
+    function fmtShort(n) {
+      if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+      if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k';
+      return Math.round(n).toString();
+    }
+    function formatTime(t) {
+      const d = new Date(t);
+      const h = d.getHours().toString().padStart(2, '0');
+      const m = d.getMinutes().toString().padStart(2, '0');
+      const s = d.getSeconds().toString().padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    // =====================================================================
+    // EVENTS / TOASTS
+    // =====================================================================
+    let eventIdCounter = 0;
+    const events = ref([]);
+    function logEvent(type, tag, msg) {
+      events.value.push({ id: ++eventIdCounter, t: Date.now(), type, tag, msg });
+      if (events.value.length > 200) events.value.shift();
+    }
+
+    let toastIdCounter = 0;
+    function toast(type, title, msg) {
+      if (!toastsOn.value) return;
+      const id = ++toastIdCounter;
+      toasts.value.push({ id, type, title, msg });
+      setTimeout(() => {
+        toasts.value = toasts.value.filter(t => t.id !== id);
+      }, 3400);
+    }
+    function toastIcon(type) {
+      return { info: 'i', warn: '!', bad: '×', ok: '✓' }[type] || '·';
+    }
+
+    // =====================================================================
+    // DRAG AND DROP
+    // =====================================================================
+    const dragPayload = ref(null);
+    const dragOverConsumer = ref(null);
+
+    function onDragStart(pid, fromC, e) {
+      if (!running.value) { e.preventDefault(); return; }
+      dragPayload.value = { pid, fromC };
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', pid.toString());
+      e.target.classList.add('dragging');
+    }
+    function onDragEnd(e) {
+      e.target.classList.remove('dragging');
+      dragPayload.value = null;
+      dragOverConsumer.value = null;
+    }
+    function onDragOver(cid) { dragOverConsumer.value = cid; }
+    function onDragLeave() { dragOverConsumer.value = null; }
+    function onDrop(cid, e) {
+      e.preventDefault();
+      if (!dragPayload.value) return;
+      const { pid, fromC } = dragPayload.value;
+      if (cid === fromC) return;
+      const target = consumers.find(c => c.id === cid);
+      if (!target || target.failed) return;
+      const source = consumers.find(c => c.id === fromC);
+      if (!source) return;
+      source.partitions = source.partitions.filter(x => x !== pid);
+      target.partitions.push(pid);
+      const p = getPartition(pid);
+      logEvent('rebalance', 'REASSIGN', `<span class="mono">${p.topic}-${p.id}</span> : <span class="mono">${source.name}</span> → <span class="mono accent">${target.name}</span>`);
+      toast('info', 'Partition moved', `${p.topic}-${p.id} → ${target.name}`);
+      score.value += 20;
+      dragPayload.value = null;
+      dragOverConsumer.value = null;
+    }
+
+    // =====================================================================
+    // ACTIONS
+    // =====================================================================
+    function toggleRun() {
+      running.value = !running.value;
+      if (running.value) {
+        logEvent('ok', 'START', `Coordinator online · difficulty <b>${difficulty.value}</b> · strategy <b class="accent">${activeStrategy.value}</b>`);
+        toast('ok', 'Arena started', `Round ${round.value} begins — hold the line.`);
+        runStartT.value = Date.now();
+      } else {
+        logEvent('warn', 'PAUSE', 'Simulation paused');
+      }
+    }
+
+    function commitCheckpoint() {
+      if (actionBudget.value < checkpointCost.value) return;
+      actionBudget.value -= checkpointCost.value;
+      checkpointCount.value++;
+      let persisted = 0;
+      partitions.forEach(p => {
+        const diff = p.offset - p.committed;
+        persisted += diff;
+        p.committed = p.offset;
+        p.lag = 0;
+      });
+      const clutch = totalLag.value > throughputCap.value * 2 ? 2 : 1;
+      score.value += persisted * 15 * clutch + 100;
+      offsetsPersisted.value += persisted;
+      recentCheckpoints.value.push({ t: Date.now(), persisted });
+      if (recentCheckpoints.value.length > 20) recentCheckpoints.value.shift();
+      logEvent('ok', 'COMMIT', `Persisted <b class="accent">${persisted}</b> offsets${clutch > 1 ? ' <span class="warn">×2 CLUTCH</span>' : ''}`);
+      toast('ok', 'Checkpoint', `${persisted} offsets committed${clutch > 1 ? ' · clutch!' : ''}`);
+    }
+
+    function autoBalance() {
+      if (actionBudget.value < 2) return;
+      actionBudget.value -= 2;
+      runStrategy(activeStrategy.value);
+      score.value += 80;
+      toast('info', 'Auto-balance', `Re-ran ${activeStrategy.value} assignor`);
+    }
+
+    function addConsumer() {
+      if (consumers.length >= 8) return;
+      const c = makeConsumer();
+      consumers.push(c);
+      logEvent('info', 'JOIN', `<b class="accent">${c.name}</b> joined group (host: ${c.host})`);
+      toast('info', 'Consumer joined', c.name);
+      runStrategy(activeStrategy.value);
+    }
+    function removeConsumer() {
+      if (consumers.length <= 2) return;
+      const last = consumers[consumers.length - 1];
+      logEvent('warn', 'LEAVE', `<b>${last.name}</b> left gracefully · ${last.partitions.length} partitions to reassign`);
+      toast('warn', 'Consumer left', last.name);
+      consumers.splice(consumers.length - 1, 1);
+      runStrategy(activeStrategy.value);
+    }
+
+    function triggerFailure() {
+      const choice = Math.random();
+      if (choice < 0.5) {
+        // broker down
+        const alive = brokers.filter(b => b.healthy);
+        if (alive.length <= 2) return;
+        const victim = alive[Math.floor(Math.random() * alive.length)];
+        victim.healthy = false;
+        failuresHandled.value++;
+        // reassign partitions led by victim
+        partitions.forEach(p => {
+          if (p.broker === victim.id) {
+            const survivors = p.isr.filter(r => brokers.find(b => b.id === r && b.healthy));
+            if (survivors.length > 0) p.broker = survivors[0];
+            else {
+              const anyAlive = brokers.filter(b => b.healthy)[0];
+              if (anyAlive) p.broker = anyAlive.id;
+            }
+            p.isr = p.isr.filter(r => r !== victim.id);
+          }
+        });
+        logEvent('bad', 'BROKER DOWN', `<b class="bad">B${victim.id}</b> went dark · ISR re-election in progress`);
+        toast('bad', 'Broker failure', `B${victim.id} is offline`);
+      } else {
+        // consumer crash
+        const alive = consumers.filter(c => !c.failed);
+        if (alive.length <= 2) return;
+        const victim = alive[Math.floor(Math.random() * alive.length)];
+        victim.failed = true;
+        failuresHandled.value++;
+        const orphaned = victim.partitions.slice();
+        victim.partitions = [];
+        // redistribute orphaned
+        const survivors = consumers.filter(c => !c.failed);
+        orphaned.forEach((pid, i) => survivors[i % survivors.length].partitions.push(pid));
+        logEvent('bad', 'CONSUMER', `<b class="bad">${victim.name}</b> crashed · ${orphaned.length} partitions reassigned`);
+        toast('bad', 'Consumer crashed', victim.name);
+      }
+    }
+
+    function toggleBroker(bid) {
+      const b = brokers.find(x => x.id === bid);
+      if (!b) return;
+      b.healthy = !b.healthy;
+      if (b.healthy) {
+        logEvent('ok', 'BROKER UP', `<b class="ok">B${b.id}</b> recovered`);
+        toast('ok', 'Broker online', `B${b.id} is back`);
+      } else {
+        logEvent('bad', 'BROKER DOWN', `<b class="bad">B${b.id}</b> manually taken offline`);
+        toast('bad', 'Broker offline', `B${b.id} down`);
+      }
+    }
+
+    function createTopic() {
+      const n = prompt('Topic name', `events-${topics.length}`);
+      if (!n) return;
+      if (topics.find(t => t.name === n)) return toast('warn', 'Exists', 'Topic already exists');
+      topics.push({
+        name: n,
+        partitionCount: defaultPartitions.value,
+        rf: defaultRF.value,
+        retention: 24,
+        cleanup: 'delete',
+        tps: 0,
+        totalMessages: 0,
+      });
+      rebuildPartitions();
+      runStrategy(activeStrategy.value);
+      logEvent('info', 'TOPIC', `Created <b class="accent">${n}</b> · ${defaultPartitions.value} partitions · RF ${defaultRF.value}`);
+      toast('info', 'Topic created', n);
+    }
+    function deleteTopic(name) {
+      if (topics.length <= 1) return;
+      const i = topics.findIndex(t => t.name === name);
+      if (i === -1) return;
+      topics.splice(i, 1);
+      rebuildPartitions();
+      runStrategy(activeStrategy.value);
+      logEvent('warn', 'TOPIC', `Deleted <b>${name}</b>`);
+    }
+
+    function resetAll() {
+      running.value = false;
+      score.value = 0;
+      level.value = 1;
+      wave.value = 1;
+      round.value = 1;
+      waveTimer.value = 20;
+      actionBudget.value = maxBudget.value;
+      checkpointCount.value = 0;
+      offsetsPersisted.value = 0;
+      rebalanceCount.value = 0;
+      failuresHandled.value = 0;
+      recentCheckpoints.value = [];
+      generation.value = 1;
+      lagHistory.value = [];
+      thrHistory.value = [];
+      peakLag.value = 0;
+      peakThroughput.value = 0;
+      events.value = [];
+      brokers.forEach(b => b.healthy = true);
+      nextPartitionId = 1;
+      nextConsumerId = 1;
+      rebuildPartitions();
+      assignInitial();
+      logEvent('info', 'RESET', 'Run cleared · arena rebuilt');
+    }
+
+    // =====================================================================
+    // TICK LOOP
+    // =====================================================================
+    let tickHandle = null;
+    let lastTick = Date.now();
+
+    function tick() {
+      const now = Date.now();
+      const dt = (now - lastTick) / 1000;
+      lastTick = now;
+      if (!running.value) return;
+
+      // produce on each partition
+      const healthyBrokersArr = brokers.filter(b => b.healthy);
+      const healthyFactor = Math.max(0.3, healthyBrokersArr.length / brokers.length);
+      partitions.forEach(p => {
+        const br = brokers.find(b => b.id === p.broker);
+        if (!br || !br.healthy) return;
+        const perPartTps = (throughput.value / Math.max(1, partitions.length)) * (0.7 + Math.random() * 0.6);
+        p.tps = perPartTps;
+        p.offset += perPartTps * dt;
+        // consumer catches up (based on owner presence & budget)
+        const owner = consumers.find(c => c.partitions.includes(p.pid) && !c.failed);
+        if (owner) {
+          const catchupRate = perPartTps * (0.7 + Math.random() * 0.4) * healthyFactor;
+          p.committed = Math.min(p.offset, p.committed + catchupRate * dt);
+        }
+        p.lag = Math.max(0, p.offset - p.committed);
+      });
+
+      // topic stats
+      topics.forEach(t => {
+        const ps = partitions.filter(p => p.topic === t.name);
+        t.tps = ps.reduce((s, p) => s + p.tps, 0);
+        t.totalMessages += t.tps * dt;
+      });
+
+      // broker load
+      brokers.forEach(b => {
+        const leadCount = partitions.filter(p => p.broker === b.id).length;
+        b.load = Math.min(98, 15 + leadCount * 8 + Math.random() * 5);
+      });
+
+      // action budget regen
+      budgetAccum.value += dt;
+      const regenInterval = budgetRegen.value - (level.value - 1) * 0.1;
+      if (budgetAccum.value >= regenInterval && actionBudget.value < maxBudget.value) {
+        actionBudget.value++;
+        budgetAccum.value = 0;
+      }
+
+      // wave timer
+      waveTimer.value -= dt;
+      if (waveTimer.value <= 0) {
+        advanceWave();
+      }
+
+      // chaos timer
+      chaosTimer.value -= dt;
+      if (chaosTimer.value <= 0) {
+        if (difficulty.value !== 'easy' && Math.random() < 0.7) triggerFailure();
+        chaosTimer.value = chaosFreq.value + (Math.random() - 0.5) * 10;
+      }
+
+      // histories
+      lagHistory.value.push(totalLag.value);
+      if (lagHistory.value.length > 60) lagHistory.value.shift();
+      thrHistory.value.push(throughput.value);
+      if (thrHistory.value.length > 60) thrHistory.value.shift();
+      if (totalLag.value > peakLag.value) peakLag.value = totalLag.value;
+      if (throughput.value > peakThroughput.value) peakThroughput.value = throughput.value;
+
+      // scoring (per-tick)
+      score.value -= (totalLag.value / 1000) * 0.6 * dt;
+      score.value += fairnessIndex.value * fairnessIndex.value * 2 * dt;
+      if (score.value < 0) score.value = 0;
+
+      // gameover guard: if lag blows past 10× cap for too long
+      if (totalLag.value > throughputCap.value * 15) {
+        endRound(false);
+      }
+    }
+
+    function advanceWave() {
+      if (wave.value < maxWave.value) {
+        wave.value++;
+        waveTimer.value = 20;
+        logEvent('warn', 'WAVE', `Wave <b class="accent">${wave.value}</b> — producer pressure increased`);
+        toast('warn', `Wave ${wave.value}`, currentWaveName.value);
+        // chance to trigger chaos
+        if (Math.random() < 0.4) setTimeout(() => triggerFailure(), 2000);
+      } else {
+        endRound(true);
+      }
+    }
+
+    function endRound(survived) {
+      const runId = runHistory.value.length + 1;
+      const dur = Math.floor((Date.now() - runStartT.value) / 1000);
+      runHistory.value.unshift({
+        id: runId, t: Date.now(), durationS: dur, waves: wave.value,
+        score: Math.floor(score.value), strategy: activeStrategy.value,
+      });
+      if (survived) {
+        logEvent('ok', 'ROUND', `<b class="ok">ROUND ${round.value} CLEARED</b> — level up!`);
+        toast('ok', `Round ${round.value} cleared`, 'Advancing to next level');
+        level.value++;
+        round.value++;
+        wave.value = 1;
+        waveTimer.value = 20;
+        modal.value = {
+          title: `🏆 Round ${round.value - 1} cleared`,
+          body: `You handled ${rebalanceCount.value} rebalances and persisted ${fmt(offsetsPersisted.value)} offsets. Level ${level.value} begins with +35% throughput pressure.`,
+          primary: 'Bring it on',
+        };
+      } else {
+        running.value = false;
+        logEvent('bad', 'GAME OVER', `<b class="bad">CLUSTER DEGRADED</b> · lag exceeded recovery threshold`);
+        toast('bad', 'Game over', `Final score: ${fmt(score.value)}`);
+        modal.value = {
+          title: '💥 Cluster degraded',
+          body: `Consumer lag grew past recovery. Final score: ${fmt(score.value)}. Best move: commit checkpoints more aggressively during wave surges, and use cooperative-sticky to avoid stop-the-world rebalances.`,
+          primary: 'Retry',
+        };
+      }
+    }
+
+    // =====================================================================
+    // KEYBOARD
+    // =====================================================================
+    function onKey(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      const k = e.key.toLowerCase();
+      if (k === ' ') { e.preventDefault(); commitCheckpoint(); }
+      else if (k === 'p') toggleRun();
+      else if (k === 'b') autoBalance();
+      else if (k === '+' || k === '=') addConsumer();
+      else if (k === '-') removeConsumer();
+      else if (k === 'x') triggerFailure();
+      else if (k === 'r') resetAll();
+      else if (k === '1') activeTab.value = 'arena';
+      else if (k === '2') activeTab.value = 'metrics';
+      else if (k === '3') activeTab.value = 'strategy';
+      else if (k === '4') activeTab.value = 'topics';
+      else if (k === '5') activeTab.value = 'leaderboard';
+      else if (k === '?' || k === '/') activeTab.value = 'tutorial';
+    }
+
+    // =====================================================================
+    // LIFECYCLE
+    // =====================================================================
+    onMounted(() => {
+      rebuildPartitions();
+      assignInitial();
+      window.addEventListener('keydown', onKey);
+
+      // Populate seed events
+      logEvent('info', 'BOOT', `Cluster initialized · ${brokers.length} brokers · ${topics.length} topics · ${partitions.length} partitions`);
+      logEvent('info', 'GROUP', `Consumer group <b class="accent">grp-${groupName.value}</b> formed · generation 1`);
+      logEvent('info', 'META', `Default assignor: <b class="accent">cooperative-sticky</b> · acks=${producerAcks.value} · ISR min=${minISR.value}`);
+
+      // Start ticker
+      const tickMs = () => 1000 / tickRate.value;
+      function schedule() {
+        tickHandle = setTimeout(() => { tick(); schedule(); }, tickMs());
+      }
+      schedule();
+
+      // auto-start after 1s for immediate interactivity
+      setTimeout(() => {
+        if (!running.value) {
+          running.value = true;
+          runStartT.value = Date.now();
+          logEvent('ok', 'AUTO', 'Auto-started · press P to pause · Space to checkpoint');
+          toast('info', 'Welcome', 'Auto-started. Press P to pause.');
+        }
+      }, 900);
+    });
+    onUnmounted(() => {
+      if (tickHandle) clearTimeout(tickHandle);
+      window.removeEventListener('keydown', onKey);
+    });
+
+    // auto-scroll logs
+    watch(events, () => {
+      nextTick(() => {
+        if (logEl.value) logEl.value.scrollTop = 0;
+      });
+    });
+
+    return {
+      // state
+      activeTab, tabs, running, level, wave, maxWave, round, waveTimer, score,
+      actionBudget, maxBudget, checkpointCost, checkpointCount, offsetsPersisted,
+      rebalanceCount, failuresHandled, recentCheckpoints, generation, groupName,
+      brokers, healthyBrokers, topics, partitions, consumers, events,
+      dragOverConsumer, modal, toasts, strategies, activeStrategy,
+      sessionTimeoutS, heartbeatS, maxPollS, rebalanceTimeoutS, autoCommit,
+      cooperativeRebalance, stickyAffinity, defaultRF, defaultPartitions,
+      minISR, producerAcks, compression, tickRate, soundOn, toastsOn,
+      chaosFreq, difficulty, logEl, runHistory,
+      peakLag, peakThroughput, lagHistory, thrHistory,
+      // computed
+      totalLag, hotPartitions, throughput, throughputCap, throughputPct, currentWaveName,
+      fairnessIndex, loadStdDev, avgLoadY, lagPenalty, fairnessBonus, speedBonus,
+      checkpointBonus, lagClass, scoreProgress, avgLag,
+      lagLinePoly, lagLinePolyStroke, thrLinePoly, thrLinePolyStroke,
+      sortedLeaderboard,
+      // methods
+      toggleRun, commitCheckpoint, autoBalance, addConsumer, removeConsumer,
+      triggerFailure, toggleBroker, createTopic, deleteTopic, resetAll,
+      selectStrategy, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop,
+      brokerPos, consumerLoad, consumerLag, consumerLagPct, getPartition,
+      partitionHeat, watermarkPct, ownerName, ownerShort, heatmap, heatColor,
+      fmt, fmtShort, formatTime, toastIcon,
+    };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>
