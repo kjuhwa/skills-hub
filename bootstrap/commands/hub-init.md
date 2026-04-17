@@ -49,13 +49,34 @@ One-time setup for using skills hub commands in this project (or globally). Run 
    - Read `~/.claude/skills-hub/bootstrap.json` if present → show installed command version.
    - If missing, create with `{ "installed_version": "unknown", "installed_at": "<now>" }`.
 
-7. **Report**
+7. **Install update-check hook**
+   - Create `~/.claude/skills-hub/check-updates.sh` — a script that checks for bootstrap version updates and stale cache (>24h) using local git data only (no network).
+   - Read `~/.claude/settings.json` and check if a `SessionStart` hook for `check-updates.sh` already exists.
+   - If missing, merge a `SessionStart` hook entry into `~/.claude/settings.json`:
+     ```json
+     {
+       "hooks": {
+         "SessionStart": [{
+           "hooks": [{
+             "type": "command",
+             "command": "bash ~/.claude/skills-hub/check-updates.sh 2>/dev/null || true",
+             "timeout": 10
+           }]
+         }]
+       }
+     }
+     ```
+   - **Never replace existing hooks** — merge into the existing `SessionStart` array if one exists.
+   - If already present, report `[OK]` and skip.
+
+8. **Report**
    ```
    hub-init complete:
      Remote cache:   [OK] ~/.claude/skills-hub/remote/ (abc1234, 2h ago)
      Registry:       [OK] v2 (124 skills, 87 knowledge)
      Knowledge dirs: [OK] 5 categories
      Draft dirs:     [OK] .skills-draft/, .knowledge-draft/
+     Update hook:    [OK] SessionStart hook in ~/.claude/settings.json
      Bootstrap:      v1.2.0
      
    Next: /hub-install <keyword> or /hub-search-skills <keyword>
