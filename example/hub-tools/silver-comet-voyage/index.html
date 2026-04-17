@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Silver Comet Voyage</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>Silver Comet Voyage</h1>
+  <p class="sub">Arrow keys to wander. Space to stitch. Dodge the silver.</p>
+</header>
+<main>
+  <section class="board-wrap">
+    <canvas id="board" width="560" height="560"></canvas>
+  </section>
+  <aside class="dash">
+    <div class="stat"><span>Turn</span><b id="turn">0</b></div>
+    <div class="stat"><span>Stars claimed</span><b id="claimed">0</b></div>
+    <div class="stat"><span>Constellations</span><b id="named">0</b></div>
+    <div class="stat"><span>Score</span><b id="score">0</b></div>
+    <div class="evlog">
+      <h3>Event Ledger</h3>
+      <ul id="evlist"></ul>
+    </div>
+    <button id="restart">new voyage</button>
+  </aside>
+</main>
+</body>
+</html>
