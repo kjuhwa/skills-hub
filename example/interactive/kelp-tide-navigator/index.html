@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><title>Kelp-Tide Navigator</title><link rel="stylesheet" href="style.css"/></head>
+<body>
+<div class="shell">
+  <aside class="status">
+    <h1>Kelp-Tide Navigator</h1>
+    <div class="gauge"><span>oxygen</span><div class="bar"><i id="gO2"></i></div></div>
+    <div class="gauge"><span>lantern-oil</span><div class="bar warm"><i id="gOil"></i></div></div>
+    <div class="gauge"><span>charts</span><div class="bar accent"><i id="gMap"></i></div></div>
+    <div class="stats">
+      <div><span>depth</span><b id="sDepth">0</b></div>
+      <div><span>current</span><b id="sCurrent">–</b></div>
+      <div><span>song</span><b id="sSong">—</b></div>
+      <div><span>pity</span><b id="sPity">0</b></div>
+    </div>
+    <div class="actions">
+      <button data-act="drift">drift (1)</button>
+      <button data-act="ride">ride song (2)</button>
+      <button data-act="chart">chart (3)</button>
+      <button data-act="refuel">light lantern (4)</button>
+    </div>
+    <div class="log" id="log"></div>
+  </aside>
+  <main class="field">
+    <canvas id="view"></canvas>
+    <div id="pulse" class="pulse"></div>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
