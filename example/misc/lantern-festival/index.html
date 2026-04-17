@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lantern Festival</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sky">
+  <canvas id="stage"></canvas>
+  <div class="hud">
+    <h1>Lantern Festival</h1>
+    <p>Click the sky to release a wish into the night.</p>
+    <div class="controls">
+      <label>Wish <input id="wish" type="text" maxlength="40" placeholder="May peace find you..."></label>
+      <button id="release">Release</button>
+      <button id="swarm">Release 20</button>
+    </div>
+    <div class="counter">Lanterns aloft: <span id="count">0</span></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

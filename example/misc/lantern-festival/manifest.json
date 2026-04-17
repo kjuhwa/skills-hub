@@ -1,0 +1,12 @@
+{
+  "slug": "lantern-festival",
+  "title": "Lantern Festival",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-17T00:26:13.680Z",
+  "source_project": "100-lantern-festival",
+  "author": "kjuhwa@nkia.co.kr"
+}
