@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Meadow Lantern Foundry</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="bar">
+  <h1>Meadow Lantern Foundry</h1>
+  <div class="hud">
+    <span>turn <b id="turn">0</b></span>
+    <span>quiet streak <b id="streak">0</b></span>
+    <span>cloud pressure <b id="pressure">0</b></span>
+    <span>glow pool <b id="glow">0</b></span>
+    <span id="phase" class="phase">dusk</span>
+  </div>
+</header>
+<main>
+  <section class="board">
+    <canvas id="field" width="840" height="460"></canvas>
+    <div class="actions">
+      <button data-act="light">Light lantern (L)</button>
+      <button data-act="wind">Wind hummingbird (W)</button>
+      <button data-act="hush">Hush cloud (H)</button>
+      <button data-act="end">End turn (Enter)</button>
+      <button data-act="reset">Reset (R)</button>
+    </div>
+  </section>
+  <aside class="log">
+    <h2>Turn log</h2>
+    <ol id="log"></ol>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
