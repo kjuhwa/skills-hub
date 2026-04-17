@@ -1,0 +1,12 @@
+{
+  "slug": "broker-rebalance-arena",
+  "title": "Broker Rebalance Arena",
+  "stack": [
+    "vue"
+  ],
+  "created_at": "2026-04-17T16:15:07.543Z",
+  "source_project": "21-broker-rebalance-arena",
+  "author": "kjuhwa@nkia.co.kr",
+  "keyword": "kafka partition offset consumer lag checkpoint watermark broker rebalance",
+  "cycle": 1
+}
