@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Origami Crane Constellation Atlas</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header class="topbar">
+  <h1>Origami Crane Constellation Atlas</h1>
+  <div class="legend">
+    <span class="dot crane"></span>crane
+    <span class="dot lantern"></span>lantern
+    <span class="dot star"></span>star
+    <kbd>space</kbd> pause · <kbd>r</kbd> reseed · <kbd>click</kbd> inspect
+  </div>
+</header>
+<main>
+  <section class="stage" id="stage">
+    <canvas id="sky"></canvas>
+    <svg id="overlay" xmlns="http://www.w3.org/2000/svg"></svg>
+    <aside id="tooltip" class="tooltip" hidden></aside>
+  </section>
+  <section class="panel">
+    <div class="districts" id="districts"></div>
+    <div class="inspector" id="inspector">
+      <h2>Unfolded scroll</h2>
+      <p class="hint">Click a crane to unfold the skill it carries. Click a lantern to read the pitfall it warded off.</p>
+    </div>
+  </section>
+</main>
+<footer><small>dual-layer canvas+svg · seeded procedural corpus · 9-district consistent hash ring</small></footer>
+<script src="app.js"></script>
+</body>
+</html>
