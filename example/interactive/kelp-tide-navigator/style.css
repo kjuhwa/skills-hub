@@ -1,0 +1,28 @@
+:root{--bg:#0f1117;--surface:#1a1d27;--accent:#6ee7b7;--warm:#ffd6a5;--muted:#6b7290;--text:#d7dce8}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.45 ui-sans-serif,system-ui;overflow:hidden}
+.shell{display:grid;grid-template-columns:280px 1fr;height:100vh}
+.status{background:var(--surface);border-right:1px solid #232636;padding:14px;display:flex;flex-direction:column;gap:10px}
+.status h1{font-size:13px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin:0 0 8px}
+.gauge{font-size:11px;color:var(--muted)}
+.gauge .bar{height:6px;background:#10131b;border-radius:3px;overflow:hidden;margin-top:3px}
+.gauge .bar i{display:block;height:100%;background:linear-gradient(90deg,#4ec6a0,var(--accent));transition:width .3s}
+.gauge .warm i{background:linear-gradient(90deg,#c57b3a,var(--warm))}
+.gauge .accent i{background:linear-gradient(90deg,#3b5d7c,#8abaff)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.stats div{background:#10131b;border-radius:6px;padding:6px 8px}
+.stats span{display:block;font-size:10px;color:var(--muted)}
+.stats b{font-weight:500;color:var(--warm)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.actions button{background:#10131b;color:var(--text);border:1px solid #2a2f42;border-radius:6px;padding:8px;cursor:pointer;font:inherit;transition:box-shadow .15s}
+.actions button:hover{box-shadow:inset 0 0 0 1px var(--accent)}
+.actions button:disabled{opacity:.35;cursor:not-allowed}
+.log{flex:1;overflow:auto;background:#10131b;border-radius:6px;padding:8px;font-size:11px;line-height:1.5;margin-top:6px}
+.log .e{padding:2px 0;border-bottom:1px dashed #232636}
+.log .e.good{color:var(--accent)}
+.log .e.bad{color:#ff8a8a}
+.log .e.warm{color:var(--warm)}
+.field{position:relative}
+#view{display:block;width:100%;height:100%}
+.pulse{position:absolute;left:50%;top:50%;width:80px;height:80px;border-radius:50%;border:2px solid var(--accent);transform:translate(-50%,-50%) scale(0);opacity:0;transition:transform .3s,opacity .4s;pointer-events:none}
+.pulse.active{transform:translate(-50%,-50%) scale(2.8);opacity:.6}

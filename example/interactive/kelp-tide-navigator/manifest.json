@@ -1,0 +1,14 @@
+{
+  "slug": "kelp-tide-navigator",
+  "title": "Kelp-Tide Navigator",
+  "stack": [
+    "html",
+    "css",
+    "vanilla-js"
+  ],
+  "created_at": "2026-04-17T10:50:19.802Z",
+  "source_project": "18-kelp-tide-navigator",
+  "author": "kjuhwa@nkia.co.kr",
+  "keyword": "Deep-sea cartographers chart bioluminescent currents as whale songs ripple through drifting kelp forests and sunken temples",
+  "cycle": 1
+}
