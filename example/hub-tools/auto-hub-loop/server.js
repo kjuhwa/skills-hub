@@ -31,6 +31,9 @@ const state = {
 
 // ── Token Usage (accumulated from `claude -p --output-format json`) ──
 const tokenUsage = { input: 0, output: 0, cacheRead: 0, cacheCreation: 0, costUsd: 0, calls: 0, lastUpdated: null };
+function totalLoopTokens() {
+  return tokenUsage.input + tokenUsage.output + tokenUsage.cacheRead + tokenUsage.cacheCreation;
+}
 function addUsage(u, costUsd) {
   if (!u) return;
   tokenUsage.input += u.input_tokens || 0;
@@ -40,8 +43,45 @@ function addUsage(u, costUsd) {
   tokenUsage.costUsd += costUsd || 0;
   tokenUsage.calls += 1;
   tokenUsage.lastUpdated = Date.now();
-  broadcast({ type: 'usage', usage: tokenUsage });
+  broadcast({ type: 'usage', usage: tokenUsage, calibration: calibrationSnapshot() });
 }
+
+// ── 5h Limit Calibration (runtime estimation from account % delta) ──
+function readUsageCache() {
+  const home = process.env.HOME || process.env.USERPROFILE;
+  const p = path.join(home, '.claude', 'plugins', 'oh-my-claudecode', '.usage-cache-anthropic.json');
+  if (!fs.existsSync(p)) return null;
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')).data || null; } catch { return null; }
+}
+const calibration = { tokensPerPct: null, samples: [], lastPct: null, lastLoopTokens: null };
+function calibrationSnapshot() {
+  const total = totalLoopTokens();
+  const loop5hPercent = calibration.tokensPerPct ? total / calibration.tokensPerPct : null;
+  return { tokensPerPct: calibration.tokensPerPct, estimatedLimit: calibration.tokensPerPct ? calibration.tokensPerPct * 100 : null, loop5hPercent, samples: calibration.samples.length };
+}
+function calibrate() {
+  const data = readUsageCache();
+  if (!data || typeof data.fiveHourPercent !== 'number') return;
+  const pct = data.fiveHourPercent;
+  const total = totalLoopTokens();
+  if (calibration.lastPct != null) {
+    const dPct = pct - calibration.lastPct;
+    const dTokens = total - calibration.lastLoopTokens;
+    if (dPct < -2) calibration.samples = [];  // 5h window rollover — reset estimate
+    else if (dPct > 0.5 && dTokens > 0) {
+      calibration.samples.push({ dTokens, dPct });
+      if (calibration.samples.length > 10) calibration.samples.shift();
+      const sumT = calibration.samples.reduce((s, x) => s + x.dTokens, 0);
+      const sumP = calibration.samples.reduce((s, x) => s + x.dPct, 0);
+      calibration.tokensPerPct = sumT / sumP;
+    }
+  }
+  calibration.lastPct = pct;
+  calibration.lastLoopTokens = total;
+  broadcast({ type: 'usage', usage: tokenUsage, calibration: calibrationSnapshot() });
+}
+calibrate();
+setInterval(calibrate, 60000);
 
 // ── SSE Clients ──
 const clients = [];
@@ -1133,10 +1173,10 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API: auto-hub-loop exact token usage (accumulated from `claude -p --output-format json`)
+  // API: auto-hub-loop exact token usage + 5h-limit calibration estimate
   if (url.pathname === '/api/usage') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(tokenUsage));
+    res.end(JSON.stringify({ ...tokenUsage, calibration: calibrationSnapshot() }));
     return;
   }
 
