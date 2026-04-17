@@ -1,0 +1,12 @@
+{
+  "slug": "partition-lag-observatory",
+  "title": "Partition Lag Observatory",
+  "stack": [
+    "react"
+  ],
+  "created_at": "2026-04-17T16:14:50.912Z",
+  "source_project": "20-partition-lag-observatory",
+  "author": "kjuhwa@nkia.co.kr",
+  "keyword": "kafka partition offset consumer lag checkpoint watermark broker rebalance",
+  "cycle": 1
+}
