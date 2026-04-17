@@ -3862,6 +3862,50 @@
         "sirius"
       ],
       "extracted_at": "2026-04-16"
+    },
+    "springdoc-dto-schema-orphan-when-unexposed": {
+      "category": "pitfall",
+      "scope": "global",
+      "path": "~/.claude/skills-hub/knowledge/pitfall/springdoc-dto-schema-orphan-when-unexposed.md",
+      "source": {
+        "kind": "commit",
+        "ref": "729ad3af82bb278b9083600d5caefe9c10702608"
+      },
+      "confidence": "high",
+      "linked_skills": [
+        "swagger-ai-optimization"
+      ],
+      "tags": [
+        "springdoc",
+        "openapi",
+        "java",
+        "schema",
+        "swagger-ai-optimization"
+      ],
+      "extracted_at": "2026-04-17"
+    },
+    "python-regex-dotall-spans-java-method-blocks": {
+      "category": "pitfall",
+      "scope": "global",
+      "path": "~/.claude/skills-hub/knowledge/pitfall/python-regex-dotall-spans-java-method-blocks.md",
+      "source": {
+        "kind": "commit",
+        "ref": "88dff45a5adff6cbbc56f2757c1559d5981bc161"
+      },
+      "confidence": "high",
+      "linked_skills": [
+        "swagger-ai-optimization",
+        "bucket-parallel-java-annotation-dispatch",
+        "parallel-bulk-annotation"
+      ],
+      "tags": [
+        "python",
+        "regex",
+        "java",
+        "annotation-batch",
+        "swagger-ai-optimization"
+      ],
+      "extracted_at": "2026-04-17"
     }
   }
 }
