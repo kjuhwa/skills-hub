@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Velvet Dusk Atlas</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="bar">
+  <h1>Velvet Dusk Atlas</h1>
+  <div class="legend">
+    <span class="dot hum"></span>hummingbird
+    <span class="dot star"></span>star
+    <span class="dot lantern"></span>meadow lantern
+    <span id="state" class="state">drifting</span>
+  </div>
+</header>
+<main>
+  <canvas id="sky" width="1200" height="680"></canvas>
+  <aside class="panel">
+    <h2 id="title">Forgotten Constellation</h2>
+    <p id="lore">Hover a star to unfurl its velvet memory.</p>
+    <dl id="meta"></dl>
+    <div class="hotkeys">
+      <kbd>Space</kbd> pause · <kbd>C</kbd> cycle · <kbd>R</kbd> regenerate
+    </div>
+  </aside>
+</main>
+<footer class="foot">
+  <span>Clockwork hummingbirds · velvet dusk · drifting clouds</span>
+  <span id="fps">0 fps</span>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
