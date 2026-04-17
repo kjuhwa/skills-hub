@@ -401,15 +401,27 @@ Relevant knowledge/pitfalls to respect (${allKnowledge.length} total):
 ${knowBlock}
 
 
-Generate exactly 3 apps that take this theme from THREE FUNDAMENTALLY DIFFERENT ANGLES (not 3 variations of the same idea):
+Generate exactly 3 apps that take this theme from THREE FUNDAMENTALLY DIFFERENT ANGLES.
+Each app MUST have a COMPLETELY DIFFERENT visual style, color palette, layout, and rendering technology:
 
-  App 1: a VISUALIZATION/EXPLORER — interactive view over generated data (graph, map, timeline, canvas scene)
-  App 2: a SIMULATION/GAME — stateful mechanic with user agency (physics, turn-based, rhythm, puzzle)
-  App 3: a TOOL/CALCULATOR — practical utility (converter, generator, analyzer, composer)
+  App 1: a VISUALIZATION/EXPLORER — Canvas 2D rendering, animated particles/nodes
+    Style: deep ocean palette (--bg #0a0e1a, --surface #111a2e, --accent #00d4ff), full-bleed canvas, floating HUD overlay panels
+    Tech: Canvas 2D API, requestAnimationFrame loop, mouse/touch interaction on canvas
+    Layout: single immersive canvas with translucent overlay controls
+
+  App 2: a SIMULATION/GAME — SVG-based with CSS Grid dashboard layout
+    Style: warm amber/copper palette (--bg #1a1410, --surface #2a2018, --accent #f0a050), card-based grid, rounded corners, subtle shadows
+    Tech: SVG elements with SMIL or JS animation, CSS Grid/Flexbox multi-panel layout, Web Audio API for sound
+    Layout: multi-panel dashboard with sidebar controls, main SVG viewport, and bottom stats bar
+
+  App 3: a TOOL/CALCULATOR — pure DOM with terminal/retro aesthetic
+    Style: green-on-black terminal palette (--bg #0a0a0a, --surface #1a1a1a, --accent #33ff33), monospace font, scanline effect, blinking cursor
+    Tech: DOM manipulation only (no canvas/SVG), CSS animations, localStorage for state persistence
+    Layout: split-pane with command input area, scrollable output log, and fixed header with tabs
 
 Creative naming rules:
 - Each app name must be EVOCATIVE and UNIQUE — do NOT use the pattern "<keyword>-explorer" or "<keyword>-dashboard"
-- Combine the keyword metaphorically with a distinctive word (e.g. "${keyword}-atlas", "whispering-<keyword>", "<keyword>-kaleidoscope", "echo-<keyword>")
+- Combine the keyword metaphorically with a distinctive word (e.g. "${keyword}-atlas", "whispering-<keyword>", "${keyword}-kaleidoscope", "echo-<keyword>")
 - Kebab-case, 2–4 words
 
 Output format — for each of the 3 apps, emit EXACTLY this block, in order:
@@ -424,23 +436,24 @@ features:
 - <feature bullet 3>
 stack: html, css, vanilla-js
 ===FILE:index.html===
-<complete HTML>
+<complete HTML — include ALL CSS inline in <style> and ALL JS inline in <script>>
 ===END===
 ===FILE:style.css===
-<complete CSS>
+<complete CSS — must match the assigned palette and layout style above>
 ===END===
 ===FILE:app.js===
-<complete JS>
+<complete JS — must use the assigned rendering technology above>
 ===END===
 ===END-APP===
 
 Technical requirements:
-- Dark theme: --bg #0f1117, --surface #1a1d27, --accent #6ee7b7 (use CSS variables)
+- Each app MUST use its assigned color palette — DO NOT reuse the same palette across apps
+- Each app MUST use its assigned rendering tech (Canvas / SVG / DOM) — DO NOT mix
+- Each app MUST have a visually distinct layout — opening all 3 side-by-side must show 3 clearly different UIs
 - Zero dependencies, vanilla JS only, no external scripts
 - MINIMUM 500 lines total per app (aim for 700–1000+ lines) — each app must be substantial, equivalent to at least 10 printed pages of code
 - Include multiple interactive sections, panels, or views per app — not a single-screen demo
 - Immediately interactive on load with meaningful simulated/mock data
-- Use canvas or SVG where visualization helps
 - Modern UX: hover states, transitions, keyboard shortcuts where natural
 
 CRITICAL OUTPUT RULES:
