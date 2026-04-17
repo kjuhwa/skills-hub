@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Clockwork Apiary Atlas</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="bar">
+  <h1>Clockwork Apiary Atlas</h1>
+  <div class="controls">
+    <label>Seed<input id="seed" value="brass-beekeeper-dusk" /></label>
+    <label>Hives<input id="hives" type="range" min="6" max="32" value="14" /></label>
+    <label>Dusk<input id="dusk" type="range" min="0" max="100" value="58" /></label>
+    <button id="regen" type="button">Rewind</button>
+  </div>
+</header>
+<main>
+  <section class="stage">
+    <canvas id="field" width="1100" height="640" aria-label="apiary field"></canvas>
+    <svg id="overlay" viewBox="0 0 1100 640" aria-hidden="true"></svg>
+  </section>
+  <aside id="inspector" class="inspector" aria-live="polite">
+    <h2>Hover a hive</h2>
+    <p class="muted">Brass lattice nodes radiate luminous pollen toward neighbor combs. Hover for telemetry.</p>
+    <dl id="metrics"></dl>
+  </aside>
+</main>
+<footer class="legend">
+  <span class="dot queen"></span>Queen node
+  <span class="dot worker"></span>Worker comb
+  <span class="dot drone"></span>Drone winder
+  <span class="dot ember"></span>Pollen drift
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
