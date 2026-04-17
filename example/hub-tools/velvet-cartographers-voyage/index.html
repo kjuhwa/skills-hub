@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Velvet Cartographers' Voyage</title>
+<link rel="stylesheet" href="style.css"/>
+<!--
+## Skills applied
+`stateless-turn-combat-engine`, `immutable-action-event-log`, `status-effect-enum-system`, `gacha-soft-hard-pity`,
+`finite-state-machine-data-simulation`, `finite-state-machine-visualization-pattern`, `actor-model-data-simulation`,
+`chaos-engineering-data-simulation`, `saga-pattern-data-simulation`, `circuit-breaker-data-simulation`,
+`raft-consensus-data-simulation`, `retry-strategy-data-simulation`, `rate-limiter-data-simulation`,
+`bloom-filter-data-simulation`, `bulkhead-data-simulation`, `backpressure-data-simulation`,
+`distributed-tracing-data-simulation`, `crdt-data-simulation`, `event-sourcing-data-simulation`,
+`cdc-data-simulation`, `schema-registry-data-simulation`, `time-series-db-data-simulation`,
+`lantern-data-simulation`, `layered-risk-gates`, `adaptive-strategy-hot-swap`, `tiered-rebalance-schedule`,
+`frozen-detection-consecutive-count`, `baseline-historical-comparison-threshold`, `zustand-preset-manager`,
+`recoil-domain-atom-store`, `checkpoint`, `canary-release-data-simulation`, `divide-by-zero-rate-guard`,
+`cache-variance-ttl-jitter`, `command-query-data-simulation`, `pub-sub-data-simulation`, `materialized-view-data-simulation`,
+`idempotency-data-simulation`, `websocket-data-simulation`, `health-check-data-simulation`, `graphql-data-simulation`,
+`message-queue-data-simulation`, `sidecar-proxy-data-simulation`, `outbox-pattern-data-simulation`,
+`database-sharding-data-simulation`, `read-replica-data-simulation`, `load-balancer-data-simulation`,
+`bff-pattern-data-simulation`, `oauth-data-simulation`, `domain-driven-data-simulation`, `api-versioning-data-simulation`,
+`strangler-fig-data-simulation`, `hexagonal-architecture-data-simulation`, `connection-pool-data-simulation`,
+`dead-letter-queue-data-simulation`, `log-aggregation-data-simulation`, `consistent-hashing-data-simulation`,
+`blue-green-deploy-data-simulation`, `etl-data-simulation`, `data-pipeline-data-simulation`,
+`feature-flags-data-simulation`, `chaos-engineering-visualization-pattern`, `crdt-visualization-pattern`.
+
+## Knowledge respected
+`lantern-implementation-pitfall` (lantern fuel and ember decay tracked per-turn, no additive saturation on glow cells),
+`finite-state-machine-implementation-pitfall` (all transitions validated — undefined actions log a no-op event, never crash),
+`actor-model-implementation-pitfall` (no shared mutable state between turn resolver and renderer — state is cloned),
+`circuit-breaker-implementation-pitfall` (HALF_OPEN probe after storm uses explicit window, not a timer),
+`arbitrary-display-caps-hide-signal` (discovered-constellations list shows full count, scrollable).
+-->
+</head>
+<body>
+<header>
+  <h1>Velvet Cartographers' Voyage</h1>
+  <div class="stats">
+    <span>turn <b id="turn">1</b></span>
+    <span>🕯 lantern <b id="fuel">100</b></span>
+    <span>🖋 ink <b id="ink">40</b></span>
+    <span>✦ charted <b id="charted">0</b></span>
+    <span id="status" class="status"></span>
+  </div>
+  <div class="actions">
+    <button data-a="drift">drift (1)</button>
+    <button data-a="chart">chart (3)</button>
+    <button data-a="rest">rest</button>
+    <button data-a="signal">signal (5)</button>
+    <button id="reset" class="danger">new voyage</button>
+  </div>
+</header>
+<main>
+  <svg id="board" viewBox="-40 -40 680 600"></svg>
+  <section id="log">
+    <h2>event log</h2>
+    <ol id="events"></ol>
+  </section>
+</main>
+<footer>
+  <div id="constellations"></div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
