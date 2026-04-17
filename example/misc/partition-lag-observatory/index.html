@@ -1,0 +1,2795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Partition Lag Observatory</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg-2: #070a12;
+    --surface: #111a2e;
+    --surface-2: #162340;
+    --surface-3: #1c2d52;
+    --accent: #00d4ff;
+    --accent-2: #4fffd2;
+    --accent-3: #ff9ad1;
+    --text: #dfe9ff;
+    --text-dim: #8ba0c8;
+    --text-faint: #556b93;
+    --good: #3ee08f;
+    --warn: #ffcb5e;
+    --bad: #ff5e7a;
+    --crit: #ff3860;
+    --border: rgba(0, 212, 255, 0.16);
+    --border-strong: rgba(0, 212, 255, 0.42);
+    --glow: 0 0 24px rgba(0, 212, 255, 0.35);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background:
+      radial-gradient(1200px 700px at 10% -10%, rgba(0, 212, 255, 0.10), transparent 60%),
+      radial-gradient(900px 600px at 110% 110%, rgba(79, 255, 210, 0.08), transparent 60%),
+      linear-gradient(180deg, #070a12 0%, #0a0e1a 50%, #070a12 100%);
+    color: var(--text);
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 13px;
+    overflow: hidden;
+    letter-spacing: 0.01em;
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  .app {
+    display: grid;
+    grid-template-rows: 56px 1fr 28px;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ===================== TOP BAR ===================== */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    background: linear-gradient(180deg, rgba(17, 26, 46, 0.96) 0%, rgba(10, 14, 26, 0.92) 100%);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    z-index: 20;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+  }
+
+  .brand .logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background:
+      radial-gradient(circle at 30% 30%, #00d4ff 0%, #0077aa 60%, transparent 70%),
+      linear-gradient(135deg, #0c1e36 0%, #162340 100%);
+    position: relative;
+    box-shadow: 0 0 18px rgba(0, 212, 255, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .brand .logo::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(0, 212, 255, 0.6);
+    border-radius: 5px;
+    clip-path: polygon(0 35%, 30% 35%, 30% 0, 70% 0, 70% 65%, 100% 65%, 100% 100%, 0 100%);
+  }
+
+  .brand .title {
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .brand .subtitle {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .topbar .cluster-meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+  }
+
+  .topbar .meta-pill {
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    background: rgba(0, 212, 255, 0.04);
+    border-radius: 999px;
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .topbar .meta-pill b {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .led {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--good);
+    box-shadow: 0 0 8px var(--good);
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+  .led.warn { background: var(--warn); box-shadow: 0 0 8px var(--warn); }
+  .led.bad { background: var(--bad); box-shadow: 0 0 8px var(--bad); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  /* ===================== MAIN GRID ===================== */
+  .main {
+    display: grid;
+    grid-template-columns: 240px 1fr 300px;
+    overflow: hidden;
+  }
+
+  /* ===================== SIDEBAR ===================== */
+  .sidebar {
+    background: linear-gradient(180deg, rgba(17, 26, 46, 0.7), rgba(10, 14, 26, 0.8));
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 14px 12px 20px;
+  }
+
+  .sidebar h3 {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    margin: 16px 6px 8px;
+    font-weight: 600;
+  }
+
+  .sidebar h3:first-child {
+    margin-top: 0;
+  }
+
+  .tab-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    text-align: left;
+    font-size: 12.5px;
+    transition: all 0.15s ease;
+  }
+
+  .tab-btn:hover {
+    background: rgba(0, 212, 255, 0.06);
+    color: var(--text);
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(90deg, rgba(0, 212, 255, 0.18), rgba(0, 212, 255, 0.04));
+    color: var(--accent);
+    border-color: var(--border-strong);
+    box-shadow: inset 0 0 0 1px rgba(0, 212, 255, 0.1);
+  }
+
+  .tab-btn .tab-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+  }
+
+  .tab-btn .tab-kbd {
+    margin-left: auto;
+    font-size: 10px;
+    color: var(--text-faint);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  .group-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .group-card {
+    border: 1px solid var(--border);
+    background: rgba(17, 26, 46, 0.6);
+    border-radius: 8px;
+    padding: 9px 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .group-card:hover {
+    border-color: var(--border-strong);
+    background: rgba(22, 35, 64, 0.75);
+  }
+
+  .group-card.active {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.12), rgba(0, 212, 255, 0.02));
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.12);
+  }
+
+  .group-card .group-name {
+    font-size: 12.5px;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .group-card .group-stats {
+    font-size: 10.5px;
+    color: var(--text-dim);
+    display: flex;
+    gap: 10px;
+  }
+
+  .group-card .group-state {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  .group-state.stable { color: var(--good); background: rgba(62, 224, 143, 0.12); }
+  .group-state.rebalancing { color: var(--warn); background: rgba(255, 203, 94, 0.12); }
+  .group-state.dead { color: var(--bad); background: rgba(255, 94, 122, 0.12); }
+
+  /* ===================== CENTER PANEL ===================== */
+  .workspace {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px 10px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10, 14, 26, 0.7);
+  }
+
+  .panel-head h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .panel-head h2 .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+  }
+
+  .panel-head .sub {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .panel-head .actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chip {
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 11px;
+    border: 1px solid var(--border);
+    background: rgba(22, 35, 64, 0.5);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+
+  .chip:hover {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+
+  .chip.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0, 212, 255, 0.08);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.15);
+  }
+
+  .chip .kbd {
+    margin-left: 6px;
+    font-size: 9.5px;
+    opacity: 0.6;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  .workspace-body {
+    flex: 1;
+    overflow: auto;
+    padding: 16px 20px;
+  }
+
+  /* ===================== RIGHT SIDEBAR ===================== */
+  .rightbar {
+    border-left: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(17, 26, 46, 0.7), rgba(10, 14, 26, 0.8));
+    overflow-y: auto;
+    padding: 14px;
+  }
+
+  .rightbar h3 {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    margin: 16px 2px 8px;
+    font-weight: 600;
+  }
+
+  .rightbar h3:first-child { margin-top: 0; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stat {
+    background: rgba(17, 26, 46, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat .label {
+    font-size: 10px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .stat .value {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--accent);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+
+  .stat .unit {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-left: 4px;
+    font-weight: 400;
+    font-family: inherit;
+  }
+
+  .stat.warn .value { color: var(--warn); }
+  .stat.bad .value { color: var(--bad); }
+  .stat.good .value { color: var(--good); }
+
+  .stat .spark {
+    display: block;
+    margin-top: 6px;
+    width: 100%;
+    height: 22px;
+  }
+
+  /* ===================== LAG LANES ===================== */
+  .lanes-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .lane {
+    display: grid;
+    grid-template-columns: 72px 1fr 88px 100px;
+    gap: 10px;
+    align-items: center;
+    background: rgba(17, 26, 46, 0.5);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: all 0.15s ease;
+    cursor: pointer;
+  }
+
+  .lane:hover {
+    border-color: var(--border-strong);
+    background: rgba(22, 35, 64, 0.7);
+  }
+
+  .lane.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 14px rgba(0, 212, 255, 0.15);
+  }
+
+  .lane .p-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--text-dim);
+  }
+
+  .lane .p-num {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .lane canvas {
+    width: 100%;
+    height: 40px;
+    display: block;
+  }
+
+  .lane .lag-value {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    text-align: right;
+    font-weight: 600;
+  }
+
+  .lane .member-pill {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ===================== HEATMAP ===================== */
+  .heatmap-wrap {
+    background: rgba(17, 26, 46, 0.5);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px 18px;
+    margin-bottom: 12px;
+  }
+
+  .heatmap-grid {
+    display: grid;
+    gap: 3px;
+    margin-top: 14px;
+  }
+
+  .heatmap-cell {
+    border-radius: 3px;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .heatmap-cell:hover {
+    transform: scale(1.25);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+    z-index: 3;
+  }
+
+  .heatmap-cell.filtered {
+    opacity: 0.12;
+    filter: grayscale(0.7);
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 10px;
+  }
+
+  .slider-row label {
+    font-size: 11px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--good) 0%, var(--warn) 50%, var(--bad) 100%);
+    border-radius: 4px;
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--text);
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--text);
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    cursor: pointer;
+  }
+
+  /* ===================== TIMELINE ===================== */
+  .timeline-wrap {
+    background: rgba(17, 26, 46, 0.5);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    position: relative;
+  }
+
+  .timeline-canvas-wrap {
+    position: relative;
+    margin-top: 8px;
+  }
+
+  .timeline-canvas-wrap canvas {
+    display: block;
+    width: 100%;
+    height: 260px;
+    border-radius: 6px;
+    background: rgba(7, 10, 18, 0.6);
+  }
+
+  .event-list {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 180px;
+    overflow: auto;
+  }
+
+  .event-item {
+    display: grid;
+    grid-template-columns: 62px 22px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 10px;
+    background: rgba(22, 35, 64, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11.5px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+
+  .event-item:hover {
+    border-color: var(--border-strong);
+    background: rgba(22, 35, 64, 0.7);
+  }
+
+  .event-item .time {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    color: var(--text-faint);
+    font-size: 10.5px;
+  }
+
+  .event-item .type-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .event-item .desc b {
+    color: var(--accent);
+  }
+
+  .event-item .partition-count {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    color: var(--text-dim);
+    font-size: 10.5px;
+  }
+
+  /* ===================== TOOLTIP ===================== */
+  .tooltip {
+    position: fixed;
+    z-index: 1000;
+    padding: 10px 12px;
+    background: rgba(7, 10, 18, 0.96);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    pointer-events: none;
+    min-width: 220px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 212, 255, 0.15);
+    font-size: 11.5px;
+  }
+
+  .tooltip .tt-title {
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+  }
+
+  .tooltip .tt-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 0;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    gap: 12px;
+  }
+
+  .tooltip .tt-row .k {
+    color: var(--text-faint);
+    font-family: "Inter", sans-serif;
+    font-size: 10.5px;
+  }
+
+  .tooltip .tt-row .v {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .tooltip .tt-row .v.warn { color: var(--warn); }
+  .tooltip .tt-row .v.bad { color: var(--bad); }
+  .tooltip .tt-row .v.good { color: var(--good); }
+
+  /* ===================== STATUS BAR ===================== */
+  .statusbar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 18px;
+    background: rgba(7, 10, 18, 0.8);
+    border-top: 1px solid var(--border);
+    font-size: 10.5px;
+    color: var(--text-faint);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    letter-spacing: 0.04em;
+  }
+
+  .statusbar .sep {
+    opacity: 0.4;
+  }
+
+  .statusbar .hot {
+    color: var(--accent);
+  }
+
+  /* ===================== BROKERS ===================== */
+  .brokers-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .broker-card {
+    background: linear-gradient(135deg, rgba(22, 35, 64, 0.6) 0%, rgba(17, 26, 46, 0.6) 100%);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .broker-card.leader::before {
+    content: "LEADER";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--accent-2);
+    background: rgba(79, 255, 210, 0.1);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .broker-card h4 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .broker-card .broker-id {
+    font-size: 10.5px;
+    color: var(--text-faint);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .broker-card .broker-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .bar-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 60px;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .bar-row .bar-label {
+    color: var(--text-dim);
+  }
+
+  .bar-row .bar-track {
+    height: 6px;
+    background: rgba(0, 212, 255, 0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bar-row .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+    transition: width 0.4s ease;
+  }
+
+  .bar-row .bar-fill.warn {
+    background: linear-gradient(90deg, var(--warn) 0%, var(--bad) 100%);
+  }
+
+  .bar-row .bar-val {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    text-align: right;
+    color: var(--text);
+    font-size: 10.5px;
+  }
+
+  .broker-card .partitions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 12px;
+  }
+
+  .broker-card .p-chip {
+    font-size: 9.5px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+  }
+
+  /* ===================== CHECKPOINTS ===================== */
+  .checkpoint-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+  }
+
+  .checkpoint-table th {
+    text-align: left;
+    padding: 8px 10px;
+    color: var(--text-faint);
+    font-weight: 500;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .checkpoint-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.06);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+  }
+
+  .checkpoint-table tr:hover td {
+    background: rgba(0, 212, 255, 0.04);
+  }
+
+  .checkpoint-table .cell-mini-bar {
+    display: inline-block;
+    vertical-align: middle;
+    height: 4px;
+    width: 60px;
+    background: rgba(0, 212, 255, 0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-right: 8px;
+  }
+
+  .checkpoint-table .cell-mini-bar > div {
+    height: 100%;
+  }
+
+  /* ===================== WATERMARK GRAPH ===================== */
+  .big-canvas-wrap {
+    background: rgba(7, 10, 18, 0.5);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .big-canvas-wrap canvas {
+    display: block;
+    width: 100%;
+    height: 300px;
+    border-radius: 6px;
+  }
+
+  .legend-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--text-dim);
+    padding-left: 4px;
+  }
+
+  .legend-dot {
+    display: inline-block;
+    width: 14px;
+    height: 4px;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  /* ===================== MEMBER ASSIGNMENT ===================== */
+  .members-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .member-card {
+    border: 1px solid var(--border);
+    background: rgba(17, 26, 46, 0.5);
+    border-radius: 10px;
+    padding: 12px;
+    transition: all 0.15s ease;
+    cursor: pointer;
+  }
+
+  .member-card:hover {
+    border-color: var(--border-strong);
+  }
+
+  .member-card.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 14px rgba(0, 212, 255, 0.14);
+  }
+
+  .member-card .m-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .member-card .m-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .member-card .m-host {
+    font-size: 10px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+
+  .member-card .m-stats {
+    display: flex;
+    gap: 14px;
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .member-card .m-stats b {
+    color: var(--accent);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  .member-card .m-partitions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+
+  .member-card .mp-chip {
+    font-size: 9.5px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  /* ===================== SCROLLBAR ===================== */
+  ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(7, 10, 18, 0.4);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 212, 255, 0.22);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 212, 255, 0.45);
+  }
+
+  /* ===================== UTILS ===================== */
+  .small-caps {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 10px;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .spacer { flex: 1; }
+
+  /* ===================== ANIMATIONS ===================== */
+  @keyframes shine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  .flash-active {
+    animation: flash 0.6s ease 1;
+  }
+  @keyframes flash {
+    0% { background: rgba(0, 212, 255, 0.4); }
+    100% { background: transparent; }
+  }
+
+  .panel-help {
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 8px 12px;
+    background: rgba(0, 212, 255, 0.04);
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+
+  .panel-help b { color: var(--accent); }
+  .panel-help .kbd {
+    display: inline-block;
+    padding: 1px 5px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin: 0 2px;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect, useRef, useMemo, useCallback, useLayoutEffect } = React;
+
+// ============================================================
+// ============== DETERMINISTIC PRNG (seeded) =================
+// ============================================================
+function xorshift32(seed) {
+  let s = seed | 0 || 1;
+  return function() {
+    s ^= s << 13; s ^= s >>> 17; s ^= s << 5;
+    return ((s >>> 0) % 1_000_000) / 1_000_000;
+  };
+}
+
+function fnv1a(str) {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+// ============================================================
+// ====================== MOCK DATA ===========================
+// ============================================================
+const TOPIC = "payments.events";
+const PARTITION_COUNT = 24;
+const BROKER_COUNT = 5;
+
+const GROUP_DEFS = [
+  { id: "fraud-detector-v3",     display: "fraud-detector-v3",     state: "stable",      members: 6  },
+  { id: "ledger-replicator",     display: "ledger-replicator",     state: "rebalancing", members: 4  },
+  { id: "analytics-sink-pg",     display: "analytics-sink-pg",     state: "stable",      members: 3  },
+  { id: "notification-router",   display: "notification-router",   state: "stable",      members: 8  },
+  { id: "audit-log-archiver",    display: "audit-log-archiver",    state: "stable",      members: 2  },
+  { id: "ml-feature-pipeline",   display: "ml-feature-pipeline",   state: "rebalancing", members: 5  },
+  { id: "invoice-cdc",           display: "invoice-cdc",           state: "stable",      members: 3  },
+  { id: "metrics-aggregator",    display: "metrics-aggregator",    state: "dead",        members: 0  },
+];
+
+function buildBrokers() {
+  const brokers = [];
+  for (let i = 0; i < BROKER_COUNT; i++) {
+    brokers.push({
+      id: i,
+      host: `broker-${i}.obs.lan`,
+      rack: `rack-${String.fromCharCode(97 + (i % 3))}`,
+      inboundKbps: 4000 + Math.round(Math.random() * 2500),
+      outboundKbps: 3800 + Math.round(Math.random() * 2400),
+      cpu: 22 + Math.round(Math.random() * 40),
+      heap: 34 + Math.round(Math.random() * 42),
+      partitions: [],
+      isLeader: i === 2,
+    });
+  }
+  return brokers;
+}
+
+function buildPartitions(rand) {
+  const parts = [];
+  for (let p = 0; p < PARTITION_COUNT; p++) {
+    const base = 950_000 + Math.floor(rand() * 350_000);
+    const logEnd = base + Math.floor(rand() * 400_000);
+    const lagSeed = rand();
+    const committed = logEnd - Math.floor(lagSeed * lagSeed * 78_000);
+    parts.push({
+      id: p,
+      leader: p % BROKER_COUNT,
+      replicas: [p % BROKER_COUNT, (p + 1) % BROKER_COUNT, (p + 2) % BROKER_COUNT],
+      isr: [p % BROKER_COUNT, (p + 1) % BROKER_COUNT, (p + 2) % BROKER_COUNT],
+      logStart: base - 40_000,
+      logEnd: logEnd,
+      committed: committed,
+      throughput: 120 + Math.floor(rand() * 1800),
+      history: [],
+      checkpointTs: Date.now() - Math.floor(rand() * 120_000),
+    });
+  }
+  return parts;
+}
+
+function buildMembersForGroup(group, partitions, rand) {
+  if (group.state === "dead" || group.members === 0) return [];
+  const members = [];
+  for (let i = 0; i < group.members; i++) {
+    members.push({
+      id: `${group.id}-${i}`,
+      clientId: `${group.id.slice(0, 8)}-c${i}`,
+      host: `10.42.${i + 1}.${10 + Math.floor(rand() * 250)}`,
+      assigned: [],
+      heartbeatAt: Date.now() - Math.floor(rand() * 3_000),
+    });
+  }
+  for (let p = 0; p < partitions.length; p++) {
+    const owner = p % members.length;
+    members[owner].assigned.push(p);
+  }
+  return members;
+}
+
+function buildRebalanceEvents(rand) {
+  const types = [
+    { t: "rebalance.start",    color: "#ffcb5e", weight: 2 },
+    { t: "rebalance.complete", color: "#3ee08f", weight: 2 },
+    { t: "member.join",        color: "#00d4ff", weight: 3 },
+    { t: "member.leave",       color: "#ff9ad1", weight: 2 },
+    { t: "partition.revoke",   color: "#ff5e7a", weight: 1 },
+    { t: "partition.assign",   color: "#4fffd2", weight: 3 },
+  ];
+  const list = [];
+  const now = Date.now();
+  const span = 30 * 60 * 1000;
+  for (let i = 0; i < 42; i++) {
+    const type = types[Math.floor(rand() * types.length)];
+    const ts = now - Math.floor(rand() * span);
+    const group = GROUP_DEFS[Math.floor(rand() * GROUP_DEFS.length)].id;
+    const movedPartitions = [];
+    const moves = Math.floor(rand() * 5) + 1;
+    for (let m = 0; m < moves; m++) {
+      movedPartitions.push({
+        p: Math.floor(rand() * PARTITION_COUNT),
+        from: Math.floor(rand() * BROKER_COUNT),
+        to: Math.floor(rand() * BROKER_COUNT),
+      });
+    }
+    list.push({
+      id: `evt-${i}-${ts}`,
+      ts,
+      type: type.t,
+      color: type.color,
+      group,
+      moves: movedPartitions,
+      memberCount: 1 + Math.floor(rand() * 8),
+    });
+  }
+  list.sort((a, b) => a.ts - b.ts);
+  return list;
+}
+
+// ============================================================
+// ===================== UTILITIES ============================
+// ============================================================
+function fmtK(n) {
+  if (n == null) return "-";
+  if (n >= 1e9) return (n / 1e9).toFixed(2) + "B";
+  if (n >= 1e6) return (n / 1e6).toFixed(2) + "M";
+  if (n >= 1e3) return (n / 1e3).toFixed(2) + "K";
+  return String(Math.round(n));
+}
+
+function fmtNum(n) {
+  if (n == null) return "-";
+  return Number(n).toLocaleString();
+}
+
+function fmtAgo(ts) {
+  const diff = Date.now() - ts;
+  if (diff < 1000) return "just now";
+  if (diff < 60_000) return Math.floor(diff / 1000) + "s ago";
+  if (diff < 3_600_000) return Math.floor(diff / 60_000) + "m ago";
+  return Math.floor(diff / 3_600_000) + "h ago";
+}
+
+function fmtTime(ts) {
+  const d = new Date(ts);
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+
+function severityColor(lag, threshold) {
+  const t = threshold || 30000;
+  if (lag < t * 0.15) return "#3ee08f";
+  if (lag < t * 0.35) return "#8cd97a";
+  if (lag < t * 0.6)  return "#ffcb5e";
+  if (lag < t)        return "#ff9a5e";
+  if (lag < t * 1.5)  return "#ff5e7a";
+  return "#ff3860";
+}
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+// ============================================================
+// ==================== TOOLTIP CONTEXT =======================
+// ============================================================
+function Tooltip({ tip }) {
+  if (!tip) return null;
+  const style = {
+    left: Math.min(tip.x + 16, window.innerWidth - 280),
+    top: Math.min(tip.y + 16, window.innerHeight - 200),
+  };
+  return (
+    <div className="tooltip" style={style}>
+      <div className="tt-title">
+        <span>{tip.title}</span>
+        {tip.badge && <span style={{ color: tip.badgeColor || "var(--accent)" }}>{tip.badge}</span>}
+      </div>
+      {tip.rows.map((r, i) => (
+        <div className="tt-row" key={i}>
+          <span className="k">{r.k}</span>
+          <span className={"v " + (r.cls || "")}>{r.v}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ============================================================
+// =================== PARTITION LANE CANVAS ==================
+// ============================================================
+function PartitionLaneCanvas({ partition, threshold, animTick }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
+
+    const hist = partition.history;
+    if (!hist.length) return;
+
+    const padL = 6, padR = 8;
+    const innerW = w - padL - padR;
+    const innerH = h - 8;
+
+    let maxLogEnd = -Infinity, minCommitted = Infinity;
+    for (const s of hist) {
+      if (s.logEnd > maxLogEnd) maxLogEnd = s.logEnd;
+      if (s.committed < minCommitted) minCommitted = s.committed;
+    }
+    const range = Math.max(1, maxLogEnd - minCommitted + 500);
+
+    // baseline grid
+    ctx.strokeStyle = "rgba(0, 212, 255, 0.05)";
+    ctx.lineWidth = 1;
+    for (let i = 1; i < 4; i++) {
+      const y = 4 + (innerH * i) / 4;
+      ctx.beginPath();
+      ctx.moveTo(padL, y);
+      ctx.lineTo(padL + innerW, y);
+      ctx.stroke();
+    }
+
+    // committed band (filled area below)
+    ctx.beginPath();
+    for (let i = 0; i < hist.length; i++) {
+      const s = hist[i];
+      const x = padL + (i / (hist.length - 1 || 1)) * innerW;
+      const y = 4 + innerH - ((s.committed - minCommitted) / range) * innerH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.lineTo(padL + innerW, h - 2);
+    ctx.lineTo(padL, h - 2);
+    ctx.closePath();
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, "rgba(0, 212, 255, 0.32)");
+    grad.addColorStop(1, "rgba(0, 212, 255, 0.02)");
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // log-end line
+    ctx.beginPath();
+    for (let i = 0; i < hist.length; i++) {
+      const s = hist[i];
+      const x = padL + (i / (hist.length - 1 || 1)) * innerW;
+      const y = 4 + innerH - ((s.logEnd - minCommitted) / range) * innerH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = "#ff9ad1";
+    ctx.lineWidth = 1.25;
+    ctx.shadowColor = "rgba(255, 154, 209, 0.5)";
+    ctx.shadowBlur = 6;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // committed line
+    ctx.beginPath();
+    for (let i = 0; i < hist.length; i++) {
+      const s = hist[i];
+      const x = padL + (i / (hist.length - 1 || 1)) * innerW;
+      const y = 4 + innerH - ((s.committed - minCommitted) / range) * innerH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = "#4fffd2";
+    ctx.lineWidth = 1.25;
+    ctx.stroke();
+
+    // lag band fill between committed and log end
+    ctx.beginPath();
+    for (let i = 0; i < hist.length; i++) {
+      const s = hist[i];
+      const x = padL + (i / (hist.length - 1 || 1)) * innerW;
+      const y = 4 + innerH - ((s.logEnd - minCommitted) / range) * innerH;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    for (let i = hist.length - 1; i >= 0; i--) {
+      const s = hist[i];
+      const x = padL + (i / (hist.length - 1 || 1)) * innerW;
+      const y = 4 + innerH - ((s.committed - minCommitted) / range) * innerH;
+      ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = "rgba(255, 154, 209, 0.10)";
+    ctx.fill();
+
+    // moving head marker
+    const latest = hist[hist.length - 1];
+    const headX = padL + innerW;
+    const headY1 = 4 + innerH - ((latest.logEnd - minCommitted) / range) * innerH;
+    const headY2 = 4 + innerH - ((latest.committed - minCommitted) / range) * innerH;
+    ctx.fillStyle = "#ff9ad1";
+    ctx.beginPath();
+    ctx.arc(headX, headY1, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#4fffd2";
+    ctx.beginPath();
+    ctx.arc(headX, headY2, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+  }, [partition, threshold, animTick]);
+
+  return <canvas ref={ref} />;
+}
+
+// ============================================================
+// =================== WATERMARK BIG CHART ====================
+// ============================================================
+function WatermarkGraph({ partitions, selectedPartition, animTick, showAll }) {
+  const canvasRef = useRef(null);
+  const [hover, setHover] = useState(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
+
+    const padL = 56, padR = 16, padT = 20, padB = 30;
+    const iw = w - padL - padR;
+    const ih = h - padT - padB;
+
+    // background grid
+    ctx.strokeStyle = "rgba(0, 212, 255, 0.08)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 8; i++) {
+      const x = padL + (iw * i) / 8;
+      ctx.beginPath();
+      ctx.moveTo(x, padT);
+      ctx.lineTo(x, padT + ih);
+      ctx.stroke();
+    }
+    for (let i = 0; i <= 5; i++) {
+      const y = padT + (ih * i) / 5;
+      ctx.beginPath();
+      ctx.moveTo(padL, y);
+      ctx.lineTo(padL + iw, y);
+      ctx.stroke();
+    }
+
+    const list = showAll ? partitions : (selectedPartition != null ? [partitions[selectedPartition]] : partitions.slice(0, 4));
+
+    let minV = Infinity, maxV = -Infinity;
+    for (const p of list) {
+      for (const h of p.history) {
+        if (h.committed < minV) minV = h.committed;
+        if (h.logEnd > maxV) maxV = h.logEnd;
+      }
+    }
+    if (!isFinite(minV)) { minV = 0; maxV = 1; }
+    const rng = Math.max(1, maxV - minV);
+
+    // axis labels
+    ctx.fillStyle = "var(--text-faint)";
+    ctx.font = "10px JetBrains Mono, monospace";
+    ctx.textAlign = "right";
+    for (let i = 0; i <= 5; i++) {
+      const v = maxV - (rng * i) / 5;
+      const y = padT + (ih * i) / 5 + 3;
+      ctx.fillText(fmtK(v), padL - 6, y);
+    }
+    ctx.textAlign = "center";
+    for (let i = 0; i <= 8; i++) {
+      const x = padL + (iw * i) / 8;
+      ctx.fillText(`-${(8 - i) * 5}s`, x, padT + ih + 14);
+    }
+
+    // draw each partition
+    for (let idx = 0; idx < list.length; idx++) {
+      const p = list[idx];
+      if (!p.history.length) continue;
+
+      const palette = [
+        "#00d4ff", "#4fffd2", "#ff9ad1", "#ffcb5e",
+        "#ff5e7a", "#8cd97a", "#b98cff", "#7ae0ff",
+      ];
+      const col = palette[p.id % palette.length];
+      const isSelected = selectedPartition === p.id;
+
+      // lag shade
+      if (isSelected || !showAll) {
+        ctx.beginPath();
+        for (let i = 0; i < p.history.length; i++) {
+          const s = p.history[i];
+          const x = padL + (i / (p.history.length - 1 || 1)) * iw;
+          const y = padT + ih - ((s.logEnd - minV) / rng) * ih;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        for (let i = p.history.length - 1; i >= 0; i--) {
+          const s = p.history[i];
+          const x = padL + (i / (p.history.length - 1 || 1)) * iw;
+          const y = padT + ih - ((s.committed - minV) / rng) * ih;
+          ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = col + "22";
+        ctx.fill();
+      }
+
+      // log-end line
+      ctx.beginPath();
+      for (let i = 0; i < p.history.length; i++) {
+        const s = p.history[i];
+        const x = padL + (i / (p.history.length - 1 || 1)) * iw;
+        const y = padT + ih - ((s.logEnd - minV) / rng) * ih;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = col;
+      ctx.lineWidth = isSelected ? 2 : 1.1;
+      ctx.globalAlpha = isSelected || !showAll ? 1 : 0.65;
+      if (isSelected) {
+        ctx.shadowColor = col;
+        ctx.shadowBlur = 10;
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
+
+      // committed dashed line
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      for (let i = 0; i < p.history.length; i++) {
+        const s = p.history[i];
+        const x = padL + (i / (p.history.length - 1 || 1)) * iw;
+        const y = padT + ih - ((s.committed - minV) / rng) * ih;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = col;
+      ctx.lineWidth = isSelected ? 1.6 : 0.9;
+      ctx.globalAlpha = isSelected || !showAll ? 0.8 : 0.35;
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+    }
+
+    // hover line
+    if (hover) {
+      ctx.strokeStyle = "rgba(0, 212, 255, 0.7)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(hover.x, padT);
+      ctx.lineTo(hover.x, padT + ih);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }, [partitions, selectedPartition, animTick, hover, showAll]);
+
+  const onMove = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    setHover({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
+  return (
+    <div className="big-canvas-wrap">
+      <canvas
+        ref={canvasRef}
+        onMouseMove={onMove}
+        onMouseLeave={() => setHover(null)}
+      />
+      <div className="legend-row">
+        <span><span className="legend-dot" style={{ background: "#00d4ff" }} />Log-End Offset</span>
+        <span><span className="legend-dot" style={{ background: "#00d4ff", opacity: 0.4 }} />Committed Offset</span>
+        <span><span className="legend-dot" style={{ background: "#ff9ad1" }} />Gap = lag</span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// ================ REBALANCE TIMELINE CANVAS =================
+// ============================================================
+function RebalanceTimeline({ events, partitions, filter, onPickEvent }) {
+  const canvasRef = useRef(null);
+  const [hover, setHover] = useState(null);
+
+  const filtered = useMemo(() => {
+    return events.filter((e) => filter === "all" || e.type === filter);
+  }, [events, filter]);
+
+  const layout = useMemo(() => {
+    const now = Date.now();
+    const start = now - 30 * 60 * 1000;
+    const end = now;
+    return { start, end, filtered };
+  }, [filtered]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
+
+    const padL = 72, padR = 12, padT = 14, padB = 18;
+    const iw = w - padL - padR;
+    const ih = h - padT - padB;
+
+    // partition rows
+    const rows = PARTITION_COUNT;
+    const rowH = ih / rows;
+
+    // grid
+    ctx.strokeStyle = "rgba(0, 212, 255, 0.07)";
+    ctx.lineWidth = 1;
+    for (let r = 0; r <= rows; r++) {
+      const y = padT + r * rowH;
+      ctx.beginPath();
+      ctx.moveTo(padL, y);
+      ctx.lineTo(padL + iw, y);
+      ctx.stroke();
+    }
+    for (let c = 0; c <= 6; c++) {
+      const x = padL + (iw * c) / 6;
+      ctx.strokeStyle = "rgba(0, 212, 255, 0.12)";
+      ctx.beginPath();
+      ctx.moveTo(x, padT);
+      ctx.lineTo(x, padT + ih);
+      ctx.stroke();
+    }
+
+    // partition row labels
+    ctx.fillStyle = "#8ba0c8";
+    ctx.font = "9.5px JetBrains Mono, monospace";
+    ctx.textAlign = "right";
+    for (let r = 0; r < rows; r++) {
+      if (r % 2 === 0 || rowH > 14) {
+        ctx.fillText(`p${r.toString().padStart(2, "0")}`, padL - 6, padT + r * rowH + rowH / 2 + 3);
+      }
+    }
+
+    // time ticks
+    ctx.fillStyle = "#556b93";
+    ctx.textAlign = "center";
+    for (let c = 0; c <= 6; c++) {
+      const t = layout.start + ((layout.end - layout.start) * c) / 6;
+      const x = padL + (iw * c) / 6;
+      const m = Math.round((layout.end - t) / 60_000);
+      ctx.fillText(m === 0 ? "now" : `-${m}m`, x, padT + ih + 12);
+    }
+
+    // events + arrows
+    const { filtered } = layout;
+    for (const e of filtered) {
+      const rel = (e.ts - layout.start) / (layout.end - layout.start);
+      const x = padL + rel * iw;
+
+      for (const mv of e.moves) {
+        const y = padT + mv.p * rowH + rowH / 2;
+        // movement arrow: from broker `from` to `to`
+        const dir = Math.sign(mv.to - mv.from) || 1;
+        const len = Math.min(30, Math.max(12, Math.abs(mv.to - mv.from) * 7));
+        const x2 = Math.min(padL + iw - 2, x + len);
+
+        ctx.strokeStyle = e.color + "ee";
+        ctx.lineWidth = 1.25;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x2, y);
+        ctx.stroke();
+
+        // arrow head
+        ctx.fillStyle = e.color;
+        ctx.beginPath();
+        ctx.moveTo(x2, y);
+        ctx.lineTo(x2 - 4, y - 3);
+        ctx.lineTo(x2 - 4, y + 3);
+        ctx.closePath();
+        ctx.fill();
+
+        // dot at origin
+        ctx.fillStyle = e.color;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // hover crosshair
+    if (hover) {
+      ctx.strokeStyle = "rgba(0, 212, 255, 0.7)";
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(hover.x, padT);
+      ctx.lineTo(hover.x, padT + ih);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      const relT = layout.start + (layout.end - layout.start) * ((hover.x - padL) / iw);
+      ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
+      ctx.fillRect(hover.x + 6, padT + 2, 70, 16);
+      ctx.strokeStyle = "var(--border-strong)";
+      ctx.strokeRect(hover.x + 6, padT + 2, 70, 16);
+      ctx.fillStyle = "#00d4ff";
+      ctx.font = "10px JetBrains Mono, monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(fmtTime(relT), hover.x + 41, padT + 13);
+    }
+  }, [events, partitions, filter, hover, layout]);
+
+  const onMove = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    setHover({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
+  return (
+    <div className="timeline-canvas-wrap">
+      <canvas
+        ref={canvasRef}
+        onMouseMove={onMove}
+        onMouseLeave={() => setHover(null)}
+        onClick={(e) => {
+          const rect = canvasRef.current.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          // pick nearest event by time
+          let nearest = null, dist = Infinity;
+          for (const evt of layout.filtered) {
+            const rel = (evt.ts - layout.start) / (layout.end - layout.start);
+            const ex = 72 + rel * (rect.width - 72 - 12);
+            const d = Math.abs(ex - x);
+            if (d < dist) { dist = d; nearest = evt; }
+          }
+          if (nearest && onPickEvent) onPickEvent(nearest);
+        }}
+      />
+    </div>
+  );
+}
+
+// ============================================================
+// =================== HEATMAP COMPONENT ======================
+// ============================================================
+function LagHeatmap({ partitions, groups, selectedGroupId, threshold, onHover, onLeave, onSelectPartition }) {
+  const groupList = useMemo(() => groups.filter((g) => g.state !== "dead"), [groups]);
+
+  const cellLag = (partition, group) => {
+    const seed = fnv1a(group.id + ":" + partition.id);
+    const r = xorshift32(seed)();
+    const base = (partition.logEnd - partition.committed);
+    const variance = 0.5 + r * 2.0;
+    return Math.max(0, Math.round(base * variance));
+  };
+
+  return (
+    <div className="heatmap-wrap">
+      <div className="row" style={{ marginBottom: 2 }}>
+        <div>
+          <div className="small-caps">Lag Severity Heatmap</div>
+          <div style={{ fontSize: 11, color: "var(--text-dim)", marginTop: 2 }}>
+            Rows = consumer groups · Cols = 24 partitions. Click a cell to focus.
+          </div>
+        </div>
+      </div>
+
+      <div className="slider-row">
+        <label style={{ minWidth: 64 }}>Threshold</label>
+        <input
+          type="range"
+          min="1000"
+          max="80000"
+          step="500"
+          value={threshold}
+          onChange={(e) => onSelectPartition.__setThreshold(Number(e.target.value))}
+        />
+        <span className="mono" style={{ minWidth: 80, textAlign: "right", color: "var(--accent)" }}>
+          {fmtNum(threshold)} msgs
+        </span>
+      </div>
+
+      <div
+        className="heatmap-grid"
+        style={{
+          gridTemplateColumns: `120px repeat(${PARTITION_COUNT}, 1fr)`,
+        }}
+      >
+        <div />
+        {partitions.map((p) => (
+          <div key={"hdr-" + p.id} style={{ fontSize: 9, textAlign: "center", color: "var(--text-faint)", fontFamily: "JetBrains Mono, monospace" }}>
+            {p.id}
+          </div>
+        ))}
+        {groupList.map((g) => (
+          <React.Fragment key={g.id}>
+            <div
+              style={{
+                fontSize: 10.5,
+                color: selectedGroupId === g.id ? "var(--accent)" : "var(--text-dim)",
+                fontWeight: selectedGroupId === g.id ? 600 : 400,
+                padding: "4px 6px 4px 0",
+                textAlign: "right",
+                alignSelf: "center",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                cursor: "pointer",
+              }}
+              onClick={() => onSelectPartition.__setGroup(g.id)}
+            >
+              {g.display}
+            </div>
+            {partitions.map((p) => {
+              const lag = cellLag(p, g);
+              const filtered = lag < threshold * 0.15;
+              return (
+                <div
+                  key={`${g.id}-${p.id}`}
+                  className={"heatmap-cell" + (filtered ? " filtered" : "")}
+                  style={{ background: severityColor(lag, threshold) }}
+                  onMouseEnter={(e) => onHover({
+                    title: `${g.display} · p${p.id}`,
+                    rows: [
+                      { k: "Lag", v: fmtNum(lag) + " msgs", cls: lag > threshold ? "bad" : (lag > threshold * 0.5 ? "warn" : "good") },
+                      { k: "Threshold", v: fmtNum(threshold) + " msgs" },
+                      { k: "Committed", v: fmtNum(p.committed) },
+                      { k: "Log-End", v: fmtNum(p.logEnd) },
+                      { k: "Throughput", v: fmtNum(p.throughput) + " msg/s" },
+                      { k: "Last CP", v: fmtAgo(p.checkpointTs) },
+                    ],
+                    x: e.clientX, y: e.clientY,
+                  })}
+                  onMouseMove={(e) => onHover((prev) => ({ ...prev, x: e.clientX, y: e.clientY }))}
+                  onMouseLeave={onLeave}
+                  onClick={() => {
+                    onSelectPartition(p.id);
+                    onSelectPartition.__setGroup(g.id);
+                  }}
+                />
+              );
+            })}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// ===================== SPARKLINE (stat) =====================
+// ============================================================
+function Sparkline({ values, color, fill }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const c = ref.current;
+    if (!c) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w = c.clientWidth, h = c.clientHeight;
+    c.width = w * dpr; c.height = h * dpr;
+    const ctx = c.getContext("2d");
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
+    if (!values.length) return;
+    let min = Math.min(...values), max = Math.max(...values);
+    if (min === max) { min -= 1; max += 1; }
+    ctx.beginPath();
+    values.forEach((v, i) => {
+      const x = (i / (values.length - 1 || 1)) * w;
+      const y = h - ((v - min) / (max - min)) * h;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    if (fill) {
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      const g = ctx.createLinearGradient(0, 0, 0, h);
+      g.addColorStop(0, color + "66");
+      g.addColorStop(1, color + "00");
+      ctx.fillStyle = g;
+      ctx.fill();
+    } else {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    }
+  }, [values, color, fill]);
+  return <canvas className="spark" ref={ref} />;
+}
+
+// ============================================================
+// ===================== MAIN APP =============================
+// ============================================================
+function App() {
+  const [partitions, setPartitions] = useState(() => buildPartitions(xorshift32(1337)));
+  const [brokers, setBrokers] = useState(() => buildBrokers());
+  const [groups] = useState(() => GROUP_DEFS);
+  const [selectedGroupId, setSelectedGroupId] = useState(GROUP_DEFS[0].id);
+  const [selectedPartition, setSelectedPartition] = useState(null);
+  const [tooltip, setTooltip] = useState(null);
+  const [tab, setTab] = useState("lanes");
+  const [paused, setPaused] = useState(false);
+  const [threshold, setThreshold] = useState(25000);
+  const [events, setEvents] = useState(() => buildRebalanceEvents(xorshift32(9001)));
+  const [eventFilter, setEventFilter] = useState("all");
+  const [animTick, setAnimTick] = useState(0);
+  const [clusterTput, setClusterTput] = useState([]);
+  const [selectedMemberId, setSelectedMemberId] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showAllLinesInWatermark, setShowAllLinesInWatermark] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  // Member assignment per group
+  const membersByGroup = useMemo(() => {
+    const map = {};
+    const rand = xorshift32(7777);
+    for (const g of groups) {
+      map[g.id] = buildMembersForGroup(g, partitions, rand);
+    }
+    return map;
+  }, [groups, partitions.length]);
+
+  const selectedGroup = useMemo(() => groups.find((g) => g.id === selectedGroupId), [groups, selectedGroupId]);
+  const selectedMembers = membersByGroup[selectedGroupId] || [];
+
+  const memberForPartition = useCallback((partitionId) => {
+    for (const m of selectedMembers) {
+      if (m.assigned.includes(partitionId)) return m;
+    }
+    return null;
+  }, [selectedMembers]);
+
+  // ============ Real-time simulation loop ============
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => {
+      setPartitions((prev) => {
+        return prev.map((p) => {
+          const hist = p.history.length ? p.history : [{ logEnd: p.logEnd, committed: p.committed, ts: Date.now() }];
+          const last = hist[hist.length - 1];
+          const burst = Math.random() < 0.08 ? (1.8 + Math.random() * 2.5) : 1;
+          const deltaLog = Math.round(p.throughput * (0.9 + Math.random() * 0.25) * burst);
+          const commitLag = Math.round(deltaLog * (0.6 + Math.random() * 0.4));
+          const newLog = last.logEnd + deltaLog;
+          let newCommit = last.committed + commitLag;
+          // sometimes a rare checkpoint
+          const catchup = Math.random() < 0.07;
+          if (catchup) newCommit = Math.min(newLog - Math.random() * 200, newCommit + Math.round(deltaLog * 0.9));
+          newCommit = Math.min(newLog, newCommit);
+          const tsNow = Date.now();
+          const newHist = [...hist, { logEnd: newLog, committed: newCommit, ts: tsNow }].slice(-80);
+          return {
+            ...p,
+            logEnd: newLog,
+            committed: newCommit,
+            throughput: Math.max(50, Math.round(p.throughput * (0.92 + Math.random() * 0.18))),
+            history: newHist,
+            checkpointTs: catchup ? tsNow : p.checkpointTs,
+          };
+        });
+      });
+      setAnimTick((t) => t + 1);
+      setClusterTput((prev) => {
+        const next = [...prev, 6000 + Math.round(Math.random() * 4500)];
+        return next.slice(-40);
+      });
+    }, 650);
+    return () => clearInterval(id);
+  }, [paused]);
+
+  // ============ Broker evolution ============
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => {
+      setBrokers((prev) => prev.map((b) => ({
+        ...b,
+        inboundKbps: Math.max(500, b.inboundKbps + (Math.random() - 0.5) * 800),
+        outboundKbps: Math.max(500, b.outboundKbps + (Math.random() - 0.5) * 760),
+        cpu: Math.max(5, Math.min(96, b.cpu + (Math.random() - 0.5) * 6)),
+        heap: Math.max(5, Math.min(96, b.heap + (Math.random() - 0.5) * 4)),
+      })));
+    }, 1500);
+    return () => clearInterval(id);
+  }, [paused]);
+
+  // Populate broker partitions mapping
+  useEffect(() => {
+    setBrokers((prev) => prev.map((b) => ({
+      ...b,
+      partitions: partitions.filter((p) => p.leader === b.id).map((p) => p.id),
+    })));
+  }, [partitions.length]);
+
+  // ============ Keyboard shortcuts ============
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      const k = e.key.toLowerCase();
+      if (k === " ") { e.preventDefault(); setPaused((p) => !p); setToast("SIMULATION " + (paused ? "RESUMED" : "PAUSED")); }
+      else if (k === "1") setTab("lanes");
+      else if (k === "2") setTab("watermark");
+      else if (k === "3") setTab("timeline");
+      else if (k === "4") setTab("heatmap");
+      else if (k === "5") setTab("members");
+      else if (k === "6") setTab("brokers");
+      else if (k === "7") setTab("checkpoints");
+      else if (k === "r") {
+        setEvents(buildRebalanceEvents(xorshift32(Date.now())));
+        setToast("REBALANCE EVENTS REGENERATED");
+      }
+      else if (k === "t") {
+        setThreshold((t) => (t < 70000 ? t + 5000 : 5000));
+        setToast("THRESHOLD CYCLED");
+      }
+      else if (k === "arrowdown") {
+        e.preventDefault();
+        const idx = groups.findIndex((g) => g.id === selectedGroupId);
+        setSelectedGroupId(groups[(idx + 1) % groups.length].id);
+      }
+      else if (k === "arrowup") {
+        e.preventDefault();
+        const idx = groups.findIndex((g) => g.id === selectedGroupId);
+        setSelectedGroupId(groups[(idx - 1 + groups.length) % groups.length].id);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [selectedGroupId, groups, paused]);
+
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 1400);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  // ============ Derived metrics ============
+  const metrics = useMemo(() => {
+    let totalLag = 0, maxLag = 0, atRisk = 0, healthy = 0;
+    let tput = 0;
+    for (const p of partitions) {
+      const lag = p.logEnd - p.committed;
+      totalLag += lag;
+      if (lag > maxLag) maxLag = lag;
+      if (lag > threshold) atRisk++;
+      if (lag < threshold * 0.15) healthy++;
+      tput += p.throughput;
+    }
+    return { totalLag, maxLag, atRisk, healthy, tput };
+  }, [partitions, threshold]);
+
+  // Select partition handler with metadata stash
+  const selectPartition = useCallback((id) => {
+    setSelectedPartition(id);
+  }, []);
+  selectPartition.__setGroup = (gid) => setSelectedGroupId(gid);
+  selectPartition.__setThreshold = (v) => setThreshold(v);
+
+  const onHover = setTooltip;
+  const onLeave = () => setTooltip(null);
+
+  // ============ TABS ============
+  const tabs = [
+    { id: "lanes",      label: "Partition Lanes",   kbd: "1", icon: "≡" },
+    { id: "watermark",  label: "Watermark Graph",   kbd: "2", icon: "~" },
+    { id: "timeline",   label: "Rebalance Timeline",kbd: "3", icon: "⧖" },
+    { id: "heatmap",    label: "Severity Heatmap",  kbd: "4", icon: "▦" },
+    { id: "members",    label: "Group Members",     kbd: "5", icon: "◎" },
+    { id: "brokers",    label: "Broker Topology",   kbd: "6", icon: "⌬" },
+    { id: "checkpoints",label: "Checkpoints",       kbd: "7", icon: "✓" },
+  ];
+
+  // ============ RENDER ============
+  return (
+    <div className="app">
+      {/* ============== TOPBAR ============== */}
+      <header className="topbar">
+        <div className="brand">
+          <div className="logo" />
+          <div>
+            <div className="title">Partition Lag Observatory</div>
+            <div className="subtitle">cluster: prod-us-east-1 · topic: {TOPIC}</div>
+          </div>
+        </div>
+        <div className="cluster-meta">
+          <span className="meta-pill"><span className="led" />cluster healthy</span>
+          <span className="meta-pill"><b>{BROKER_COUNT}</b> brokers</span>
+          <span className="meta-pill"><b>{PARTITION_COUNT}</b> partitions</span>
+          <span className="meta-pill"><b>{groups.length}</b> consumer groups</span>
+          <span className="meta-pill" style={{ color: paused ? "var(--warn)" : "var(--good)" }}>
+            <span className={"led " + (paused ? "warn" : "")} />
+            {paused ? "PAUSED" : "LIVE"}
+          </span>
+          <button
+            className="chip"
+            onClick={() => setPaused((p) => !p)}
+            title="Space"
+          >
+            {paused ? "▶ Resume" : "⏸ Pause"}
+            <span className="kbd">Space</span>
+          </button>
+        </div>
+      </header>
+
+      {/* ============== MAIN GRID ============== */}
+      <div className="main">
+
+        {/* ============== SIDEBAR ============== */}
+        <aside className="sidebar">
+          <h3>Views</h3>
+          <div className="tab-list">
+            {tabs.map((t) => (
+              <button
+                key={t.id}
+                className={"tab-btn " + (tab === t.id ? "active" : "")}
+                onClick={() => setTab(t.id)}
+              >
+                <span className="tab-icon">{t.icon}</span>
+                <span>{t.label}</span>
+                <span className="tab-kbd">{t.kbd}</span>
+              </button>
+            ))}
+          </div>
+
+          <h3>Consumer Groups</h3>
+          <div className="group-list">
+            {groups.map((g) => (
+              <div
+                key={g.id}
+                className={"group-card " + (selectedGroupId === g.id ? "active" : "")}
+                onClick={() => setSelectedGroupId(g.id)}
+              >
+                <div className="group-name">
+                  <span>{g.display}</span>
+                  <span className={"group-state " + g.state}>{g.state}</span>
+                </div>
+                <div className="group-stats">
+                  <span>{g.members} members</span>
+                  <span style={{ color: "var(--accent)" }}>{PARTITION_COUNT} parts</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <h3>Filters</h3>
+          <div style={{ padding: "0 4px" }}>
+            <label style={{ fontSize: 11, color: "var(--text-dim)" }}>Lag threshold</label>
+            <div className="slider-row" style={{ marginTop: 6 }}>
+              <input
+                type="range"
+                min="1000"
+                max="80000"
+                step="500"
+                value={threshold}
+                onChange={(e) => setThreshold(Number(e.target.value))}
+              />
+            </div>
+            <div className="mono" style={{ textAlign: "right", fontSize: 11, color: "var(--accent)", marginTop: 4 }}>
+              {fmtNum(threshold)} msgs
+            </div>
+          </div>
+        </aside>
+
+        {/* ============== WORKSPACE ============== */}
+        <main className="workspace">
+          <div className="panel-head">
+            <div>
+              <h2><span className="dot" />{tabs.find((t) => t.id === tab)?.label}</h2>
+              <div className="sub">
+                {tab === "lanes" && `Animated offset lanes for ${PARTITION_COUNT} partitions — gap between log-end (pink) and committed (cyan) is the lag.`}
+                {tab === "watermark" && "High-resolution view of log-end vs committed offset progression."}
+                {tab === "timeline" && "Rebalance events plotted against each partition — arrows show reassignment direction."}
+                {tab === "heatmap" && "Per-group × per-partition lag matrix. Drag the slider to filter healthy cells."}
+                {tab === "members" && `Member-level partition ownership for ${selectedGroup?.display ?? "-"}.`}
+                {tab === "brokers" && "Broker hardware and partition-leadership topology."}
+                {tab === "checkpoints" && "Most recent committed offset & watermark snapshots per partition."}
+              </div>
+            </div>
+            <div className="actions">
+              {tab === "timeline" && (
+                <>
+                  {["all", "rebalance.start", "rebalance.complete", "member.join", "member.leave", "partition.assign"].map((f) => (
+                    <button
+                      key={f}
+                      className={"chip " + (eventFilter === f ? "active" : "")}
+                      onClick={() => setEventFilter(f)}
+                    >
+                      {f}
+                    </button>
+                  ))}
+                </>
+              )}
+              {tab === "watermark" && (
+                <button
+                  className={"chip " + (showAllLinesInWatermark ? "active" : "")}
+                  onClick={() => setShowAllLinesInWatermark((s) => !s)}
+                >
+                  {showAllLinesInWatermark ? "▦ All partitions" : "◉ Focused"}
+                </button>
+              )}
+              {tab === "lanes" && (
+                <>
+                  <span className="chip" style={{ background: "rgba(255, 154, 209, 0.1)", borderColor: "rgba(255, 154, 209, 0.3)", color: "#ff9ad1", cursor: "default" }}>
+                    ▬ log-end
+                  </span>
+                  <span className="chip" style={{ background: "rgba(79, 255, 210, 0.1)", borderColor: "rgba(79, 255, 210, 0.3)", color: "#4fffd2", cursor: "default" }}>
+                    ▬ committed
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="workspace-body">
+            {/* ============== LANES TAB ============== */}
+            {tab === "lanes" && (
+              <>
+                <div className="panel-help">
+                  Lanes update every <b>650ms</b>. Pink line = log-end offset (writer head). Cyan band = committed offset (consumer head). The pink–cyan gap is the <b>lag</b>. Hover any lane for detailed metrics, click to focus it in the Watermark Graph.
+                </div>
+
+                <div className="lanes-wrap">
+                  {partitions.map((p) => {
+                    const lag = p.logEnd - p.committed;
+                    const member = memberForPartition(p.id);
+                    const col = severityColor(lag, threshold);
+                    const memberHighlight = selectedMemberId && member && member.id === selectedMemberId;
+                    return (
+                      <div
+                        key={p.id}
+                        className={"lane " + (selectedPartition === p.id ? "active" : "")}
+                        style={memberHighlight ? { boxShadow: "0 0 16px rgba(0, 212, 255, 0.25)", borderColor: "var(--border-strong)" } : {}}
+                        onClick={() => selectPartition(p.id)}
+                        onMouseEnter={(e) => setTooltip({
+                          title: `partition p${p.id}`,
+                          badge: `${fmtK(lag)} lag`,
+                          badgeColor: col,
+                          rows: [
+                            { k: "Log-End Offset", v: fmtNum(p.logEnd) },
+                            { k: "Committed Offset", v: fmtNum(p.committed) },
+                            { k: "Lag Δ", v: fmtNum(lag) + " msgs", cls: lag > threshold ? "bad" : (lag > threshold * 0.4 ? "warn" : "good") },
+                            { k: "Throughput", v: fmtNum(p.throughput) + " msg/s" },
+                            { k: "Leader Broker", v: `broker-${p.leader}` },
+                            { k: "ISR", v: p.isr.map((i) => "b" + i).join(", ") },
+                            { k: "Last Checkpoint", v: fmtAgo(p.checkpointTs) },
+                            { k: "Owner Member", v: member ? member.clientId : "unassigned" },
+                          ],
+                          x: e.clientX, y: e.clientY,
+                        })}
+                        onMouseMove={(e) => setTooltip((t) => t ? ({ ...t, x: e.clientX, y: e.clientY }) : t)}
+                        onMouseLeave={() => setTooltip(null)}
+                      >
+                        <div className="p-label">
+                          <span className="p-num">p{String(p.id).padStart(2, "0")}</span>
+                          <span style={{ fontSize: 10, color: "var(--text-faint)" }}>→b{p.leader}</span>
+                        </div>
+                        <PartitionLaneCanvas partition={p} threshold={threshold} animTick={animTick} />
+                        <div className="lag-value" style={{ color: col }}>
+                          {fmtK(lag)}
+                        </div>
+                        <div
+                          className="member-pill"
+                          style={{
+                            border: `1px solid ${member ? "rgba(0, 212, 255, 0.3)" : "rgba(255, 94, 122, 0.3)"}`,
+                            color: member ? "var(--accent-2)" : "var(--bad)",
+                            background: member ? "rgba(79, 255, 210, 0.06)" : "rgba(255, 94, 122, 0.06)",
+                          }}
+                          title={member?.clientId ?? "unassigned"}
+                        >
+                          {member ? member.clientId.slice(-10) : "unassigned"}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {/* ============== WATERMARK TAB ============== */}
+            {tab === "watermark" && (
+              <>
+                <div className="panel-help">
+                  <b>Log-End</b> (solid) tracks the broker's latest message offset. <b>Committed</b> (dashed) tracks what the consumer group has acknowledged. The shaded gap is <b>consumer lag</b>. Toggle between focused (selected partition) and all-partition overlay view with the chip above.
+                </div>
+                <WatermarkGraph
+                  partitions={partitions}
+                  selectedPartition={selectedPartition}
+                  animTick={animTick}
+                  showAll={showAllLinesInWatermark}
+                />
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10, marginTop: 12 }}>
+                  {[
+                    { label: "Cluster Throughput", value: fmtK(metrics.tput), unit: "msg/s", cls: "" },
+                    { label: "Total Lag", value: fmtK(metrics.totalLag), unit: "msgs", cls: metrics.totalLag > threshold * PARTITION_COUNT ? "warn" : "" },
+                    { label: "Max Partition Lag", value: fmtK(metrics.maxLag), unit: "msgs", cls: metrics.maxLag > threshold ? "bad" : "" },
+                    { label: "At-Risk Partitions", value: metrics.atRisk, unit: "/" + PARTITION_COUNT, cls: metrics.atRisk > 3 ? "bad" : (metrics.atRisk > 0 ? "warn" : "good") },
+                  ].map((s, i) => (
+                    <div className={"stat " + s.cls} key={i}>
+                      <div className="label">{s.label}</div>
+                      <div className="value">{s.value}<span className="unit">{s.unit}</span></div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* ============== TIMELINE TAB ============== */}
+            {tab === "timeline" && (
+              <>
+                <div className="panel-help">
+                  Each horizontal row is a partition (p00 at top, p23 at bottom). Events appear in time order (oldest left, "now" right). Colored arrows point from the source broker to the reassignment target. Click an event for details, <span className="kbd">R</span> regenerates.
+                </div>
+
+                <div className="timeline-wrap">
+                  <RebalanceTimeline
+                    events={events}
+                    partitions={partitions}
+                    filter={eventFilter}
+                    onPickEvent={(e) => setSelectedEvent(e)}
+                  />
+
+                  <div style={{ marginTop: 14, display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 14 }}>
+                    <div>
+                      <div className="small-caps" style={{ marginBottom: 6 }}>Event Log</div>
+                      <div className="event-list">
+                        {events.slice().reverse().filter((e) => eventFilter === "all" || e.type === eventFilter).map((e) => (
+                          <div
+                            key={e.id}
+                            className="event-item"
+                            onClick={() => setSelectedEvent(e)}
+                            style={selectedEvent?.id === e.id ? { borderColor: "var(--accent)", background: "rgba(0, 212, 255, 0.08)" } : {}}
+                          >
+                            <span className="time">{fmtTime(e.ts)}</span>
+                            <span className="type-dot" style={{ background: e.color }} />
+                            <span className="desc">
+                              <b>{e.type}</b>
+                              <span style={{ color: "var(--text-dim)", marginLeft: 6 }}>
+                                {e.group}
+                              </span>
+                            </span>
+                            <span className="partition-count">
+                              {e.moves.length}p
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="small-caps" style={{ marginBottom: 6 }}>Selected Event</div>
+                      {selectedEvent ? (
+                        <div style={{ background: "rgba(22, 35, 64, 0.55)", border: "1px solid var(--border)", borderRadius: 8, padding: 12 }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <span className="mono" style={{ color: selectedEvent.color, fontSize: 13, fontWeight: 600 }}>{selectedEvent.type}</span>
+                            <span className="mono" style={{ fontSize: 10, color: "var(--text-faint)" }}>{fmtTime(selectedEvent.ts)}</span>
+                          </div>
+                          <div style={{ fontSize: 11.5, color: "var(--text-dim)", marginTop: 6 }}>
+                            Group: <b style={{ color: "var(--accent)" }}>{selectedEvent.group}</b>
+                          </div>
+                          <div style={{ fontSize: 11.5, color: "var(--text-dim)", marginTop: 3 }}>
+                            Members affected: <b style={{ color: "var(--text)" }}>{selectedEvent.memberCount}</b>
+                          </div>
+                          <div className="small-caps" style={{ marginTop: 10, marginBottom: 4 }}>Partition Moves</div>
+                          <table style={{ width: "100%", fontSize: 10.5, borderCollapse: "collapse" }}>
+                            <thead>
+                              <tr>
+                                <th style={{ textAlign: "left", padding: "4px 8px", color: "var(--text-faint)", fontWeight: 500 }}>partition</th>
+                                <th style={{ textAlign: "left", padding: "4px 8px", color: "var(--text-faint)", fontWeight: 500 }}>from</th>
+                                <th style={{ textAlign: "left", padding: "4px 8px", color: "var(--text-faint)", fontWeight: 500 }}>to</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {selectedEvent.moves.map((mv, i) => (
+                                <tr key={i} style={{ borderTop: "1px solid var(--border)" }}>
+                                  <td className="mono" style={{ padding: "4px 8px", color: "var(--accent)" }}>p{mv.p}</td>
+                                  <td className="mono" style={{ padding: "4px 8px" }}>broker-{mv.from}</td>
+                                  <td className="mono" style={{ padding: "4px 8px", color: "var(--accent-2)" }}>→ broker-{mv.to}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: 12, color: "var(--text-faint)", padding: 18, textAlign: "center", border: "1px dashed var(--border)", borderRadius: 8 }}>
+                          Click an event in the timeline or log to inspect its partition moves.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* ============== HEATMAP TAB ============== */}
+            {tab === "heatmap" && (
+              <>
+                <div className="panel-help">
+                  Color scale maps lag magnitude to severity: <b style={{ color: "#3ee08f" }}>green</b> = healthy, <b style={{ color: "#ffcb5e" }}>amber</b> = catching up, <b style={{ color: "#ff3860" }}>crimson</b> = above threshold. Drag the slider — cells with lag below 15% of threshold fade out.
+                </div>
+                <LagHeatmap
+                  partitions={partitions}
+                  groups={groups}
+                  selectedGroupId={selectedGroupId}
+                  threshold={threshold}
+                  onHover={setTooltip}
+                  onLeave={() => setTooltip(null)}
+                  onSelectPartition={selectPartition}
+                />
+
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 6, marginTop: 14 }}>
+                  {[0, 0.15, 0.35, 0.6, 1.0, 1.5].map((mult, i) => {
+                    const lag = Math.round(threshold * mult);
+                    const col = severityColor(lag, threshold);
+                    return (
+                      <div key={i} style={{
+                        border: "1px solid var(--border)",
+                        borderRadius: 6,
+                        background: "rgba(17, 26, 46, 0.5)",
+                        padding: "6px 10px",
+                      }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                          <span style={{ width: 10, height: 10, background: col, borderRadius: 2 }} />
+                          <span className="mono" style={{ fontSize: 10.5 }}>{i === 5 ? "> " + fmtK(threshold) : "≤ " + fmtK(lag)}</span>
+                        </div>
+                        <div style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 2 }}>
+                          {["pristine", "healthy", "warming", "amber", "over-threshold", "critical"][i]}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {/* ============== MEMBERS TAB ============== */}
+            {tab === "members" && (
+              <>
+                <div className="panel-help">
+                  Consumer group <b>{selectedGroup?.display}</b> · state <b>{selectedGroup?.state}</b> · {selectedMembers.length} members. Click a member to highlight the partitions it owns in the lanes view. Use <span className="kbd">↑</span> / <span className="kbd">↓</span> to switch groups.
+                </div>
+
+                {selectedMembers.length === 0 ? (
+                  <div style={{ padding: 30, textAlign: "center", border: "1px dashed var(--border)", borderRadius: 10, color: "var(--text-faint)" }}>
+                    Group <b style={{ color: "var(--bad)" }}>{selectedGroup?.display}</b> is <b>{selectedGroup?.state}</b> — no live members to show.
+                  </div>
+                ) : (
+                  <div className="members-wrap">
+                    {selectedMembers.map((m) => {
+                      const totalLag = m.assigned.reduce((s, pid) => s + (partitions[pid].logEnd - partitions[pid].committed), 0);
+                      const totalTput = m.assigned.reduce((s, pid) => s + partitions[pid].throughput, 0);
+                      const overThresh = m.assigned.filter((pid) => (partitions[pid].logEnd - partitions[pid].committed) > threshold).length;
+                      const active = selectedMemberId === m.id;
+                      return (
+                        <div
+                          key={m.id}
+                          className={"member-card " + (active ? "active" : "")}
+                          onClick={() => setSelectedMemberId(active ? null : m.id)}
+                        >
+                          <div className="m-head">
+                            <div className="m-name">{m.clientId}</div>
+                            <span style={{ fontSize: 10, color: overThresh > 0 ? "var(--bad)" : "var(--good)" }}>
+                              {overThresh > 0 ? `${overThresh} HOT` : "nominal"}
+                            </span>
+                          </div>
+                          <div className="m-host">{m.host} · hb {fmtAgo(m.heartbeatAt)}</div>
+                          <div className="m-stats">
+                            <span>Parts <b>{m.assigned.length}</b></span>
+                            <span>Lag <b>{fmtK(totalLag)}</b></span>
+                            <span>Tput <b>{fmtK(totalTput)}</b>/s</span>
+                          </div>
+                          <div className="m-partitions">
+                            {m.assigned.map((pid) => {
+                              const lag = partitions[pid].logEnd - partitions[pid].committed;
+                              const col = severityColor(lag, threshold);
+                              return (
+                                <span
+                                  key={pid}
+                                  className="mp-chip"
+                                  style={{
+                                    background: col + "22",
+                                    color: col,
+                                    borderColor: col + "66",
+                                  }}
+                                  onMouseEnter={(e) => setTooltip({
+                                    title: `${m.clientId} · p${pid}`,
+                                    rows: [
+                                      { k: "Lag", v: fmtNum(lag) + " msgs", cls: lag > threshold ? "bad" : "good" },
+                                      { k: "Throughput", v: fmtNum(partitions[pid].throughput) + " msg/s" },
+                                      { k: "Committed", v: fmtNum(partitions[pid].committed) },
+                                      { k: "Log-End", v: fmtNum(partitions[pid].logEnd) },
+                                    ],
+                                    x: e.clientX, y: e.clientY,
+                                  })}
+                                  onMouseMove={(e) => setTooltip((t) => t ? ({ ...t, x: e.clientX, y: e.clientY }) : t)}
+                                  onMouseLeave={() => setTooltip(null)}
+                                >
+                                  p{pid}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* ============== BROKERS TAB ============== */}
+            {tab === "brokers" && (
+              <>
+                <div className="panel-help">
+                  Brokers are color-coded by rack. Bars show CPU, heap, and network I/O. Partition chips reveal which partitions this broker leads — click a chip to focus that partition.
+                </div>
+
+                <div className="brokers-wrap">
+                  {brokers.map((b) => {
+                    const leaderCount = b.partitions.length;
+                    return (
+                      <div
+                        key={b.id}
+                        className={"broker-card " + (b.isLeader ? "leader" : "")}
+                        onMouseEnter={(e) => setTooltip({
+                          title: `broker-${b.id}`,
+                          rows: [
+                            { k: "Host", v: b.host },
+                            { k: "Rack", v: b.rack },
+                            { k: "Leads", v: leaderCount + " partitions" },
+                            { k: "CPU", v: b.cpu.toFixed(0) + "%", cls: b.cpu > 80 ? "bad" : "good" },
+                            { k: "Heap", v: b.heap.toFixed(0) + "%" },
+                            { k: "In", v: fmtK(b.inboundKbps) + "/s" },
+                            { k: "Out", v: fmtK(b.outboundKbps) + "/s" },
+                          ],
+                          x: e.clientX, y: e.clientY,
+                        })}
+                        onMouseMove={(e) => setTooltip((t) => t ? ({ ...t, x: e.clientX, y: e.clientY }) : t)}
+                        onMouseLeave={() => setTooltip(null)}
+                      >
+                        <h4>broker-{b.id}</h4>
+                        <div className="broker-id">{b.host} · {b.rack}</div>
+
+                        <div className="broker-bars">
+                          <div className="bar-row">
+                            <span className="bar-label">CPU</span>
+                            <div className="bar-track">
+                              <div className={"bar-fill " + (b.cpu > 70 ? "warn" : "")} style={{ width: `${Math.min(100, b.cpu)}%` }} />
+                            </div>
+                            <span className="bar-val">{b.cpu.toFixed(0)}%</span>
+                          </div>
+                          <div className="bar-row">
+                            <span className="bar-label">Heap</span>
+                            <div className="bar-track">
+                              <div className={"bar-fill " + (b.heap > 70 ? "warn" : "")} style={{ width: `${Math.min(100, b.heap)}%` }} />
+                            </div>
+                            <span className="bar-val">{b.heap.toFixed(0)}%</span>
+                          </div>
+                          <div className="bar-row">
+                            <span className="bar-label">In</span>
+                            <div className="bar-track">
+                              <div className="bar-fill" style={{ width: `${Math.min(100, b.inboundKbps / 100)}%` }} />
+                            </div>
+                            <span className="bar-val">{fmtK(b.inboundKbps)}</span>
+                          </div>
+                          <div className="bar-row">
+                            <span className="bar-label">Out</span>
+                            <div className="bar-track">
+                              <div className="bar-fill" style={{ width: `${Math.min(100, b.outboundKbps / 100)}%` }} />
+                            </div>
+                            <span className="bar-val">{fmtK(b.outboundKbps)}</span>
+                          </div>
+                        </div>
+
+                        <div className="small-caps" style={{ marginTop: 12, marginBottom: 4 }}>
+                          Leads {leaderCount} partitions
+                        </div>
+                        <div className="partitions">
+                          {b.partitions.map((pid) => (
+                            <span
+                              className="p-chip"
+                              key={pid}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                selectPartition(pid);
+                                setTab("lanes");
+                              }}
+                              style={{ cursor: "pointer" }}
+                            >
+                              p{pid}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {/* ============== CHECKPOINTS TAB ============== */}
+            {tab === "checkpoints" && (
+              <>
+                <div className="panel-help">
+                  Checkpoints are consumer-group offset commits written to the <b>__consumer_offsets</b> topic. This view shows each partition's most recent committed offset, the delta since the log head advanced, and how long ago the checkpoint landed.
+                </div>
+
+                <table className="checkpoint-table">
+                  <thead>
+                    <tr>
+                      <th>Partition</th>
+                      <th>Committed Offset</th>
+                      <th>Log-End Offset</th>
+                      <th>Lag</th>
+                      <th>Throughput</th>
+                      <th>Checkpoint Age</th>
+                      <th>Owner</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {partitions.map((p) => {
+                      const lag = p.logEnd - p.committed;
+                      const col = severityColor(lag, threshold);
+                      const member = memberForPartition(p.id);
+                      return (
+                        <tr
+                          key={p.id}
+                          onClick={() => selectPartition(p.id)}
+                          onMouseEnter={(e) => setTooltip({
+                            title: `p${p.id} checkpoint`,
+                            rows: [
+                              { k: "Committed", v: fmtNum(p.committed) },
+                              { k: "Log-End", v: fmtNum(p.logEnd) },
+                              { k: "Lag", v: fmtNum(lag), cls: lag > threshold ? "bad" : "good" },
+                              { k: "Age", v: fmtAgo(p.checkpointTs) },
+                            ],
+                            x: e.clientX, y: e.clientY,
+                          })}
+                          onMouseMove={(e) => setTooltip((t) => t ? ({ ...t, x: e.clientX, y: e.clientY }) : t)}
+                          onMouseLeave={() => setTooltip(null)}
+                          style={selectedPartition === p.id ? { background: "rgba(0, 212, 255, 0.08)" } : {}}
+                        >
+                          <td style={{ color: "var(--accent)", fontWeight: 600 }}>p{String(p.id).padStart(2, "0")}</td>
+                          <td>{fmtNum(p.committed)}</td>
+                          <td>{fmtNum(p.logEnd)}</td>
+                          <td style={{ color: col, fontWeight: 600 }}>
+                            <span className="cell-mini-bar">
+                              <div style={{ width: `${Math.min(100, (lag / threshold) * 100)}%`, background: col }} />
+                            </span>
+                            {fmtNum(lag)}
+                          </td>
+                          <td>{fmtNum(p.throughput)} /s</td>
+                          <td style={{ color: (Date.now() - p.checkpointTs) > 60_000 ? "var(--warn)" : "var(--text)" }}>
+                            {fmtAgo(p.checkpointTs)}
+                          </td>
+                          <td style={{ fontSize: 10.5, color: member ? "var(--accent-2)" : "var(--bad)" }}>
+                            {member ? member.clientId : "—"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </>
+            )}
+          </div>
+        </main>
+
+        {/* ============== RIGHT SIDEBAR (metrics) ============== */}
+        <aside className="rightbar">
+          <h3>Cluster Snapshot</h3>
+          <div className="stat-grid">
+            <div className="stat">
+              <div className="label">Throughput</div>
+              <div className="value">{fmtK(metrics.tput)}<span className="unit">msg/s</span></div>
+              <Sparkline values={clusterTput} color="#00d4ff" fill />
+            </div>
+            <div className={"stat " + (metrics.totalLag > threshold * PARTITION_COUNT ? "warn" : "good")}>
+              <div className="label">Aggregate Lag</div>
+              <div className="value">{fmtK(metrics.totalLag)}<span className="unit">msgs</span></div>
+              <Sparkline values={clusterTput.map((v, i) => v * (1 + 0.2 * Math.sin(i / 3)))} color="#ff9ad1" fill />
+            </div>
+            <div className={"stat " + (metrics.maxLag > threshold ? "bad" : "")}>
+              <div className="label">Max Lag</div>
+              <div className="value">{fmtK(metrics.maxLag)}<span className="unit">msgs</span></div>
+            </div>
+            <div className={"stat " + (metrics.atRisk > 3 ? "bad" : metrics.atRisk > 0 ? "warn" : "good")}>
+              <div className="label">Hot Partitions</div>
+              <div className="value">{metrics.atRisk}<span className="unit">/{PARTITION_COUNT}</span></div>
+            </div>
+          </div>
+
+          <h3>Rebalance Pulse</h3>
+          <div style={{ background: "rgba(17, 26, 46, 0.6)", border: "1px solid var(--border)", borderRadius: 8, padding: 10 }}>
+            {groups.filter((g) => g.state === "rebalancing").length === 0 ? (
+              <div style={{ fontSize: 11, color: "var(--good)" }}>
+                <span className="led" style={{ display: "inline-block", marginRight: 6 }} />
+                All groups stable.
+              </div>
+            ) : (
+              <div>
+                {groups.filter((g) => g.state === "rebalancing").map((g) => (
+                  <div key={g.id} style={{ fontSize: 11, display: "flex", justifyContent: "space-between", padding: "4px 0" }}>
+                    <span style={{ color: "var(--warn)" }}>● {g.display}</span>
+                    <span style={{ color: "var(--text-faint)" }}>{g.members}m</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <h3>Recent Events</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 260, overflow: "auto" }}>
+            {events.slice().reverse().slice(0, 10).map((e) => (
+              <div
+                key={e.id}
+                style={{
+                  fontSize: 10.5,
+                  padding: "5px 8px",
+                  borderRadius: 5,
+                  border: "1px solid var(--border)",
+                  background: "rgba(22, 35, 64, 0.4)",
+                  cursor: "pointer",
+                }}
+                onClick={() => { setSelectedEvent(e); setTab("timeline"); }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span className="mono" style={{ color: e.color }}>{e.type}</span>
+                  <span className="mono" style={{ color: "var(--text-faint)" }}>{fmtTime(e.ts)}</span>
+                </div>
+                <div style={{ color: "var(--text-dim)", marginTop: 1, fontSize: 10 }}>{e.group}</div>
+              </div>
+            ))}
+          </div>
+
+          <h3>Top Lag</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            {partitions
+              .slice()
+              .sort((a, b) => (b.logEnd - b.committed) - (a.logEnd - a.committed))
+              .slice(0, 5)
+              .map((p) => {
+                const lag = p.logEnd - p.committed;
+                const col = severityColor(lag, threshold);
+                return (
+                  <div
+                    key={p.id}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "50px 1fr 60px",
+                      alignItems: "center",
+                      gap: 8,
+                      padding: "5px 8px",
+                      background: "rgba(22, 35, 64, 0.4)",
+                      border: "1px solid var(--border)",
+                      borderRadius: 5,
+                      fontSize: 11,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => { selectPartition(p.id); setTab("lanes"); }}
+                  >
+                    <span className="mono" style={{ color: "var(--accent)" }}>p{p.id}</span>
+                    <div style={{ height: 4, background: "rgba(0, 212, 255, 0.08)", borderRadius: 2, overflow: "hidden" }}>
+                      <div style={{ width: Math.min(100, (lag / (threshold * 1.5)) * 100) + "%", background: col, height: "100%" }} />
+                    </div>
+                    <span className="mono" style={{ color: col, textAlign: "right" }}>{fmtK(lag)}</span>
+                  </div>
+                );
+              })}
+          </div>
+        </aside>
+      </div>
+
+      {/* ============== STATUS BAR ============== */}
+      <div className="statusbar">
+        <span className="hot">● {paused ? "PAUSED" : "STREAMING"}</span>
+        <span className="sep">│</span>
+        <span>topic <b style={{ color: "var(--accent)" }}>{TOPIC}</b></span>
+        <span className="sep">│</span>
+        <span>group <b style={{ color: "var(--accent)" }}>{selectedGroupId}</b></span>
+        <span className="sep">│</span>
+        <span>part <b style={{ color: "var(--accent)" }}>{selectedPartition != null ? "p" + selectedPartition : "–"}</b></span>
+        <span className="sep">│</span>
+        <span>tick <b style={{ color: "var(--accent)" }}>#{animTick}</b></span>
+        <div className="spacer" />
+        {toast && <span style={{ color: "var(--accent-2)" }}>{toast}</span>}
+        <span>space=pause · 1-7=view · ↑↓=group · r=regen events · t=cycle threshold</span>
+      </div>
+
+      {/* ============== TOOLTIP OVERLAY ============== */}
+      <Tooltip tip={tooltip} />
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
+</body>
+</html>
