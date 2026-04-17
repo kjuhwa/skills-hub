@@ -80,7 +80,7 @@ function calibrate() {
   calibration.lastLoopTokens = total;
   broadcast({ type: 'usage', usage: tokenUsage, calibration: calibrationSnapshot() });
 }
-calibrate();
+setImmediate(calibrate);  // defer until module init finishes (clients/logBuffer are declared below)
 setInterval(calibrate, 60000);
 
 // ── SSE Clients ──
