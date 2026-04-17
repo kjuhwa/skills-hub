@@ -9,6 +9,24 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "ag-grid-cell-renderer-pattern": {
+      "category": "frontend",
+      "version": "1.0.0",
+      "scope": "global",
+      "installed_at": "2026-04-16",
+      "source_commit": "4b922a9043",
+      "pinned": false,
+      "linked_knowledge": []
+    },
+    "ag-grid-custom-filter-system": {
+      "category": "design",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "version": "1.0.0",
+      "source_commit": "release/combined-20260416",
+      "pinned": false,
+      "linked_knowledge": []
+    },
     "ai-call-with-mock-fallback": {
       "category": "ai",
       "scope": "user",
@@ -25,6 +43,17 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "antd-wrapper-component-pattern": {
+      "category": "design",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "version": "1.0.0",
+      "source_commit": "release/combined-20260416",
+      "pinned": false,
+      "linked_knowledge": [
+        "sirius-wraps-antd-design-system"
+      ]
+    },
     "async-subagent-resume-on-missing-artifact": {
       "category": "workflow",
       "scope": "user",
@@ -40,6 +69,13 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "autoplan": {
+      "category": "workflow",
+      "description": "Auto-review pipeline - runs CEO, design, eng, DX reviews sequentially",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/autoplan"
     },
     "availability-ttl-punctuate-processor": {
       "category": "backend",
@@ -73,6 +109,15 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "axios-token-refresh-queue": {
+      "category": "backend",
+      "version": "1.0.0",
+      "scope": "global",
+      "installed_at": "2026-04-16",
+      "source_commit": "4b922a9043",
+      "pinned": false,
+      "linked_knowledge": []
+    },
     "baseline-historical-comparison-threshold": {
       "category": "backend",
       "scope": "user",
@@ -81,6 +126,13 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "benchmark": {
+      "category": "testing",
+      "description": "Performance regression detection using headless browser",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/testing/benchmark"
+    },
     "bootrun-jvmargs-jdwp-opens-java21": {
       "category": "backend",
       "scope": "user",
@@ -88,6 +140,13 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "browse": {
+      "category": "testing",
+      "description": "Fast headless browser for QA testing and site dogfooding",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/testing/browse"
     },
     "bucket-parallel-java-annotation-dispatch": {
       "category": "workflow",
@@ -129,6 +188,20 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "canary": {
+      "category": "workflow",
+      "description": "Post-deploy canary monitoring for console errors and perf regressions",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/canary"
+    },
+    "careful": {
+      "category": "security",
+      "description": "Safety guardrails for destructive commands",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/security/careful"
+    },
     "challenge-response-auth-redis-ttl": {
       "category": "backend",
       "scope": "user",
@@ -144,6 +217,13 @@
       "version": "0.1.0-draft",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "checkpoint": {
+      "category": "workflow",
+      "description": "Save and resume working state checkpoints across sessions",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/checkpoint"
     },
     "chunked-resource-id-batch-fetch": {
       "category": "backend",
@@ -169,6 +249,14 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "claude-cli-subprocess-adapter": {
+      "category": "ai",
+      "scope": "global",
+      "installed_at": "2026-04-17T17:19:51Z",
+      "version": "0.1.0-draft",
+      "source_commit": "e310dfd0d8b1e8b71170178c49772fde146c250a",
+      "pinned": false
+    },
     "claude-code-skill-scaffold": {
       "category": "devops",
       "scope": "user",
@@ -184,6 +272,13 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "codex": {
+      "category": "ai",
+      "description": "OpenAI Codex CLI wrapper - review, challenge, and collab modes",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/ai/codex"
     },
     "collection-routing-by-period": {
       "category": "backend",
@@ -217,6 +312,13 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "cso": {
+      "category": "security",
+      "description": "Chief Security Officer - infrastructure-first security audit",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/security/cso"
+    },
     "custom-actuator-command-whitelist": {
       "category": "backend",
       "scope": "user",
@@ -249,6 +351,34 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "design-consultation": {
+      "category": "design",
+      "description": "Design consultation - product understanding + design system proposal",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/design/design-consultation"
+    },
+    "design-html": {
+      "category": "design",
+      "description": "Design finalization - production-quality HTML/CSS generation",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/design/design-html"
+    },
+    "design-review": {
+      "category": "design",
+      "description": "Designer eye QA - visual inconsistency, spacing, AI slop detection",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/design/design-review"
+    },
+    "design-shotgun": {
+      "category": "design",
+      "description": "Generate multiple AI design variants with comparison board",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/design/design-shotgun"
+    },
     "deterministic-coverage-verification": {
       "category": "testing",
       "scope": "user",
@@ -264,6 +394,13 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "devex-review": {
+      "category": "testing",
+      "description": "Live developer experience audit using headless browser",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/testing/devex-review"
     },
     "distributed-lock-mongodb": {
       "category": "backend",
@@ -281,6 +418,15 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "dnd-kit-tab-reordering": {
+      "category": "design",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "version": "1.0.0",
+      "source_commit": "release/combined-20260416",
+      "pinned": false,
+      "linked_knowledge": []
+    },
     "docker-compose-service-inventory-files": {
       "category": "devops",
       "scope": "user",
@@ -297,6 +443,13 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "document-release": {
+      "category": "docs",
+      "description": "Post-ship documentation update",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/docs/document-release"
+    },
     "domain-category-endpoint-registry": {
       "category": "arch",
       "scope": "user",
@@ -312,6 +465,26 @@
       "version": "0.1.0-draft",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "drawer-resizable-composition": {
+      "category": "frontend",
+      "version": "1.0.0",
+      "scope": "global",
+      "installed_at": "2026-04-16",
+      "source_commit": "4b922a9043",
+      "pinned": false,
+      "linked_knowledge": [
+        "drawer-over-modal"
+      ]
+    },
+    "drawer-resizable-mouse-drag": {
+      "category": "design",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "version": "1.0.0",
+      "source_commit": "release/combined-20260416",
+      "pinned": false,
+      "linked_knowledge": []
     },
     "dry-run-confirm-retry-write-flow": {
       "category": "backend",
@@ -336,6 +509,15 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "echarts-svg-worker-chart": {
+      "category": "design",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "version": "1.0.0",
+      "source_commit": "release/combined-20260416",
+      "pinned": false,
+      "linked_knowledge": []
     },
     "eclipse-rcp-rich-client-for-apm-ui": {
       "category": "apm",
@@ -417,6 +599,37 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "figma-code-connect-react": {
+      "category": "frontend",
+      "version": "1.0.0",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
+      "pinned": false,
+      "linked_knowledge": []
+    },
+    "figma-token-scss-style-dictionary-v3": {
+      "category": "frontend",
+      "version": "1.0.0",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
+      "pinned": false,
+      "linked_knowledge": [
+        "dual-design-token-pipeline-arch"
+      ]
+    },
+    "figma-token-to-tailwind-theme": {
+      "category": "design",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "version": "1.1.0",
+      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
+      "pinned": false,
+      "linked_knowledge": [
+        "dual-design-token-pipeline-arch"
+      ]
+    },
     "folder-coloc-style-types": {
       "category": "frontend",
       "scope": "user",
@@ -440,6 +653,13 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "freeze": {
+      "category": "workflow",
+      "description": "Restrict file edits to a specific directory for the session",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/freeze"
     },
     "frozen-detection-consecutive-count": {
       "category": "backend",
@@ -537,6 +757,48 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "gstack": {
+      "category": "cli",
+      "description": "Root gstack skill - headless browser for QA testing",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/cli/gstack"
+    },
+    "gstack-qa": {
+      "category": "testing",
+      "description": "QA test web app + iteratively fix bugs found (gstack)",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/testing/gstack-qa"
+    },
+    "gstack-qa-only": {
+      "category": "testing",
+      "description": "Report-only QA testing (no auto-fix)",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/testing/gstack-qa-only"
+    },
+    "gstack-upgrade": {
+      "category": "cli",
+      "description": "Upgrade gstack to latest version",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/cli/gstack-upgrade"
+    },
+    "guard": {
+      "category": "security",
+      "description": "Full safety mode - destructive warnings + directory-scoped edits",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/security/guard"
+    },
+    "health": {
+      "category": "testing",
+      "description": "Code quality dashboard (type checker, linter, tests, dead code)",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/testing/health"
+    },
     "hibernate-multi-dialect-swap": {
       "category": "backend",
       "scope": "user",
@@ -584,6 +846,13 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "investigate": {
+      "category": "debug",
+      "description": "Systematic debugging with root cause investigation (4 phases)",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/debug/investigate"
     },
     "ip-allowlist-cidr-validator": {
       "category": "backend",
@@ -777,6 +1046,13 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "land-and-deploy": {
+      "category": "workflow",
+      "description": "Merge PR, wait for CI/deploy, verify production health",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/land-and-deploy"
+    },
     "layered-risk-gates": {
       "category": "arch",
       "scope": "user",
@@ -792,6 +1068,13 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "learn": {
+      "category": "docs",
+      "description": "Manage project learnings across sessions",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/docs/learn"
     },
     "llm-integration-test-failure-diagnosis": {
       "category": "testing",
@@ -857,6 +1140,15 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "mfa-federated-component-loader": {
+      "category": "frontend",
+      "version": "1.0.0",
+      "scope": "global",
+      "installed_at": "2026-04-16",
+      "source_commit": "4b922a9043",
+      "pinned": false,
+      "linked_knowledge": []
+    },
     "mfa-memoryrouter-isolation": {
       "category": "frontend",
       "scope": "user",
@@ -872,6 +1164,18 @@
       "version": "0.1.0-draft",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "mfa-portal-css-isolation": {
+      "category": "design",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "version": "1.1.0",
+      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
+      "pinned": false,
+      "linked_knowledge": [
+        "tailwind-mfa-css-isolation-pitfalls",
+        "multi-layer-css-architecture"
+      ]
     },
     "migrate-to-shoehorn": {
       "category": "refactor",
@@ -1033,6 +1337,20 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "office-hours": {
+      "category": "workflow",
+      "description": "YC Office Hours - startup forcing questions + product review",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/office-hours"
+    },
+    "open-gstack-browser": {
+      "category": "cli",
+      "description": "Launch AI-controlled visible Chromium browser",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/cli/open-gstack-browser"
+    },
     "openssl-4-migration-checklist": {
       "category": "security",
       "scope": "user",
@@ -1065,6 +1383,13 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "pair-agent": {
+      "category": "ai",
+      "description": "Pair a remote AI agent with your browser",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/ai/pair-agent"
+    },
     "paired-flag-multi-instance-registration": {
       "category": "cli",
       "scope": "user",
@@ -1096,6 +1421,34 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "plan-ceo-review": {
+      "category": "workflow",
+      "description": "CEO/founder-mode plan review (10-star product thinking)",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/plan-ceo-review"
+    },
+    "plan-design-review": {
+      "category": "design",
+      "description": "Designer eye plan review - rates dimensions 0-10",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/design/plan-design-review"
+    },
+    "plan-devex-review": {
+      "category": "workflow",
+      "description": "Interactive developer experience plan review",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/plan-devex-review"
+    },
+    "plan-eng-review": {
+      "category": "workflow",
+      "description": "Eng manager plan review - architecture, data flow, edge cases",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/plan-eng-review"
     },
     "playwright-exception-advice": {
       "category": "backend",
@@ -1225,6 +1578,15 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "recoil-domain-atom-store": {
+      "category": "frontend",
+      "version": "1.0.0",
+      "scope": "global",
+      "installed_at": "2026-04-16",
+      "source_commit": "4b922a9043",
+      "pinned": false,
+      "linked_knowledge": []
+    },
     "redis-lock-recheck-flag-pattern": {
       "category": "backend",
       "scope": "user",
@@ -1256,6 +1618,20 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "retro": {
+      "category": "docs",
+      "description": "Weekly engineering retrospective with trend tracking",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/docs/retro"
+    },
+    "review": {
+      "category": "workflow",
+      "description": "Pre-landing PR review (SQL safety, LLM trust boundaries)",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/review"
     },
     "scaffold-exercises": {
       "category": "misc",
@@ -1321,6 +1697,20 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "setup-browser-cookies": {
+      "category": "cli",
+      "description": "Import cookies from real browser into headless session",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/cli/setup-browser-cookies"
+    },
+    "setup-deploy": {
+      "category": "workflow",
+      "description": "Configure deployment settings for land-and-deploy",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/setup-deploy"
+    },
     "setup-pre-commit": {
       "category": "cli",
       "scope": "user",
@@ -1344,6 +1734,13 @@
       "version": "0.1.0-draft",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "ship": {
+      "category": "workflow",
+      "description": "Ship workflow - merge, test, review, bump version, PR",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/ship"
     },
     "site-per-customer-override-modules": {
       "category": "arch",
@@ -1464,6 +1861,15 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "sse-fetch-streaming": {
+      "category": "frontend",
+      "version": "1.0.0",
+      "scope": "global",
+      "installed_at": "2026-04-16",
+      "source_commit": "4b922a9043",
+      "pinned": false,
+      "linked_knowledge": []
     },
     "stable-horde-async-poll": {
       "category": "ai",
@@ -1681,6 +2087,13 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
     },
+    "unfreeze": {
+      "category": "workflow",
+      "description": "Clear the freeze boundary set by /freeze",
+      "source_project": "gstack",
+      "source_url": "https://github.com/garrytan/gstack",
+      "path": "skills/workflow/unfreeze"
+    },
     "version-specific-sql-map-selection": {
       "category": "backend",
       "scope": "user",
@@ -1704,6 +2117,17 @@
       "version": "1.0.0",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
+    },
+    "widget-card-composition": {
+      "category": "design",
+      "scope": "user",
+      "installed_at": "2026-04-16",
+      "version": "1.0.0",
+      "source_commit": "release/combined-20260416",
+      "pinned": false,
+      "linked_knowledge": [
+        "widget-high-prop-count-debt"
+      ]
     },
     "widget-confid-injection-sweep": {
       "category": "frontend",
@@ -1760,425 +2184,580 @@
       "version": "0.1.0-draft",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "pinned": false
-    },
-    "figma-token-to-tailwind-theme": {
-      "category": "design",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "version": "1.1.0",
-      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
-      "pinned": false,
-      "linked_knowledge": [
-        "dual-design-token-pipeline-arch"
-      ]
-    },
-    "mfa-portal-css-isolation": {
-      "category": "design",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "version": "1.1.0",
-      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
-      "pinned": false,
-      "linked_knowledge": [
-        "tailwind-mfa-css-isolation-pitfalls",
-        "multi-layer-css-architecture"
-      ]
-    },
-    "antd-wrapper-component-pattern": {
-      "category": "design",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "version": "1.0.0",
-      "source_commit": "release/combined-20260416",
-      "pinned": false,
-      "linked_knowledge": [
-        "sirius-wraps-antd-design-system"
-      ]
-    },
-    "dnd-kit-tab-reordering": {
-      "category": "design",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "version": "1.0.0",
-      "source_commit": "release/combined-20260416",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "widget-card-composition": {
-      "category": "design",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "version": "1.0.0",
-      "source_commit": "release/combined-20260416",
-      "pinned": false,
-      "linked_knowledge": [
-        "widget-high-prop-count-debt"
-      ]
-    },
-    "ag-grid-custom-filter-system": {
-      "category": "design",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "version": "1.0.0",
-      "source_commit": "release/combined-20260416",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "echarts-svg-worker-chart": {
-      "category": "design",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "version": "1.0.0",
-      "source_commit": "release/combined-20260416",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "drawer-resizable-mouse-drag": {
-      "category": "design",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "version": "1.0.0",
-      "source_commit": "release/combined-20260416",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "figma-token-scss-style-dictionary-v3": {
-      "category": "frontend",
-      "version": "1.0.0",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
-      "pinned": false,
-      "linked_knowledge": [
-        "dual-design-token-pipeline-arch"
-      ]
-    },
-    "figma-code-connect-react": {
-      "category": "frontend",
-      "version": "1.0.0",
-      "scope": "user",
-      "installed_at": "2026-04-16",
-      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "mfa-federated-component-loader": {
-      "category": "frontend",
-      "version": "1.0.0",
-      "scope": "global",
-      "installed_at": "2026-04-16",
-      "source_commit": "4b922a9043",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "ag-grid-cell-renderer-pattern": {
-      "category": "frontend",
-      "version": "1.0.0",
-      "scope": "global",
-      "installed_at": "2026-04-16",
-      "source_commit": "4b922a9043",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "recoil-domain-atom-store": {
-      "category": "frontend",
-      "version": "1.0.0",
-      "scope": "global",
-      "installed_at": "2026-04-16",
-      "source_commit": "4b922a9043",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "drawer-resizable-composition": {
-      "category": "frontend",
-      "version": "1.0.0",
-      "scope": "global",
-      "installed_at": "2026-04-16",
-      "source_commit": "4b922a9043",
-      "pinned": false,
-      "linked_knowledge": [
-        "drawer-over-modal"
-      ]
-    },
-    "axios-token-refresh-queue": {
-      "category": "backend",
-      "version": "1.0.0",
-      "scope": "global",
-      "installed_at": "2026-04-16",
-      "source_commit": "4b922a9043",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "sse-fetch-streaming": {
-      "category": "frontend",
-      "version": "1.0.0",
-      "scope": "global",
-      "installed_at": "2026-04-16",
-      "source_commit": "4b922a9043",
-      "pinned": false,
-      "linked_knowledge": []
-    },
-    "autoplan": {
-      "category": "workflow",
-      "description": "Auto-review pipeline - runs CEO, design, eng, DX reviews sequentially",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/autoplan"
-    },
-    "benchmark": {
-      "category": "testing",
-      "description": "Performance regression detection using headless browser",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/testing/benchmark"
-    },
-    "browse": {
-      "category": "testing",
-      "description": "Fast headless browser for QA testing and site dogfooding",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/testing/browse"
-    },
-    "canary": {
-      "category": "workflow",
-      "description": "Post-deploy canary monitoring for console errors and perf regressions",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/canary"
-    },
-    "careful": {
-      "category": "security",
-      "description": "Safety guardrails for destructive commands",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/security/careful"
-    },
-    "checkpoint": {
-      "category": "workflow",
-      "description": "Save and resume working state checkpoints across sessions",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/checkpoint"
-    },
-    "codex": {
-      "category": "ai",
-      "description": "OpenAI Codex CLI wrapper - review, challenge, and collab modes",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/ai/codex"
-    },
-    "cso": {
-      "category": "security",
-      "description": "Chief Security Officer - infrastructure-first security audit",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/security/cso"
-    },
-    "design-consultation": {
-      "category": "design",
-      "description": "Design consultation - product understanding + design system proposal",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/design/design-consultation"
-    },
-    "design-html": {
-      "category": "design",
-      "description": "Design finalization - production-quality HTML/CSS generation",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/design/design-html"
-    },
-    "design-review": {
-      "category": "design",
-      "description": "Designer eye QA - visual inconsistency, spacing, AI slop detection",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/design/design-review"
-    },
-    "design-shotgun": {
-      "category": "design",
-      "description": "Generate multiple AI design variants with comparison board",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/design/design-shotgun"
-    },
-    "devex-review": {
-      "category": "testing",
-      "description": "Live developer experience audit using headless browser",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/testing/devex-review"
-    },
-    "document-release": {
-      "category": "docs",
-      "description": "Post-ship documentation update",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/docs/document-release"
-    },
-    "freeze": {
-      "category": "workflow",
-      "description": "Restrict file edits to a specific directory for the session",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/freeze"
-    },
-    "gstack": {
-      "category": "cli",
-      "description": "Root gstack skill - headless browser for QA testing",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/cli/gstack"
-    },
-    "gstack-upgrade": {
-      "category": "cli",
-      "description": "Upgrade gstack to latest version",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/cli/gstack-upgrade"
-    },
-    "guard": {
-      "category": "security",
-      "description": "Full safety mode - destructive warnings + directory-scoped edits",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/security/guard"
-    },
-    "health": {
-      "category": "testing",
-      "description": "Code quality dashboard (type checker, linter, tests, dead code)",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/testing/health"
-    },
-    "investigate": {
-      "category": "debug",
-      "description": "Systematic debugging with root cause investigation (4 phases)",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/debug/investigate"
-    },
-    "land-and-deploy": {
-      "category": "workflow",
-      "description": "Merge PR, wait for CI/deploy, verify production health",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/land-and-deploy"
-    },
-    "learn": {
-      "category": "docs",
-      "description": "Manage project learnings across sessions",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/docs/learn"
-    },
-    "office-hours": {
-      "category": "workflow",
-      "description": "YC Office Hours - startup forcing questions + product review",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/office-hours"
-    },
-    "open-gstack-browser": {
-      "category": "cli",
-      "description": "Launch AI-controlled visible Chromium browser",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/cli/open-gstack-browser"
-    },
-    "pair-agent": {
-      "category": "ai",
-      "description": "Pair a remote AI agent with your browser",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/ai/pair-agent"
-    },
-    "plan-ceo-review": {
-      "category": "workflow",
-      "description": "CEO/founder-mode plan review (10-star product thinking)",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/plan-ceo-review"
-    },
-    "plan-design-review": {
-      "category": "design",
-      "description": "Designer eye plan review - rates dimensions 0-10",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/design/plan-design-review"
-    },
-    "plan-devex-review": {
-      "category": "workflow",
-      "description": "Interactive developer experience plan review",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/plan-devex-review"
-    },
-    "plan-eng-review": {
-      "category": "workflow",
-      "description": "Eng manager plan review - architecture, data flow, edge cases",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/plan-eng-review"
-    },
-    "gstack-qa": {
-      "category": "testing",
-      "description": "QA test web app + iteratively fix bugs found (gstack)",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/testing/gstack-qa"
-    },
-    "gstack-qa-only": {
-      "category": "testing",
-      "description": "Report-only QA testing (no auto-fix)",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/testing/gstack-qa-only"
-    },
-    "retro": {
-      "category": "docs",
-      "description": "Weekly engineering retrospective with trend tracking",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/docs/retro"
-    },
-    "review": {
-      "category": "workflow",
-      "description": "Pre-landing PR review (SQL safety, LLM trust boundaries)",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/review"
-    },
-    "setup-browser-cookies": {
-      "category": "cli",
-      "description": "Import cookies from real browser into headless session",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/cli/setup-browser-cookies"
-    },
-    "setup-deploy": {
-      "category": "workflow",
-      "description": "Configure deployment settings for land-and-deploy",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/setup-deploy"
-    },
-    "ship": {
-      "category": "workflow",
-      "description": "Ship workflow - merge, test, review, bump version, PR",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/ship"
-    },
-    "unfreeze": {
-      "category": "workflow",
-      "description": "Clear the freeze boundary set by /freeze",
-      "source_project": "gstack",
-      "source_url": "https://github.com/garrytan/gstack",
-      "path": "skills/workflow/unfreeze"
     }
   },
   "knowledge": {
+    "account-lockout-configurable-threshold": {
+      "category": "domain",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "actuator-endpoints-skip-auth-by-design": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "actuator-metric-call-aggressive-timeout": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "actuator-path-dual-compatibility": {
+      "category": "api",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "additive-registry-schema-versioning": {
+      "category": "arch",
+      "scope": "global",
+      "path": "~/.claude/skills-hub/knowledge/arch/additive-registry-schema-versioning.md",
+      "source": {
+        "kind": "session",
+        "ref": "session-2026-04-15-skills-extract-knowledge"
+      },
+      "confidence": "high",
+      "linked_skills": [],
+      "tags": [
+        "registry",
+        "schema",
+        "versioning",
+        "migration",
+        "backwards-compat"
+      ],
+      "extracted_at": "2026-04-15"
+    },
+    "admin-role-disabled-secretkey": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "ai-guess-mark-and-review-checklist": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "alarm-raw-over-1min-aggregate": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "kafka-consumer-semaphore-chunking"
+      ]
+    },
+    "anonymize-examples-in-skill-docs": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "asm-based-classloader-instrumentation-caveats": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "assume-semantics-for-compiler-hints": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "assumeutxo-snapshot-chainstate-phases": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "audit-changed-prev-after-field-swap-bug": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "audit-change-data-capture-pattern"
+      ]
+    },
+    "auto-lock-must-not-bump-lastEditedTime": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "avro-private-fields-no-setters": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "bilingual-user-facing-strings": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "binsize-zero-fallback-to-one": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "boilerplate-generated-business-logic-manual": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "cache-even-when-enable-false": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "catalina-urlencoder-internal-api": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "caveats-absence-confidence-cap": {
+      "category": "decision",
+      "scope": "global",
+      "path": "~/.claude/skills-hub/knowledge/decision/caveats-absence-confidence-cap.md",
+      "source": {
+        "kind": "session",
+        "ref": "session-2026-04-15-skills-extract-knowledge"
+      },
+      "confidence": "medium",
+      "linked_skills": [],
+      "tags": [
+        "calibration",
+        "confidence",
+        "falsifiability",
+        "knowledge-quality"
+      ],
+      "extracted_at": "2026-04-15"
+    },
+    "circular-dependency-detection-script": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "classifier-both-verdict-self-reference": {
+      "category": "pitfall",
+      "scope": "global",
+      "path": "~/.claude/skills-hub/knowledge/pitfall/classifier-both-verdict-self-reference.md",
+      "source": {
+        "kind": "session",
+        "ref": "session-2026-04-15-skills-extract-knowledge"
+      },
+      "confidence": "medium",
+      "linked_skills": [],
+      "tags": [
+        "llm",
+        "classifier",
+        "schema",
+        "post-processing",
+        "linking"
+      ],
+      "extracted_at": "2026-04-15"
+    },
+    "claude-plugin-marketplace-owner-required": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "claude-plugin-skill-md-is-sufficient": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "common-alarm-policy-init-gotcha": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "kafka-debounce-event-coalescing"
+      ]
+    },
+    "commons-logging-exclusion-strategy": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "compare-counts-exclude-added-deleted": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "composite-alarm-all-deleted-npe": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "conf-info-may-lack-resource-type": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "confid-only-query-over-resource-tuple": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "confid-vs-resourceid-routing": {
+      "category": "api",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "copy-naming-suffix-numbered": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "cors-allow-credentials-star-origin": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "crypto-randomuuid-requires-secure-context": {
+      "category": "pitfall",
+      "added_at": "2026-04-16",
+      "source": "lucida-ui@4b922a9043",
+      "linked_skills": []
+    },
+    "csp-frame-ancestors-required": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "data-patch-package-for-migrations": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "dataavro-json-wrapper-pattern": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "do-not-ask-planners-for-api-design": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "docker-engine-29-requires-traefik-upgrade": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "domain-registry-plus-projects-yaml": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "drawer-over-modal": {
+      "category": "decision",
+      "source_project": "lucida-ui",
+      "added_at": "2026-04-16",
+      "linked_skills": [
+        "drawer-resizable-composition"
+      ]
+    },
+    "dual-design-token-pipeline-arch": {
+      "category": "arch",
+      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
+      "added_at": "2026-04-16",
+      "linked_skills": [
+        "figma-token-to-tailwind-theme",
+        "figma-token-scss-style-dictionary-v3"
+      ]
+    },
+    "dual-redis-lock-vs-access-control": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "encrypted-pii-decode-on-export": {
+      "category": "domain",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "endpoint-service-dual-pattern": {
+      "category": "api",
+      "source_project": "lucida-ui",
+      "added_at": "2026-04-16",
+      "linked_skills": []
+    },
+    "enum-notnull-comparison-pitfall": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "enum-whitelist-blocks-time-based-sqli": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "env-override-last-wins-chain": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "es-xpack-transport-vs-rest-ssl": {
+      "category": "api",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "event-driven-init-wait-for-services": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "existing-code-patterns-over-standard-rules": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "god-controller-split-by-resource": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "gradle-avro-plugin-config": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "gridfs-template-upload-data-loss-pitfall": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "hibernate-date-format-lowercase": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "hierarchical-agents-md-catalog": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "history-view-yearly-partition-pitfall": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "hyperloglog-for-unique-user-counting": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "injectmocks-generics-type-erasure": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "interface-abstraction-for-modularity": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "ipv6-colon-detection-edge": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "jackson-version-pinning-2.17.1": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "jacoco-exclude-business-layers": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "jacoco-sonar-exclusion-policy": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "querydsl-q-class-exclusion-pattern"
+      ]
+    },
+    "jacoco-sonar-exclusion-rationale": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "jar-task-disabled-bootjar-only": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "java-21-upgrade-rationale": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "java-21-upgrade-rationale"
+      ]
+    },
+    "jdbc-template-var-xml-escape-bypass": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "jest-coverage-80-threshold": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "jvm-module-opens-java21-spring-kafka": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "jwt-stateless-refresh-24h-default": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "k-claude-cli-bare-flag-disables-oauth": {
+      "category": "pitfall",
+      "scope": "global",
+      "path": "~/.claude/skills-hub/knowledge/pitfall/claude-cli-bare-flag-disables-oauth.md",
+      "source": {
+        "kind": "commit",
+        "ref": "a60cf9f60c04226027e8fe2c783299ab8adb4594"
+      },
+      "confidence": "high",
+      "linked_skills": [
+        "claude-cli-subprocess-adapter"
+      ],
+      "tags": [
+        "claude-cli",
+        "authentication",
+        "oauth",
+        "subprocess",
+        "flag-trap"
+      ],
+      "extracted_at": "2026-04-18"
+    },
     "k-git-tag-registry-versioning": {
       "category": "arch",
       "scope": "global",
@@ -2220,344 +2799,8 @@
       ],
       "extracted_at": "2026-04-15"
     },
-    "additive-registry-schema-versioning": {
-      "category": "arch",
-      "scope": "global",
-      "path": "~/.claude/skills-hub/knowledge/arch/additive-registry-schema-versioning.md",
-      "source": {
-        "kind": "session",
-        "ref": "session-2026-04-15-skills-extract-knowledge"
-      },
-      "confidence": "high",
-      "linked_skills": [],
-      "tags": [
-        "registry",
-        "schema",
-        "versioning",
-        "migration",
-        "backwards-compat"
-      ],
-      "extracted_at": "2026-04-15"
-    },
-    "classifier-both-verdict-self-reference": {
+    "k8s-clusterrole-aggregation-npe": {
       "category": "pitfall",
-      "scope": "global",
-      "path": "~/.claude/skills-hub/knowledge/pitfall/classifier-both-verdict-self-reference.md",
-      "source": {
-        "kind": "session",
-        "ref": "session-2026-04-15-skills-extract-knowledge"
-      },
-      "confidence": "medium",
-      "linked_skills": [],
-      "tags": [
-        "llm",
-        "classifier",
-        "schema",
-        "post-processing",
-        "linking"
-      ],
-      "extracted_at": "2026-04-15"
-    },
-    "caveats-absence-confidence-cap": {
-      "category": "decision",
-      "scope": "global",
-      "path": "~/.claude/skills-hub/knowledge/decision/caveats-absence-confidence-cap.md",
-      "source": {
-        "kind": "session",
-        "ref": "session-2026-04-15-skills-extract-knowledge"
-      },
-      "confidence": "medium",
-      "linked_skills": [],
-      "tags": [
-        "calibration",
-        "confidence",
-        "falsifiability",
-        "knowledge-quality"
-      ],
-      "extracted_at": "2026-04-15"
-    },
-    "boilerplate-generated-business-logic-manual": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "openapi-as-single-fe-be-contract": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "domain-registry-plus-projects-yaml": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "multi-domain-split-via-domain-mapping": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "port-out-no-optional-raise-in-adapter": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "existing-code-patterns-over-standard-rules": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "stub-in-service-unblocks-fe-parallelism": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "do-not-ask-planners-for-api-design": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "planning-doc-in-issue-description": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "serial-pipeline-failure-compounding": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "ai-guess-mark-and-review-checklist": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "claude-plugin-marketplace-owner-required": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "anonymize-examples-in-skill-docs": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "claude-plugin-skill-md-is-sufficient": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "hierarchical-agents-md-catalog": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "shallow-clone-mktemp-cleanup-pattern": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "plugin-repo-scope-generic-skills-only": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "skill-registry-vs-skill-config-split": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "pims-write-requires-dryrun-confirm": {
-      "category": "domain",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "jvm-module-opens-java21-spring-kafka": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "lucida-framework-gate-annotations": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "kafka-consumer-group-id-hostname-not-timezone": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "actuator-path-dual-compatibility": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "confid-vs-resourceid-routing": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "es-xpack-transport-vs-rest-ssl": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "kafka-avro-change-flag-contract": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "kafka-organization-id-record-header": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "live-chart-timestamp-normalization": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "stomp-heartbeat-10s-bidirectional": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "timeselector-mode-interval-range-mapping": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "xlog-extended-transaction-trace-with-compression": {
-      "category": "api",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "assumeutxo-snapshot-chainstate-phases": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "bilingual-user-facing-strings": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "commons-logging-exclusion-strategy": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "data-patch-package-for-migrations": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "dual-redis-lock-vs-access-control": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "env-override-last-wins-chain": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "event-driven-init-wait-for-services": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "gradle-avro-plugin-config": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "interface-abstraction-for-modularity": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "jar-task-disabled-bootjar-only": {
-      "category": "arch",
       "scope": "user",
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
@@ -2571,6 +2814,13 @@
       "linked_skills": [
         "kafka-consumer-semaphore-chunking"
       ]
+    },
+    "kafka-avro-change-flag-contract": {
+      "category": "api",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
     },
     "kafka-avro-schedule-event-chain": {
       "category": "arch",
@@ -2586,6 +2836,36 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
+    "kafka-batch-size-timeout-tuning": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "kafka-batch-consumer-partition-tuning"
+      ]
+    },
+    "kafka-consumer-group-id-hostname-not-timezone": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "kafka-error-handling-deserializer-fallback": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "kafka-organization-id-record-header": {
+      "category": "api",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
     "kafka-partition-topology-design": {
       "category": "arch",
       "scope": "user",
@@ -2595,8 +2875,154 @@
         "kafka-batch-consumer-partition-tuning"
       ]
     },
+    "kafka-sticky-partitioner-key-null": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "konva-center-coord-system": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "large-range-query-raw-collections": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "latest-availability-deletion-risk": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "availability-ttl-punctuate-processor"
+      ]
+    },
+    "legacy-datasource-naming": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "less-antd-theme-only": {
+      "category": "decision",
+      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
+      "added_at": "2026-04-16",
+      "linked_skills": []
+    },
+    "license-apply-window-15d": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "live-chart-timestamp-normalization": {
+      "category": "api",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
     "live-mode-aggregation-exceptions": {
       "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "lucida-framework-gate-annotations": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "lucida-ui-design-token-reference": {
+      "category": "arch",
+      "scope": "project",
+      "path": "knowledge/arch/lucida-ui-design-token-reference.md",
+      "source": {
+        "kind": "session",
+        "ref": "session-2026-04-16"
+      },
+      "confidence": "high",
+      "linked_skills": [
+        "nds-html-mockup-from-tokens",
+        "plan-to-screen-spec-conversion"
+      ],
+      "tags": [
+        "lucida-ui",
+        "nds",
+        "design-token",
+        "sirius"
+      ],
+      "extracted_at": "2026-04-16"
+    },
+    "measurement-batch-send-per-config": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mf-cross-remote-import-forbidden": {
+      "category": "arch",
+      "added_at": "2026-04-16",
+      "source": "lucida-ui@4b922a9043",
+      "linked_skills": []
+    },
+    "mf-expose-requires-memoryrouter-wrapper": {
+      "category": "arch",
+      "added_at": "2026-04-16",
+      "source": "lucida-ui@4b922a9043",
+      "linked_skills": []
+    },
+    "mf-select-unstable-options-infinite-loop": {
+      "category": "pitfall",
+      "added_at": "2026-04-16",
+      "source": "lucida-ui@4b922a9043",
+      "linked_skills": []
+    },
+    "mf-shared-singleton-config": {
+      "category": "arch",
+      "source_project": "lucida-ui",
+      "added_at": "2026-04-16",
+      "linked_skills": [
+        "mfa-federated-component-loader"
+      ]
+    },
+    "mongo-direct-connection-flag": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mongo-timeseries-forced-hint-kills-pushdown": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mongo-timeseries-match-split-for-pushdown": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mongo-timeseries-view-pushdown-broken-8_2_3": {
+      "category": "pitfall",
       "scope": "user",
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
@@ -2609,6 +3035,72 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
+    "mongodb-changestream-resubscribe": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "mongodb-changestream-field-filter"
+      ]
+    },
+    "mongodb-compound-index-on-views": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mongodb-documentreference-lazy-removal": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mongodb-exclude-system-databases": {
+      "category": "domain",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mongodb-field-name-underscore-to-dot": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mongodb-single-node-directconnection": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "mongodb-string-id-field-type-mapping": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "multi-domain-split-via-domain-mapping": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "multi-layer-css-architecture": {
+      "category": "arch",
+      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
+      "added_at": "2026-04-16",
+      "linked_skills": [
+        "mfa-portal-css-isolation"
+      ]
+    },
     "multiprocess-architecture-via-ipc": {
       "category": "arch",
       "scope": "user",
@@ -2616,8 +3108,22 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
+    "mysql-mariadb-performance-schema-detection": {
+      "category": "domain",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
     "nfs-backed-volumes-for-docker-swarm": {
       "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "node-npm-pin-matches-jenkins": {
+      "category": "decision",
       "scope": "user",
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
@@ -2882,371 +3388,6 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
-    "plugin-architecture-runtime-vs-startup-loading": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "published-vs-realtime-view-pages": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "redis-change-counter-for-versioning-trigger": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "scouter-three-tier-architecture": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "widget-is-frozen-group-snapshot": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "yorkie-team-server-split": {
-      "category": "arch",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "actuator-endpoints-skip-auth-by-design": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "admin-role-disabled-secretkey": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "alarm-raw-over-1min-aggregate": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "kafka-consumer-semaphore-chunking"
-      ]
-    },
-    "assume-semantics-for-compiler-hints": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "avro-private-fields-no-setters": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "cache-even-when-enable-false": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "circular-dependency-detection-script": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "confid-only-query-over-resource-tuple": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "copy-naming-suffix-numbered": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "cors-allow-credentials-star-origin": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "csp-frame-ancestors-required": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "dataavro-json-wrapper-pattern": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "god-controller-split-by-resource": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "hyperloglog-for-unique-user-counting": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "jacoco-exclude-business-layers": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "jacoco-sonar-exclusion-policy": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "querydsl-q-class-exclusion-pattern"
-      ]
-    },
-    "jacoco-sonar-exclusion-rationale": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "java-21-upgrade-rationale": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "java-21-upgrade-rationale"
-      ]
-    },
-    "jest-coverage-80-threshold": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "jwt-stateless-refresh-24h-default": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "kafka-batch-size-timeout-tuning": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "kafka-batch-consumer-partition-tuning"
-      ]
-    },
-    "large-range-query-raw-collections": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "license-apply-window-15d": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "measurement-batch-send-per-config": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "node-npm-pin-matches-jenkins": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "organization-soft-delete-grace-period": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "postgres-version-rolling-support": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "prefer-static-import-over-constant-inheritance": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "push-local-removed-use-doc-update": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "query-manager-version-conversion-fallback": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "rcp-desktop-client-design-rationale-vs-saas-web": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "resource-mount-unmount-use-jar-defaults": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "save-child-only-when-changed": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "scatter-topic-1min-retention": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "system-notification-shared-with-2fa-and-password-find": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "tabular-metric-excluded-from-list": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "tag-values-separate-collection": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "tomcat-request-timeout-1h-for-oz-report": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "udp-for-throughput-tcp-for-reliability": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "variable-length-integer-encoding-for-metrics-bandwidth": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "vllm-kv-cache-fp8-with-mtp": {
-      "category": "decision",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "account-lockout-configurable-threshold": {
-      "category": "domain",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "encrypted-pii-decode-on-export": {
-      "category": "domain",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongodb-exclude-system-databases": {
-      "category": "domain",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mysql-mariadb-performance-schema-detection": {
-      "category": "domain",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
     "one-default-template-per-type-rule": {
       "category": "domain",
       "scope": "user",
@@ -3254,284 +3395,15 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
-    "period-interval-naming-convention": {
-      "category": "domain",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "period-mode-enum-config"
-      ]
-    },
-    "root-span-error-propagation": {
-      "category": "domain",
+    "openapi-as-single-fe-be-contract": {
+      "category": "arch",
       "scope": "user",
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
-    "topresource-immediate-generation-invariant": {
-      "category": "domain",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "actuator-metric-call-aggressive-timeout": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "asm-based-classloader-instrumentation-caveats": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "audit-changed-prev-after-field-swap-bug": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "audit-change-data-capture-pattern"
-      ]
-    },
-    "auto-lock-must-not-bump-lastEditedTime": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "binsize-zero-fallback-to-one": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "catalina-urlencoder-internal-api": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "common-alarm-policy-init-gotcha": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "kafka-debounce-event-coalescing"
-      ]
-    },
-    "compare-counts-exclude-added-deleted": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "composite-alarm-all-deleted-npe": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "conf-info-may-lack-resource-type": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "docker-engine-29-requires-traefik-upgrade": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "enum-notnull-comparison-pitfall": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "enum-whitelist-blocks-time-based-sqli": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "gridfs-template-upload-data-loss-pitfall": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "hibernate-date-format-lowercase": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "history-view-yearly-partition-pitfall": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "injectmocks-generics-type-erasure": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "ipv6-colon-detection-edge": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "jackson-version-pinning-2.17.1": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "jdbc-template-var-xml-escape-bypass": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "k8s-clusterrole-aggregation-npe": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "kafka-error-handling-deserializer-fallback": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "kafka-sticky-partitioner-key-null": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "konva-center-coord-system": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "latest-availability-deletion-risk": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "availability-ttl-punctuate-processor"
-      ]
-    },
-    "legacy-datasource-naming": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongo-direct-connection-flag": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongo-timeseries-forced-hint-kills-pushdown": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongo-timeseries-match-split-for-pushdown": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongo-timeseries-view-pushdown-broken-8_2_3": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongodb-changestream-resubscribe": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": [
-        "mongodb-changestream-field-filter"
-      ]
-    },
-    "mongodb-compound-index-on-views": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongodb-documentreference-lazy-removal": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongodb-field-name-underscore-to-dot": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongodb-single-node-directconnection": {
-      "category": "pitfall",
-      "scope": "user",
-      "installed_at": "2026-04-16T00:40:04Z",
-      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
-      "linked_skills": []
-    },
-    "mongodb-string-id-field-type-mapping": {
-      "category": "pitfall",
+    "organization-soft-delete-grace-period": {
+      "category": "decision",
       "scope": "user",
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
@@ -3551,6 +3423,43 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
+    "period-interval-naming-convention": {
+      "category": "domain",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": [
+        "period-mode-enum-config"
+      ]
+    },
+    "pims-write-requires-dryrun-confirm": {
+      "category": "domain",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "planning-doc-in-issue-description": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "plugin-architecture-runtime-vs-startup-loading": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "plugin-repo-scope-generic-skills-only": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
     "policy-edit-saveraw-loss": {
       "category": "pitfall",
       "scope": "user",
@@ -3560,8 +3469,150 @@
         "non-metric-saveraw-null-rule"
       ]
     },
+    "port-out-no-optional-raise-in-adapter": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "postgres-version-rolling-support": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "prefer-static-import-over-constant-inheritance": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "published-vs-realtime-view-pages": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "push-local-removed-use-doc-update": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "python-regex-dotall-spans-java-method-blocks": {
+      "category": "pitfall",
+      "scope": "global",
+      "path": "~/.claude/skills-hub/knowledge/pitfall/python-regex-dotall-spans-java-method-blocks.md",
+      "source": {
+        "kind": "commit",
+        "ref": "88dff45a5adff6cbbc56f2757c1559d5981bc161"
+      },
+      "confidence": "high",
+      "linked_skills": [
+        "swagger-ai-optimization",
+        "bucket-parallel-java-annotation-dispatch",
+        "parallel-bulk-annotation"
+      ],
+      "tags": [
+        "python",
+        "regex",
+        "java",
+        "annotation-batch",
+        "swagger-ai-optimization"
+      ],
+      "extracted_at": "2026-04-17"
+    },
+    "query-manager-version-conversion-fallback": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "rcp-desktop-client-design-rationale-vs-saas-web": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "recoil-over-redux": {
+      "category": "decision",
+      "source_project": "lucida-ui",
+      "added_at": "2026-04-16",
+      "linked_skills": [
+        "recoil-domain-atom-store"
+      ]
+    },
+    "redis-change-counter-for-versioning-trigger": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
     "refresh-token-do-not-regenerate": {
       "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "resource-mount-unmount-use-jar-defaults": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "root-span-error-propagation": {
+      "category": "domain",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "save-child-only-when-changed": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "scatter-topic-1min-retention": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "scouter-three-tier-architecture": {
+      "category": "arch",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "scss-css-variable-theme-system": {
+      "category": "arch",
+      "source_project": "lucida-ui",
+      "added_at": "2026-04-16",
+      "linked_skills": []
+    },
+    "serial-pipeline-failure-compounding": {
+      "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "shallow-clone-mktemp-cleanup-pattern": {
+      "category": "arch",
       "scope": "user",
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
@@ -3576,6 +3627,27 @@
     },
     "simpledateformat-not-thread-safe": {
       "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "sirius-component-taxonomy": {
+      "category": "arch",
+      "source_project": "lucida-ui",
+      "added_at": "2026-04-16",
+      "linked_skills": []
+    },
+    "sirius-wraps-antd-design-system": {
+      "category": "arch",
+      "added_at": "2026-04-16",
+      "source": "lucida-ui@4b922a9043",
+      "linked_skills": [
+        "antd-wrapper-component-pattern"
+      ]
+    },
+    "skill-registry-vs-skill-config-split": {
+      "category": "decision",
       "scope": "user",
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
@@ -3616,6 +3688,27 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
+    "springdoc-dto-schema-orphan-when-unexposed": {
+      "category": "pitfall",
+      "scope": "global",
+      "path": "~/.claude/skills-hub/knowledge/pitfall/springdoc-dto-schema-orphan-when-unexposed.md",
+      "source": {
+        "kind": "commit",
+        "ref": "729ad3af82bb278b9083600d5caefe9c10702608"
+      },
+      "confidence": "high",
+      "linked_skills": [
+        "swagger-ai-optimization"
+      ],
+      "tags": [
+        "springdoc",
+        "openapi",
+        "java",
+        "schema",
+        "swagger-ai-optimization"
+      ],
+      "extracted_at": "2026-04-17"
+    },
     "sql-hash-unsigned-integer": {
       "category": "pitfall",
       "scope": "user",
@@ -3643,6 +3736,49 @@
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
+    },
+    "stomp-heartbeat-10s-bidirectional": {
+      "category": "api",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "stub-in-service-unblocks-fe-parallelism": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "system-notification-shared-with-2fa-and-password-find": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "tabular-metric-excluded-from-list": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "tag-values-separate-collection": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "tailwind-mfa-css-isolation-pitfalls": {
+      "category": "pitfall",
+      "added_at": "2026-04-16",
+      "source": "lucida-ui@4b922a9043",
+      "linked_skills": [
+        "mfa-portal-css-isolation"
+      ]
     },
     "tenant-context-clear-after-completion": {
       "category": "pitfall",
@@ -3672,6 +3808,20 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
+    "timeselector-mode-interval-range-mapping": {
+      "category": "api",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "tomcat-request-timeout-1h-for-oz-report": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
     "top-bottom-widest-collection-range": {
       "category": "pitfall",
       "scope": "user",
@@ -3688,6 +3838,13 @@
         "mongo-aggregation-filter-optimization"
       ]
     },
+    "topresource-immediate-generation-invariant": {
+      "category": "domain",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
     "trace-context-async-execution-propagation": {
       "category": "pitfall",
       "scope": "user",
@@ -3697,6 +3854,19 @@
     },
     "traefik-2.11-requires-explicit-idletimeout": {
       "category": "pitfall",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
+      "linked_skills": []
+    },
+    "triple-styling-paradigm-coexistence": {
+      "category": "decision",
+      "added_at": "2026-04-16",
+      "source": "lucida-ui@4b922a9043",
+      "linked_skills": []
+    },
+    "udp-for-throughput-tcp-for-reliability": {
+      "category": "decision",
       "scope": "user",
       "installed_at": "2026-04-16T00:40:04Z",
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
@@ -3723,51 +3893,19 @@
       "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
-    "mf-cross-remote-import-forbidden": {
-      "category": "arch",
-      "added_at": "2026-04-16",
-      "source": "lucida-ui@4b922a9043",
-      "linked_skills": []
-    },
-    "mf-expose-requires-memoryrouter-wrapper": {
-      "category": "arch",
-      "added_at": "2026-04-16",
-      "source": "lucida-ui@4b922a9043",
-      "linked_skills": []
-    },
-    "sirius-wraps-antd-design-system": {
-      "category": "arch",
-      "added_at": "2026-04-16",
-      "source": "lucida-ui@4b922a9043",
-      "linked_skills": [
-        "antd-wrapper-component-pattern"
-      ]
-    },
-    "triple-styling-paradigm-coexistence": {
+    "variable-length-integer-encoding-for-metrics-bandwidth": {
       "category": "decision",
-      "added_at": "2026-04-16",
-      "source": "lucida-ui@4b922a9043",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
-    "crypto-randomuuid-requires-secure-context": {
-      "category": "pitfall",
-      "added_at": "2026-04-16",
-      "source": "lucida-ui@4b922a9043",
+    "vllm-kv-cache-fp8-with-mtp": {
+      "category": "decision",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
-    },
-    "mf-select-unstable-options-infinite-loop": {
-      "category": "pitfall",
-      "added_at": "2026-04-16",
-      "source": "lucida-ui@4b922a9043",
-      "linked_skills": []
-    },
-    "tailwind-mfa-css-isolation-pitfalls": {
-      "category": "pitfall",
-      "added_at": "2026-04-16",
-      "source": "lucida-ui@4b922a9043",
-      "linked_skills": [
-        "mfa-portal-css-isolation"
-      ]
     },
     "widget-high-prop-count-debt": {
       "category": "pitfall",
@@ -3777,135 +3915,26 @@
         "widget-card-composition"
       ]
     },
-    "dual-design-token-pipeline-arch": {
+    "widget-is-frozen-group-snapshot": {
       "category": "arch",
-      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
-      "added_at": "2026-04-16",
-      "linked_skills": [
-        "figma-token-to-tailwind-theme",
-        "figma-token-scss-style-dictionary-v3"
-      ]
-    },
-    "less-antd-theme-only": {
-      "category": "decision",
-      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
-      "added_at": "2026-04-16",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
-    "multi-layer-css-architecture": {
-      "category": "arch",
-      "source_commit": "f11166f9f5f8a11e668346fe1c1e37270868b2ba",
-      "added_at": "2026-04-16",
-      "linked_skills": [
-        "mfa-portal-css-isolation"
-      ]
-    },
-    "endpoint-service-dual-pattern": {
+    "xlog-extended-transaction-trace-with-compression": {
       "category": "api",
-      "source_project": "lucida-ui",
-      "added_at": "2026-04-16",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
     },
-    "mf-shared-singleton-config": {
+    "yorkie-team-server-split": {
       "category": "arch",
-      "source_project": "lucida-ui",
-      "added_at": "2026-04-16",
-      "linked_skills": [
-        "mfa-federated-component-loader"
-      ]
-    },
-    "scss-css-variable-theme-system": {
-      "category": "arch",
-      "source_project": "lucida-ui",
-      "added_at": "2026-04-16",
+      "scope": "user",
+      "installed_at": "2026-04-16T00:40:04Z",
+      "source_commit": "a974d4aa7f23782bece6afca241e90813a2c7c5c",
       "linked_skills": []
-    },
-    "sirius-component-taxonomy": {
-      "category": "arch",
-      "source_project": "lucida-ui",
-      "added_at": "2026-04-16",
-      "linked_skills": []
-    },
-    "drawer-over-modal": {
-      "category": "decision",
-      "source_project": "lucida-ui",
-      "added_at": "2026-04-16",
-      "linked_skills": [
-        "drawer-resizable-composition"
-      ]
-    },
-    "recoil-over-redux": {
-      "category": "decision",
-      "source_project": "lucida-ui",
-      "added_at": "2026-04-16",
-      "linked_skills": [
-        "recoil-domain-atom-store"
-      ]
-    },
-    "lucida-ui-design-token-reference": {
-      "category": "arch",
-      "scope": "project",
-      "path": "knowledge/arch/lucida-ui-design-token-reference.md",
-      "source": {
-        "kind": "session",
-        "ref": "session-2026-04-16"
-      },
-      "confidence": "high",
-      "linked_skills": [
-        "nds-html-mockup-from-tokens",
-        "plan-to-screen-spec-conversion"
-      ],
-      "tags": [
-        "lucida-ui",
-        "nds",
-        "design-token",
-        "sirius"
-      ],
-      "extracted_at": "2026-04-16"
-    },
-    "springdoc-dto-schema-orphan-when-unexposed": {
-      "category": "pitfall",
-      "scope": "global",
-      "path": "~/.claude/skills-hub/knowledge/pitfall/springdoc-dto-schema-orphan-when-unexposed.md",
-      "source": {
-        "kind": "commit",
-        "ref": "729ad3af82bb278b9083600d5caefe9c10702608"
-      },
-      "confidence": "high",
-      "linked_skills": [
-        "swagger-ai-optimization"
-      ],
-      "tags": [
-        "springdoc",
-        "openapi",
-        "java",
-        "schema",
-        "swagger-ai-optimization"
-      ],
-      "extracted_at": "2026-04-17"
-    },
-    "python-regex-dotall-spans-java-method-blocks": {
-      "category": "pitfall",
-      "scope": "global",
-      "path": "~/.claude/skills-hub/knowledge/pitfall/python-regex-dotall-spans-java-method-blocks.md",
-      "source": {
-        "kind": "commit",
-        "ref": "88dff45a5adff6cbbc56f2757c1559d5981bc161"
-      },
-      "confidence": "high",
-      "linked_skills": [
-        "swagger-ai-optimization",
-        "bucket-parallel-java-annotation-dispatch",
-        "parallel-bulk-annotation"
-      ],
-      "tags": [
-        "python",
-        "regex",
-        "java",
-        "annotation-batch",
-        "swagger-ai-optimization"
-      ],
-      "extracted_at": "2026-04-17"
     }
   }
 }
