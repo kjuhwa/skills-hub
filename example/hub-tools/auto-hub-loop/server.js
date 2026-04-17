@@ -160,18 +160,20 @@ const usedKeywords = new Set();
 
 async function pickKeyword() {
   const recent = [...usedKeywords].slice(-5).join(' | ') || '(none)';
-  const prompt = `Generate ONE random evocative theme phrase (10 to 20 English words) suitable as a creative theme for a set of 3 interactive HTML visualization apps.
+  const prompt = `Generate ONE random evocative theme phrase (5 to 15 English words) suitable as a creative theme for a set of 3 interactive HTML visualization apps.
 
 Constraints:
-- Must be 10-20 words total (count carefully)
-- Mix nouns and verbs — concrete, sensory, evocative
-- Describe a scene, activity, or concept (not a product)
+- Must be 5-15 words total (count carefully)
+- NOUNS ONLY — no verbs, no adjectives, no adverbs. Every word must be a noun.
+- IT / computer science / distributed systems terminology ONLY
+- Combine multiple IT concepts into a creative compound phrase
 - Must NOT repeat these recent themes: ${recent}
-- No technical jargon (no "api", "database", "server", "framework", etc.)
 - Examples of good themes:
-  - "A cozy lighthouse keeper decodes midnight signals drifting across the stormy ocean horizon"
-  - "Tiny garden gnomes orchestrate a symphony while moonflowers bloom and fireflies weave patterns"
-  - "Ancient librarians sort whispered secrets into glowing tomes within a floating crystal archive"
+  - "consensus raft quorum leader election heartbeat timeout partition"
+  - "cache eviction shard replica failover circuit breaker backpressure"
+  - "merkle tree bloom filter consistent hashing ring topology gossip protocol"
+  - "container orchestration pod namespace service mesh sidecar proxy"
+  - "event sourcing saga outbox CDC snapshot aggregate projection"
 
 Output ONLY the phrase, no quotes, no explanation, nothing else.`;
 
