@@ -3,6 +3,9 @@ description: Publish a local creation to the skills-hub remote under example/<sl
 argument-hint: <slug> [--from=<path>] [--title=<str>] [--why=<str>] [--stack=<csv>] [--no-pr]
 ---
 
+> **Note (since v2.6.0):** `/hub-publish --only example` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-publish-example $ARGUMENTS
 
 Copy a local project folder (or the current working directory) into `example/<slug>/` in the `kjuhwa/skills-hub` remote, author a structured README.md, commit on a feature branch, push, and open a PR. Used after `/hub-make` (or any ad-hoc build) to make the artifact discoverable.

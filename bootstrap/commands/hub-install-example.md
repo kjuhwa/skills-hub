@@ -3,6 +3,9 @@ description: Browse and install examples from kjuhwa/skills.git into the current
 argument-hint: [keyword] [--list] [--stack=<name>] [--open]
 ---
 
+> **Note (since v2.6.0):** `/hub-install --example` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-install-example $ARGUMENTS
 
 Install example projects from the central repository into the current working directory.

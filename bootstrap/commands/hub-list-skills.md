@@ -3,6 +3,9 @@ description: List locally installed skills with source and scope
 argument-hint: [--global | --project | --orphans]
 ---
 
+> **Note (since v2.6.0):** `/hub-list --kind skills` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-list-skills $ARGUMENTS
 
 Report installed skills tracked by the hub registry.

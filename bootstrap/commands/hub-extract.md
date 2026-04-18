@@ -1,6 +1,6 @@
 ---
 description: Scan the full project and extract reusable skills and knowledge as drafts
-argument-hint: [<keyword>] [--only=skills|knowledge] [--from=project|diff|commit <sha>|range <A>..<B>] [--scope=all|src|docs] [--max=<n>] [--auto-split] [--min-confidence=high|medium|low] [--dry-run]
+argument-hint: [<keyword>] [--session] [--only=skills|knowledge] [--from=project|diff|commit <sha>|range <A>..<B>] [--scope=all|src|docs] [--max=<n>] [--auto-split] [--min-confidence=high|medium|low] [--dry-run]
 ---
 
 # /hub-extract $ARGUMENTS
@@ -11,6 +11,13 @@ Analyze the project (or a git diff/commit range) and classify each generalizable
 - **Knowledge** — non-executable facts, decisions, pitfalls, arch notes → `.knowledge-draft/<category>/<slug>.md`
 
 Default mode scans the **full project**. Use `--from` to narrow the source.
+
+
+## Dispatch (v2.6.0+)
+
+- `--session` → delegate to the `/hub-extract-session` flow (session-only scope)
+
+If none of these flags are present, run the main flow below.
 
 ## Keyword mode
 
