@@ -345,6 +345,8 @@ Tags are annotated and created automatically by `/hub-publish-skills` and `/hub-
 
 | Version | Highlights |
 |---|---|
+| [`v2.6.3`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.3) | **`/hub-install` optimization** — exact-name fast path skips interactive prompt, auto-fetch removed (opt-in via `--refresh`), graceful version fallback (tag → frontmatter → friendly hint / `--force-main`) replaces the old "tag or bust" behavior. |
+| [`v2.6.2`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.2) | **`/hub-doctor` v2.5.x awareness** — 11 checks covering tools/bin installation, git hooks, index freshness, shell PATH, and the `<skills_hub>` CLAUDE.md block. |
 | [`v2.6.1`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.1) | **Bulk-scan delegation** — `/hub-import`, `/hub-extract`, `/hub-refactor`, `/hub-condense`, `/hub-cleanup`, `/hub-research` now delegate file/web scanning to an Explore subagent. ~70 tool calls → ~5 for typical runs. |
 | [`v2.6.0`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.0) | **Command consolidation** — 35 commands → Core 8 canonical entry points. `/hub-list`, `/hub-publish` added; dispatch flags on `/hub-extract`, `/hub-install`. Legacy names still work. |
 | [`v2.5.4`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.5.4) | `tools/_rebuild_index_json.py` + `/hub-publish-all` spec hardened (SHA-map for tagging, post-merge retag step). |
