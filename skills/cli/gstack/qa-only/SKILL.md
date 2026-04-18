@@ -1,4 +1,5 @@
 ---
+
 category: cli
 name: qa-only
 preamble-tier: 4
@@ -22,6 +23,8 @@ source_ref: main
 source_commit: 23000672673224f04a5d0cb8d692356069c95f6a
 source_project: gstack
 imported_at: 2026-04-16T00:00:00Z
+tags: [gstack, cli, qa, testing, report-only]
+
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
