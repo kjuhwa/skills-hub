@@ -118,23 +118,54 @@ if [ -f "$HUB_DIR/tools/precheck.py" ]; then
 fi
 
 # --- v2.6.10+: register UserPromptSubmit hook in ~/.claude/settings.json ---
+# v2.6.12+: also register PreToolUse write-gate and PostToolUse search-clear
+# so implementation intent cannot proceed to Write/Edit until a hub search ran.
 # Opt out with SKILLS_HUB_NO_AUTO_SUGGEST=1.
 if [ "${SKILLS_HUB_NO_AUTO_SUGGEST:-0}" = "1" ]; then
-  echo "Skipping UserPromptSubmit hook registration (SKILLS_HUB_NO_AUTO_SUGGEST=1)."
+  echo "Skipping skills-hub hook registration (SKILLS_HUB_NO_AUTO_SUGGEST=1)."
 elif [ ! -f "$HUB_DIR/hooks/hub-suggest-hint.py" ]; then
   echo "Note: hub-suggest-hint.py not present; skipping hook registration."
 elif [ ! -f "$HUB_DIR/tools/_merge_settings.py" ]; then
   echo "Note: _merge_settings.py not present; skipping hook registration."
 elif [ -z "$PYBIN" ]; then
-  echo "Note: no python on PATH; skipping UserPromptSubmit hook registration."
-  echo "      Register manually: add a UserPromptSubmit hook running"
-  echo "      '<python> $HUB_DIR/hooks/hub-suggest-hint.py' in $CLAUDE_DIR/settings.json"
+  echo "Note: no python on PATH; skipping skills-hub hook registration."
+  echo "      Register manually in $CLAUDE_DIR/settings.json:"
+  echo "        UserPromptSubmit  → '<python> $HUB_DIR/hooks/hub-suggest-hint.py'"
+  echo "        PreToolUse        → '<python> $HUB_DIR/hooks/hub-write-gate.py'"
+  echo "        PostToolUse       → '<python> $HUB_DIR/hooks/hub-search-clear.py'"
 else
+  echo "Registering skills-hub hooks in $CLAUDE_DIR/settings.json"
+
   HOOK_CMD="$PYBIN \"$HUB_DIR/hooks/hub-suggest-hint.py\""
-  echo "Registering UserPromptSubmit hook in $CLAUDE_DIR/settings.json"
   printf '%s' "$HOOK_CMD" | PYTHONIOENCODING=utf-8 $PYBIN \
-    "$HUB_DIR/tools/_merge_settings.py" install "$CLAUDE_DIR/settings.json" \
-    || echo "  warn: hook registration failed; re-run install.sh or register manually"
+    "$HUB_DIR/tools/_merge_settings.py" install \
+      --type UserPromptSubmit \
+      --matcher "*" \
+      --marker "skills-hub:auto-suggest-hook" \
+      "$CLAUDE_DIR/settings.json" \
+    || echo "  warn: UserPromptSubmit hook registration failed"
+
+  if [ -f "$HUB_DIR/hooks/hub-write-gate.py" ]; then
+    HOOK_CMD="$PYBIN \"$HUB_DIR/hooks/hub-write-gate.py\""
+    printf '%s' "$HOOK_CMD" | PYTHONIOENCODING=utf-8 $PYBIN \
+      "$HUB_DIR/tools/_merge_settings.py" install \
+        --type PreToolUse \
+        --matcher "Write|Edit|MultiEdit|NotebookEdit" \
+        --marker "skills-hub:write-gate-hook" \
+        "$CLAUDE_DIR/settings.json" \
+      || echo "  warn: PreToolUse write-gate registration failed"
+  fi
+
+  if [ -f "$HUB_DIR/hooks/hub-search-clear.py" ]; then
+    HOOK_CMD="$PYBIN \"$HUB_DIR/hooks/hub-search-clear.py\""
+    printf '%s' "$HOOK_CMD" | PYTHONIOENCODING=utf-8 $PYBIN \
+      "$HUB_DIR/tools/_merge_settings.py" install \
+        --type PostToolUse \
+        --matcher "Bash|Skill|ToolSearch" \
+        --marker "skills-hub:search-clear-hook" \
+        "$CLAUDE_DIR/settings.json" \
+      || echo "  warn: PostToolUse search-clear registration failed"
+  fi
 fi
 
 # --- v2.6.8+: pre-implementation auto-check block in ~/.claude/CLAUDE.md ---
