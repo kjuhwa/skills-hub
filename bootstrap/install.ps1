@@ -1,4 +1,4 @@
-# Install skills-hub bootstrap into $HOME\.claude
+﻿# Install skills-hub bootstrap into $HOME\.claude
 # Usage: powershell -ExecutionPolicy Bypass -File install.ps1
 
 $ErrorActionPreference = "Stop"
