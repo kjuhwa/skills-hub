@@ -3,6 +3,9 @@ description: List projects already published under example/ in the skills-hub re
 argument-hint: [--refresh] [--verbose]
 ---
 
+> **Note (since v2.6.0):** `/hub-list --kind examples` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-list-examples $ARGUMENTS
 
 Enumerate every subfolder under `example/` in the `kjuhwa/skills-hub` remote cache and render a compact catalog. Intended as the first step of `/hub-make` so new creations don't re-invent something that already lives there.

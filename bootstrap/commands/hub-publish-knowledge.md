@@ -3,6 +3,9 @@ description: Review knowledge drafts and push them to kjuhwa/skills.git as a bra
 argument-hint: [--all | --draft=<slug>] [--pr] [--branch=<name>]
 ---
 
+> **Note (since v2.6.0):** `/hub-publish --only knowledge` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-publish-knowledge $ARGUMENTS
 
 Publish `.knowledge-draft/` contents to the remote repository. Counterpart to `/hub-publish-skills` — same flow, but for non-executable knowledge artifacts (facts, decisions, pitfalls, arch notes, domain invariants, API contracts).

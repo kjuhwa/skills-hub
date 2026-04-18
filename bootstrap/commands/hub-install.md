@@ -1,11 +1,19 @@
 ---
 description: Search kjuhwa/skills.git by keyword/category and install matching skills locally, optionally pinning a version
-argument-hint: <keyword | name@version> [--global] [--category=<name>] [--version=<x.y.z>] [--include-archived]
+argument-hint: <keyword | name@version> [--all] [--example] [--global] [--category=<name>] [--version=<x.y.z>] [--include-archived]
 ---
 
 # /hub-install $ARGUMENTS
 
 Install skills from the central repository matching the keyword.
+
+
+## Dispatch (v2.6.0+)
+
+- `--all` → delegate to the `/hub-install-all` flow (bulk-install every skill + knowledge from main)
+- `--example` → delegate to the `/hub-install-example` flow (copy an example project into cwd)
+
+If none of these flags are present, run the main flow below.
 
 ## Steps
 

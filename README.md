@@ -162,6 +162,23 @@ Should report "no skills installed yet" plus the empty registry — proves the h
 
 ## Command Reference
 
+### Core 8 (v2.6.0+)
+
+~90% of usage flows through eight canonical commands. Everything else is a specialised alias or a rarely-invoked maintenance tool.
+
+| Command | When to reach for it |
+|---|---|
+| `/hub-find "<query>"` | Discover skills/knowledge by keyword — ranked, KO↔EN synonyms |
+| `/hub-suggest "<task>"` | AI picks matching entries + offers install/reference (auto-fires on "구현해줘 / implement X") |
+| `/hub-install <name>` | Install a skill locally (add `--all` for bulk, `--example` for demo projects) |
+| `/hub-list` | See what's installed (`--kind skills\|knowledge\|examples\|all`, default all) |
+| `/hub-extract` | Mine the current project for reusable patterns (add `--session` for current session only) |
+| `/hub-publish` | Ship drafts back to the hub (default = all kinds on one PR; `--only skills\|knowledge\|example` narrows) |
+| `/hub-sync` | Pull remote updates + refresh local installs + rebuild indexes |
+| `/hub-doctor` | Diagnose & repair local installation issues |
+
+**Legacy per-kind commands** (`/hub-list-skills`, `/hub-publish-all`, `/hub-extract-session`, `/hub-install-all`, `/hub-install-example`, `/hub-publish-skills`, `/hub-publish-knowledge`, `/hub-publish-example`) still work as aliases — same behaviour, same flags. New code should prefer the canonical names above.
+
 ### Setup
 
 | Command | Purpose | Writes? |

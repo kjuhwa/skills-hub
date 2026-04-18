@@ -3,6 +3,9 @@ description: Review skill drafts and push them to kjuhwa/skills.git as a branch,
 argument-hint: [--all | --draft=<name>] [--pr] [--branch=<name>] [--bump=major|minor|patch]
 ---
 
+> **Note (since v2.6.0):** `/hub-publish --only skills` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-publish-skills $ARGUMENTS
 
 Publish `.skills-draft/` contents to the remote repository.

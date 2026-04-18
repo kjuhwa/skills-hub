@@ -3,6 +3,9 @@ description: Install every skill and every knowledge entry from kjuhwa/skills.gi
 argument-hint: [--global] [--skills-only] [--knowledge-only] [--yes] [--category=<name>]
 ---
 
+> **Note (since v2.6.0):** `/hub-install --all` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-install-all $ARGUMENTS
 
 Bulk-install **all** skills and **all** knowledge entries from the central repository.

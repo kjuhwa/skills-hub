@@ -3,6 +3,9 @@ description: Extract reusable skills and knowledge from the current session's ch
 argument-hint: [<keyword>] [--only=skills|knowledge] [--since=<ref>] [--include-conversation] [--min-confidence=high|medium|low] [--dry-run]
 ---
 
+> **Note (since v2.6.0):** `/hub-extract --session` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-extract-session $ARGUMENTS
 
 Narrow-scope extraction: only what happened in **this session**. Produces both skill and knowledge drafts, same as `/hub-extract` but focused on recent activity.

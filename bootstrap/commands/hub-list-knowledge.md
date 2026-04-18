@@ -3,6 +3,9 @@ description: List locally installed knowledge entries from the hub registry
 argument-hint: [--category <cat>] [--tag <tag>] [--linked-to <skill>] [--orphans] [--scope global|project]
 ---
 
+> **Note (since v2.6.0):** `/hub-list --kind knowledge` is the canonical entry. This command remains as a compatibility alias — same behaviour, same flags.
+
+
 # /hub-list-knowledge $ARGUMENTS
 
 Report knowledge artifacts (non-executable facts/decisions/pitfalls) registered alongside skills.
