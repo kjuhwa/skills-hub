@@ -1,4 +1,5 @@
 ---
+
 name: pair-agent
 category: ai
 version: 0.1.0
@@ -21,6 +22,8 @@ source_ref: main
 source_commit: 23000672673224f04a5d0cb8d692356069c95f6a
 source_project: gstack
 imported_at: 2026-04-16T00:00:00Z
+tags: [ai, agent, pair-programming]
+
 ---
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
