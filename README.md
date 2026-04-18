@@ -35,7 +35,8 @@ curl -fsSL https://raw.githubusercontent.com/kjuhwa/skills-hub/main/bootstrap/in
 - ✨ **Core 8 mental model (v2.6.0+)** — 35 commands reduced to 8 canonical entry points: `/hub-find`, `/hub-suggest`, `/hub-install`, `/hub-list`, `/hub-extract`, `/hub-publish`, `/hub-sync`, `/hub-doctor`. Legacy names still work as aliases.
 - ⚡ **Fast bulk scans via Explore subagent (v2.6.1+)** — scan-heavy commands (`/hub-import`, `/hub-extract`, `/hub-refactor`, `/hub-condense`, `/hub-cleanup`, `/hub-research`) delegate bulk file/web scanning to an isolated subagent. Typical run drops from ~70 tool calls to ~5.
 - 🔎 **Ranked search with KO↔EN synonyms** — `/hub-find "스프링 카프카"` scores `name`/`description`/`tags`/`triggers` and expands 180+ Korean/English synonyms (v2.5.0+).
-- 🤖 **Pre-implementation auto-check** — when the user asks "구현해줘 / implement X", Claude Code auto-searches the hub first and offers matching skills with an install/reference prompt (`/hub-suggest` is the manual entry point, v2.5.2+).
+- 🚦 **Blocking pre-implementation hub check (v2.6.10+, tightened v2.6.12+)** — a `UserPromptSubmit` hook scans for implementation intent (KO 구현해/만들어/작성해/짜줘/개발해/추가해 + EN implement/build/create/develop/scaffold/write a) and a `PreToolUse` gate refuses the first `Write`/`Edit`/`MultiEdit`/`NotebookEdit` until a hub search actually runs (cleared by `hub-search` / `/hub-find` / `/hub-install` / `/hub-list`). `/hub-suggest` stays as the manual entry point. Opt out: `SKILLS_HUB_NO_AUTO_SUGGEST=1`.
+- 🧰 **Zero-friction installer (v2.6.7–v2.6.11)** — `install.{sh,ps1}` seeds `registry.json` v2 schema, writes `bootstrap.json` from the latest `bootstrap/v*` tag, mkdirs knowledge subcategories + `external/`, inserts the `<skills_hub>` block into `CLAUDE.md`, appends `bin/` to PATH via shell profile, registers the `UserPromptSubmit`/`PreToolUse`/`PostToolUse` hooks in `~/.claude/settings.json`, and runs `precheck.py` once so `/hub-doctor`'s 12 checks all pass on a fresh install. After v2.6.11, `git pull` alone is enough to upgrade — post-merge re-runs `install.sh` whenever `bootstrap/` files change.
 - ♻️ **Self-healing index** — git hooks (post-merge / post-commit / post-checkout) regenerate the L1/L2 corpus index after every mutation so `/hub-find` never goes stale (v2.5.0+).
 - 📦 **Category-separated registry** — 20 canonical skill categories (`apm`, `backend`, `ai`, `arch`, `frontend`, `devops`, `db`, `testing`, `security`, `data`, `cli`, `git`, `debug`, `refactor`, `docs`, `workflow`, `game-dev`, `design`, `mobile`, `misc`), one skill per folder, frontmatter-driven.
 - 🧠 **Two kinds of memory** — executable **skills** (recipes with triggers) + non-executable **knowledge** (facts, decisions, pitfalls) across 6 categories (`api`, `arch`, `decision`, `domain`, `pitfall`, `workflow`).
@@ -158,13 +159,28 @@ git clone https://github.com/kjuhwa/skills-hub.git $HOME\.claude\skills-hub\remo
 powershell -ExecutionPolicy Bypass -File $HOME\.claude\skills-hub\remote\bootstrap\install.ps1
 ```
 
-The installer (v2.5.0+) copies:
+The installer copies and seeds everything a fresh `~/.claude/` needs to pass `/hub-doctor` on the first run:
+
+**Copied (v2.5.0+)**
 - `bootstrap/commands/*.md` → `~/.claude/commands/`
 - `bootstrap/skills/skills-hub/` → `~/.claude/skills/skills-hub/`
 - `bootstrap/tools/*.py` + `install-hooks.sh` → `~/.claude/skills-hub/tools/`
-- `bootstrap/bin/hub-*` → `~/.claude/skills-hub/bin/` (add to `PATH` for shell use)
+- `bootstrap/bin/hub-*` → `~/.claude/skills-hub/bin/`
+- `bootstrap/completions/hub-completion.{bash,zsh,ps1}` → `~/.claude/skills-hub/completions/` (v2.6.4+)
+- `bootstrap/hooks/hub-*.py` → `~/.claude/skills-hub/hooks/` (v2.6.10+)
 
-It then runs `install-hooks.sh` to register git hooks inside `remote/.git/hooks/` so `~/.claude/skills-hub/indexes/` stays in sync after every pull / commit / branch switch.
+**Seeded / registered (fresh-install gaps closed in v2.6.7+)**
+- `registry.json` with the v2 schema `{ version: 2, skills: {}, knowledge: {} }` (v2.6.7+)
+- `bootstrap.json` with `installed_version` derived from `git describe --tags` on the bootstrap tag (v2.6.7+)
+- Knowledge subcategory dirs `knowledge/{api,arch,pitfall,decision,domain}/` and `external/` (v2.6.7+)
+- `<skills_hub>` block appended/refreshed in `~/.claude/CLAUDE.md` (v2.6.8+)
+- `~/.claude/skills-hub/bin` prepended to PATH via `~/.bashrc`/`~/.zshrc` or `$PROFILE` (v2.6.9+, idempotent `# skills-hub:path` marker, opt out with `SKILLS_HUB_NO_PROFILE=1`)
+- `UserPromptSubmit` + `PreToolUse` + `PostToolUse` hooks registered in `~/.claude/settings.json` under `"_marker": "skills-hub:auto-suggest-hook"` (v2.6.10+/v2.6.12+, opt out with `SKILLS_HUB_NO_AUTO_SUGGEST=1`)
+- `tools/precheck.py --skip-lint` executed once so `00_MASTER_INDEX*.md` + `category_indexes/` exist before any git hook fires (v2.6.7+)
+
+**Git hooks**
+- `install-hooks.sh` registers `post-merge` / `post-commit` / `post-checkout` inside `remote/.git/hooks/` so the indexes stay in sync after every pull / commit / branch switch.
+- `post-merge` in v2.6.11+ additionally re-runs `install.sh` whenever the merged diff touches anything under `bootstrap/`, so `git pull` alone carries new commands, tools, hooks, and settings forward (opt out with `SKILLS_HUB_NO_AUTO_PATCH=1`).
 
 Restart Claude Code to pick up the new slash commands.
 
@@ -345,6 +361,13 @@ Tags are annotated and created automatically by `/hub-publish-skills` and `/hub-
 
 | Version | Highlights |
 |---|---|
+| [`v2.6.13`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.13) | **`install.ps1` UTF-8 BOM fix** — PowerShell 5.1 on non-UTF-8 locales (e.g. ko-KR CP949) misread em-dashes in the `<skills_hub>` here-string and wrote `??` into `CLAUDE.md`. Prepending `EF BB BF` forces UTF-8 parsing on PS 5.1 and is transparent to PS 7+. |
+| [`v2.6.12`](https://github.com/kjuhwa/skills-hub/pull/1050) | **Blocking Write/Edit gate** — `hub-suggest-hint.py` now drops a pending flag at `~/.claude/skills-hub/state/hub_first_pending.flag` and the reminder is rewritten as a STOP gate. Companion `hub-write-gate.py` (`PreToolUse: Write\|Edit\|MultiEdit\|NotebookEdit`) refuses the first code-writing tool call while the flag exists; `hub-search-clear.py` (`PostToolUse: Bash\|Skill\|ToolSearch`) deletes the flag the moment a hub search runs. `_merge_settings.py` generalized for `--type/--matcher/--marker`. |
+| [`v2.6.11`](https://github.com/kjuhwa/skills-hub/pull/1049) | **`git pull` is enough to upgrade** — `install-hooks.sh`'s `post-merge` now runs `precheck.py --skip-lint` AND, if `ORIG_HEAD..HEAD` touched any `bootstrap/` file, re-runs `install.sh` so new commands, tools, hooks, and settings entries apply automatically. Merge never aborts on failure. Opt out with `SKILLS_HUB_NO_AUTO_PATCH=1`. `/hub-doctor` check 8 verifies the marker is present. |
+| [`v2.6.10`](https://github.com/kjuhwa/skills-hub/pull/1048) | **Auto-registered `UserPromptSubmit` hook** — `hub-suggest-hint.py` reads the prompt JSON from stdin, matches Korean (개발해/구현해/만들어/짜줘/작성해/구축해/추가해) and English (implement/build/create/develop/scaffold/write a/add a) implementation keywords with word-boundary regex, and emits a `<system-reminder>` telling Claude to invoke `/hub-suggest`. `_merge_settings.py` idempotently merges the entry into `~/.claude/settings.json` tagged `"_marker": "skills-hub:auto-suggest-hook"`. Slash commands skipped. Opt out with `SKILLS_HUB_NO_AUTO_SUGGEST=1`. |
+| [`v2.6.9`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.9) | **Auto-PATH on install** — `install.ps1` appends to `$PROFILE` (CurrentUserAllHosts) and `install.sh` to `~/.bashrc`/`~/.zshrc`, idempotent via a `# skills-hub:path` marker. Eliminates the last manual step after install and the `/hub-doctor` check-10 PATH warning on fresh installs. Opt out with `SKILLS_HUB_NO_PROFILE=1`. |
+| [`v2.6.8`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.8) | **`<skills_hub>` block written on install** — both installers now idempotently create/refresh/append the canonical auto-check block (pointing at `/hub-find`, `/hub-install`, `/hub-list`, `/hub-publish`) to `~/.claude/CLAUDE.md` so `/hub-doctor` check 11 passes and `/hub-uninstall`'s documented block-removal step has something to remove. |
+| [`v2.6.7`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.7) | **Installer seeds missing hub state** — fresh install no longer leaves `/hub-doctor` with FAIL/WARN. Installer now writes `registry.json` v2 schema (re-seeds `"{}"` leftovers + strips BOM from older PowerShell writes), writes `bootstrap.json` with `installed_version` from `git describe --tags`, mkdirs `knowledge/{api,arch,pitfall,decision,domain}/` + `external/`, and runs `tools/precheck.py --skip-lint` once so indexes exist before the first git hook fires. |
 | [`v2.6.6`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.6) | **`/hub-uninstall`** — inverse of `install.sh`: removes the entire bootstrap layer (remote cache, tools, bin, completions, indexes, registry, slash commands, seed skill, `<skills_hub>` block). Dry-run by default, mandatory `UNINSTALL` literal confirm, automatic backup tarball. Preserves individually-installed skills (`~/.claude/skills/<slug>/`) unless `--purge-installed`. Never touches project-scoped `.claude/` trees. |
 | [`v2.6.5`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.5) | **`/hub-install` now installs knowledge too** — new `--kind=<skill\|knowledge\|auto>` flag (default `auto`). Knowledge lands at `~/.claude/skills-hub/knowledge/<category>/<slug>.md` (global) or `.claude/knowledge/<category>/<slug>.md` (project-scoped) for offline reads, PR-reviewable curation, and version pinning. `registry.json` v2's pre-existing `knowledge` namespace is finally populated. No tags for knowledge yet — `@version` resolves via frontmatter match or `--force-main`. |
 | [`v2.6.4`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.4) | **Scale guards + shell completion** — `/hub-publish-all` auto-chunks into batched PRs past 50 drafts (refuses ≥1000 without `--force-large`), `/hub-install` shows a discovery panel (recent installs + categories + counts) when invoked with no args, and bash/zsh/PowerShell tab-completion scripts ship for the `hub-*` bin wrappers (Claude Code REPL still has no arg autocomplete — documented limitation). |
