@@ -73,5 +73,9 @@ If none of these flags are present, run the main flow below.
 - **Always install from `main` branch.** All skill/knowledge sources must come from the `main` branch of the remote cache. Never use feature branches (`example/*`, `skill/*`, etc.) — they may contain outdated or unmerged content. Version-pinned installs use tags that point to commits on `main`.
 - Never install without explicit user selection unless `--yes` flag.
 - Never modify the remote clone cache's working tree (read-only usage).
-- If `$ARGUMENTS` is empty, list top-level categories from `CATEGORIES.md` and prompt.
+- **Discovery panel when `$ARGUMENTS` is empty (v2.6.4+)** — show a three-part panel before prompting:
+  1. **Recent installs** — up to 5 entries from `~/.claude/skills-hub/registry.json`, sorted by `installed_at` descending. Skips entries whose files are missing on disk.
+  2. **Categories** — from `CATEGORIES.md`, annotated with entry counts read from `index.json` (e.g. `security (47)`).
+  3. **Hint line** — Claude Code's REPL has no native tab-complete for slash-command args. When you don't remember a slug, run `/hub-find <keyword>` first and paste the `name` from the results. For shell wrappers outside Claude Code, source `~/.claude/skills-hub/completions/hub-completion.{bash,zsh,ps1}` from your rc.
+  Then prompt the user for a keyword, slug, or category.
 - **Archived entries** (`archived: true` in frontmatter or index) are excluded from search results and bulk installs. Install them only when the user explicitly names the entry AND passes `--include-archived`; then print the `archived_reason` before proceeding so the user has context.
