@@ -130,6 +130,39 @@ if (Test-Path "$HubDir\tools\precheck.py") {
     }
 }
 
+# v2.6.8+: pre-implementation auto-check block in CLAUDE.md
+# Idempotent: inserts on first install, refreshes on re-install.
+# Removal is handled by /hub-uninstall.
+$claudeMd = Join-Path $ClaudeDir "CLAUDE.md"
+$canonicalBlock = @'
+<skills_hub>
+Before implementing, check the hub for existing skills/knowledge:
+- `/hub-find <keyword>` — search installed + remote
+- `/hub-install <slug>` — install matching skill/knowledge
+- `/hub-list` — see what's already installed
+- `/hub-publish` — publish drafts back to the hub
+</skills_hub>
+'@
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+if (-not (Test-Path $claudeMd)) {
+    Write-Host "Creating $claudeMd with <skills_hub> block"
+    [System.IO.File]::WriteAllText($claudeMd, $canonicalBlock + "`n", $utf8NoBom)
+} else {
+    $existing = [System.IO.File]::ReadAllText($claudeMd)
+    if ($existing -match '(?s)<skills_hub>.*?</skills_hub>') {
+        Write-Host "Refreshing <skills_hub> block in $claudeMd"
+        $regex = [regex]'(?s)<skills_hub>.*?</skills_hub>'
+        $new = $regex.Replace($existing, { param($m) $canonicalBlock }, 1)
+        [System.IO.File]::WriteAllText($claudeMd, $new, $utf8NoBom)
+    } else {
+        Write-Host "Adding <skills_hub> block to $claudeMd"
+        $sep = if ($existing.Length -eq 0) { "" }
+               elseif ($existing.EndsWith("`n")) { "`n" }
+               else { "`n`n" }
+        [System.IO.File]::AppendAllText($claudeMd, $sep + $canonicalBlock + "`n", $utf8NoBom)
+    }
+}
+
 Write-Host ""
 Write-Host "To use 'hub-search', 'hub-precheck', 'hub-index-diff' from any shell, add to your PowerShell profile:"
 Write-Host "  `$env:Path = `"`$HOME\.claude\skills-hub\bin;`" + `$env:Path"

@@ -109,6 +109,49 @@ if [ -f "$HUB_DIR/tools/precheck.py" ]; then
   fi
 fi
 
+# --- v2.6.8+: pre-implementation auto-check block in ~/.claude/CLAUDE.md ---
+# Idempotent: inserts on first install, refreshes content on re-install.
+# Removal is handled by /hub-uninstall.
+CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
+TMPBLOCK="$(mktemp)"
+cat > "$TMPBLOCK" <<'BLOCK'
+<skills_hub>
+Before implementing, check the hub for existing skills/knowledge:
+- `/hub-find <keyword>` — search installed + remote
+- `/hub-install <slug>` — install matching skill/knowledge
+- `/hub-list` — see what's already installed
+- `/hub-publish` — publish drafts back to the hub
+</skills_hub>
+BLOCK
+
+touch "$CLAUDE_MD"
+if grep -q '<skills_hub>' "$CLAUDE_MD" 2>/dev/null; then
+  echo "Refreshing <skills_hub> block in $CLAUDE_MD"
+  TMPMD="$(mktemp)"
+  awk -v blockfile="$TMPBLOCK" '
+    BEGIN {
+      while ((getline line < blockfile) > 0) {
+        block = block (block ? "\n" : "") line
+      }
+      close(blockfile)
+    }
+    /<skills_hub>/ && !done { print block; skipping=1; done=1; next }
+    skipping && /<\/skills_hub>/ { skipping=0; next }
+    !skipping { print }
+  ' "$CLAUDE_MD" > "$TMPMD"
+  mv "$TMPMD" "$CLAUDE_MD"
+else
+  echo "Adding <skills_hub> block to $CLAUDE_MD"
+  if [ -s "$CLAUDE_MD" ]; then
+    if [ "$(tail -c1 "$CLAUDE_MD" | wc -l)" -eq 0 ]; then
+      printf '\n' >> "$CLAUDE_MD"
+    fi
+    printf '\n' >> "$CLAUDE_MD"
+  fi
+  cat "$TMPBLOCK" >> "$CLAUDE_MD"
+fi
+rm -f "$TMPBLOCK"
+
 # PATH hint
 echo ""
 echo "To use 'hub-search', 'hub-precheck', 'hub-index-diff' from any shell, add to ~/.bashrc:"
