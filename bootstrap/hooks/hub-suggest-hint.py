@@ -3,8 +3,11 @@
 skills-hub UserPromptSubmit hook.
 
 If the user's prompt contains implementation keywords (개발/구현/build/create/...),
-emit a <system-reminder> to nudge Claude toward running /hub-suggest first, so
-existing skills and knowledge are checked before implementation starts.
+emit a blocking <system-reminder> and drop a PENDING flag file at
+~/.claude/skills-hub/state/hub_first_pending.flag. The companion PreToolUse
+hook (`hub-write-gate.py`) refuses Write/Edit/MultiEdit/NotebookEdit while the
+flag exists; the PostToolUse hook (`hub-search-clear.py`) clears it the moment
+a hub search tool runs.
 
 Opt out at runtime: set SKILLS_HUB_NO_AUTO_SUGGEST=1 in the environment.
 """
@@ -12,6 +15,10 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
+
+STATE_DIR = Path.home() / ".claude" / "skills-hub" / "state"
+PENDING = STATE_DIR / "hub_first_pending.flag"
 
 IMPL_PATTERNS = [
     # Korean — substring match (no reliable word boundaries)
@@ -34,14 +41,28 @@ IMPL_PATTERNS = [
 
 REMINDER = (
     "<system-reminder>\n"
-    "skills-hub auto-check: implementation intent detected in the user prompt.\n"
-    "BEFORE writing any code, invoke /hub-suggest with a keyword derived from "
-    "the task so the hub can surface existing skills or knowledge first.\n"
-    "This hook was installed by skills-hub bootstrap. "
-    "Opt out with env var SKILLS_HUB_NO_AUTO_SUGGEST=1.\n"
-    "Matched keyword: {kw}\n"
+    "STOP — skills-hub gate engaged (matched: '{kw}').\n"
+    "Implementation intent was detected in the user prompt. BEFORE any Write, "
+    "Edit, MultiEdit, or NotebookEdit call, you MUST run a hub search:\n"
+    "  - `hub-search <keyword>`  (preferred, if on PATH)\n"
+    "  - `py -3 ~/.claude/skills-hub/tools/hub_search.py <keyword>`  (fallback)\n"
+    "  - or invoke the `hub-find` skill / `/hub-find <keyword>` slash command\n"
+    "Then report the top matches briefly and let the user steer. A follow-up "
+    "confirmation phrase like 'ok' or 'proceed' does NOT waive this gate — it "
+    "only confirms a plan the user has already seen.\n"
+    "A PreToolUse gate (`hub-write-gate.py`) will block Write/Edit until the "
+    "PostToolUse clearer observes a hub search running. Opt out only if the "
+    "user explicitly said to skip the hub: env var SKILLS_HUB_NO_AUTO_SUGGEST=1.\n"
     "</system-reminder>"
 )
+
+
+def set_pending_flag() -> None:
+    try:
+        STATE_DIR.mkdir(parents=True, exist_ok=True)
+        PENDING.write_text("pending\n", encoding="utf-8")
+    except OSError:
+        pass
 
 
 def main() -> int:
@@ -60,6 +81,7 @@ def main() -> int:
     for pat in IMPL_PATTERNS:
         m = pat.search(prompt)
         if m:
+            set_pending_flag()
             sys.stdout.write(REMINDER.format(kw=m.group(0)) + "\n")
             return 0
     return 0
