@@ -32,6 +32,16 @@ if [ -d "$REPO_DIR/bootstrap/bin" ]; then
   chmod +x "$HUB_DIR/bin/"hub-* 2>/dev/null || true
 fi
 
+# --- v2.6.4+: shell completion for hub-* bin wrappers ---
+if [ -d "$REPO_DIR/bootstrap/completions" ]; then
+  echo "Installing shell completions → $HUB_DIR/completions/"
+  mkdir -p "$HUB_DIR/completions"
+  cp "$REPO_DIR/bootstrap/completions/hub-completion.bash" "$HUB_DIR/completions/" 2>/dev/null || true
+  cp "$REPO_DIR/bootstrap/completions/hub-completion.zsh"  "$HUB_DIR/completions/" 2>/dev/null || true
+  cp "$REPO_DIR/bootstrap/completions/hub-completion.ps1"  "$HUB_DIR/completions/" 2>/dev/null || true
+  cp "$REPO_DIR/bootstrap/completions/README.md"           "$HUB_DIR/completions/README.md" 2>/dev/null || true
+fi
+
 # Ensure the remote cache symlink / copy exists for the runtime commands
 if [ ! -d "$HUB_DIR/remote/.git" ]; then
   echo "Note: runtime remote cache not present at $HUB_DIR/remote/"
@@ -53,6 +63,15 @@ fi
 echo ""
 echo "To use 'hub-search', 'hub-precheck', 'hub-index-diff' from any shell, add to ~/.bashrc:"
 echo "  export PATH=\"\$HOME/.claude/skills-hub/bin:\$PATH\""
+
+# Completion hint (v2.6.4+)
+if [ -d "$HUB_DIR/completions" ]; then
+  echo ""
+  echo "Optional: tab-completion for hub-* bin wrappers (outside Claude Code)"
+  echo "  bash: source \$HOME/.claude/skills-hub/completions/hub-completion.bash"
+  echo "  zsh:  source \$HOME/.claude/skills-hub/completions/hub-completion.zsh"
+  echo "  (PowerShell has a parallel hub-completion.ps1 — dot-source from \$PROFILE)"
+fi
 
 echo ""
 echo "Done. Installed commands:"

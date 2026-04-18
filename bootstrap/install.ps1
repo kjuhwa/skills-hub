@@ -36,6 +36,16 @@ if (Test-Path "$RepoDir\bootstrap\bin") {
         ForEach-Object { Copy-Item $_.FullName "$HubDir\bin\" -Force }
 }
 
+# v2.6.4+: shell completion for hub-* bin wrappers
+if (Test-Path "$RepoDir\bootstrap\completions") {
+    Write-Host "Installing shell completions -> $HubDir\completions\"
+    New-Item -ItemType Directory -Force -Path "$HubDir\completions" | Out-Null
+    Copy-Item "$RepoDir\bootstrap\completions\hub-completion.bash" "$HubDir\completions\" -Force -ErrorAction SilentlyContinue
+    Copy-Item "$RepoDir\bootstrap\completions\hub-completion.zsh"  "$HubDir\completions\" -Force -ErrorAction SilentlyContinue
+    Copy-Item "$RepoDir\bootstrap\completions\hub-completion.ps1"  "$HubDir\completions\" -Force -ErrorAction SilentlyContinue
+    Copy-Item "$RepoDir\bootstrap\completions\README.md"           "$HubDir\completions\README.md" -Force -ErrorAction SilentlyContinue
+}
+
 if (-not (Test-Path "$HubDir\remote\.git")) {
     Write-Host "Note: runtime remote cache not present at $HubDir\remote\"
     Write-Host "      Either clone the repo there, or a /skills_* command will clone on first run."
@@ -59,6 +69,14 @@ if ((Test-Path "$HubDir\remote\.git") -and (Test-Path "$HubDir\tools\install-hoo
 Write-Host ""
 Write-Host "To use 'hub-search', 'hub-precheck', 'hub-index-diff' from any shell, add to your PowerShell profile:"
 Write-Host "  `$env:Path = `"`$HOME\.claude\skills-hub\bin;`" + `$env:Path"
+
+# v2.6.4+: completion hint
+if (Test-Path "$HubDir\completions") {
+    Write-Host ""
+    Write-Host "Optional: tab-completion for hub-* bin wrappers (outside Claude Code)"
+    Write-Host "  PowerShell: . `$HOME\.claude\skills-hub\completions\hub-completion.ps1"
+    Write-Host "  bash/zsh:   source `$HOME/.claude/skills-hub/completions/hub-completion.{bash,zsh}"
+}
 
 Write-Host ""
 Write-Host "Done. Installed commands:"

@@ -345,6 +345,7 @@ Tags are annotated and created automatically by `/hub-publish-skills` and `/hub-
 
 | Version | Highlights |
 |---|---|
+| [`v2.6.4`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.4) | **Scale guards + shell completion** — `/hub-publish-all` auto-chunks into batched PRs past 50 drafts (refuses ≥1000 without `--force-large`), `/hub-install` shows a discovery panel (recent installs + categories + counts) when invoked with no args, and bash/zsh/PowerShell tab-completion scripts ship for the `hub-*` bin wrappers (Claude Code REPL still has no arg autocomplete — documented limitation). |
 | [`v2.6.3`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.3) | **`/hub-install` optimization** — exact-name fast path skips interactive prompt, auto-fetch removed (opt-in via `--refresh`), graceful version fallback (tag → frontmatter → friendly hint / `--force-main`) replaces the old "tag or bust" behavior. |
 | [`v2.6.2`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.2) | **`/hub-doctor` v2.5.x awareness** — 11 checks covering tools/bin installation, git hooks, index freshness, shell PATH, and the `<skills_hub>` CLAUDE.md block. |
 | [`v2.6.1`](https://github.com/kjuhwa/skills-hub/releases/tag/bootstrap/v2.6.1) | **Bulk-scan delegation** — `/hub-import`, `/hub-extract`, `/hub-refactor`, `/hub-condense`, `/hub-cleanup`, `/hub-research` now delegate file/web scanning to an Explore subagent. ~70 tool calls → ~5 for typical runs. |
