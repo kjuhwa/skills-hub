@@ -1937,6 +1937,40 @@
   },
   {
     "kind": "knowledge",
+    "name": "swap-ab-for-m-grouped-on-sm100",
+    "slug": "swap-ab-for-m-grouped-on-sm100",
+    "category": "arch",
+    "description": "",
+    "tags": [
+      "swap-ab",
+      "sm100",
+      "blackwell",
+      "m-grouped",
+      "multicast",
+      "layout"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/kernel-heuristics/swap-ab-for-m-grouped-on-sm100.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "synthetic-utf8-datasets-v3-3",
+    "slug": "synthetic-utf8-datasets-v3-3",
+    "category": "arch",
+    "description": "standard_v3_3 added synthetic UTF-8 datasets (non-ASCII text, JSON) to improve international/multilingual handling.",
+    "tags": [
+      "magika",
+      "arch"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/arch/synthetic-utf8-datasets-v3-3.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "tenant-context-per-request-interceptor",
     "slug": "tenant-context-per-request-interceptor",
     "category": "arch",
@@ -1951,6 +1985,21 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/arch/tenant-context-per-request-interceptor.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "tensorflow-js-for-browser-deployment",
+    "slug": "tensorflow-js-for-browser-deployment",
+    "category": "arch",
+    "description": "The web demo uses a TensorFlow.js model for on-device, browser-based inference (no server round trip).",
+    "tags": [
+      "magika",
+      "arch"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/arch/tensorflow-js-for-browser-deployment.md",
     "has_content": true
   },
   {
@@ -2040,6 +2089,40 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/architecture/agent-native-software-philosophy.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "task-receiver-async-work-queueing",
+    "slug": "task-receiver-async-work-queueing",
+    "category": "architecture",
+    "description": "Async work queue for receiving tasks from hub, applying updates, managing task state",
+    "tags": [
+      "evolver",
+      "architecture",
+      "task-queue",
+      "async",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/task-receiver-async-work-queueing.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "thin-client-vs-embedded-server",
+    "slug": "thin-client-vs-embedded-server",
+    "category": "architecture",
+    "description": "Craft Agents Electron app runs in two modes depending on whether CRAFT_SERVER_URL is set — embedded mode starts server in-process, thin-client mode connects to remote.",
+    "tags": [
+      "electron",
+      "headless-server",
+      "thin-client"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/thin-client-vs-embedded-server.md",
     "has_content": true
   },
   {
@@ -3573,6 +3656,23 @@
   },
   {
     "kind": "knowledge",
+    "name": "tests-follow-code-not-app",
+    "slug": "tests-follow-code-not-app",
+    "category": "decision",
+    "description": "Tests live next to the code, not the app. If a test mocks next/navigation to test a shared component, the test is in the wrong package.",
+    "tags": [
+      "testing",
+      "monorepo",
+      "vitest",
+      "test-organization"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/tests-follow-code-not-app.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "tomcat-request-timeout-1h-for-oz-report",
     "slug": "tomcat-request-timeout-1h-for-oz-report",
     "category": "decision",
@@ -3680,6 +3780,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/decision/vllm-kv-cache-fp8-with-mtp.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "sway-sampling-timestep-adjustment",
+    "slug": "sway-sampling-timestep-adjustment",
+    "category": "diffusion",
+    "description": "Sway sampling adjusts the ODE timestep trajectory via a cosine perturbation; coef=1.0 is neutral, tuning 0.8–1.2 affects quality",
+    "tags": [
+      "diffusion",
+      "sampling",
+      "ode",
+      "timestep",
+      "flow-matching"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/diffusion/sway-sampling-timestep-adjustment.md",
     "has_content": true
   },
   {
@@ -3915,6 +4033,95 @@
   },
   {
     "kind": "knowledge",
+    "name": "testing-skills-with-subagents",
+    "slug": "testing-skills-with-subagents",
+    "category": "engineering",
+    "description": "Validate skill behavior under pressure by running them through subagents and checking resistance to rationalization",
+    "tags": [
+      "superpowers",
+      "engineering"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engineering/testing-skills-with-subagents.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "text-rendering-font-fallback",
+    "slug": "text-rendering-font-fallback",
+    "category": "flutter",
+    "description": "Flutter text rendering falls back: system defaults + bundled Google Fonts for CJK coverage.",
+    "tags": [
+      "fallback",
+      "flutter",
+      "font",
+      "rendering",
+      "text"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/flutter/text-rendering-font-fallback.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "tensor-map-swizzle-vs-shared-memory-banking",
+    "slug": "tensor-map-swizzle-vs-shared-memory-banking",
+    "category": "gpu-kernels",
+    "description": "Shared memory is 32 banks x 4 bytes. TMA swizzle reshuffles 128B chunks so sequential warps hit different banks, encoded in the descriptor — no device-side logic needed.",
+    "tags": [
+      "tma",
+      "swizzle",
+      "shared-memory",
+      "banks",
+      "bank-conflicts",
+      "memory-subsystem"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/gpu-kernels/tensor-map-swizzle-vs-shared-memory-banking.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "tma-swizzling-mode-selection-by-byte-alignment",
+    "slug": "tma-swizzling-mode-selection-by-byte-alignment",
+    "category": "gpu-kernels",
+    "description": "TMA swizzle mode is chosen as lcm(16, inner_dim × elem_size) clamped to {32,64,128}B — 32B swizzle triggers a ~50% perf cliff, so treat 64B as the floor.",
+    "tags": [
+      "tma",
+      "swizzle",
+      "shared-memory",
+      "bank-conflicts",
+      "hopper",
+      "gpu-optimization"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/gpu-kernels/tma-swizzling-mode-selection-by-byte-alignment.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "three-cloning-modes-contract",
+    "slug": "three-cloning-modes-contract",
+    "category": "inference",
+    "description": "VoxCPM2 has three distinct generation modes (design, controllable cloning, ultimate cloning) with mutually exclusive input contracts",
+    "tags": [
+      "inference",
+      "cloning",
+      "modes",
+      "tts",
+      "api"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/inference/three-cloning-modes-contract.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "a2a-protocol-agent-to-agent-knowledge-exchange",
     "slug": "a2a-protocol-agent-to-agent-knowledge-exchange",
     "category": "integration",
@@ -3992,6 +4199,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "tokenizer-free-continuous-latent-rationale",
+    "slug": "tokenizer-free-continuous-latent-rationale",
+    "category": "model-architecture",
+    "description": "VoxCPM avoids discrete audio codebooks by operating on continuous AudioVAE latents throughout, preserving fidelity",
+    "tags": [
+      "architecture",
+      "tokenizer",
+      "latent",
+      "vae",
+      "audio"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/model-architecture/tokenizer-free-continuous-latent-rationale.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "connection-type-enum-design",
     "slug": "connection-type-enum-design",
     "category": "networking",
@@ -4006,6 +4231,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/networking/connection-type-enum-design.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "tls-certificate-caching-strategy",
+    "slug": "tls-certificate-caching-strategy",
+    "category": "networking",
+    "description": "TLS cert validation caches results in-memory; upsert_tls_cache() implements trust-on-first-use.",
+    "tags": [
+      "caching",
+      "certificate",
+      "networking",
+      "strategy",
+      "tls"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/networking/tls-certificate-caching-strategy.md",
     "has_content": true
   },
   {
@@ -6424,6 +6667,18 @@
   },
   {
     "kind": "knowledge",
+    "name": "toisostring-local-date-offset",
+    "slug": "toisostring-local-date-offset",
+    "category": "pitfall",
+    "description": "`new Date().toISOString().slice(5, 10)` always formats in UTC; in non-UTC timezones the result is off by one day near midnight. Use `getMonth()+1 / getDate()` for local display.",
+    "tags": "",
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/toisostring-local-date-offset.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "token-range-ownership-requires-wrap-around-arc",
     "slug": "token-range-ownership-requires-wrap-around-arc",
     "category": "pitfall",
@@ -6793,6 +7048,23 @@
   },
   {
     "kind": "knowledge",
+    "name": "supported-llm-providers",
+    "slug": "supported-llm-providers",
+    "category": "reference",
+    "description": "Catalog of LLM connection types in Craft Agents and which SDK (Claude or Pi) handles each — helps when adding a new provider or debugging why a model shows up under the wrong backend.",
+    "tags": [
+      "llm",
+      "providers",
+      "claude-agent-sdk",
+      "pi-sdk"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/supported-llm-providers.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "vector-clock-ui-dominance-tri-state-color",
     "slug": "vector-clock-ui-dominance-tri-state-color",
     "category": "reference",
@@ -6857,6 +7129,41 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/testing/agent-test-spec-template.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "test-naming-by-purpose-e2e-vs-synthetic",
+    "slug": "test-naming-by-purpose-e2e-vs-synthetic",
+    "category": "testing",
+    "description": "OpenSRE keeps semantic test-catalog naming so e2e (real cloud-backed scenarios) vs synthetic (LLM-based fixture-only) and local vs cloud boundaries stay obvious by directory layout, with dedicated Makefile entrypoints for each.",
+    "tags": [
+      "test-organization",
+      "e2e",
+      "synthetic",
+      "naming"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/testing/test-naming-by-purpose-e2e-vs-synthetic.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "token-budget-length-filter",
+    "slug": "token-budget-length-filter",
+    "category": "training",
+    "description": "VoxCPM drops training samples exceeding max_batch_tokens/batch_size; estimated from text_len + ceil(duration*fps/patch_size) + overhead",
+    "tags": [
+      "training",
+      "data-filtering",
+      "oom",
+      "budget",
+      "sequence-length"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/training/token-budget-length-filter.md",
     "has_content": true
   },
   {
@@ -6964,6 +7271,174 @@
   },
   {
     "kind": "skill",
+    "name": "team-audio",
+    "slug": "team-audio",
+    "category": "",
+    "description": "\"Orchestrate audio team: audio-director + sound-designer + technical-artist + gameplay-programmer for full audio pipeline from direction to implementation.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-audio",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "team-combat",
+    "slug": "team-combat",
+    "category": "",
+    "description": "\"Orchestrate the combat team: coordinates game-designer, gameplay-programmer, ai-programmer, technical-artist, sound-designer, and qa-tester to design, implement, and validate a combat feature end-to-end.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-combat",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "team-level",
+    "slug": "team-level",
+    "category": "",
+    "description": "\"Orchestrate level design team: level-designer + narrative-director + world-builder + art-director + systems-designer + qa-tester for complete area/level creation.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-level",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "team-live-ops",
+    "slug": "team-live-ops",
+    "category": "",
+    "description": "\"Orchestrate the live-ops team for post-launch content planning: coordinates live-ops-designer, economy-designer, analytics-engineer, community-manager, writer, and narrative-director to design and plan a season, event, or live content update.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-live-ops",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "team-narrative",
+    "slug": "team-narrative",
+    "category": "",
+    "description": "\"Orchestrate the narrative team: coordinates narrative-director, writer, world-builder, and level-designer to create cohesive story content, world lore, and narrative-driven level design.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-narrative",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "team-polish",
+    "slug": "team-polish",
+    "category": "",
+    "description": "\"Orchestrate the polish team: coordinates performance-analyst, technical-artist, sound-designer, and qa-tester to optimize, polish, and harden a feature or area for release quality.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-polish",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "team-qa",
+    "slug": "team-qa",
+    "category": "",
+    "description": "\"Orchestrate the QA team through a full testing cycle. Coordinates qa-lead (strategy + test plan) and qa-tester (test case writing + bug reporting) to produce a complete QA package for a sprint or feature. Covers: test plan generation, test case writing, smoke check gate, manual QA execution, and sign-off report.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-qa",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "team-release",
+    "slug": "team-release",
+    "category": "",
+    "description": "\"Orchestrate the release team: coordinates release-manager, qa-lead, devops-engineer, and producer to execute a release from candidate to deployment.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-release",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "team-ui",
+    "slug": "team-ui",
+    "category": "",
+    "description": "\"Orchestrate the UI team through the full UX pipeline: from UX spec authoring through visual design, implementation, review, and polish. Integrates with /ux-design, /ux-review, and studio UX templates.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/team-ui",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "tech-debt",
+    "slug": "tech-debt",
+    "category": "",
+    "description": "\"Track, categorize, and prioritize technical debt across the codebase. Scans for debt indicators, maintains a debt register, and recommends repayment scheduling.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/tech-debt",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "test-evidence-review",
+    "slug": "test-evidence-review",
+    "category": "",
+    "description": "\"Quality review of test files and manual evidence documents. Goes beyond existence checks — evaluates assertion coverage, edge case handling, naming conventions, and evidence completeness. Produces ADEQUATE/INCOMPLETE/MISSING verdict per story. Run before QA sign-off or on demand.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/qa/test-evidence-review",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "test-flakiness",
+    "slug": "test-flakiness",
+    "category": "",
+    "description": "\"Detect non-deterministic (flaky) tests by reading CI run logs or test result history. Aggregates pass rates per test, identifies intermittent failures, recommends quarantine or fix, and maintains a flaky test registry. Best run during Polish phase or after multiple CI runs.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/qa/test-flakiness",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "test-helpers",
+    "slug": "test-helpers",
+    "category": "",
+    "description": "\"Generate engine-specific test helper libraries for the project's test suite. Reads existing test patterns and produces tests/helpers/ with assertion utilities, factory functions, and mock objects tailored to the project's systems. Reduces boilerplate in new test files.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/test-helpers",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "test-setup",
+    "slug": "test-setup",
+    "category": "",
+    "description": "\"Scaffold the test framework and CI/CD pipeline for the project's engine. Creates the tests/ directory structure, engine-specific test runner configuration, and GitHub Actions workflow. Run once during Technical Setup phase before the first sprint begins.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/test-setup",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "alert-time-window-with-buffer",
     "slug": "alert-time-window-with-buffer",
     "category": "agent-sdk",
@@ -6994,6 +7469,23 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/agent-sdk/claude-agent-sdk-multi-provider-bridge",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "three-mode-permission-cycle",
+    "slug": "three-mode-permission-cycle",
+    "category": "agent-sdk",
+    "description": "Three-mode permission state (safe / ask / allow-all) cycled with SHIFT+TAB, with canonical UI names (explore/ask/execute), dual lookup, legacy aliases, and cross-process persistence.",
+    "tags": [
+      "permissions",
+      "modes",
+      "agent-safety",
+      "ux"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/three-mode-permission-cycle",
     "has_content": false
   },
   {
@@ -8111,6 +8603,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/architecture/accepts-then-convert-two-phase-dispatch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "thin-client-headless-server-split",
+    "slug": "thin-client-headless-server-split",
+    "category": "architecture",
+    "description": "Let the same Electron desktop app run EITHER as an all-in-one (local server embedded in main process) OR as a thin client against a remote headless server, by routing every RPC through a WsRpcClient that can point locally or remotely.",
+    "tags": [
+      "electron",
+      "architecture",
+      "headless-server",
+      "thin-client",
+      "websocket"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/architecture/thin-client-headless-server-split",
     "has_content": false
   },
   {
@@ -12853,6 +13363,24 @@
   },
   {
     "kind": "skill",
+    "name": "tarball-checksum-stream-extract",
+    "slug": "tarball-checksum-stream-extract",
+    "category": "devops",
+    "description": "Stream-download a .tar.gz with SHA-256 verification before extraction using the tarfile data filter for path-traversal safety.",
+    "tags": [
+      "downloads",
+      "security",
+      "tarfile",
+      "checksum",
+      "httpx"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/devops/tarball-checksum-stream-extract",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "triple-env-file-split-loader",
     "slug": "triple-env-file-split-loader",
     "category": "devops",
@@ -12968,6 +13496,99 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/docs/ubiquitous-language",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "surgical-changes-only-touch-requested",
+    "slug": "surgical-changes-only-touch-requested",
+    "category": "engineering",
+    "description": "When editing existing code, touch only what the request demands. No drive-by refactors, no style drift, no \"improvements\" to adjacent code. Use for every edit to an existing file.",
+    "tags": [
+      "diff-hygiene",
+      "refactor-discipline",
+      "pr-quality"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/surgical-changes-only-touch-requested",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "systematic-debugging",
+    "slug": "systematic-debugging",
+    "category": "engineering",
+    "description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/systematic-debugging",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "test-driven-development",
+    "slug": "test-driven-development",
+    "category": "engineering",
+    "description": "Use when implementing any feature or bugfix, before writing implementation code",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/test-driven-development",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "think-before-coding-surface-assumptions",
+    "slug": "think-before-coding-surface-assumptions",
+    "category": "engineering",
+    "description": "Before implementing, surface assumptions, present multiple interpretations, and stop to ask when something is unclear. Use whenever a user request has ambiguous scope, fields, format, or behavior.",
+    "tags": [
+      "llm-behavior",
+      "planning",
+      "clarification",
+      "anti-assumption"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/think-before-coding-surface-assumptions",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "tauri-cors-origins-setup",
+    "slug": "tauri-cors-origins-setup",
+    "category": "fastapi",
+    "description": "Allow a FastAPI backend to accept requests from the full range of Tauri webview origins on macOS, Windows, and Linux, plus Vite dev.",
+    "tags": [
+      "fastapi",
+      "cors",
+      "tauri",
+      "desktop-apps",
+      "cross-platform"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/fastapi/tauri-cors-origins-setup",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "svg-image-asset-embedding",
+    "slug": "svg-image-asset-embedding",
+    "category": "flutter",
+    "description": "Flutter SVG asset handling with flutter_svg in desktop UI.",
+    "tags": [
+      "asset",
+      "embedding",
+      "flutter",
+      "image",
+      "svg"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/flutter/svg-image-asset-embedding",
     "has_content": false
   },
   {
@@ -13577,6 +14198,63 @@
   },
   {
     "kind": "skill",
+    "name": "tensor-memory-accelerator-descriptor-construction",
+    "slug": "tensor-memory-accelerator-descriptor-construction",
+    "category": "gpu-kernels",
+    "description": "Build Hopper/Blackwell TMA descriptors at host time via cuTensorMapEncodeTiled so kernels can issue async tiled loads without per-address arithmetic.",
+    "tags": [
+      "tma",
+      "hopper",
+      "blackwell",
+      "cuda-driver-api",
+      "memory-subsystem",
+      "swizzle"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/gpu-kernels/tensor-memory-accelerator-descriptor-construction",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "temperature-topk-topp-logit-filter",
+    "slug": "temperature-topk-topp-logit-filter",
+    "category": "inference",
+    "description": "Drop-in PyTorch helpers to apply temperature, top-k, and nucleus (top-p) filtering to logits before multinomial sampling.",
+    "tags": [
+      "sampling",
+      "top-k",
+      "top-p",
+      "nucleus-sampling",
+      "temperature",
+      "decoding",
+      "transformer"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/inference/temperature-topk-topp-logit-filter",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "three-cloning-modes-dispatch",
+    "slug": "three-cloning-modes-dispatch",
+    "category": "inference",
+    "description": "Dispatch across design, controllable cloning, and ultimate cloning modes based on provided argument set",
+    "tags": [
+      "inference",
+      "tts",
+      "cloning",
+      "dispatch",
+      "voice"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/inference/three-cloning-modes-dispatch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "a2a-protocol-with-hello-publish-decision",
     "slug": "a2a-protocol-with-hello-publish-decision",
     "category": "integration",
@@ -13637,6 +14315,23 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/integration/confidence-lowering-by-source-factor",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "template-parameter-codegen-with-enum-stringification",
+    "slug": "template-parameter-codegen-with-enum-stringification",
+    "category": "jit-compilation",
+    "description": "When generating kernel sources at runtime, stringify enums and compile-time dims via helpers (to_string, get_compiled_dim) so the emitted code is valid C++ and human-diff-able.",
+    "tags": [
+      "code-generation",
+      "template-metaprogramming",
+      "enum",
+      "compile-time-config"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/jit-compilation/template-parameter-codegen-with-enum-stringification",
     "has_content": false
   },
   {
@@ -13822,6 +14517,25 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/observability/anonymous-posthog-telemetry",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "threadpool-benchmark-with-warmup",
+    "slug": "threadpool-benchmark-with-warmup",
+    "category": "observability",
+    "description": "Run a concurrent HTTP load test against an LLM server with a warmup phase, tqdm progress on completion, and per-prompt result aggregation — all using the stdlib ThreadPoolExecutor.",
+    "tags": [
+      "benchmark",
+      "threadpool",
+      "http",
+      "tqdm",
+      "warmup",
+      "load-test"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/observability/threadpool-benchmark-with-warmup",
     "has_content": false
   },
   {
@@ -14354,6 +15068,39 @@
   },
   {
     "kind": "skill",
+    "name": "synchronized-multi-language-test-data-directory",
+    "slug": "synchronized-multi-language-test-data-directory",
+    "category": "testing",
+    "description": "Single tests_data/ tree with one subdir per content type, shared across every language test suite, plus reference outputs and known-failure buckets.",
+    "tags": [
+      "magika",
+      "testing"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/testing/synchronized-multi-language-test-data-directory",
+    "has_content": true
+  },
+  {
+    "kind": "skill",
+    "name": "synthetic-rca-scenario-pytest-marker",
+    "slug": "synthetic-rca-scenario-pytest-marker",
+    "category": "testing",
+    "description": "Use a custom pytest marker (e.g. \"synthetic\") to gate non-deterministic LLM-based tests away from CI test-cov, while still enabling them via opt-in pytest -m synthetic and Makefile targets.",
+    "tags": [
+      "pytest",
+      "markers",
+      "llm-testing",
+      "ci",
+      "non-deterministic"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/testing/synthetic-rca-scenario-pytest-marker",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "tdd",
     "slug": "tdd",
     "category": "testing",
@@ -14365,6 +15112,23 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/testing/tdd",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "test-suite-validation-with-env-isolation",
+    "slug": "test-suite-validation-with-env-isolation",
+    "category": "testing",
+    "description": "Run test suite with isolated environment (NODE_ENV=test, specific env vars, no bridge)",
+    "tags": [
+      "evolver",
+      "testing",
+      "env-isolation",
+      "node-test"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/testing/test-suite-validation-with-env-isolation",
     "has_content": false
   },
   {
@@ -14422,6 +15186,21 @@
     "version": "1.0.0",
     "path": "skills/web/content-disposition-filename-fallback",
     "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "tensorflow-js-model-loading-with-url-override",
+    "slug": "tensorflow-js-model-loading-with-url-override",
+    "category": "web",
+    "description": "Browser-side ML library lazily fetches a TensorFlow.js model from a default CDN URL but accepts a MagikaOptions.modelURL override for local hosting / private CDN.",
+    "tags": [
+      "magika",
+      "web"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/web/tensorflow-js-model-loading-with-url-override",
+    "has_content": true
   },
   {
     "kind": "skill",
