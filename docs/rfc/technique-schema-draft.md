@@ -147,7 +147,7 @@ Add a `technique` kind to the master/lite/category indexes. Search (`hub-find`) 
 4. `description` is required and ≤120 chars.
 5. `name` equals the containing directory name.
 6. If `verify.sh` exists it must exit 0.
-7. `ref` is kind-root-relative physical path (e.g. `parallel-build-sequential-publish` or `workflow/autoplan`).
+7. `ref` is kind-root-relative physical path (e.g. `workflow/parallel-build-sequential-publish` or `pitfall/gh-pr-create-race-with-auto-merge`).
 
 ## 10. Slash commands (implemented in step 3, listed here for reference)
 

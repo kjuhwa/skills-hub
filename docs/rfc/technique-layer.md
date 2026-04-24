@@ -20,7 +20,7 @@ research  ──┘
 
 Every time you want "build many projects in parallel, publish to a shared repo safely" you mentally reassemble the same set:
 
-- `skills/parallel-build-sequential-publish`
+- `skills/workflow/parallel-build-sequential-publish`
 - `skills/workflow/rollback-anchor-tag-before-destructive-op`
 - `knowledge/workflow/batch-pr-conflict-recovery`
 - `knowledge/pitfall/gh-pr-create-race-with-auto-merge`
@@ -104,6 +104,8 @@ During pilot 1 authoring, discovered that `skills/parallel-build-sequential-publ
 **Conclusion**: `ref` must be defined as **kind-root-relative physical path**, not `{category}/{slug}` semantic form. Frontmatter category and filesystem path can legally diverge in the hub (legacy or publishing oversight). The schema specifies the physical form; verify walks the actual tree.
 
 This is a **finding that a paper-only design would have missed**. It also suggests a separate cleanup PR to realign path with category for the offending skill(s), but that's out of this RFC's scope.
+
+> **Resolution (follow-up)**: the specific mismatch called out here — `parallel-build-sequential-publish` — was relocated to `skills/workflow/parallel-build-sequential-publish/` in a later cleanup PR. The general rule (`ref` = kind-root-relative physical path) remains authoritative.
 
 ## 5. Migration Plan
 
