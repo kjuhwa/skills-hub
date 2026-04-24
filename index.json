@@ -706,6 +706,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "in-page-tool-bridge-via-custom-event",
+    "slug": "in-page-tool-bridge-via-custom-event",
+    "category": "arch",
+    "description": "Web pages can expose their own tools to the automation agent by listening for a `devtoolstooldiscovery` CustomEvent and calling `event.respondWith(toolGroup)`; the MCP server discovers them via CDP `DOMDebugger.getEventListeners` and bridges each to MCP tools.",
+    "tags": [
+      "in-page-tools",
+      "custom-event",
+      "cdp",
+      "tool-discovery",
+      "webmcp"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/arch/in-page-tool-bridge-via-custom-event.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "interface-abstraction-for-modularity",
     "slug": "interface-abstraction-for-modularity",
     "category": "arch",
@@ -720,6 +738,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/arch/interface-abstraction-for-modularity.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "internal-packages-raw-source-pattern",
+    "slug": "internal-packages-raw-source-pattern",
+    "category": "arch",
+    "description": "Shared monorepo packages export raw .ts/.tsx files (no pre-compilation); consuming app bundlers compile them directly.",
+    "tags": [
+      "monorepo",
+      "pnpm",
+      "turbo",
+      "typescript",
+      "build"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/arch/internal-packages-raw-source-pattern.md",
     "has_content": true
   },
   {
@@ -2044,6 +2080,40 @@
   },
   {
     "kind": "knowledge",
+    "name": "interceptor-cjs-preload-pattern",
+    "slug": "interceptor-cjs-preload-pattern",
+    "category": "architecture",
+    "description": "The unified-network-interceptor is a TS file bundled to CJS with esbuild and loaded into every SDK subprocess via --require/--preload to patch globalThis.fetch before the SDK captures it — the only reliable way to observe/modify LLM HTTP traffic.",
+    "tags": [
+      "interceptor",
+      "fetch",
+      "node-require",
+      "bun-preload",
+      "cjs-bundle"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/interceptor-cjs-preload-pattern.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "investigation-state-shape",
+    "slug": "investigation-state-shape",
+    "category": "architecture",
+    "description": "OpenSRE's investigation state is a TypedDict with ~30 keys spanning auth (org_id, user_id), alert (raw_alert, alert_name, severity, is_noise), routing (alert_source, kube_namespace), planning (planned_actions, plan_audit, available_action_names), evidence (the dict tools fill), diagnosis (root_cause, validated_claims, validity_score), masking (masking_map), and loop control (investigation_loop_count, investigation_recommendations).",
+    "tags": [
+      "state",
+      "typeddict",
+      "langgraph"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/investigation-state-shape.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "ci-gpg-signing-batch-mode-non-interactive",
     "slug": "ci-gpg-signing-batch-mode-non-interactive",
     "category": "ci-cd",
@@ -2882,6 +2952,56 @@
   },
   {
     "kind": "knowledge",
+    "name": "hermes-testing-wrapper-ci-parity",
+    "slug": "hermes-testing-wrapper-ci-parity",
+    "category": "decision",
+    "description": "Why a shell wrapper around pytest prevents 5 concrete sources of local-vs-CI test drift.",
+    "tags": [
+      "testing",
+      "pytest",
+      "ci",
+      "hermetic",
+      "parity"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/hermes-testing-wrapper-ci-parity.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "hermes-tool-schema-no-cross-toolset-references",
+    "slug": "hermes-tool-schema-no-cross-toolset-references",
+    "category": "decision",
+    "description": "Why tool schemas must never hardcode other tool names — unavailable tools cause model hallucination.",
+    "tags": [
+      "llm-agents",
+      "tool-schemas",
+      "hallucination",
+      "toolsets"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/hermes-tool-schema-no-cross-toolset-references.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "high-confidence-mode-default",
+    "slug": "high-confidence-mode-default",
+    "category": "decision",
+    "description": "PredictionMode.HIGH_CONFIDENCE is the default — favoring precision over recall.",
+    "tags": [
+      "magika",
+      "decision"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/high-confidence-mode-default.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "hub-soft-delete-via-frontmatter-flag",
     "slug": "hub-soft-delete-via-frontmatter-flag",
     "category": "decision",
@@ -2913,6 +3033,22 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/decision/hyperloglog-for-unique-user-counting.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "hyphenated-root-routes-avoid",
+    "slug": "hyphenated-root-routes-avoid",
+    "category": "decision",
+    "description": "Never add hyphenated word-group root routes like /new-workspace — they collide with common user workspace names and force endless reserved-slug audits.",
+    "tags": [
+      "routing",
+      "url-design",
+      "naming"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/hyphenated-root-routes-avoid.md",
     "has_content": true
   },
   {
@@ -3684,6 +3820,43 @@
   },
   {
     "kind": "knowledge",
+    "name": "hierarchical-token-split-s1-s2-high-low-bits",
+    "slug": "hierarchical-token-split-s1-s2-high-low-bits",
+    "category": "design",
+    "description": "Kronos splits each BSQ code into high bits (s1, coarse token) and low bits (s2, fine token) so the LM uses two small softmaxes instead of one huge one.",
+    "tags": [
+      "hierarchical-tokens",
+      "vocabulary-split",
+      "softmax",
+      "kronos",
+      "design-decision",
+      "dual-head"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/design/hierarchical-token-split-s1-s2-high-low-bits.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "http-health-check-binary-takeover",
+    "slug": "http-health-check-binary-takeover",
+    "category": "devops",
+    "description": "Bind the daemon's health port early (before resolving auth or syncing state) to detect another instance already running and prevent two daemons from claiming the same tasks.",
+    "tags": [
+      "daemon",
+      "health-check",
+      "singleton",
+      "port-binding",
+      "lifecycle"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/devops/http-health-check-binary-takeover.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "a11y-uid-tool-targeting-over-selectors",
     "slug": "a11y-uid-tool-targeting-over-selectors",
     "category": "domain",
@@ -3767,6 +3940,43 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/domain/encrypted-pii-decode-on-export.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "hermes-terminal-backends-catalog",
+    "slug": "hermes-terminal-backends-catalog",
+    "category": "domain",
+    "description": "Six terminal backends an LLM agent can run commands in — local, docker, ssh, modal, daytona, singularity.",
+    "tags": [
+      "agent-terminal",
+      "sandboxing",
+      "modal",
+      "daytona",
+      "singularity",
+      "docker"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/domain/hermes-terminal-backends-catalog.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "issue-task-run-hierarchy",
+    "slug": "issue-task-run-hierarchy",
+    "category": "domain",
+    "description": "Issue → Tasks (a.k.a. runs) → Messages. One issue can have many runs; each run streams messages during agent execution.",
+    "tags": [
+      "issue-tracker",
+      "task",
+      "run",
+      "messages",
+      "agent-execution"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/domain/issue-task-run-hierarchy.md",
     "has_content": true
   },
   {
@@ -3915,6 +4125,77 @@
   },
   {
     "kind": "knowledge",
+    "name": "incremental-verification-plan-multi-step",
+    "slug": "incremental-verification-plan-multi-step",
+    "category": "engineering",
+    "description": "Break a multi-step feature (e.g., rate limiting) into ordered steps where each has an independent, machine-checkable verification and is deployable on its own. Avoids 300-line \"all at once\" commits.",
+    "tags": [
+      "planning",
+      "incremental-delivery",
+      "verification",
+      "deployability"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engineering/incremental-verification-plan-multi-step.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "hopper-wgmma-store-pattern-in-1d1d-kernels",
+    "slug": "hopper-wgmma-store-pattern-in-1d1d-kernels",
+    "category": "gpu-kernels",
+    "description": "SM90 1D1D GEMM uses 64-thread warp-group stores (wgmma_m=64) for C/D instead of block_m stores, reducing smem C/D footprint and simplifying the epilogue barrier protocol.",
+    "tags": [
+      "hopper",
+      "wgmma",
+      "warp-group",
+      "epilogue",
+      "store-pattern",
+      "sm90"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/gpu-kernels/hopper-wgmma-store-pattern-in-1d1d-kernels.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "input-event-queue-semantics",
+    "slug": "input-event-queue-semantics",
+    "category": "input",
+    "description": "Input processing: queue events, batch per frame, avoid stale state during handoff.",
+    "tags": [
+      "event",
+      "input",
+      "queue",
+      "semantics"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/input/input-event-queue-semantics.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "input-mode-keyboard-layout-dependency",
+    "slug": "input-mode-keyboard-layout-dependency",
+    "category": "input",
+    "description": "Two input modes: Unicode (layout-independent) vs Layout (layout-dependent; needed for modifiers).",
+    "tags": [
+      "dependency",
+      "input",
+      "keyboard",
+      "layout",
+      "mode"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/input/input-mode-keyboard-layout-dependency.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "a2a-protocol-agent-to-agent-knowledge-exchange",
     "slug": "a2a-protocol-agent-to-agent-knowledge-exchange",
     "category": "integration",
@@ -3992,6 +4273,43 @@
   },
   {
     "kind": "knowledge",
+    "name": "human-in-the-loop-design",
+    "slug": "human-in-the-loop-design",
+    "category": "llm-agents",
+    "description": "How human-in-the-loop (HITL) flows work in the OpenAI Agents SDK — tool approval, RunState serialization, streaming compatibility.",
+    "tags": [
+      "openai-agents",
+      "hitl",
+      "approval",
+      "run-state",
+      "interruptions",
+      "serialization"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/llm-agents/human-in-the-loop-design.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "huggingface-transformers-text-classification-pipeline",
+    "slug": "huggingface-transformers-text-classification-pipeline",
+    "category": "llm-fundamentals",
+    "description": "Pre-trained BERT-style models can be fine-tuned for text classification in two ways: a fully decoupled custom pipeline for learning purposes, or the integrated run_classification.py script from HuggingFace examples.",
+    "tags": [
+      "huggingface",
+      "transformers",
+      "bert",
+      "classification",
+      "fine-tuning"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/llm-fundamentals/huggingface-transformers-text-classification-pipeline.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "connection-type-enum-design",
     "slug": "connection-type-enum-design",
     "category": "networking",
@@ -4006,6 +4324,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/networking/connection-type-enum-design.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "human-report-generation",
+    "slug": "human-report-generation",
+    "category": "observability",
+    "description": "Generate human-readable summary of agent evolution activity, metrics, and recommendations",
+    "tags": [
+      "evolver",
+      "observability",
+      "reporting",
+      "summary",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/observability/human-report-generation.md",
     "has_content": true
   },
   {
@@ -5211,6 +5547,21 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/pitfall/jackson-version-pinning-2.17.1.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "javascript-typescript-balance-v3-3",
+    "slug": "javascript-typescript-balance-v3-3",
+    "category": "pitfall",
+    "description": "standard_v3_3 raised TypeScript accuracy from ~85% → 95% by rebalancing the JavaScript-vs-TypeScript training split.",
+    "tags": [
+      "magika",
+      "pitfall"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/javascript-typescript-balance-v3-3.md",
     "has_content": true
   },
   {
@@ -6793,6 +7144,99 @@
   },
   {
     "kind": "knowledge",
+    "name": "hermes-sqlite-session-db-fts5",
+    "slug": "hermes-sqlite-session-db-fts5",
+    "category": "reference",
+    "description": "SQLite schema for agent session storage with FTS5 search, compression-triggered splitting, and WAL.",
+    "tags": [
+      "sqlite",
+      "fts5",
+      "session-store",
+      "llm-agents",
+      "schema"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/hermes-sqlite-session-db-fts5.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "hermes-trajectory-sharegpt-format",
+    "slug": "hermes-trajectory-sharegpt-format",
+    "category": "reference",
+    "description": "Save agent conversations as ShareGPT-format JSONL with completed/failed split for RL training datasets.",
+    "tags": [
+      "trajectory",
+      "sharegpt",
+      "rl-training",
+      "jsonl",
+      "datasets"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/hermes-trajectory-sharegpt-format.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "http-api-grep-patterns-android",
+    "slug": "http-api-grep-patterns-android",
+    "category": "reference",
+    "description": "Copy-paste grep patterns for locating HTTP endpoints in decompiled Android source — Retrofit annotations, OkHttp Request.Builder, Volley request classes, HttpURLConnection, WebView loadUrl, hardcoded URLs, and API-key/secret sweeps.",
+    "tags": [
+      "android",
+      "reverse-engineering",
+      "retrofit",
+      "okhttp",
+      "volley",
+      "grep",
+      "http",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/http-api-grep-patterns-android.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "intent-rich-tool-metadata-fields",
+    "slug": "intent-rich-tool-metadata-fields",
+    "category": "reference",
+    "description": "The two hidden schema fields Craft Agents injects into every MCP tool — _intent (1-line why) and _displayName (UI override) — used for summarization context, UI rendering, and post-hoc debugging.",
+    "tags": [
+      "mcp",
+      "metadata",
+      "intent",
+      "tool-schema"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/intent-rich-tool-metadata-fields.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "jadx-cli-options-reference",
+    "slug": "jadx-cli-options-reference",
+    "category": "reference",
+    "description": "jadx decompiler CLI flags and typical workflows — output dir, deobfuscation, bad-code tolerance, resource-skip, Gradle export, heap sizing, and strategies for obfuscated APKs — plus jadx-gui feature notes.",
+    "tags": [
+      "android",
+      "jadx",
+      "decompiler",
+      "cli",
+      "reverse-engineering",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/jadx-cli-options-reference.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "vector-clock-ui-dominance-tri-state-color",
     "slug": "vector-clock-ui-dominance-tri-state-color",
     "category": "reference",
@@ -6904,6 +7348,60 @@
   },
   {
     "kind": "knowledge",
+    "name": "hub-review-workflow",
+    "slug": "hub-review-workflow",
+    "category": "workflow",
+    "description": "Submit evolution candidate to EvoMap Hub for peer review before local promotion",
+    "tags": [
+      "evolver",
+      "workflow",
+      "hub",
+      "peer-review",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/hub-review-workflow.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "idle-scheduler-background-tasks",
+    "slug": "idle-scheduler-background-tasks",
+    "category": "workflow",
+    "description": "Schedule background maintenance tasks during idle periods — cleanup, distillation, reports",
+    "tags": [
+      "evolver",
+      "workflow",
+      "scheduler",
+      "idle",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/idle-scheduler-background-tasks.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "issue-reporter-auto-github",
+    "slug": "issue-reporter-auto-github",
+    "category": "workflow",
+    "description": "Auto-report high-confidence failures as GitHub issues with stacks and recovery steps",
+    "tags": [
+      "evolver",
+      "workflow",
+      "github",
+      "auto-issue",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/issue-reporter-auto-github.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "repeated-look-again-means-retract-not-escalate",
     "slug": "repeated-look-again-means-retract-not-escalate",
     "category": "workflow",
@@ -6960,6 +7458,18 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/qa/content-audit",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "hotfix",
+    "slug": "hotfix",
+    "category": "",
+    "description": "\"Emergency fix workflow that bypasses normal sprint processes with a full audit trail. Creates hotfix branch, tracks approvals, and ensures the fix is backported correctly.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/hotfix",
     "has_content": false
   },
   {
@@ -8111,6 +8621,23 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/architecture/accepts-then-convert-two-phase-dispatch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "hf-mirror-cli-download",
+    "slug": "hf-mirror-cli-download",
+    "category": "automation",
+    "description": "Route HuggingFace model and dataset downloads through the hf-mirror.com China mirror using the huggingface-cli tool.",
+    "tags": [
+      "huggingface",
+      "mirror",
+      "china",
+      "offline"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/automation/hf-mirror-cli-download",
     "has_content": false
   },
   {
@@ -11206,6 +11733,43 @@
   },
   {
     "kind": "skill",
+    "name": "huggingface-dataset-jsonl-cache",
+    "slug": "huggingface-dataset-jsonl-cache",
+    "category": "data-pipeline",
+    "description": "Convert HuggingFace datasets to a flat JSONL cache with atomic tmp-file rename, so benchmark scripts load deterministically without re-downloading.",
+    "tags": [
+      "huggingface",
+      "datasets",
+      "jsonl",
+      "caching",
+      "benchmark"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/data-pipeline/huggingface-dataset-jsonl-cache",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "ipynb-cells-to-markdown",
+    "slug": "ipynb-cells-to-markdown",
+    "category": "data-pipeline",
+    "description": "Convert a Jupyter notebook JSON (.ipynb) into a single markdown document — markdown cells passed through, code cells wrapped in ```python fences, raw cells in bare fences, title auto-detected from first H1 or notebook metadata.",
+    "tags": [
+      "data-pipeline",
+      "jupyter",
+      "ipynb",
+      "notebook",
+      "markdown",
+      "python"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/data-pipeline/ipynb-cells-to-markdown",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "build-error-triage",
     "slug": "build-error-triage",
     "category": "debug",
@@ -13577,6 +14141,59 @@
   },
   {
     "kind": "skill",
+    "name": "hopper-tma-multicast-with-2d-cluster",
+    "slug": "hopper-tma-multicast-with-2d-cluster",
+    "category": "gpu-kernels",
+    "description": "Enable 2D thread-block clustering so TMA loads can broadcast A across cluster_n and B across cluster_m, cutting effective memory bandwidth and improving L2 reuse.",
+    "tags": [
+      "hopper",
+      "tma-multicast",
+      "clustering",
+      "l2-cache",
+      "gpu-optimization"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/gpu-kernels/hopper-tma-multicast-with-2d-cluster",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "inline-i18n-dictionary-with-dropdown",
+    "slug": "inline-i18n-dictionary-with-dropdown",
+    "category": "gradio",
+    "description": "Inline i18n via Python dict keyed by language code, swapped live via Gradio dropdown callback",
+    "tags": [
+      "gradio",
+      "i18n",
+      "localization",
+      "python",
+      "ui"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/gradio/inline-i18n-dictionary-with-dropdown",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "i18n-module-registry-pattern",
+    "slug": "i18n-module-registry-pattern",
+    "category": "i18n",
+    "description": "Compile-time language module registration with lazy_static registry — no runtime file IO.",
+    "tags": [
+      "i18n",
+      "module",
+      "pattern",
+      "registry"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/i18n/i18n-module-registry-pattern",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "a2a-protocol-with-hello-publish-decision",
     "slug": "a2a-protocol-with-hello-publish-decision",
     "category": "integration",
@@ -13641,6 +14258,41 @@
   },
   {
     "kind": "skill",
+    "name": "hosted-tools-web-search",
+    "slug": "hosted-tools-web-search",
+    "category": "integration",
+    "description": "Add hosted OpenAI tools (WebSearchTool, FileSearchTool, CodeInterpreterTool) to an agent.",
+    "tags": [
+      "openai-agents",
+      "web-search",
+      "file-search",
+      "code-interpreter",
+      "hosted-tools"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/integration/hosted-tools-web-search",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "ipc-message-framing-codec",
+    "slug": "ipc-message-framing-codec",
+    "category": "ipc",
+    "description": "Tokio-based IPC using parity-tokio-ipc with protobuf message framing and FileSystem command enum.",
+    "tags": [
+      "codec",
+      "framing",
+      "ipc",
+      "message"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ipc/ipc-message-framing-codec",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "agent-handoff-routing",
     "slug": "agent-handoff-routing",
     "category": "llm-agents",
@@ -13672,6 +14324,81 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/llm-agents/agents-as-tools",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "hidden-state-capture-layer-hook",
+    "slug": "hidden-state-capture-layer-hook",
+    "category": "llm-agents",
+    "description": "Capture hidden states from specified transformer layers by wrapping them with a small proxy that records the output and forwards all other attribute access to the original layer.",
+    "tags": [
+      "transformers",
+      "mlx",
+      "hidden-states",
+      "hooks",
+      "proxy-object"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/hidden-state-capture-layer-hook",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "human-in-the-loop-approval",
+    "slug": "human-in-the-loop-approval",
+    "category": "llm-agents",
+    "description": "Pause an agent run when a tool requires human approval, serialize state, and resume after the decision.",
+    "tags": [
+      "openai-agents",
+      "hitl",
+      "approval",
+      "run-state",
+      "interruptions",
+      "serialization"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/human-in-the-loop-approval",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "image-as-data-uri-chat-completion",
+    "slug": "image-as-data-uri-chat-completion",
+    "category": "llm-agents",
+    "description": "Convert a binary image stream into a base64 data URI and pass it as an image_url content-part to an OpenAI-style chat.completions endpoint, for captioning, alt-text generation, or vision tasks — with mimetype fallback and stream-position restore.",
+    "tags": [
+      "llm-agents",
+      "vision",
+      "data-uri",
+      "openai",
+      "base64",
+      "image-captioning",
+      "python"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/image-as-data-uri-chat-completion",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "hosted-mcp-tool",
+    "slug": "hosted-mcp-tool",
+    "category": "mcp-integration",
+    "description": "Let OpenAI's Responses API call a remote MCP server on your behalf using HostedMCPTool.",
+    "tags": [
+      "openai-agents",
+      "mcp",
+      "hosted",
+      "responses-api",
+      "remote-tools"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/mcp-integration/hosted-mcp-tool",
     "has_content": false
   },
   {
@@ -13744,6 +14471,97 @@
   },
   {
     "kind": "skill",
+    "name": "hierarchical-bsq-codebook-quantization",
+    "slug": "hierarchical-bsq-codebook-quantization",
+    "category": "ml-ops",
+    "description": "Quantize continuous vectors into hierarchical discrete tokens via Binary Spherical Quantization with a high-bit \"pre\" head and a low-bit \"post\" head.",
+    "tags": [
+      "quantization",
+      "bsq",
+      "vq-vae",
+      "codebook",
+      "hierarchical-tokens",
+      "tokenizer"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/hierarchical-bsq-codebook-quantization",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "hierarchical-dual-head-conditional-decoder",
+    "slug": "hierarchical-dual-head-conditional-decoder",
+    "category": "ml-ops",
+    "description": "At each AR step, sample a coarse (s1) token from the transformer output, then sample the fine (s2) token conditioned on a cross-attention over the s1 embedding.",
+    "tags": [
+      "autoregressive",
+      "dual-head",
+      "hierarchical-decoding",
+      "cross-attention",
+      "tokenizer-head"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/hierarchical-dual-head-conditional-decoder",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "huggingface-hub-mixin-for-custom-torch-model",
+    "slug": "huggingface-hub-mixin-for-custom-torch-model",
+    "category": "ml-ops",
+    "description": "Give a custom nn.Module save_pretrained/from_pretrained plus HF Hub push/pull by multiple-inheriting from PyTorchModelHubMixin, with no HuggingFace config boilerplate.",
+    "tags": [
+      "huggingface",
+      "pytorch",
+      "model-checkpoint",
+      "hub",
+      "pretrained",
+      "serialization"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/huggingface-hub-mixin-for-custom-torch-model",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "huggingface-snapshot-selective-patterns",
+    "slug": "huggingface-snapshot-selective-patterns",
+    "category": "ml-ops",
+    "description": "Download only the files you need from a HuggingFace repo using snapshot_download with allow_patterns — avoids pulling tokenizer, chat-template, or README blobs you don't use.",
+    "tags": [
+      "huggingface",
+      "snapshot-download",
+      "bandwidth",
+      "model-loading"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/huggingface-snapshot-selective-patterns",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "huggingface-tqdm-progress-monkey-patch",
+    "slug": "huggingface-tqdm-progress-monkey-patch",
+    "category": "ml-ops",
+    "description": "Report HuggingFace Hub download progress to a custom UI by intercepting tqdm without touching the caller's code paths.",
+    "tags": [
+      "huggingface",
+      "tqdm",
+      "progress",
+      "monkey-patch",
+      "sse"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/huggingface-tqdm-progress-monkey-patch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "react-native-android-emulator-localhost",
     "slug": "react-native-android-emulator-localhost",
     "category": "mobile",
@@ -13786,6 +14604,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/model-loading/config-json-architecture-dispatch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "internal-raw-source-packages",
+    "slug": "internal-raw-source-packages",
+    "category": "monorepo",
+    "description": "Set up shared monorepo packages that export raw .ts/.tsx files so consuming apps' bundlers compile them directly — zero build step, instant HMR, cross-package go-to-definition.",
+    "tags": [
+      "monorepo",
+      "pnpm",
+      "typescript",
+      "turbo",
+      "hmr"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/monorepo/internal-raw-source-packages",
     "has_content": false
   },
   {
@@ -13843,6 +14679,25 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/operations/claude-cli-unattended-wrapper",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "html-to-markdown-markdownify-subclass",
+    "slug": "html-to-markdown-markdownify-subclass",
+    "category": "preprocessing",
+    "description": "Subclass markdownify.MarkdownConverter to customize link escape, drop javascript/data URIs, convert input[type=checkbox] to GFM task syntax, and fall back to plain text on deeply-nested HTML.",
+    "tags": [
+      "preprocessing",
+      "html",
+      "markdown",
+      "markdownify",
+      "beautifulsoup",
+      "python"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/preprocessing/html-to-markdown-markdownify-subclass",
     "has_content": false
   },
   {
@@ -13968,6 +14823,41 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/safety/contextual-identifier-detectors-overlap-resolution",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "input-guardrail-agent",
+    "slug": "input-guardrail-agent",
+    "category": "safety",
+    "description": "Block off-topic or policy-violating user input before the main agent runs using @input_guardrail.",
+    "tags": [
+      "openai-agents",
+      "guardrails",
+      "input-validation",
+      "safety",
+      "tripwire"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/safety/input-guardrail-agent",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "interface-contract-validation",
+    "slug": "interface-contract-validation",
+    "category": "safety",
+    "description": "Define and validate interface contracts for wrapper compatibility before breaking changes",
+    "tags": [
+      "evolver",
+      "safety",
+      "contracts",
+      "api-compat"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/safety/interface-contract-validation",
     "has_content": false
   },
   {
