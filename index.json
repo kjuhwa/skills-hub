@@ -2044,6 +2044,44 @@
   },
   {
     "kind": "knowledge",
+    "name": "kronos-decoder-only-tokenizer-plus-transformer",
+    "slug": "kronos-decoder-only-tokenizer-plus-transformer",
+    "category": "architecture",
+    "description": "Kronos factors the model into a BSQ tokenizer (encoder+decoder Transformer) plus a decoder-only causal Transformer with hierarchical dual-head output.",
+    "tags": [
+      "kronos",
+      "architecture",
+      "tokenizer",
+      "transformer",
+      "decoder-only",
+      "bsq",
+      "dual-head",
+      "rope"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/kronos-decoder-only-tokenizer-plus-transformer.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "large-response-summarization-flow",
+    "slug": "large-response-summarization-flow",
+    "category": "architecture",
+    "description": "When a tool result exceeds ~60KB (15k tokens), Craft Agents saves it to sessionDir/long_responses, runs Haiku summarization with the tool's _intent as context, and returns summary + file path to the LLM — the UX win is the agent keeps context while the dev saves tokens.",
+    "tags": [
+      "summarization",
+      "large-response",
+      "cost-control",
+      "haiku"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/large-response-summarization-flow.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "ci-gpg-signing-batch-mode-non-interactive",
     "slug": "ci-gpg-signing-batch-mode-non-interactive",
     "category": "ci-cd",
@@ -2081,6 +2119,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/ci-cd/ci-push-race-condition-retry-rebase-loop.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "legacy-vs-explicit-subcommand-migration",
+    "slug": "legacy-vs-explicit-subcommand-migration",
+    "category": "cli",
+    "description": "VoxCPM migrated from implicit mode detection (arg presence) to explicit subcommands (voxcpm design|clone|batch); old style emits deprecation warning",
+    "tags": [
+      "cli",
+      "migration",
+      "subcommands",
+      "backward-compatibility",
+      "deprecation"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/cli/legacy-vs-explicit-subcommand-migration.md",
     "has_content": true
   },
   {
@@ -2438,6 +2494,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/configuration/config-system-four-tiers.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "langchain-pydantic-memory-curation",
+    "slug": "langchain-pydantic-memory-curation",
+    "category": "conversation-memory-extraction",
+    "description": "Prompt-engineering playbook for LLM-based memory extraction from conversations, splitting SYSTEM (facts about the user) from INTERESTING (external wisdom with attribution) with strict quality filters.",
+    "tags": [
+      "langchain",
+      "prompt-engineering",
+      "memory-extraction",
+      "pydantic-parser",
+      "personal-knowledge"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/conversation-memory-extraction/langchain-pydantic-memory-curation.md",
     "has_content": true
   },
   {
@@ -3001,6 +3075,21 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/decision/jest-coverage-80-threshold.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "js-npm-package-for-web-not-standalone-cli",
+    "slug": "js-npm-package-for-web-not-standalone-cli",
+    "category": "decision",
+    "description": "The npm package is for browser/Node library use; the Rust CLI is recommended for command-line work.",
+    "tags": [
+      "magika",
+      "decision"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/js-npm-package-for-web-not-standalone-cli.md",
     "has_content": true
   },
   {
@@ -3771,6 +3860,26 @@
   },
   {
     "kind": "knowledge",
+    "name": "kronos-foundation-model-for-kline-data",
+    "slug": "kronos-foundation-model-for-kline-data",
+    "category": "domain",
+    "description": "Kronos is an open-source decoder-only foundation model trained on OHLCV candlesticks from 45+ global exchanges for financial time-series forecasting.",
+    "tags": [
+      "kronos",
+      "foundation-model",
+      "finance",
+      "ohlcv",
+      "kline",
+      "time-series",
+      "aaai-2026"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/domain/kronos-foundation-model-for-kline-data.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "mongodb-exclude-system-databases",
     "slug": "mongodb-exclude-system-databases",
     "category": "domain",
@@ -4006,6 +4115,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/networking/connection-type-enum-design.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "lazy-static-initialization-cost",
+    "slug": "lazy-static-initialization-cost",
+    "category": "patterns",
+    "description": "lazy_static! incurs runtime cost on first access; used for codec selection and device enumeration.",
+    "tags": [
+      "cost",
+      "initialization",
+      "lazy",
+      "patterns",
+      "static"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/patterns/lazy-static-initialization-cost.md",
     "has_content": true
   },
   {
@@ -5323,6 +5450,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/pitfall/konva-center-coord-system.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "l2-cache-flush-needed-before-gpu-benchmark",
+    "slug": "l2-cache-flush-needed-before-gpu-benchmark",
+    "category": "pitfall",
+    "description": "",
+    "tags": [
+      "benchmarking",
+      "l2-cache",
+      "gpu-timing",
+      "microbench",
+      "methodology"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/gpu-kernels/l2-cache-flush-needed-before-gpu-benchmark.md",
     "has_content": true
   },
   {
@@ -6793,6 +6938,77 @@
   },
   {
     "kind": "knowledge",
+    "name": "karpathy-llm-coding-pitfalls-overview",
+    "slug": "karpathy-llm-coding-pitfalls-overview",
+    "category": "reference",
+    "description": "Reference overview of Andrej Karpathy's observations on recurring LLM coding pitfalls (wrong assumptions, overcomplication, unsolicited edits, weak goals) and the four-principle response.",
+    "tags": [
+      "llm-behavior",
+      "karpathy",
+      "reference",
+      "coding-pitfalls"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/karpathy-llm-coding-pitfalls-overview.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "kronos-paper-model-zoo-demo-links",
+    "slug": "kronos-paper-model-zoo-demo-links",
+    "category": "reference",
+    "description": "External pointers for Kronos — the AAAI 2026 paper, Hugging Face model zoo, live BTC/USDT demo, and the companion fine-tuning repos.",
+    "tags": [
+      "kronos",
+      "reference",
+      "paper",
+      "huggingface",
+      "model-zoo",
+      "demo",
+      "links"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/kronos-paper-model-zoo-demo-links.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "langgraph-state-update-merge-semantics",
+    "slug": "langgraph-state-update-merge-semantics",
+    "category": "reference",
+    "description": "LangGraph nodes return partial dicts that the framework merges into state. OpenSRE's _merge_state helper shows the convention: messages are appended (not replaced), other keys overwrite — useful for replicating LangGraph behaviour outside a graph (testing, CLI runners).",
+    "tags": [
+      "langgraph",
+      "state",
+      "merge",
+      "conventions"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/langgraph-state-update-merge-semantics.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "langgraph-stream-modes-events-vs-updates",
+    "slug": "langgraph-stream-modes-events-vs-updates",
+    "category": "reference",
+    "description": "LangGraph's /runs/stream supports two stream modes — \"updates\" (one event per node completion, fast) and \"events\" (every LLM token / tool call / chain step, granular). OpenSRE handles both with one StreamEvent shape.",
+    "tags": [
+      "langgraph",
+      "streaming",
+      "sse",
+      "events"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/langgraph-stream-modes-events-vs-updates.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "vector-clock-ui-dominance-tri-state-color",
     "slug": "vector-clock-ui-dominance-tri-state-color",
     "category": "reference",
@@ -6857,6 +7073,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/testing/agent-test-spec-template.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "language-aware-sentence-chunking",
+    "slug": "language-aware-sentence-chunking",
+    "category": "text-normalization",
+    "description": "VoxCPM chunks long input text by language-specific punctuation with a token budget, merging short sentences to avoid OOM",
+    "tags": [
+      "text-normalization",
+      "chunking",
+      "tts",
+      "multilingual",
+      "batch"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/text-normalization/language-aware-sentence-chunking.md",
     "has_content": true
   },
   {
@@ -6964,6 +7198,18 @@
   },
   {
     "kind": "skill",
+    "name": "launch-checklist",
+    "slug": "launch-checklist",
+    "category": "",
+    "description": "\"Complete launch readiness validation covering every department: code, content, store, marketing, community, infrastructure, legal, and go/no-go sign-offs.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/launch-checklist",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "alert-time-window-with-buffer",
     "slug": "alert-time-window-with-buffer",
     "category": "agent-sdk",
@@ -6994,6 +7240,126 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/agent-sdk/claude-agent-sdk-multi-provider-bridge",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "json-schema-from-python-signature",
+    "slug": "json-schema-from-python-signature",
+    "category": "agent-sdk",
+    "description": "Generate a JSON Schema for an LLM tool's input from a Python function signature using inspect + get_type_hints, mapping str→string, int→integer, list→array, with Optional→nullable handling.",
+    "tags": [
+      "json-schema",
+      "type-hints",
+      "llm-tools",
+      "introspection"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/json-schema-from-python-signature",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "langgraph-auth-inject-from-runnable-config",
+    "slug": "langgraph-auth-inject-from-runnable-config",
+    "category": "agent-sdk",
+    "description": "Hydrate auth/user/org/thread/run identifiers into LangGraph state from the RunnableConfig at the very first node, so every downstream node sees a uniform identity payload regardless of caller.",
+    "tags": [
+      "langgraph",
+      "auth",
+      "state",
+      "runnable-config"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/langgraph-auth-inject-from-runnable-config",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "langgraph-compat-shim-import-path-preserved",
+    "slug": "langgraph-compat-shim-import-path-preserved",
+    "category": "agent-sdk",
+    "description": "Keep a one-line import-shim module at an old path (e.g. app/graph_pipeline.py) that re-exports build_graph from the new location, so deployed langgraph.json configs that hard-code the old path keep working through internal refactors.",
+    "tags": [
+      "refactor",
+      "compatibility",
+      "langgraph",
+      "deployment"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/langgraph-compat-shim-import-path-preserved",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "langgraph-investigation-pipeline-graph",
+    "slug": "langgraph-investigation-pipeline-graph",
+    "category": "agent-sdk",
+    "description": "Wire a multi-stage incident investigation as a LangGraph StateGraph with conditional routing, a bounded plan→investigate→diagnose loop, and dual chat/investigation entry modes from one auth-injecting entry point.",
+    "tags": [
+      "langgraph",
+      "agent",
+      "pipeline",
+      "state-graph",
+      "conditional-edges"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/langgraph-investigation-pipeline-graph",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "langgraph-loop-bounded-recommendation-routing",
+    "slug": "langgraph-loop-bounded-recommendation-routing",
+    "category": "agent-sdk",
+    "description": "Bound an agent loop in LangGraph by inspecting recommendations + a loop counter + an availability flag in a single conditional, defaulting to \"publish\" so a routing exception never traps the agent in an infinite loop.",
+    "tags": [
+      "langgraph",
+      "loop-control",
+      "safety",
+      "routing"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/langgraph-loop-bounded-recommendation-routing",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "langsmith-traceable-node-decorator-pattern",
+    "slug": "langsmith-traceable-node-decorator-pattern",
+    "category": "agent-sdk",
+    "description": "Wrap each LangGraph node function with @traceable(name=...) so every step appears as a discrete child run in LangSmith, plus emit semantic LLM run_names via with_config so individual model calls are labelled too.",
+    "tags": [
+      "langsmith",
+      "traceable",
+      "observability",
+      "langgraph"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/langsmith-traceable-node-decorator-pattern",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "large-tool-response-summarization",
+    "slug": "large-tool-response-summarization",
+    "category": "agent-sdk",
+    "description": "When a tool result exceeds a token threshold, save the full response to disk under the session dir, feed it to a cheap summarizer (Haiku) with an intent-aware prompt, and return the summary + file reference to the agent.",
+    "tags": [
+      "agents",
+      "summarization",
+      "large-responses",
+      "cost-control"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/large-tool-response-summarization",
     "has_content": false
   },
   {
@@ -8111,6 +8477,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/architecture/accepts-then-convert-two-phase-dispatch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "jit-scripted-snake-activation",
+    "slug": "jit-scripted-snake-activation",
+    "category": "audio",
+    "description": "JIT-scripted Snake activation (x + sin²(αx)/α) for audio codec networks, ~1.4× faster than eager",
+    "tags": [
+      "activation",
+      "jit",
+      "audio",
+      "codec",
+      "pytorch"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/audio/jit-scripted-snake-activation",
     "has_content": false
   },
   {
@@ -10273,6 +10657,23 @@
   },
   {
     "kind": "skill",
+    "name": "langgraph-api-dockerfile-with-healthcheck",
+    "slug": "langgraph-api-dockerfile-with-healthcheck",
+    "category": "build",
+    "description": "Production Dockerfile for a LangGraph agent that uses the official langchain/langgraph-api base image, installs the package against API constraints.txt, points LANGSERVE_GRAPHS at the build_graph factory, and includes a HEALTHCHECK using only stdlib urllib.",
+    "tags": [
+      "docker",
+      "langgraph",
+      "healthcheck",
+      "deployment"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/build/langgraph-api-dockerfile-with-healthcheck",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "cmake-cuda-extension-with-git-submodule-vendoring",
     "slug": "cmake-cuda-extension-with-git-submodule-vendoring",
     "category": "build-system",
@@ -10817,6 +11218,39 @@
   },
   {
     "kind": "skill",
+    "name": "jsonl-stdout-batch-prediction-format",
+    "slug": "jsonl-stdout-batch-prediction-format",
+    "category": "cli",
+    "description": "CLI emits one JSON object per line (path, prediction, score, overwrite_reason, status) so downstream tools (jq, grep, awk) can pipe directly.",
+    "tags": [
+      "magika",
+      "cli"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/cli/jsonl-stdout-batch-prediction-format",
+    "has_content": true
+  },
+  {
+    "kind": "skill",
+    "name": "kebab-case-argv-serializer",
+    "slug": "kebab-case-argv-serializer",
+    "category": "cli",
+    "description": "Serialize a yargs-parsed argv back into argv[] for spawning a subprocess, translating camelCase option keys to kebab-case, emitting `--no-<flag>` for booleans, and repeating flags for arrays.",
+    "tags": [
+      "cli",
+      "yargs",
+      "argv",
+      "subprocess",
+      "serialization"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/cli/kebab-case-argv-serializer",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "land-and-deploy",
     "slug": "land-and-deploy",
     "category": "cli",
@@ -10830,6 +11264,23 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/cli/gstack/land-and-deploy",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "lazy-auto-detect-server-entry",
+    "slug": "lazy-auto-detect-server-entry",
+    "category": "cli",
+    "description": "Walk up from import.meta.dir looking for a sentinel file (packages/server/src/index.ts) so monorepo CLIs don't need config, hardcoded paths, or environment variables to find the server they should spawn.",
+    "tags": [
+      "monorepo",
+      "auto-detect",
+      "cli",
+      "sentinel-file"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/cli/lazy-auto-detect-server-entry",
     "has_content": false
   },
   {
@@ -11187,6 +11638,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/codecs/android-mediacodec-jni-wrapper",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "keyring-with-env-fallback-llm-credentials",
+    "slug": "keyring-with-env-fallback-llm-credentials",
+    "category": "configuration",
+    "description": "Resolve API keys from environment variables first, then fall back to the system keychain (keyring), with a kill-switch env var to disable keyring entirely for CI and Docker builds.",
+    "tags": [
+      "credentials",
+      "keyring",
+      "security",
+      "llm",
+      "api-keys"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/configuration/keyring-with-env-fallback-llm-credentials",
     "has_content": false
   },
   {
@@ -12743,6 +13212,24 @@
   },
   {
     "kind": "skill",
+    "name": "just-platform-aware-recipes",
+    "slug": "just-platform-aware-recipes",
+    "category": "devops",
+    "description": "Structure a justfile so Unix and Windows contributors share the same command names while recipes dispatch by OS.",
+    "tags": [
+      "justfile",
+      "cross-platform",
+      "windows",
+      "powershell",
+      "bash"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/devops/just-platform-aware-recipes",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "mongodb-volume-copy-backup",
     "slug": "mongodb-volume-copy-backup",
     "category": "devops",
@@ -12968,6 +13455,58 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/docs/ubiquitous-language",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "keyed-coalescing-worker-merge-latest-by-key",
+    "slug": "keyed-coalescing-worker-merge-latest-by-key",
+    "category": "effect-ts",
+    "description": "Reduce queue backpressure by coalescing multiple updates to the same key into a single merged work item",
+    "tags": [
+      "effect-ts",
+      "workers",
+      "coalescing",
+      "optimization"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/effect-ts/keyed-coalescing-worker-merge-latest-by-key",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "launchd-shell-env-bootstrap",
+    "slug": "launchd-shell-env-bootstrap",
+    "category": "electron",
+    "description": "Electron apps launched from Finder/Dock on macOS inherit a minimal launchd PATH — spawn the user's login+interactive shell, parse its env, merge it into process.env so brew/nvm/pyenv work for the agent.",
+    "tags": [
+      "electron",
+      "macos",
+      "shell-env",
+      "launchd",
+      "path"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/electron/launchd-shell-env-bootstrap",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "karpathy-llm-coding-guidelines",
+    "slug": "karpathy-llm-coding-guidelines",
+    "category": "engineering",
+    "description": "Umbrella behavioral guideline that bundles the four Karpathy principles — Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution — to reduce common LLM coding mistakes. Use when you want all four applied at once.",
+    "tags": [
+      "llm-behavior",
+      "umbrella",
+      "karpathy",
+      "coding-guidelines"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/karpathy-llm-coding-guidelines",
     "has_content": false
   },
   {
@@ -13577,6 +14116,59 @@
   },
   {
     "kind": "skill",
+    "name": "kernel-validation-with-corrupted-cache-detection",
+    "slug": "kernel-validation-with-corrupted-cache-detection",
+    "category": "gpu-kernels",
+    "description": "On JIT cache load, validate that every expected artifact (kernel.cu + kernel.cubin) is present and abort with an actionable 'rm -rf CACHE_PATH' error if not.",
+    "tags": [
+      "error-handling",
+      "cache-management",
+      "jit",
+      "debugging",
+      "fail-fast"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/gpu-kernels/kernel-validation-with-corrupted-cache-detection",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "keycode-mapping-multi-platform",
+    "slug": "keycode-mapping-multi-platform",
+    "category": "input",
+    "description": "Platform-specific keycode translation (Windows VK↔scan code, macOS CGKeyCode↔RdevKey) with layout awareness.",
+    "tags": [
+      "input",
+      "keycode",
+      "mapping",
+      "multi",
+      "platform"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/input/keycode-mapping-multi-platform",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "keycode-vk-mapping-windows",
+    "slug": "keycode-vk-mapping-windows",
+    "category": "input",
+    "description": "Windows VK↔scan-code conversion with keyboard-layout awareness.",
+    "tags": [
+      "input",
+      "keycode",
+      "mapping",
+      "windows"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/input/keycode-vk-mapping-windows",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "a2a-protocol-with-hello-publish-decision",
     "slug": "a2a-protocol-with-hello-publish-decision",
     "category": "integration",
@@ -13641,6 +14233,63 @@
   },
   {
     "kind": "skill",
+    "name": "kernel-codegen-with-template-instantiation",
+    "slug": "kernel-codegen-with-template-instantiation",
+    "category": "jit-compilation",
+    "description": "Generate CUDA kernel code at runtime by embedding explicit template instantiations that NVCC/NVRTC extracts into concrete kernels, avoiding template bloat while keeping config compile-time.",
+    "tags": [
+      "code-generation",
+      "cuda-templates",
+      "jit",
+      "kernel-instantiation",
+      "compile-time-config"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/jit-compilation/kernel-codegen-with-template-instantiation",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "lazy-initialization-of-cuda-driver-symbols",
+    "slug": "lazy-initialization-of-cuda-driver-symbols",
+    "category": "jit-compilation",
+    "description": "Resolve CUDA driver-API symbols on first call via dlopen+dlsym so your library loads on systems missing newer symbols and surfaces clean errors when features are unavailable.",
+    "tags": [
+      "cuda-driver-api",
+      "lazy-loading",
+      "dynamic-linking",
+      "portability"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/jit-compilation/lazy-initialization-of-cuda-driver-symbols",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "launcher-common-env-dispatch",
+    "slug": "launcher-common-env-dispatch",
+    "category": "launcher",
+    "description": "Share display detection, singleton-lock cleanup, orphaned daemon termination, and Electron args construction across multiple package format launchers (deb, rpm, AppImage, Nix) via a sourced common library. Each package-specific launcher sources the library and calls the shared functions.",
+    "tags": [
+      "launcher",
+      "bash",
+      "shared-library",
+      "electron",
+      "deb",
+      "rpm",
+      "appimage",
+      "nix",
+      "display-detection"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/launcher/launcher-common-env-dispatch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "agent-handoff-routing",
     "slug": "agent-handoff-routing",
     "category": "llm-agents",
@@ -13672,6 +14321,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/llm-agents/agents-as-tools",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "layered-memory-tiering-system",
+    "slug": "layered-memory-tiering-system",
+    "category": "memory-management",
+    "description": "Hierarchical L1/L2/L3/L4 memory architecture for long-running LLM agents, anchored by action-verified facts and explicit garbage-collection rules.",
+    "tags": [
+      "llm-agents",
+      "memory",
+      "long-running",
+      "persistent-context",
+      "knowledge-management"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/memory-management/layered-memory-tiering-system",
     "has_content": false
   },
   {
@@ -13790,6 +14457,24 @@
   },
   {
     "kind": "skill",
+    "name": "lan-discovery-broadcast-protocol",
+    "slug": "lan-discovery-broadcast-protocol",
+    "category": "networking",
+    "description": "UDP broadcast peer discovery using protobuf RendezvousMessage with MAC/hostname metadata.",
+    "tags": [
+      "broadcast",
+      "discovery",
+      "lan",
+      "networking",
+      "protocol"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/networking/lan-discovery-broadcast-protocol",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "agent-tracing-spans",
     "slug": "agent-tracing-spans",
     "category": "observability",
@@ -13826,6 +14511,59 @@
   },
   {
     "kind": "skill",
+    "name": "jsonl-audit-logger-best-effort",
+    "slug": "jsonl-audit-logger-best-effort",
+    "category": "observability",
+    "description": "Append-only JSONL audit log for security-relevant events that swallows OS errors so logging failures never crash the calling code, and reads back the last N entries on demand.",
+    "tags": [
+      "audit",
+      "jsonl",
+      "append-only",
+      "best-effort"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/observability/jsonl-audit-logger-best-effort",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "langgraph-progress-spinner-tracker",
+    "slug": "langgraph-progress-spinner-tracker",
+    "category": "observability",
+    "description": "Per-node animated spinner that shows a humanized label, cycling progress verbs, and live subtext updates, then resolves to a static line with timing and humanized message — gracefully degrades to plain text when not on a TTY or NO_COLOR is set.",
+    "tags": [
+      "progress",
+      "spinner",
+      "tracker",
+      "langgraph",
+      "cli",
+      "rich"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/observability/langgraph-progress-spinner-tracker",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "learning-signals-extraction-from-errors",
+    "slug": "learning-signals-extraction-from-errors",
+    "category": "observability",
+    "description": "Extract structured learning signals (error type, stack, context) from execution failures",
+    "tags": [
+      "evolver",
+      "observability",
+      "error-analysis",
+      "learning"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/observability/learning-signals-extraction-from-errors",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "claude-cli-unattended-wrapper",
     "slug": "claude-cli-unattended-wrapper",
     "category": "operations",
@@ -13843,6 +14581,44 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/operations/claude-cli-unattended-wrapper",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "lazy-static-global-state-registry",
+    "slug": "lazy-static-global-state-registry",
+    "category": "patterns",
+    "description": "Thread-safe global state via lazy_static! Arc<Mutex<>> for per-peer decodings, event streams, textures.",
+    "tags": [
+      "global",
+      "lazy",
+      "patterns",
+      "registry",
+      "state",
+      "static"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/patterns/lazy-static-global-state-registry",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "lazy-static-once-init-pattern",
+    "slug": "lazy-static-once-init-pattern",
+    "category": "patterns",
+    "description": "lazy_static! for one-time initialization of expensive resources (codec choices, audio devices).",
+    "tags": [
+      "init",
+      "lazy",
+      "once",
+      "pattern",
+      "patterns",
+      "static"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/patterns/lazy-static-once-init-pattern",
     "has_content": false
   },
   {
@@ -14040,6 +14816,24 @@
   },
   {
     "kind": "skill",
+    "name": "jwt-cookie-auth-on-websocket-upgrade",
+    "slug": "jwt-cookie-auth-on-websocket-upgrade",
+    "category": "security",
+    "description": "Serve a browser-facing web UI that logs in via password, issues an HttpOnly JWT cookie, and then authenticates both subsequent HTTP requests and the WebSocket upgrade from the same cookie — no separate token passing for ws from the browser.",
+    "tags": [
+      "websocket",
+      "jwt",
+      "cookie-auth",
+      "webui",
+      "jose"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/security/jwt-cookie-auth-on-websocket-upgrade",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "jwt-refresh-rotation-spring",
     "slug": "jwt-refresh-rotation-spring",
     "category": "security",
@@ -14049,6 +14843,23 @@
     "version": "0.1.0-draft",
     "path": "skills/security/jwt-refresh-rotation-spring",
     "has_content": true
+  },
+  {
+    "kind": "skill",
+    "name": "kgw-text-watermark-embed-detect",
+    "slug": "kgw-text-watermark-embed-detect",
+    "category": "security",
+    "description": "Embed KGW watermarks into LLM-generated text and detect them via z-score using the X-SIR repository.",
+    "tags": [
+      "watermark",
+      "kgw",
+      "x-sir",
+      "llm-safety"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/security/kgw-text-watermark-embed-detect",
+    "has_content": false
   },
   {
     "kind": "skill",
@@ -14140,6 +14951,23 @@
   },
   {
     "kind": "skill",
+    "name": "jsonl-session-with-portable-paths",
+    "slug": "jsonl-session-with-portable-paths",
+    "category": "session-management",
+    "description": "Persist agent sessions as JSONL (header on line 1, messages one-per-line) and token-replace absolute session-dir paths so the session file stays portable when moved between machines/dirs.",
+    "tags": [
+      "session-storage",
+      "jsonl",
+      "portability",
+      "agent-sessions"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/session-management/jsonl-session-with-portable-paths",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "clearcut-batch-flush-with-retry",
     "slug": "clearcut-batch-flush-with-retry",
     "category": "telemetry",
@@ -14154,6 +14982,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/telemetry/clearcut-batch-flush-with-retry",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "latency-bucket-tool-invocation-metric",
+    "slug": "latency-bucket-tool-invocation-metric",
+    "category": "telemetry",
+    "description": "Wrap every MCP tool handler in a try/finally that records `{toolName, sanitized params, success, bucketized latency}` so you get a per-tool success/duration histogram without raising cardinality.",
+    "tags": [
+      "telemetry",
+      "metrics",
+      "latency",
+      "buckets",
+      "mcp"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/mcp/latency-bucket-tool-invocation-metric",
     "has_content": false
   },
   {
@@ -14293,6 +15139,25 @@
   },
   {
     "kind": "skill",
+    "name": "lazy-logger-factory-for-mock-module",
+    "slug": "lazy-logger-factory-for-mock-module",
+    "category": "testing",
+    "description": "Wrap every module's logger behind a per-module `getLog()` function with a cached instance, so Bun's `mock.module('@archon/paths')` interception gets the fresh mock instead of the pre-imported real logger.",
+    "tags": [
+      "bun",
+      "testing",
+      "mock",
+      "logger",
+      "pino",
+      "defer-init"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/testing/lazy-logger-factory-for-mock-module",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "llm-integration-test-failure-diagnosis",
     "slug": "llm-integration-test-failure-diagnosis",
     "category": "testing",
@@ -14402,6 +15267,25 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/testing-gpu/cosine-similarity-diff-for-fp8-numerics",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "kineto-profiler-bench-with-l2-flush",
+    "slug": "kineto-profiler-bench-with-l2-flush",
+    "category": "testing-gpu",
+    "description": "Measure per-kernel GPU time using the torch.profiler kineto trace, flushing L2 between invocations and extracting specific kernel names from the profiling table with unit-aware parsing.",
+    "tags": [
+      "benchmarking",
+      "kineto",
+      "torch-profiler",
+      "l2-cache",
+      "gpu-timing",
+      "microbench"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/testing-gpu/kineto-profiler-bench-with-l2-flush",
     "has_content": false
   },
   {
