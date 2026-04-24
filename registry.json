@@ -2409,6 +2409,146 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "effect-ts-monorepo-with-turbo-and-subpath-exports": {
+      "category": "monorepo",
+      "path": "skills/monorepo/effect-ts-monorepo-with-turbo-and-subpath-exports/SKILL.md",
+      "version": "1.0.0"
+    },
+    "effect-ts-rpc-metrics-and-instrumentation": {
+      "category": "observability",
+      "path": "skills/observability/effect-ts-rpc-metrics-and-instrumentation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "effect-ts-test-integration-with-vitest": {
+      "category": "testing",
+      "path": "skills/testing/effect-ts-test-integration-with-vitest/SKILL.md",
+      "version": "1.0.0"
+    },
+    "electron-bun-dev-orchestrator": {
+      "category": "electron",
+      "path": "skills/electron/electron-bun-dev-orchestrator/SKILL.md",
+      "version": "1.0.0"
+    },
+    "electron-frame-interception-wrapper": {
+      "category": "electron-packaging",
+      "path": "skills/electron-packaging/electron-frame-interception-wrapper/SKILL.md",
+      "version": "1.0.0"
+    },
+    "electron-platform-services-injection": {
+      "category": "electron",
+      "path": "skills/electron/electron-platform-services-injection/SKILL.md",
+      "version": "1.0.0"
+    },
+    "electron-windows-exe-to-linux-appimage": {
+      "category": "appimage",
+      "path": "skills/appimage/electron-windows-exe-to-linux-appimage/SKILL.md",
+      "version": "1.0.0"
+    },
+    "enigo-dsl-keyboard-sequence": {
+      "category": "input",
+      "path": "skills/input/enigo-dsl-keyboard-sequence/SKILL.md",
+      "version": "1.0.0"
+    },
+    "env-driven-debug-flag-matrix-for-jit": {
+      "category": "build-system",
+      "path": "skills/build-system/env-driven-debug-flag-matrix-for-jit/SKILL.md",
+      "version": "1.0.0"
+    },
+    "env-driven-strategy-preset": {
+      "category": "configuration",
+      "path": "skills/configuration/env-driven-strategy-preset/SKILL.md",
+      "version": "1.0.0"
+    },
+    "error-conversion-anyhow-wrapper": {
+      "category": "patterns",
+      "path": "skills/patterns/error-conversion-anyhow-wrapper/SKILL.md",
+      "version": "1.0.0"
+    },
+    "estimate": {
+      "category": "production",
+      "path": "skills/production/estimate/SKILL.md",
+      "version": "1.0.0"
+    },
+    "event-bus-automation-system": {
+      "category": "automation",
+      "path": "skills/automation/event-bus-automation-system/SKILL.md",
+      "version": "1.0.0"
+    },
+    "event-sourced-orchestration-with-decider-projector": {
+      "category": "architecture",
+      "path": "skills/architecture/event-sourced-orchestration-with-decider-projector/SKILL.md",
+      "version": "1.0.0"
+    },
+    "evidence-driven-claim-validator": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/evidence-driven-claim-validator/SKILL.md",
+      "version": "1.0.0"
+    },
+    "evidence-truncation-with-totals": {
+      "category": "observability",
+      "path": "skills/observability/evidence-truncation-with-totals/SKILL.md",
+      "version": "1.0.0"
+    },
+    "evolver-loop-recovery-with-wait-and-respawn": {
+      "category": "resilience",
+      "path": "skills/resilience/evolver-loop-recovery-with-wait-and-respawn/SKILL.md",
+      "version": "1.0.0"
+    },
+    "executing-plans": {
+      "category": "process",
+      "path": "skills/process/executing-plans/SKILL.md",
+      "version": "1.0.0"
+    },
+    "failure-streak-cooldown-auto-issue-report": {
+      "category": "observability",
+      "path": "skills/observability/failure-streak-cooldown-auto-issue-report/SKILL.md",
+      "version": "1.0.0"
+    },
+    "fastapi-sse-mcp-protocol": {
+      "category": "fastapi-streaming-endpoints",
+      "path": "skills/fastapi-streaming-endpoints/fastapi-sse-mcp-protocol/SKILL.md",
+      "version": "1.0.0"
+    },
+    "fastmcp-stdio-http-dual-transport": {
+      "category": "mcp",
+      "path": "skills/mcp/fastmcp-stdio-http-dual-transport/SKILL.md",
+      "version": "1.0.0"
+    },
+    "fatal-vs-transient-error-classifier": {
+      "category": "workflow",
+      "path": "skills/workflow/fatal-vs-transient-error-classifier/SKILL.md",
+      "version": "1.0.0"
+    },
+    "feature-flag-conditional-compilation": {
+      "category": "build-system",
+      "path": "skills/build-system/feature-flag-conditional-compilation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "feature-flag-gated-tool-registration": {
+      "category": "mcp",
+      "path": "skills/mcp/feature-flag-gated-tool-registration/SKILL.md",
+      "version": "1.0.0"
+    },
+    "fetch-interceptor-via-require-preload": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/fetch-interceptor-via-require-preload/SKILL.md",
+      "version": "1.0.0"
+    },
+    "fhs-wrapper-mcp-server-support": {
+      "category": "nix",
+      "path": "skills/nix/fhs-wrapper-mcp-server-support/SKILL.md",
+      "version": "1.0.0"
+    },
+    "fifo-mutex-for-serialized-tool-calls": {
+      "category": "mcp",
+      "path": "skills/mcp/fifo-mutex-for-serialized-tool-calls/SKILL.md",
+      "version": "1.0.0"
+    },
+    "file-clipboard-transfer-protocol": {
+      "category": "clipboard",
+      "path": "skills/clipboard/file-clipboard-transfer-protocol/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4567,94 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "effect-ts-scope-lifecycle-and-early-termination": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/effect-ts-scope-lifecycle-and-early-termination.md"
+    },
+    "electron-app-resource-path-resolution": {
+      "category": "electron-packaging",
+      "path": "knowledge/electron-packaging/electron-app-resource-path-resolution.md"
+    },
+    "electron-builder-per-platform-filtering": {
+      "category": "devops",
+      "path": "knowledge/devops/electron-builder-per-platform-filtering.md"
+    },
+    "electron-preload-wrapper-proxy-interception": {
+      "category": "electron-packaging",
+      "path": "knowledge/electron-packaging/electron-preload-wrapper-proxy-interception.md"
+    },
+    "electron-singleton-lock-race-condition": {
+      "category": "electron-packaging",
+      "path": "knowledge/electron-packaging/electron-singleton-lock-race-condition.md"
+    },
+    "engine-reference-readme": {
+      "category": "engine",
+      "path": "knowledge/engine/engine-reference-readme.md"
+    },
+    "engineering-principles-archon": {
+      "category": "arch",
+      "path": "knowledge/arch/engineering-principles-archon.md"
+    },
+    "english-only-comments": {
+      "category": "decision",
+      "path": "knowledge/decision/english-only-comments.md"
+    },
+    "env-configurable-short-circuit-kill-switches": {
+      "category": "reference",
+      "path": "knowledge/reference/env-configurable-short-circuit-kill-switches.md"
+    },
+    "env-file-prefer-main-over-worktree": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/env-file-prefer-main-over-worktree.md"
+    },
+    "env-vars-for-debug-and-opt-outs": {
+      "category": "reference",
+      "path": "knowledge/reference/env-vars-for-debug-and-opt-outs.md"
+    },
+    "env-vars-for-headless-server": {
+      "category": "reference",
+      "path": "knowledge/reference/env-vars-for-headless-server.md"
+    },
+    "esm-only-pi-sdk-build-constraint": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/esm-only-pi-sdk-build-constraint.md"
+    },
+    "evidence-compaction-multi-phase-strategy": {
+      "category": "observability",
+      "path": "knowledge/observability/evidence-compaction-multi-phase-strategy.md"
+    },
+    "evolution-strategy-selector": {
+      "category": "workflow",
+      "path": "knowledge/workflow/evolution-strategy-selector.md"
+    },
+    "examples-readme": {
+      "category": "reference",
+      "path": "knowledge/reference/examples-readme.md"
+    },
+    "excel-xml-clipboard-format-special-case": {
+      "category": "clipboard",
+      "path": "knowledge/clipboard/excel-xml-clipboard-format-special-case.md"
+    },
+    "exec-plan-format": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/exec-plan-format.md"
+    },
+    "experimental-structured-content-flag": {
+      "category": "decision",
+      "path": "knowledge/decision/experimental-structured-content-flag.md"
+    },
+    "fail-fast-explicit-errors-ai-runtime": {
+      "category": "arch",
+      "path": "knowledge/arch/fail-fast-explicit-errors-ai-runtime.md"
+    },
+    "fastapi-plugin-router-system": {
+      "category": "plugin-architecture",
+      "path": "knowledge/plugin-architecture/fastapi-plugin-router-system.md"
+    },
+    "feature-flag-rust-unwrap-policy": {
+      "category": "rust-rules",
+      "path": "knowledge/rust-rules/feature-flag-rust-unwrap-policy.md"
     }
   }
 }
