@@ -2044,6 +2044,42 @@
   },
   {
     "kind": "knowledge",
+    "name": "gep-asset-model",
+    "slug": "gep-asset-model",
+    "category": "architecture",
+    "description": "Evolver's GEP (Genome Evolution Protocol) stores evolution state as three on-disk assets — reusable Genes, success Capsules, and an append-only EvolutionEvents log — so every change is auditable and the selector can score candidates by signal match.",
+    "tags": [
+      "gep",
+      "evolver",
+      "genes",
+      "capsules",
+      "events",
+      "audit"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/gep-asset-model.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "gep-genome-evolution-protocol",
+    "slug": "gep-genome-evolution-protocol",
+    "category": "architecture",
+    "description": "Protocol for tracking and applying genome mutations as evolution genes and capsules",
+    "tags": [
+      "evolver",
+      "architecture",
+      "gep",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/gep-genome-evolution-protocol.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "ci-gpg-signing-batch-mode-non-interactive",
     "slug": "ci-gpg-signing-batch-mode-non-interactive",
     "category": "ci-cd",
@@ -2085,6 +2121,25 @@
   },
   {
     "kind": "knowledge",
+    "name": "github-variables-version-management",
+    "slug": "github-variables-version-management",
+    "category": "ci-cd",
+    "description": "Storing version strings in GitHub Actions repository variables (not committed files) avoids merge conflicts on automated version bumps and provides a single source of truth accessible to both CI jobs and local scripts via the `gh` CLI.",
+    "tags": [
+      "github-actions",
+      "versioning",
+      "repository-variables",
+      "ci-cd",
+      "automation",
+      "merge-conflicts"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/ci-cd/github-variables-version-management.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "clipboard-context-lazy-initialization",
     "slug": "clipboard-context-lazy-initialization",
     "category": "clipboard",
@@ -2114,6 +2169,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/clipboard/clipboard-ownership-protocol.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "gdi-fallback-screen-capture",
+    "slug": "gdi-fallback-screen-capture",
+    "category": "codecs",
+    "description": "On Windows, try DXGI first; fall back to GDI for legacy/virtual displays that DXGI can't enumerate.",
+    "tags": [
+      "capture",
+      "codecs",
+      "fallback",
+      "gdi",
+      "screen"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/codecs/gdi-fallback-screen-capture.md",
     "has_content": true
   },
   {
@@ -3900,6 +3973,132 @@
   },
   {
     "kind": "knowledge",
+    "name": "godot-animation",
+    "slug": "godot-animation",
+    "category": "engine",
+    "description": "Godot engine reference for the animation module — APIs, patterns, and best practices",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "godot",
+      "engine-reference",
+      "animation"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engine/godot-animation.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "godot-audio",
+    "slug": "godot-audio",
+    "category": "engine",
+    "description": "Godot engine reference for the audio module — APIs, patterns, and best practices",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "godot",
+      "engine-reference",
+      "audio"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engine/godot-audio.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "godot-best-practices",
+    "slug": "godot-best-practices",
+    "category": "engine",
+    "description": "Current Godot best practices for CCGS projects — patterns and idioms to follow",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "godot",
+      "best-practices",
+      "engine-reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engine/godot-best-practices.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "godot-breaking-changes",
+    "slug": "godot-breaking-changes",
+    "category": "engine",
+    "description": "Godot breaking changes log for the pinned version used in CCGS projects",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "godot",
+      "breaking-changes",
+      "migration"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engine/godot-breaking-changes.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "godot-deprecated-apis",
+    "slug": "godot-deprecated-apis",
+    "category": "engine",
+    "description": "Deprecated Godot APIs to avoid in CCGS projects with recommended replacements",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "godot",
+      "deprecated",
+      "api-reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engine/godot-deprecated-apis.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "godot-input",
+    "slug": "godot-input",
+    "category": "engine",
+    "description": "Godot engine reference for the input module — APIs, patterns, and best practices",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "godot",
+      "engine-reference",
+      "input"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engine/godot-input.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "godot-navigation",
+    "slug": "godot-navigation",
+    "category": "engine",
+    "description": "Godot engine reference for the navigation module — APIs, patterns, and best practices",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "godot",
+      "engine-reference",
+      "navigation"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engine/godot-navigation.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "condition-based-waiting",
     "slug": "condition-based-waiting",
     "category": "engineering",
@@ -3911,6 +4110,64 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/engineering/condition-based-waiting.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "flutter-rust-bridge-compatibility-matrix",
+    "slug": "flutter-rust-bridge-compatibility-matrix",
+    "category": "ffi",
+    "description": "flutter_rust_bridge v1.80 requires Rust edition 2021 and has platform-specific build tweaks for each target.",
+    "tags": [
+      "bridge",
+      "compatibility",
+      "ffi",
+      "flutter",
+      "matrix",
+      "rust"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/ffi/flutter-rust-bridge-compatibility-matrix.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "fp8-e4m3-vs-ue8m0-format-differences",
+    "slug": "fp8-e4m3-vs-ue8m0-format-differences",
+    "category": "fp8-quantization",
+    "description": "SM90 consumes FP32 scales + E4M3 FP8 values; SM100 expects packed UE8M0 (unsigned-exponent, no mantissa) int32 scales with different range/precision tradeoffs.",
+    "tags": [
+      "fp8",
+      "ue8m0",
+      "e4m3",
+      "quantization",
+      "data-format",
+      "hardware-specific"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/fp8-quantization/fp8-e4m3-vs-ue8m0-format-differences.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "git-workflow-issue-version-forensics",
+    "slug": "git-workflow-issue-version-forensics",
+    "category": "git-workflow",
+    "description": "For stale bug reports, verify whether the issue is still present by using `git log --until`/`--after` on the relevant file path and `git show <commit>:path` to view the code at the time the issue was filed — avoids wasting effort on already-fixed bugs.",
+    "tags": [
+      "git",
+      "debugging",
+      "issue-triage",
+      "forensics",
+      "blame",
+      "log",
+      "history"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/git-workflow/git-workflow-issue-version-forensics.md",
     "has_content": true
   },
   {
@@ -3988,6 +4245,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/llm-agents/agent-runner-loop-semantics.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "function-schema-generation",
+    "slug": "function-schema-generation",
+    "category": "llm-agents",
+    "description": "How @function_tool generates JSON schemas from Python function signatures, docstrings, and Pydantic models for LLM tool calling.",
+    "tags": [
+      "openai-agents",
+      "function-tool",
+      "json-schema",
+      "pydantic",
+      "type-hints"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/llm-agents/function-schema-generation.md",
     "has_content": true
   },
   {
@@ -4983,6 +5258,43 @@
   },
   {
     "kind": "knowledge",
+    "name": "fsync-directory-is-mandatory-before-rename",
+    "slug": "fsync-directory-is-mandatory-before-rename",
+    "category": "pitfall",
+    "description": "",
+    "tags": [
+      "fsync",
+      "directory",
+      "rename",
+      "nfs",
+      "posix",
+      "durability"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/jit-compilation/fsync-directory-is-mandatory-before-rename.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "gated-huggingface-hardcoded-config",
+    "slug": "gated-huggingface-hardcoded-config",
+    "category": "pitfall",
+    "description": "Some ML libraries hardcode the original HF repo id for config lookup; the app breaks when only a community fork (MLX / quantized) is cached.",
+    "tags": [
+      "huggingface",
+      "caching",
+      "mlx",
+      "transformers",
+      "offline"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/gated-huggingface-hardcoded-config.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "gh-pr-create-cwd-prefix-does-not-stick",
     "slug": "gh-pr-create-cwd-prefix-does-not-stick",
     "category": "pitfall",
@@ -5036,6 +5348,39 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/pitfall/git-reset-hard-bypasses-all-hooks.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "git-stale-branch-main-dot-dot-head",
+    "slug": "git-stale-branch-main-dot-dot-head",
+    "category": "pitfall",
+    "description": "On a stale contributor branch, `git diff main..HEAD` shows every main commit as a deletion — a 3-line PR looks like a 700-line revert.",
+    "tags": [
+      "git",
+      "code-review",
+      "squash-merge",
+      "github",
+      "triage"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/git-stale-branch-main-dot-dot-head.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "go-requires-cgo-onnxruntime",
+    "slug": "go-requires-cgo-onnxruntime",
+    "category": "pitfall",
+    "description": "The Go binding requires CGO + an externally installed ONNX Runtime C library.",
+    "tags": [
+      "magika",
+      "pitfall"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/go-requires-cgo-onnxruntime.md",
     "has_content": true
   },
   {
@@ -6662,6 +7007,25 @@
   },
   {
     "kind": "knowledge",
+    "name": "flatpak-portals-sandbox-workaround",
+    "slug": "flatpak-portals-sandbox-workaround",
+    "category": "platform/linux",
+    "description": "Flatpak uses XDG desktop portals for screen capture (screencast-portal) instead of direct X11/Wayland.",
+    "tags": [
+      "flatpak",
+      "linux",
+      "platform",
+      "portals",
+      "sandbox",
+      "workaround"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/linux/flatpak-portals-sandbox-workaround.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "android-ios-feature-parity-gap",
     "slug": "android-ios-feature-parity-gap",
     "category": "platform/mobile",
@@ -6789,6 +7153,60 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/reference/craft-cli-command-surface.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "file-layout-apps-vs-packages",
+    "slug": "file-layout-apps-vs-packages",
+    "category": "reference",
+    "description": "apps/ hold leaf-node deployables (cli, electron, viewer, webui); packages/ hold reusable libraries (core, shared, server-core, server, session-tools-core, session-mcp-server, pi-agent-server, ui) — a crisp boundary between \"ships to users\" and \"imported by ships\".",
+    "tags": [
+      "monorepo",
+      "layout",
+      "convention"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/file-layout-apps-vs-packages.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "gep-protocol-auditable-assets",
+    "slug": "gep-protocol-auditable-assets",
+    "category": "reference",
+    "description": "Genome Evolution Protocol (GEP) represents an autonomous loop's \"DNA\" as three on-disk artifacts — reusable `Gene` definitions, success `Capsule`s, and an append-only `events.jsonl` — so every autonomous change has a signed, auditable trail.",
+    "tags": [
+      "gep",
+      "evolver",
+      "audit",
+      "genes",
+      "capsules",
+      "jsonl",
+      "autonomous-agent"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/gep-protocol-auditable-assets.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "github-token-env-fallback-chain",
+    "slug": "github-token-env-fallback-chain",
+    "category": "reference",
+    "description": "When resolving a GitHub token from the environment in a tool that runs under both CI and human-local setups, check `GITHUB_TOKEN` → `GH_TOKEN` → `GITHUB_PAT` in that order, and treat \"no token found\" as silent-skip (not an error) for optional features like auto-issue reporting and release creation.",
+    "tags": [
+      "github-token",
+      "env-fallback",
+      "ci",
+      "gh-cli",
+      "graceful-degradation"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/github-token-env-fallback-chain.md",
     "has_content": true
   },
   {
@@ -6964,6 +7382,30 @@
   },
   {
     "kind": "skill",
+    "name": "game-design-doc-review",
+    "slug": "game-design-doc-review",
+    "category": "",
+    "description": "\"Reviews a game design document for completeness, internal consistency, implementability, and adherence to project design standards. Run this before handing a design document to programmers.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/design/game-design-doc-review",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "gate-check",
+    "slug": "gate-check",
+    "category": "",
+    "description": "\"Validate readiness to advance between development phases. Produces a PASS/CONCERNS/FAIL verdict with specific blockers and required artifacts. Use when user says 'are we ready to move to X', 'can we advance to production', 'check if we can start the next phase', 'pass the gate'.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/gate-check",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "alert-time-window-with-buffer",
     "slug": "alert-time-window-with-buffer",
     "category": "agent-sdk",
@@ -7082,6 +7524,41 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/agents/coding-agent-cli-backend-interface",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "forcing-tool-use",
+    "slug": "forcing-tool-use",
+    "category": "agents",
+    "description": "Force the model to call a specific tool or any tool on the first turn using tool_choice in ModelSettings.",
+    "tags": [
+      "openai-agents",
+      "tool-choice",
+      "model-settings",
+      "forced-tool",
+      "reset-tool-choice"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agents/forcing-tool-use",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "function-tool-registration",
+    "slug": "function-tool-registration",
+    "category": "agents",
+    "description": "Register a Python function as an agent tool using the @function_tool decorator.",
+    "tags": [
+      "openai-agents",
+      "tools",
+      "function-tool",
+      "pydantic"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agents/function-tool-registration",
     "has_content": false
   },
   {
@@ -8111,6 +8588,41 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/architecture/accepts-then-convert-two-phase-dispatch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "gep-environment-fingerprint",
+    "slug": "gep-environment-fingerprint",
+    "category": "architecture",
+    "description": "Compute and persist environment fingerprint for drift detection and state validation",
+    "tags": [
+      "evolver",
+      "architecture",
+      "fingerprint",
+      "drift-detection"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/architecture/gep-environment-fingerprint",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "go-middleware-context-injection",
+    "slug": "go-middleware-context-injection",
+    "category": "architecture",
+    "description": "Chi middleware that resolves workspace membership and injects workspace ID and member record into request.Context(), with typed accessors and shared context keys.",
+    "tags": [
+      "go",
+      "chi",
+      "middleware",
+      "multi-tenancy",
+      "context"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/architecture/go-middleware-context-injection",
     "has_content": false
   },
   {
@@ -10273,6 +10785,23 @@
   },
   {
     "kind": "skill",
+    "name": "file-stability-polling-for-fs-flush",
+    "slug": "file-stability-polling-for-fs-flush",
+    "category": "build",
+    "description": "Poll stat size every 100ms and only treat a file as \"ready\" after 3 consecutive unchanged readings — bridges the gap between bundler exit and OS filesystem flush on Windows / network volumes.",
+    "tags": [
+      "filesystem",
+      "flush",
+      "windows",
+      "build-tooling"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/build/file-stability-polling-for-fs-flush",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "cmake-cuda-extension-with-git-submodule-vendoring",
     "slug": "cmake-cuda-extension-with-git-submodule-vendoring",
     "category": "build-system",
@@ -10289,6 +10818,39 @@
     "version": "1.0.0",
     "path": "skills/build-system/cmake-cuda-extension-with-git-submodule-vendoring",
     "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "generate-tool-reference-with-token-counts",
+    "slug": "generate-tool-reference-with-token-counts",
+    "category": "build-tooling",
+    "description": "Generate your MCP tool reference docs by booting the real server, calling listTools, and including a tiktoken cl100k_base count in the title so you and your users can see the context-budget cost at a glance.",
+    "tags": [
+      "docs",
+      "codegen",
+      "tiktoken",
+      "tokens",
+      "mcp"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/build-tooling/generate-tool-reference-with-token-counts",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "github-actions-parallel-test-matrix",
+    "slug": "github-actions-parallel-test-matrix",
+    "category": "ci",
+    "description": "GitHub Actions workflow uses a strategy.matrix over OS × toolchain to run all tests in parallel, with continue-on-error for nightly so unstable toolchains don't block merges.",
+    "tags": [
+      "magika",
+      "ci"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ci/github-actions-parallel-test-matrix",
+    "has_content": true
   },
   {
     "kind": "skill",
@@ -10593,6 +11155,24 @@
   },
   {
     "kind": "skill",
+    "name": "foreground-background-daemon-mode",
+    "slug": "foreground-background-daemon-mode",
+    "category": "cli",
+    "description": "CLI-managed daemon with foreground (for debug) and background (default, detached) modes, log-file path convention, and a status-check sub-command.",
+    "tags": [
+      "cli",
+      "daemon",
+      "background-process",
+      "logs",
+      "debugging"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/cli/foreground-background-daemon-mode",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "freeze",
     "slug": "freeze",
     "category": "cli",
@@ -10606,6 +11186,24 @@
     "triggers": [],
     "version": "0.1.0",
     "path": "skills/cli/gstack/freeze",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "generate-cli-from-mcp-tool-list",
+    "slug": "generate-cli-from-mcp-tool-list",
+    "category": "cli",
+    "description": "Auto-generate a yargs-based CLI from an MCP server's tool list and JSON schemas so every tool becomes a subcommand with typed positional args for required fields and flags for optional ones.",
+    "tags": [
+      "cli",
+      "yargs",
+      "codegen",
+      "mcp",
+      "json-schema"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/cli/generate-cli-from-mcp-tool-list",
     "has_content": false
   },
   {
@@ -10624,6 +11222,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/cli/git-guardrails-claude-code",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "github-hmac-webhook-verify",
+    "slug": "github-hmac-webhook-verify",
+    "category": "cli",
+    "description": "Verify a GitHub webhook's `X-Hub-Signature-256` using HMAC-SHA-256 over the raw body with `timingSafeEqual`, with a same-length guard, prefix-masked logs on mismatch, and a 200-then-async processing pattern.",
+    "tags": [
+      "webhook",
+      "github",
+      "hmac",
+      "signature",
+      "security"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/cli/github-hmac-webhook-verify",
     "has_content": false
   },
   {
@@ -11188,6 +11804,21 @@
     "version": "1.0.0",
     "path": "skills/codecs/android-mediacodec-jni-wrapper",
     "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "generated-enum-and-config-code-from-json-schema",
+    "slug": "generated-enum-and-config-code-from-json-schema",
+    "category": "codegen",
+    "description": "Build-time code generator that reads a JSON content-type knowledge base and emits per-language type-safe enums + const TypeInfo structs (MIME type, group, extensions, is_text).",
+    "tags": [
+      "magika",
+      "codegen"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/codegen/generated-enum-and-config-code-from-json-schema",
+    "has_content": true
   },
   {
     "kind": "skill",
@@ -12649,6 +13280,18 @@
   },
   {
     "kind": "skill",
+    "name": "finishing-a-development-branch",
+    "slug": "finishing-a-development-branch",
+    "category": "devops",
+    "description": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/devops/finishing-a-development-branch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "font-cache-alpine-locale-docker",
     "slug": "font-cache-alpine-locale-docker",
     "category": "devops",
@@ -12968,6 +13611,60 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/docs/ubiquitous-language",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "goal-driven-verifiable-success-criteria",
+    "slug": "goal-driven-verifiable-success-criteria",
+    "category": "engineering",
+    "description": "Transform imperative tasks into verifiable goals. Define success criteria before implementing so the loop can self-terminate. Use for any non-trivial task, especially bug fixes and refactors.",
+    "tags": [
+      "tdd",
+      "verification",
+      "goal-setting",
+      "autonomous-loop"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/goal-driven-verifiable-success-criteria",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "flutter-rust-bridge-stream-sink-pattern",
+    "slug": "flutter-rust-bridge-stream-sink-pattern",
+    "category": "ffi",
+    "description": "StreamSink<String> for async event channeling from Rust to Flutter.",
+    "tags": [
+      "bridge",
+      "ffi",
+      "flutter",
+      "pattern",
+      "rust",
+      "sink"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ffi/flutter-rust-bridge-stream-sink-pattern",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "get-package-reactive-bindings",
+    "slug": "get-package-reactive-bindings",
+    "category": "flutter",
+    "description": "GetX library for reactive variable binding (RxList, Rx<T>, onChanged) in Flutter UI.",
+    "tags": [
+      "bindings",
+      "flutter",
+      "get",
+      "package",
+      "reactive"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/flutter/get-package-reactive-bindings",
     "has_content": false
   },
   {
@@ -13549,6 +14246,23 @@
   },
   {
     "kind": "skill",
+    "name": "git-worktree-isolation-per-thread",
+    "slug": "git-worktree-isolation-per-thread",
+    "category": "git",
+    "description": "Use git worktrees to isolate filesystem state per conversation thread, avoiding conflicts between concurrent edits",
+    "tags": [
+      "git",
+      "worktree",
+      "concurrency",
+      "isolation"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/git/git-worktree-isolation-per-thread",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "jj-jujutsu-day-one-workflow",
     "slug": "jj-jujutsu-day-one-workflow",
     "category": "git",
@@ -13641,6 +14355,63 @@
   },
   {
     "kind": "skill",
+    "name": "github-trending-zero-dep-scraper",
+    "slug": "github-trending-zero-dep-scraper",
+    "category": "integration",
+    "description": "Scrape https://github.com/trending for the daily/weekly/monthly top repos using only Node's built-in `https` module — no cheerio, no puppeteer, no fetch polyfill. Parse the `<article class=\"Box-row\">` blocks with targeted regex and return a clean list of {owner, repo, language, starsToday}.",
+    "tags": [
+      "github",
+      "trending",
+      "scraper",
+      "html",
+      "zero-dep",
+      "nodejs",
+      "https"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/integration/github-trending-zero-dep-scraper",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "first-occurrence-config-print-with-set-memo",
+    "slug": "first-occurrence-config-print-with-set-memo",
+    "category": "jit-compilation",
+    "description": "Print a JIT-selected config the first time a given shape/desc is encountered, memoizing with `std::unordered_set<std::string>` keyed on the stringified descriptor — so each unique workload prints exactly once.",
+    "tags": [
+      "diagnostics",
+      "logging",
+      "jit",
+      "memoization",
+      "debug"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/jit-compilation/first-occurrence-config-print-with-set-memo",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "fnv1a-splitmix-hex-digest-for-cache-keys",
+    "slug": "fnv1a-splitmix-hex-digest-for-cache-keys",
+    "category": "jit-compilation",
+    "description": "Build a 128-bit deterministic hex digest for JIT cache keys using two FNV-1a streams with different seeds, finalized with split-mix64 — 40 lines, header-only, no crypto dependency.",
+    "tags": [
+      "hashing",
+      "cache-key",
+      "fnv1a",
+      "splitmix",
+      "deterministic",
+      "header-only"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/jit-compilation/fnv1a-splitmix-hex-digest-for-cache-keys",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "agent-handoff-routing",
     "slug": "agent-handoff-routing",
     "category": "llm-agents",
@@ -13672,6 +14443,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/llm-agents/agents-as-tools",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "file-path-reference-for-heavy-assets",
+    "slug": "file-path-reference-for-heavy-assets",
+    "category": "mcp",
+    "description": "For heavy MCP tool outputs (screenshots, traces, videos, heap snapshots), write the asset to a file and return only its path in the tool response — never inline megabytes of base64 into the response stream.",
+    "tags": [
+      "mcp",
+      "file-reference",
+      "token-budget",
+      "design-principle",
+      "assets"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/mcp/file-path-reference-for-heavy-assets",
     "has_content": false
   },
   {
@@ -13740,6 +14529,42 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/ml-ops/chunked-tts-with-crossfade",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "flash-attn-optional-import-fallback",
+    "slug": "flash-attn-optional-import-fallback",
+    "category": "ml-ops",
+    "description": "Try-import flash_attn and choose HuggingFace attn_implementation accordingly, falling back to torch sdpa with a loud warning that points the user to the fix.",
+    "tags": [
+      "transformers",
+      "attention",
+      "flash-attention",
+      "optional-dependency",
+      "fallback"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/flash-attn-optional-import-fallback",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "force-hf-offline-when-cached",
+    "slug": "force-hf-offline-when-cached",
+    "category": "ml-ops",
+    "description": "Force HF_HUB_OFFLINE=1 while loading a fully-cached model so transformers / mlx_audio don't make network calls on every startup.",
+    "tags": [
+      "huggingface",
+      "offline",
+      "caching",
+      "desktop-ml",
+      "startup-time"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/force-hf-offline-when-cached",
     "has_content": false
   },
   {
@@ -13847,6 +14672,24 @@
   },
   {
     "kind": "skill",
+    "name": "git-rollback-mode-selector",
+    "slug": "git-rollback-mode-selector",
+    "category": "operations",
+    "description": "Let operators pick how failed autonomous changes unwind — hard reset, stash-and-continue, or no-op — via one env var. The three modes trade audit-trail preservation against blast-radius containment.",
+    "tags": [
+      "git",
+      "rollback",
+      "autonomous-agent",
+      "recovery",
+      "operations"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/operations/git-rollback-mode-selector",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "a11y-tree-snapshot-with-uids",
     "slug": "a11y-tree-snapshot-with-uids",
     "category": "puppeteer",
@@ -13861,6 +14704,25 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/puppeteer/a11y-tree-snapshot-with-uids",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "filestream-seekable-buffer-fallback",
+    "slug": "filestream-seekable-buffer-fallback",
+    "category": "python",
+    "description": "If an input stream isn't seekable, slurp it into BytesIO before entering any multi-pass pipeline — lets every downstream consumer use tell()/seek() without worrying whether the source was a pipe, socket, or chunked HTTP body.",
+    "tags": [
+      "python",
+      "streams",
+      "bytesio",
+      "seekable",
+      "binaryio",
+      "ingestion"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/python/filestream-seekable-buffer-fallback",
     "has_content": false
   },
   {
@@ -15108,6 +15970,24 @@
     "triggers": "",
     "version": "1.0.0",
     "path": "skills/workflow/full-inventory-over-sampling-prompt",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "full-stack-isolated-dev-env",
+    "slug": "full-stack-isolated-dev-env",
+    "category": "workflow",
+    "description": "Stand up a fully isolated backend + frontend + daemon dev environment per worktree with scripted auth bootstrap (login + PAT + workspace) for AI/CI workflows.",
+    "tags": [
+      "dev-env",
+      "worktree",
+      "isolation",
+      "automation",
+      "ci"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/workflow/full-stack-isolated-dev-env",
     "has_content": false
   },
   {
