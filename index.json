@@ -14382,7 +14382,7 @@
     "version": "0.1.0-draft",
     "path": "technique/debug/root-cause-to-tdd-plan",
     "has_content": true,
-    "composes_count": 0,
+    "composes_count": 4,
     "binding": "loose"
   },
   {
@@ -14396,7 +14396,7 @@
     "version": "0.1.0-draft",
     "path": "technique/workflow/safe-bulk-pr-publishing",
     "has_content": true,
-    "composes_count": 0,
+    "composes_count": 4,
     "binding": "loose"
   }
 ]

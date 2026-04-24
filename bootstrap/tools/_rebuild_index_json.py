@@ -29,6 +29,7 @@ from pathlib import Path
 STANDARD_KEYS = (
     "kind", "name", "slug", "category", "description",
     "tags", "triggers", "version", "path", "has_content",
+    "composes_count", "binding",
 )
 
 
