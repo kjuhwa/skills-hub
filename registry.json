@@ -2409,6 +2409,126 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "tokio-select-multiplexing-pattern": {
+      "category": "async",
+      "path": "skills/async/tokio-select-multiplexing-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tool-decorator-overload-trio": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/tool-decorator-overload-trio/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tool-guardrails": {
+      "category": "safety",
+      "path": "skills/safety/tool-guardrails/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tool-params-extract-and-availability-pattern": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/tool-params-extract-and-availability-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tool-registry-discovery-from-modules": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/tool-registry-discovery-from-modules/SKILL.md",
+      "version": "1.0.0"
+    },
+    "torchrun-ddp-training-scaffold": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/torchrun-ddp-training-scaffold/SKILL.md",
+      "version": "1.0.0"
+    },
+    "torchrun-distributed-gather-on-main": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/torchrun-distributed-gather-on-main/SKILL.md",
+      "version": "1.0.0"
+    },
+    "transformers-finetune-text-classification": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/transformers-finetune-text-classification/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tts-trailing-silence-and-hallucination-trim": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/tts-trailing-silence-and-hallucination-trim/SKILL.md",
+      "version": "1.0.0"
+    },
+    "two-stage-tokenizer-then-autoregressive-transformer": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/two-stage-tokenizer-then-autoregressive-transformer/SKILL.md",
+      "version": "1.0.0"
+    },
+    "type-safe-enum-generation-per-language": {
+      "category": "codegen",
+      "path": "skills/codegen/type-safe-enum-generation-per-language/SKILL.md",
+      "version": "1.0.0"
+    },
+    "typed-websocket-rpc-boundary-validation": {
+      "category": "websocket",
+      "path": "skills/websocket/typed-websocket-rpc-boundary-validation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "typescript-dual-export-cjs-mjs": {
+      "category": "bindings",
+      "path": "skills/bindings/typescript-dual-export-cjs-mjs/SKILL.md",
+      "version": "1.0.0"
+    },
+    "udp-kcp-stream-wrapper": {
+      "category": "networking",
+      "path": "skills/networking/udp-kcp-stream-wrapper/SKILL.md",
+      "version": "1.0.0"
+    },
+    "unix-socket-length-prefixed-json-rpc": {
+      "category": "ipc",
+      "path": "skills/ipc/unix-socket-length-prefixed-json-rpc/SKILL.md",
+      "version": "1.0.0"
+    },
+    "unix-socket-permission-attributes": {
+      "category": "ipc",
+      "path": "skills/ipc/unix-socket-permission-attributes/SKILL.md",
+      "version": "1.0.0"
+    },
+    "using-git-worktrees": {
+      "category": "devops",
+      "path": "skills/devops/using-git-worktrees/SKILL.md",
+      "version": "1.0.0"
+    },
+    "using-superpowers": {
+      "category": "meta",
+      "path": "skills/meta/using-superpowers/SKILL.md",
+      "version": "1.0.0"
+    },
+    "uuid-v7-rfc-9562-generation": {
+      "category": "architecture",
+      "path": "skills/architecture/uuid-v7-rfc-9562-generation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "ux-design": {
+      "category": "design",
+      "path": "skills/design/ux-design/SKILL.md",
+      "version": "1.0.0"
+    },
+    "ux-review": {
+      "category": "design",
+      "path": "skills/design/ux-review/SKILL.md",
+      "version": "1.0.0"
+    },
+    "validate-server-21-step-harness": {
+      "category": "cli",
+      "path": "skills/cli/validate-server-21-step-harness/SKILL.md",
+      "version": "1.0.0"
+    },
+    "validation-command-allowlist-gate": {
+      "category": "security",
+      "path": "skills/security/validation-command-allowlist-gate/SKILL.md",
+      "version": "1.0.0"
+    },
+    "validation-command-whitelist-gate": {
+      "category": "security",
+      "path": "skills/security/validation-command-whitelist-gate/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4547,110 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "toml-managed-block-dotted-keys": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/toml-managed-block-dotted-keys.md"
+    },
+    "tool-categories-for-mcp-browser-server": {
+      "category": "reference",
+      "path": "knowledge/reference/tool-categories-for-mcp-browser-server.md"
+    },
+    "tool-metadata-as-classvars-init-subclass": {
+      "category": "reference",
+      "path": "knowledge/reference/tool-metadata-as-classvars-init-subclass.md"
+    },
+    "tool-types-catalog": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/tool-types-catalog.md"
+    },
+    "torch-cpp-extension-cuda-home-init-fork-issue": {
+      "category": "pytorch-integration",
+      "path": "knowledge/pytorch-integration/torch-cpp-extension-cuda-home-init-fork-issue.md"
+    },
+    "torchaudio-load-needs-torchcodec": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/torchaudio-load-needs-torchcodec.md"
+    },
+    "traceability-registry": {
+      "category": "architecture",
+      "path": "knowledge/architecture/traceability-registry.md"
+    },
+    "transform-imperative-tasks-to-verifiable-goals": {
+      "category": "engineering",
+      "path": "knowledge/engineering/transform-imperative-tasks-to-verifiable-goals.md"
+    },
+    "transparent-window-class-flutter": {
+      "category": "flutter",
+      "path": "knowledge/flutter/transparent-window-class-flutter.md"
+    },
+    "transpile-packages-over-publish": {
+      "category": "decision",
+      "path": "knowledge/decision/transpile-packages-over-publish.md"
+    },
+    "turbo-task-deps-typecheck-before-test": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/turbo-task-deps-typecheck-before-test.md"
+    },
+    "turn-quiesced-meaning-follow-up-work-settled": {
+      "category": "domain",
+      "path": "knowledge/domain/turn-quiesced-meaning-follow-up-work-settled.md"
+    },
+    "udp-kcp-protocol-choice-justification": {
+      "category": "networking",
+      "path": "knowledge/networking/udp-kcp-protocol-choice-justification.md"
+    },
+    "ui-chrome-vs-platform-chrome-split": {
+      "category": "decision",
+      "path": "knowledge/decision/ui-chrome-vs-platform-chrome-split.md"
+    },
+    "unhandled-rejection-crashes-bun": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/unhandled-rejection-crashes-bun.md"
+    },
+    "unified-entry-dispatch-by-uri-scheme": {
+      "category": "architecture",
+      "path": "knowledge/architecture/unified-entry-dispatch-by-uri-scheme.md"
+    },
+    "unity-best-practices": {
+      "category": "engine",
+      "path": "knowledge/engine/unity-best-practices.md"
+    },
+    "unity-plugins": {
+      "category": "engine",
+      "path": "knowledge/engine/unity-plugins.md"
+    },
+    "unity-version": {
+      "category": "engine",
+      "path": "knowledge/engine/unity-version.md"
+    },
+    "unix-socket-json-rpc-length-prefixed-framing": {
+      "category": "ipc",
+      "path": "knowledge/ipc/unix-socket-json-rpc-length-prefixed-framing.md"
+    },
+    "unreal-best-practices": {
+      "category": "engine",
+      "path": "knowledge/engine/unreal-best-practices.md"
+    },
+    "unreal-plugins": {
+      "category": "engine",
+      "path": "knowledge/engine/unreal-plugins.md"
+    },
+    "unreal-version": {
+      "category": "engine",
+      "path": "knowledge/engine/unreal-version.md"
+    },
+    "use-label-not-mime-type-in-workflows": {
+      "category": "decision",
+      "path": "knowledge/decision/use-label-not-mime-type-in-workflows.md"
+    },
+    "uuid-v7-node-crypto": {
+      "category": "reference",
+      "path": "knowledge/reference/uuid-v7-node-crypto.md"
+    },
+    "vad-silence-trim-optional": {
+      "category": "audio",
+      "path": "knowledge/audio/vad-silence-trim-optional.md"
     }
   }
 }
