@@ -2409,6 +2409,161 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "detached-daemon-lifecycle-cli": {
+      "category": "ops",
+      "path": "skills/ops/detached-daemon-lifecycle-cli/SKILL.md",
+      "version": "1.0.0"
+    },
+    "detached-update-check-with-local-cache": {
+      "category": "reliability",
+      "path": "skills/reliability/detached-update-check-with-local-cache/SKILL.md",
+      "version": "1.0.0"
+    },
+    "detached-watchdog-telemetry-process": {
+      "category": "telemetry",
+      "path": "skills/telemetry/detached-watchdog-telemetry-process/SKILL.md",
+      "version": "1.0.0"
+    },
+    "deterministic-agent-chain": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/deterministic-agent-chain/SKILL.md",
+      "version": "1.0.0"
+    },
+    "deterministic-torch-seed-bundle": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/deterministic-torch-seed-bundle/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dev-sidecar-placeholder-binary": {
+      "category": "tauri",
+      "path": "skills/tauri/dev-sidecar-placeholder-binary/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dev-story": {
+      "category": "production",
+      "path": "skills/production/dev-story/SKILL.md",
+      "version": "1.0.0"
+    },
+    "develop-script-with-inplace-submodule-symlinks": {
+      "category": "build-system",
+      "path": "skills/build-system/develop-script-with-inplace-submodule-symlinks/SKILL.md",
+      "version": "1.0.0"
+    },
+    "device-revocation-reset-flow": {
+      "category": "auth",
+      "path": "skills/auth/device-revocation-reset-flow/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dex2jar-bridge-apk-to-fernflower": {
+      "category": "reverse-engineering",
+      "path": "skills/reverse-engineering/dex2jar-bridge-apk-to-fernflower/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dispatching-parallel-agents": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/dispatching-parallel-agents/SKILL.md",
+      "version": "1.0.0"
+    },
+    "display-device-enumeration-platform": {
+      "category": "platform",
+      "path": "skills/platform/display-device-enumeration-platform/SKILL.md",
+      "version": "1.0.0"
+    },
+    "distributed-filesystem-safe-atomic-cache-with-fsync": {
+      "category": "jit-compilation",
+      "path": "skills/jit-compilation/distributed-filesystem-safe-atomic-cache-with-fsync/SKILL.md",
+      "version": "1.0.0"
+    },
+    "docker-compose-selfhost-stack": {
+      "category": "devops",
+      "path": "skills/devops/docker-compose-selfhost-stack/SKILL.md",
+      "version": "1.0.0"
+    },
+    "docker-entrypoint-gosu-bind-mount": {
+      "category": "docker",
+      "path": "skills/docker/docker-entrypoint-gosu-bind-mount/SKILL.md",
+      "version": "1.0.0"
+    },
+    "docker-find-chmod-fast-readability": {
+      "category": "build",
+      "path": "skills/build/docker-find-chmod-fast-readability/SKILL.md",
+      "version": "1.0.0"
+    },
+    "docker-multistage-go-alpine": {
+      "category": "devops",
+      "path": "skills/devops/docker-multistage-go-alpine/SKILL.md",
+      "version": "1.0.0"
+    },
+    "docker-smoke-test-loop": {
+      "category": "devops",
+      "path": "skills/devops/docker-smoke-test-loop/SKILL.md",
+      "version": "1.0.0"
+    },
+    "document-converter-priority-registry": {
+      "category": "architecture",
+      "path": "skills/architecture/document-converter-priority-registry/SKILL.md",
+      "version": "1.0.0"
+    },
+    "draft-model-bind-to-target-modules": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/draft-model-bind-to-target-modules/SKILL.md",
+      "version": "1.0.0"
+    },
+    "draft-release-notes-from-git-log": {
+      "category": "agents",
+      "path": "skills/agents/draft-release-notes-from-git-log/SKILL.md",
+      "version": "1.0.0"
+    },
+    "drag-drop-widget-composition": {
+      "category": "flutter",
+      "path": "skills/flutter/drag-drop-widget-composition/SKILL.md",
+      "version": "1.0.0"
+    },
+    "drainable-worker-pattern-for-queue-based-async": {
+      "category": "effect-ts",
+      "path": "skills/effect-ts/drainable-worker-pattern-for-queue-based-async/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dual-driver-runtime-api-abstraction": {
+      "category": "jit-compilation",
+      "path": "skills/jit-compilation/dual-driver-runtime-api-abstraction/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dual-mode-cublaslt-handle-workspace": {
+      "category": "pytorch-integration",
+      "path": "skills/pytorch-integration/dual-mode-cublaslt-handle-workspace/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dxgi-com-pointer-wrapper-raii": {
+      "category": "patterns",
+      "path": "skills/patterns/dxgi-com-pointer-wrapper-raii/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dxgi-texture-capturer-gpu-optimization": {
+      "category": "codecs",
+      "path": "skills/codecs/dxgi-texture-capturer-gpu-optimization/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dynamic-system-prompt": {
+      "category": "agents",
+      "path": "skills/agents/dynamic-system-prompt/SKILL.md",
+      "version": "1.0.0"
+    },
+    "e2e-default-login-helper": {
+      "category": "testing",
+      "path": "skills/testing/e2e-default-login-helper/SKILL.md",
+      "version": "1.0.0"
+    },
+    "easyedit-rome-knowledge-edit": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/easyedit-rome-knowledge-edit/SKILL.md",
+      "version": "1.0.0"
+    },
+    "easyjailbreak-pair-attack-pipeline": {
+      "category": "security",
+      "path": "skills/security/easyjailbreak-pair-attack-pipeline/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4582,82 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "desktop-route-categories": {
+      "category": "decision",
+      "path": "knowledge/decision/desktop-route-categories.md"
+    },
+    "dev-sh-auto-setup-idempotent": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/dev-sh-auto-setup-idempotent.md"
+    },
+    "device-revocation-status-codes-contract": {
+      "category": "auth",
+      "path": "knowledge/auth/device-revocation-status-codes-contract.md"
+    },
+    "devtools-frontend-reused-as-library": {
+      "category": "arch",
+      "path": "knowledge/arch/devtools-frontend-reused-as-library.md"
+    },
+    "dex2jar-apk-to-jar-intermediate-conversion": {
+      "category": "reference",
+      "path": "knowledge/reference/dex2jar-apk-to-jar-intermediate-conversion.md"
+    },
+    "dflash-backend-support-matrix": {
+      "category": "reference",
+      "path": "knowledge/reference/dflash-backend-support-matrix.md"
+    },
+    "dflash-block-diffusion-overview": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/dflash-block-diffusion-overview.md"
+    },
+    "directory-rename-is-atomic-not-file-rename": {
+      "category": "jit-compilation",
+      "path": "knowledge/jit-compilation/directory-rename-is-atomic-not-file-rename.md"
+    },
+    "display-enumeration-winapi-structs": {
+      "category": "windows",
+      "path": "knowledge/windows/display-enumeration-winapi-structs.md"
+    },
+    "display-orientation-rotation-handling": {
+      "category": "codecs",
+      "path": "knowledge/codecs/display-orientation-rotation-handling.md"
+    },
+    "dockerfile-server-design-choices": {
+      "category": "devops",
+      "path": "knowledge/devops/dockerfile-server-design-choices.md"
+    },
+    "docs-claude-context": {
+      "category": "workflow",
+      "path": "knowledge/workflow/docs-claude-context.md"
+    },
+    "docs-mcp-always-on": {
+      "category": "reference",
+      "path": "knowledge/reference/docs-mcp-always-on.md"
+    },
+    "drive-by-refactor-beyond-bug-fix": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/drive-by-refactor-beyond-bug-fix.md"
+    },
+    "dual-backend-claude-and-pi": {
+      "category": "architecture",
+      "path": "knowledge/architecture/dual-backend-claude-and-pi.md"
+    },
+    "dual-sided-worker-pool-toggle": {
+      "category": "reference",
+      "path": "knowledge/reference/dual-sided-worker-pool-toggle.md"
+    },
+    "dynamic-uv-python-scripts": {
+      "category": "architecture",
+      "path": "knowledge/architecture/dynamic-uv-python-scripts.md"
+    },
+    "easyedit-framework": {
+      "category": "llm-fundamentals",
+      "path": "knowledge/llm-fundamentals/easyedit-framework.md"
+    },
+    "effect-ts-layer-dependency-injection-for-testing": {
+      "category": "architecture",
+      "path": "knowledge/architecture/effect-ts-layer-dependency-injection-for-testing.md"
     }
   }
 }
