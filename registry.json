@@ -2409,6 +2409,101 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "self-signed-ec-dev-cert": {
+      "category": "devops",
+      "path": "skills/devops/self-signed-ec-dev-cert/SKILL.md",
+      "version": "1.0.0"
+    },
+    "self-spawning-server-cli-harness": {
+      "category": "cli",
+      "path": "skills/cli/self-spawning-server-cli-harness/SKILL.md",
+      "version": "1.0.0"
+    },
+    "semver-parser-and-bumper": {
+      "category": "release",
+      "path": "skills/release/semver-parser-and-bumper/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sentry-beforesend-scrub-secrets": {
+      "category": "security",
+      "path": "skills/security/sentry-beforesend-scrub-secrets/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sequential-two-phase-training-orchestrator": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/sequential-two-phase-training-orchestrator/SKILL.md",
+      "version": "1.0.0"
+    },
+    "serde-json-config-serialization": {
+      "category": "serialization",
+      "path": "skills/serialization/serde-json-config-serialization/SKILL.md",
+      "version": "1.0.0"
+    },
+    "serial-gpu-generation-queue": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/serial-gpu-generation-queue/SKILL.md",
+      "version": "1.0.0"
+    },
+    "session-archival-with-rotation": {
+      "category": "data-pipeline",
+      "path": "skills/data-pipeline/session-archival-with-rotation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "session-id-uuid-management": {
+      "category": "patterns",
+      "path": "skills/patterns/session-id-uuid-management/SKILL.md",
+      "version": "1.0.0"
+    },
+    "session-scoped-mcp-stdio-server": {
+      "category": "mcp-integration",
+      "path": "skills/mcp-integration/session-scoped-mcp-stdio-server/SKILL.md",
+      "version": "1.0.0"
+    },
+    "setup-engine": {
+      "category": "engineering",
+      "path": "skills/engineering/setup-engine/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sft-reasoning-distillation-deepmath": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/sft-reasoning-distillation-deepmath/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sha256-download-verification-pipeline": {
+      "category": "security",
+      "path": "skills/security/sha256-download-verification-pipeline/SKILL.md",
+      "version": "1.0.0"
+    },
+    "signal-aware-external-command-exit-code": {
+      "category": "jit-compilation",
+      "path": "skills/jit-compilation/signal-aware-external-command-exit-code/SKILL.md",
+      "version": "1.0.0"
+    },
+    "simplicity-first-minimum-viable-code": {
+      "category": "engineering",
+      "path": "skills/engineering/simplicity-first-minimum-viable-code/SKILL.md",
+      "version": "1.0.0"
+    },
+    "skill-distiller-from-evolution-patterns": {
+      "category": "workflow",
+      "path": "skills/workflow/skill-distiller-from-evolution-patterns/SKILL.md",
+      "version": "1.0.0"
+    },
+    "skill-frontmatter-gray-matter": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/skill-frontmatter-gray-matter/SKILL.md",
+      "version": "1.0.0"
+    },
+    "skill-improve": {
+      "category": "meta",
+      "path": "skills/meta/skill-improve/SKILL.md",
+      "version": "1.0.0"
+    },
+    "skill-test": {
+      "category": "meta",
+      "path": "skills/meta/skill-test/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4522,130 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "self-pr-mutation-contribution": {
+      "category": "workflow",
+      "path": "knowledge/workflow/self-pr-mutation-contribution.md"
+    },
+    "semantic-design-tokens-only": {
+      "category": "decision",
+      "path": "knowledge/decision/semantic-design-tokens-only.md"
+    },
+    "sentry-source-map-upload-disabled-why": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/sentry-source-map-upload-disabled-why.md"
+    },
+    "server-state-vs-client-state-split": {
+      "category": "arch",
+      "path": "knowledge/arch/server-state-vs-client-state-split.md"
+    },
+    "session-adopt-brownfield": {
+      "category": "workflow",
+      "path": "knowledge/workflow/session-adopt-brownfield.md"
+    },
+    "session-as-jsonl-append-only": {
+      "category": "architecture",
+      "path": "knowledge/architecture/session-as-jsonl-append-only.md"
+    },
+    "session-design-crafting-system": {
+      "category": "workflow",
+      "path": "knowledge/workflow/session-design-crafting-system.md"
+    },
+    "session-design-system-skill": {
+      "category": "workflow",
+      "path": "knowledge/workflow/session-design-system-skill.md"
+    },
+    "session-gate-check-phase-transition": {
+      "category": "process",
+      "path": "knowledge/process/session-gate-check-phase-transition.md"
+    },
+    "session-id-window-mapping": {
+      "category": "flutter",
+      "path": "knowledge/flutter/session-id-window-mapping.md"
+    },
+    "session-immutability-with-transition-audit": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/session-immutability-with-transition-audit.md"
+    },
+    "session-implement-combat-damage": {
+      "category": "workflow",
+      "path": "knowledge/workflow/session-implement-combat-damage.md"
+    },
+    "session-key-tuple-design": {
+      "category": "patterns",
+      "path": "knowledge/patterns/session-key-tuple-design.md"
+    },
+    "session-management-model": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/session-management-model.md"
+    },
+    "session-scope-crisis-decision": {
+      "category": "process",
+      "path": "knowledge/process/session-scope-crisis-decision.md"
+    },
+    "session-sharing-viewer-design": {
+      "category": "architecture",
+      "path": "knowledge/architecture/session-sharing-viewer-design.md"
+    },
+    "session-story-lifecycle": {
+      "category": "workflow",
+      "path": "knowledge/workflow/session-story-lifecycle.md"
+    },
+    "session-timeout-constants": {
+      "category": "networking",
+      "path": "knowledge/networking/session-timeout-constants.md"
+    },
+    "session-ux-pipeline": {
+      "category": "workflow",
+      "path": "knowledge/workflow/session-ux-pipeline.md"
+    },
+    "sessions-status-workflow": {
+      "category": "reference",
+      "path": "knowledge/reference/sessions-status-workflow.md"
+    },
+    "shadcn-base-ui-not-radix": {
+      "category": "decision",
+      "path": "knowledge/decision/shadcn-base-ui-not-radix.md"
+    },
+    "shared-memory-barrier-overhead-in-pipelining": {
+      "category": "gpu-kernels",
+      "path": "knowledge/gpu-kernels/shared-memory-barrier-overhead-in-pipelining.md"
+    },
+    "shared-postgres-one-db-per-checkout": {
+      "category": "decision",
+      "path": "knowledge/decision/shared-postgres-one-db-per-checkout.md"
+    },
+    "shield-pattern-mutation-validation": {
+      "category": "safety",
+      "path": "knowledge/safety/shield-pattern-mutation-validation.md"
+    },
+    "single-model-onnx-not-multiple-backends": {
+      "category": "decision",
+      "path": "knowledge/decision/single-model-onnx-not-multiple-backends.md"
+    },
+    "skill-flow-diagrams": {
+      "category": "reference",
+      "path": "knowledge/reference/skill-flow-diagrams.md"
+    },
+    "skill-persuasion-principles": {
+      "category": "engineering",
+      "path": "knowledge/engineering/skill-persuasion-principles.md"
+    },
+    "skill-publisher-to-hub": {
+      "category": "workflow",
+      "path": "knowledge/workflow/skill-publisher-to-hub.md"
+    },
+    "skill-solidification-markdown-format": {
+      "category": "data-pipeline",
+      "path": "knowledge/data-pipeline/skill-solidification-markdown-format.md"
+    },
+    "skill-test-spec-template": {
+      "category": "testing",
+      "path": "knowledge/testing/skill-test-spec-template.md"
+    },
+    "skills-hub-external-clone-cache-layout": {
+      "category": "reference",
+      "path": "knowledge/reference/skills-hub-external-clone-cache-layout.md"
     }
   }
 }
