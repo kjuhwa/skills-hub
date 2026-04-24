@@ -152,6 +152,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "device-revocation-status-codes-contract",
+    "slug": "device-revocation-status-codes-contract",
+    "category": "api",
+    "description": "",
+    "tags": [
+      "api",
+      "http-status",
+      "powersync",
+      "devices",
+      "auth"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/auth/device-revocation-status-codes-contract.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "endpoint-service-dual-pattern",
     "slug": "endpoint-service-dual-pattern",
     "category": "api",
@@ -556,6 +574,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/arch/data-patch-package-for-migrations.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "devtools-frontend-reused-as-library",
+    "slug": "devtools-frontend-reused-as-library",
+    "category": "arch",
+    "description": "The project imports pieces of Chrome DevTools Frontend (`TraceEngine`, `PerformanceTraceFormatter`, `HeapSnapshotModel`, `IssuesManager`, `CrUXManager`) as a library dependency, so tool output matches what users see in the real DevTools panels.",
+    "tags": [
+      "devtools",
+      "library-reuse",
+      "trace-engine",
+      "heap-snapshot",
+      "third-party"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/arch/devtools-frontend-reused-as-library.md",
     "has_content": true
   },
   {
@@ -2044,6 +2080,56 @@
   },
   {
     "kind": "knowledge",
+    "name": "dual-backend-claude-and-pi",
+    "slug": "dual-backend-claude-and-pi",
+    "category": "architecture",
+    "description": "Why Craft Agents runs two AgentBackend implementations (Claude SDK + Pi SDK) side by side instead of a single abstraction — different provider ergonomics, auth flows, and model capabilities.",
+    "tags": [
+      "agent-sdk",
+      "pi-sdk",
+      "backend",
+      "provider-routing"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/dual-backend-claude-and-pi.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "dynamic-uv-python-scripts",
+    "slug": "dynamic-uv-python-scripts",
+    "category": "architecture",
+    "description": "Craft Agents ships a bundled uv binary and a set of PEP-723 self-dependency Python scripts (pdf_tool, docx_tool, xlsx_tool, markitdown, ical_tool, ...) so document-handling tools work without asking the user to install Python.",
+    "tags": [
+      "python",
+      "uv",
+      "pep-723",
+      "document-tools"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/dynamic-uv-python-scripts.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "effect-ts-layer-dependency-injection-for-testing",
+    "slug": "effect-ts-layer-dependency-injection-for-testing",
+    "category": "architecture",
+    "description": "Effect.ts Layers provide compile-time dependency injection; compose layers to swap real services with test stubs",
+    "tags": [
+      "effect-ts",
+      "testing",
+      "architecture"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/effect-ts-layer-dependency-injection-for-testing.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "ci-gpg-signing-batch-mode-non-interactive",
     "slug": "ci-gpg-signing-batch-mode-non-interactive",
     "category": "ci-cd",
@@ -2114,6 +2200,24 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/clipboard/clipboard-ownership-protocol.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "display-orientation-rotation-handling",
+    "slug": "display-orientation-rotation-handling",
+    "category": "codecs",
+    "description": "Cache RotationMode per display and apply during capture (DXGI, Quartz, X11) — don't re-probe per frame.",
+    "tags": [
+      "codecs",
+      "display",
+      "handling",
+      "orientation",
+      "rotation"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/codecs/display-orientation-rotation-handling.md",
     "has_content": true
   },
   {
@@ -2777,6 +2881,42 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/decision/dataavro-json-wrapper-pattern.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "desktop-route-categories",
+    "slug": "desktop-route-categories",
+    "category": "decision",
+    "description": "Every path in a tab-based Electron desktop app falls into exactly one of three categories — session routes, transition flows (overlays), or error/stale states (auto-healed).",
+    "tags": [
+      "electron",
+      "desktop",
+      "routing",
+      "tabs",
+      "overlay"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/desktop-route-categories.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "directory-rename-is-atomic-not-file-rename",
+    "slug": "directory-rename-is-atomic-not-file-rename",
+    "category": "decision",
+    "description": "",
+    "tags": [
+      "atomicity",
+      "rename",
+      "filesystem",
+      "distributed",
+      "jit-cache"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/jit-compilation/directory-rename-is-atomic-not-file-rename.md",
     "has_content": true
   },
   {
@@ -3684,6 +3824,23 @@
   },
   {
     "kind": "knowledge",
+    "name": "dockerfile-server-design-choices",
+    "slug": "dockerfile-server-design-choices",
+    "category": "devops",
+    "description": "Why Dockerfile.server uses oven/bun:1.3-slim, creates a non-root craftagents user, chmod's with find -not -perm, and ships the CJS-bundled MCP helpers — each choice solved a real production issue.",
+    "tags": [
+      "docker",
+      "bun",
+      "non-root",
+      "image-optimization"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/devops/dockerfile-server-design-choices.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "a11y-uid-tool-targeting-over-selectors",
     "slug": "a11y-uid-tool-targeting-over-selectors",
     "category": "domain",
@@ -3988,6 +4145,41 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/llm-agents/agent-runner-loop-semantics.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "dflash-block-diffusion-overview",
+    "slug": "dflash-block-diffusion-overview",
+    "category": "llm-agents",
+    "description": "DFlash is a block-diffusion draft model for speculative decoding — drafts a whole block of tokens in parallel using target hidden states as cross-context, then a single target forward verifies them.",
+    "tags": [
+      "speculative-decoding",
+      "block-diffusion",
+      "draft-model",
+      "dflash"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/llm-agents/dflash-block-diffusion-overview.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "easyedit-framework",
+    "slug": "easyedit-framework",
+    "category": "llm-fundamentals",
+    "description": "EasyEdit is a unified Python framework from ZJU-NLP for editing factual knowledge in pretrained LLMs.",
+    "tags": [
+      "easyedit",
+      "knowledge-editing",
+      "rome",
+      "memit",
+      "fact-editing"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/llm-fundamentals/easyedit-framework.md",
     "has_content": true
   },
   {
@@ -4815,6 +5007,23 @@
   },
   {
     "kind": "knowledge",
+    "name": "dev-sh-auto-setup-idempotent",
+    "slug": "dev-sh-auto-setup-idempotent",
+    "category": "pitfall",
+    "description": "make dev should auto-detect worktree vs main, create the right env file, install deps, start DB, run migrations, start services — idempotent on re-run.",
+    "tags": [
+      "makefile",
+      "dev-setup",
+      "idempotent",
+      "onboarding"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/dev-sh-auto-setup-idempotent.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "distributed-tracing-implementation-pitfall",
     "slug": "distributed-tracing-implementation-pitfall",
     "category": "pitfall",
@@ -4872,6 +5081,22 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/pitfall/domain-driven-implementation-pitfall.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "drive-by-refactor-beyond-bug-fix",
+    "slug": "drive-by-refactor-beyond-bug-fix",
+    "category": "pitfall",
+    "description": "Asked to fix \"empty emails crash the validator\", LLMs also tighten email regex, add username length/alnum checks, and add docstrings. That pollutes the diff and can introduce new bugs. Fix only the reported issue.",
+    "tags": [
+      "diff-hygiene",
+      "surgical-changes",
+      "bug-fix-discipline"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/drive-by-refactor-beyond-bug-fix.md",
     "has_content": true
   },
   {
@@ -6681,6 +6906,25 @@
   },
   {
     "kind": "knowledge",
+    "name": "display-enumeration-winapi-structs",
+    "slug": "display-enumeration-winapi-structs",
+    "category": "platform/windows",
+    "description": "DisplayInfo protobuf encodes width, height, HiDPI scaling, monitor index mapping.",
+    "tags": [
+      "display",
+      "enumeration",
+      "platform",
+      "structs",
+      "winapi",
+      "windows"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/windows/display-enumeration-winapi-structs.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "alert-extraction-single-llm-call-pattern",
     "slug": "alert-extraction-single-llm-call-pattern",
     "category": "reference",
@@ -6793,6 +7037,83 @@
   },
   {
     "kind": "knowledge",
+    "name": "dex2jar-apk-to-jar-intermediate-conversion",
+    "slug": "dex2jar-apk-to-jar-intermediate-conversion",
+    "category": "reference",
+    "description": "dex2jar (`d2j-dex2jar`) converts Android DEX bytecode to standard Java JAR so that JVM-only decompilers (Fernflower/Vineflower, CFR, Procyon) can process APK content that they cannot read natively.",
+    "tags": [
+      "android",
+      "dex2jar",
+      "dex",
+      "apk",
+      "jvm",
+      "bytecode",
+      "conversion",
+      "reverse-engineering",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/dex2jar-apk-to-jar-intermediate-conversion.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "dflash-backend-support-matrix",
+    "slug": "dflash-backend-support-matrix",
+    "category": "reference",
+    "description": "Quick-reference table of which inference backends support DFlash, their install commands, required flags, and model coverage — distilled from the DFlash README.",
+    "tags": [
+      "dflash",
+      "vllm",
+      "sglang",
+      "transformers",
+      "mlx",
+      "speculative-decoding",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/dflash-backend-support-matrix.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "docs-mcp-always-on",
+    "slug": "docs-mcp-always-on",
+    "category": "reference",
+    "description": "Craft Agents wires craft-agents-docs as an always-available MCP server pointing at https://agents.craft.do/docs/mcp inside craft-agent.ts — not a user-configurable source — so the agent always has access to product docs for search.",
+    "tags": [
+      "mcp",
+      "docs",
+      "always-on",
+      "craft-agents-docs"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/docs-mcp-always-on.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "dual-sided-worker-pool-toggle",
+    "slug": "dual-sided-worker-pool-toggle",
+    "category": "reference",
+    "description": "An evolver node only accepts hub-dispatched tasks when BOTH sides are turned on — local `WORKER_ENABLED=1` env var AND the \"Worker\" toggle on the evomap.ai node dashboard. Either side off means zero task flow, with no error; silent no-op is by design.",
+    "tags": [
+      "worker-pool",
+      "dual-sided-toggle",
+      "env-config",
+      "hub-side",
+      "gotcha"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/dual-sided-worker-pool-toggle.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "vector-clock-ui-dominance-tri-state-color",
     "slug": "vector-clock-ui-dominance-tri-state-color",
     "category": "reference",
@@ -6892,6 +7213,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "docs-claude-context",
+    "slug": "docs-claude-context",
+    "category": "workflow",
+    "description": "Claude context file for docs directory — guidelines for documentation authoring",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "claude-md",
+      "documentation",
+      "context"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/docs-claude-context.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "dropin-module-reality-check-before-wire",
     "slug": "dropin-module-reality-check-before-wire",
     "category": "workflow",
@@ -6960,6 +7299,18 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/qa/content-audit",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "dev-story",
+    "slug": "dev-story",
+    "category": "",
+    "description": "\"Read a story file and implement it. Loads the full context (story, GDD requirement, ADR guidelines, control manifest), routes to the right programmer agent for the system and engine, implements the code and test, and confirms each acceptance criterion. The core implementation skill — run after /story-readiness, before /code-review and /story-done.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/dev-story",
     "has_content": false
   },
   {
@@ -7082,6 +7433,41 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/agents/coding-agent-cli-backend-interface",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "draft-release-notes-from-git-log",
+    "slug": "draft-release-notes-from-git-log",
+    "category": "agents",
+    "description": "Keep a non-destructive [Unreleased] changelog draft in sync with the actual diff since the last tag, using git log + GitHub's generate-notes API.",
+    "tags": [
+      "changelog",
+      "releases",
+      "git",
+      "github-cli",
+      "documentation"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agents/draft-release-notes-from-git-log",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "dynamic-system-prompt",
+    "slug": "dynamic-system-prompt",
+    "category": "agents",
+    "description": "Generate agent instructions dynamically at runtime from a context object.",
+    "tags": [
+      "openai-agents",
+      "instructions",
+      "dynamic-prompt",
+      "context"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agents/dynamic-system-prompt",
     "has_content": false
   },
   {
@@ -8112,6 +8498,43 @@
     "version": "1.0.0",
     "path": "skills/architecture/accepts-then-convert-two-phase-dispatch",
     "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "document-converter-priority-registry",
+    "slug": "document-converter-priority-registry",
+    "category": "architecture",
+    "description": "Pluggable converter registry where each candidate declares a numeric priority, registrations are prepended, and dispatch re-sorts stably per call so the most recently registered converter at a priority wins.",
+    "tags": [
+      "architecture",
+      "registry",
+      "dispatch",
+      "plugin",
+      "priority",
+      "python"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/architecture/document-converter-priority-registry",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "device-revocation-reset-flow",
+    "slug": "device-revocation-reset-flow",
+    "category": "auth",
+    "description": "Implement a graceful credentials-invalid reset for PowerSync-style apps so account-deleted (410) or device-revoked (403) clients drop their local DB, clear localStorage, and restart signed-out without crashes.",
+    "tags": [
+      "auth",
+      "powersync",
+      "devices",
+      "session",
+      "reset"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/auth/device-revocation-reset-flow",
+    "has_content": true
   },
   {
     "kind": "skill",
@@ -10273,6 +10696,23 @@
   },
   {
     "kind": "skill",
+    "name": "docker-find-chmod-fast-readability",
+    "slug": "docker-find-chmod-fast-readability",
+    "category": "build",
+    "description": "In a Dockerfile RUN layer, use find -not -perm to touch ONLY files missing a permission bit instead of chmod -R — cuts image build time from minutes to seconds on big node_modules trees.",
+    "tags": [
+      "docker",
+      "chmod",
+      "performance",
+      "node_modules"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/build/docker-find-chmod-fast-readability",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "cmake-cuda-extension-with-git-submodule-vendoring",
     "slug": "cmake-cuda-extension-with-git-submodule-vendoring",
     "category": "build-system",
@@ -10288,6 +10728,25 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/build-system/cmake-cuda-extension-with-git-submodule-vendoring",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "develop-script-with-inplace-submodule-symlinks",
+    "slug": "develop-script-with-inplace-submodule-symlinks",
+    "category": "build-system",
+    "description": "Ship a `develop.sh` that symlinks vendored submodule includes (CUTLASS, fmt) into the package's include tree, then runs `python setup.py build` and symlinks the resulting `.so` back into the source package — editable-install for a CUDA extension.",
+    "tags": [
+      "develop-mode",
+      "setup-py",
+      "cuda-extension",
+      "symlinks",
+      "editable-install",
+      "submodules"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/build-system/develop-script-with-inplace-submodule-symlinks",
     "has_content": false
   },
   {
@@ -11187,6 +11646,25 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/codecs/android-mediacodec-jni-wrapper",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "dxgi-texture-capturer-gpu-optimization",
+    "slug": "dxgi-texture-capturer-gpu-optimization",
+    "category": "codecs",
+    "description": "Direct3D 11 GPU-accelerated capture with IDXGIOutputDuplication, texture reuse and rotation.",
+    "tags": [
+      "capturer",
+      "codecs",
+      "dxgi",
+      "gpu",
+      "optimization",
+      "texture"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/codecs/dxgi-texture-capturer-gpu-optimization",
     "has_content": false
   },
   {
@@ -12594,6 +13072,23 @@
   },
   {
     "kind": "skill",
+    "name": "docker-compose-selfhost-stack",
+    "slug": "docker-compose-selfhost-stack",
+    "category": "devops",
+    "description": "Single docker-compose.selfhost.yml that starts postgres + backend + frontend for one-command self-hosting, with sensible defaults and a one-shot make target.",
+    "tags": [
+      "docker-compose",
+      "self-hosting",
+      "postgres",
+      "deployment"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/devops/docker-compose-selfhost-stack",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "docker-compose-service-inventory-files",
     "slug": "docker-compose-service-inventory-files",
     "category": "devops",
@@ -12628,6 +13123,41 @@
     "version": "1.0.0",
     "path": "skills/devops/docker-compose-v1-v2-auto-detect",
     "has_content": true
+  },
+  {
+    "kind": "skill",
+    "name": "docker-multistage-go-alpine",
+    "slug": "docker-multistage-go-alpine",
+    "category": "devops",
+    "description": "Two-stage Docker build for a Go service — golang:alpine builder stage produces static binaries, alpine runtime stage ships them minimally with ca-certificates and tzdata.",
+    "tags": [
+      "docker",
+      "go",
+      "alpine",
+      "multistage",
+      "production-image"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/devops/docker-multistage-go-alpine",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "docker-smoke-test-loop",
+    "slug": "docker-smoke-test-loop",
+    "category": "devops",
+    "description": "Run a one-shot docker container, tail its logs for a readiness sentinel, then fire an integration test against the exposed port - with layered fallbacks when the CLI is unavailable.",
+    "tags": [
+      "docker",
+      "smoke-test",
+      "ci",
+      "readiness-probe"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/devops/docker-smoke-test-loop",
+    "has_content": false
   },
   {
     "kind": "skill",
@@ -12872,6 +13402,25 @@
   },
   {
     "kind": "skill",
+    "name": "docker-entrypoint-gosu-bind-mount",
+    "slug": "docker-entrypoint-gosu-bind-mount",
+    "category": "docker",
+    "description": "Write a Docker ENTRYPOINT that `mkdir -p`s required subdirs on first run, `chown`s them, then drops from root to a non-root user with `gosu` — so bind mounts \"just work\" and named volumes keep their inherited perms.",
+    "tags": [
+      "docker",
+      "entrypoint",
+      "gosu",
+      "bind-mount",
+      "non-root",
+      "privileges"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/docker/docker-entrypoint-gosu-bind-mount",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "document-release",
     "slug": "document-release",
     "category": "docs",
@@ -12968,6 +13517,41 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/docs/ubiquitous-language",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "drainable-worker-pattern-for-queue-based-async",
+    "slug": "drainable-worker-pattern-for-queue-based-async",
+    "category": "effect-ts",
+    "description": "Use queue-based workers with drain() signals instead of timing-sensitive sleeps for deterministic async test synchronization",
+    "tags": [
+      "effect-ts",
+      "testing",
+      "async",
+      "workers"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/effect-ts/drainable-worker-pattern-for-queue-based-async",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "drag-drop-widget-composition",
+    "slug": "drag-drop-widget-composition",
+    "category": "flutter",
+    "description": "Draggable widget composition for UI controls (dragable_divider, popup_menu reordering).",
+    "tags": [
+      "composition",
+      "drag",
+      "drop",
+      "flutter",
+      "widget"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/flutter/drag-drop-widget-composition",
     "has_content": false
   },
   {
@@ -13641,6 +14225,43 @@
   },
   {
     "kind": "skill",
+    "name": "distributed-filesystem-safe-atomic-cache-with-fsync",
+    "slug": "distributed-filesystem-safe-atomic-cache-with-fsync",
+    "category": "jit-compilation",
+    "description": "Make a JIT compiler cache safe under concurrent multi-rank writes on NFS by compiling to a tmp dir, fsyncing recursively, and atomically renaming the directory.",
+    "tags": [
+      "concurrency",
+      "distributed-systems",
+      "cache",
+      "filesystem",
+      "jit"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/jit-compilation/distributed-filesystem-safe-atomic-cache-with-fsync",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "dual-driver-runtime-api-abstraction",
+    "slug": "dual-driver-runtime-api-abstraction",
+    "category": "jit-compilation",
+    "description": "Hide the CUDA Driver API vs Runtime API split behind a single `load_kernel` / `launch_kernel` / `construct_launch_config` surface, using typedefs and `#ifdef` to pick the implementation at compile time.",
+    "tags": [
+      "cuda",
+      "driver-api",
+      "runtime-api",
+      "abstraction",
+      "jit",
+      "portability"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/jit-compilation/dual-driver-runtime-api-abstraction",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "agent-handoff-routing",
     "slug": "agent-handoff-routing",
     "category": "llm-agents",
@@ -13672,6 +14293,71 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/llm-agents/agents-as-tools",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "deterministic-agent-chain",
+    "slug": "deterministic-agent-chain",
+    "category": "llm-agents",
+    "description": "Chain multiple agents sequentially in code, feeding each agent's output as the next agent's input.",
+    "tags": [
+      "openai-agents",
+      "pipeline",
+      "deterministic",
+      "chaining",
+      "structured-output"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/deterministic-agent-chain",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "dispatching-parallel-agents",
+    "slug": "dispatching-parallel-agents",
+    "category": "llm-agents",
+    "description": "Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/dispatching-parallel-agents",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "draft-model-bind-to-target-modules",
+    "slug": "draft-model-bind-to-target-modules",
+    "category": "llm-agents",
+    "description": "Share embed_tokens and lm_head from the target LLM into a draft model at runtime by duck-typing the wrapper layout, so the draft does not ship its own embedding matrix.",
+    "tags": [
+      "speculative-decoding",
+      "weight-sharing",
+      "huggingface",
+      "mlx",
+      "embeddings"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/draft-model-bind-to-target-modules",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "easyedit-rome-knowledge-edit",
+    "slug": "easyedit-rome-knowledge-edit",
+    "category": "llm-agents",
+    "description": "Edit a specific fact in GPT-2-XL using EasyEdit and the ROME method, verified with the Messi football-to-basketball example.",
+    "tags": [
+      "model-editing",
+      "easyedit",
+      "rome",
+      "knowledge-editing"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/easyedit-rome-knowledge-edit",
     "has_content": false
   },
   {
@@ -13740,6 +14426,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/ml-ops/chunked-tts-with-crossfade",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "deterministic-torch-seed-bundle",
+    "slug": "deterministic-torch-seed-bundle",
+    "category": "ml-ops",
+    "description": "Five-line block that seeds random / numpy / torch / CUDA / cudnn consistently so benchmarks and regression tests are reproducible run-to-run.",
+    "tags": [
+      "pytorch",
+      "reproducibility",
+      "seeding",
+      "cudnn",
+      "benchmark"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/deterministic-torch-seed-bundle",
     "has_content": false
   },
   {
@@ -13847,6 +14551,61 @@
   },
   {
     "kind": "skill",
+    "name": "detached-daemon-lifecycle-cli",
+    "slug": "detached-daemon-lifecycle-cli",
+    "category": "ops",
+    "description": "Give a node script a drop-in start/stop/restart/status/log/check CLI by discovering processes via ps-args pattern match rather than trusting a PID file, persisting a best-effort PID, escalating SIGTERM → wait → SIGKILL on stop, and defining \"healthy\" as \"process exists AND log has been written within MAX_SILENCE_MS.\"",
+    "tags": [
+      "daemon",
+      "lifecycle",
+      "pid-file",
+      "sigterm",
+      "stagnation-detection",
+      "cli"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ops/detached-daemon-lifecycle-cli",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "dxgi-com-pointer-wrapper-raii",
+    "slug": "dxgi-com-pointer-wrapper-raii",
+    "category": "patterns",
+    "description": "Custom ComPtr<T> with Drop-based COM reference counting for DXGI objects.",
+    "tags": [
+      "com",
+      "dxgi",
+      "patterns",
+      "pointer",
+      "raii",
+      "wrapper"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/patterns/dxgi-com-pointer-wrapper-raii",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "display-device-enumeration-platform",
+    "slug": "display-device-enumeration-platform",
+    "category": "platform",
+    "description": "Per-OS display enumeration: Windows EnumDisplayDevices, macOS CGDisplayCopyAllDisplays, Linux XRandR.",
+    "tags": [
+      "device",
+      "display",
+      "enumeration",
+      "platform"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/platform/display-device-enumeration-platform",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "a11y-tree-snapshot-with-uids",
     "slug": "a11y-tree-snapshot-with-uids",
     "category": "puppeteer",
@@ -13861,6 +14620,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/puppeteer/a11y-tree-snapshot-with-uids",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "dual-mode-cublaslt-handle-workspace",
+    "slug": "dual-mode-cublaslt-handle-workspace",
+    "category": "pytorch-integration",
+    "description": "Manage a cuBLASLt handle + workspace two ways (self-owned vs PyTorch-managed, persistent vs per-call) so your library works under compute-sanitizer, older PyTorch versions, and high-throughput prod builds — selected by env var at init.",
+    "tags": [
+      "cublaslt",
+      "pytorch",
+      "workspace",
+      "compute-sanitizer",
+      "handle-management"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/pytorch-integration/dual-mode-cublaslt-handle-workspace",
     "has_content": false
   },
   {
@@ -13914,6 +14691,24 @@
   },
   {
     "kind": "skill",
+    "name": "detached-update-check-with-local-cache",
+    "slug": "detached-update-check-with-local-cache",
+    "category": "reliability",
+    "description": "Check for package updates in a detached child subprocess with a 24h local cache so startup stays fast, notification is fresh, and network failure never blocks the user.",
+    "tags": [
+      "cli",
+      "update-check",
+      "caching",
+      "npm",
+      "ux"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/reliability/detached-update-check-with-local-cache",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "android-apk-multi-engine-decompilation",
     "slug": "android-apk-multi-engine-decompilation",
     "category": "reverse-engineering",
@@ -13950,6 +14745,26 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/reverse-engineering/androidmanifest-to-network-call-flow-tracing",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "dex2jar-bridge-apk-to-fernflower",
+    "slug": "dex2jar-bridge-apk-to-fernflower",
+    "category": "reverse-engineering",
+    "description": "Convert Android DEX bytecode to a standard JVM JAR with dex2jar so that Fernflower or Vineflower — which cannot read APK/DEX directly — can decompile it.",
+    "tags": [
+      "dex2jar",
+      "fernflower",
+      "vineflower",
+      "dex",
+      "apk",
+      "android",
+      "reverse-engineering"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/reverse-engineering/dex2jar-bridge-apk-to-fernflower",
     "has_content": false
   },
   {
@@ -14019,6 +14834,24 @@
     "triggers": [],
     "version": "2.0.0",
     "path": "skills/security/cso",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "easyjailbreak-pair-attack-pipeline",
+    "slug": "easyjailbreak-pair-attack-pipeline",
+    "category": "security",
+    "description": "Use EasyJailbreak to run the PAIR attack against a target LLM using an attack model, target model, and evaluator.",
+    "tags": [
+      "jailbreak",
+      "easyjailbreak",
+      "pair",
+      "llm-safety",
+      "red-team"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/security/easyjailbreak-pair-attack-pipeline",
     "has_content": false
   },
   {
@@ -14140,6 +14973,24 @@
   },
   {
     "kind": "skill",
+    "name": "dev-sidecar-placeholder-binary",
+    "slug": "dev-sidecar-placeholder-binary",
+    "category": "tauri",
+    "description": "Satisfy Tauri's build-time sidecar requirement in dev mode by emitting a minimal valid PE / shell-script placeholder.",
+    "tags": [
+      "tauri",
+      "dev-experience",
+      "placeholder-binary",
+      "windows-pe",
+      "cross-platform"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/tauri/dev-sidecar-placeholder-binary",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "clearcut-batch-flush-with-retry",
     "slug": "clearcut-batch-flush-with-retry",
     "category": "telemetry",
@@ -14154,6 +15005,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/telemetry/clearcut-batch-flush-with-retry",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "detached-watchdog-telemetry-process",
+    "slug": "detached-watchdog-telemetry-process",
+    "category": "telemetry",
+    "description": "Run telemetry shipping in a detached child process fed by the parent over stdin, so telemetry never blocks tool execution and gets a guaranteed flush-on-parent-death window.",
+    "tags": [
+      "telemetry",
+      "watchdog",
+      "child-process",
+      "ipc",
+      "reliability"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/telemetry/detached-watchdog-telemetry-process",
     "has_content": false
   },
   {
@@ -14222,6 +15091,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/testing/devex-review",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "e2e-default-login-helper",
+    "slug": "e2e-default-login-helper",
+    "category": "testing",
+    "description": "Reusable Playwright loginAsDefault helper that authenticates via API (send-code + verify-code), injects the token into localStorage, and navigates to a workspace-scoped URL.",
+    "tags": [
+      "playwright",
+      "e2e",
+      "auth",
+      "fixtures",
+      "testing"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/testing/e2e-default-login-helper",
     "has_content": false
   },
   {
