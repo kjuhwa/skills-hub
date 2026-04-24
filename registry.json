@@ -2409,6 +2409,181 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "slim-tool-variant": {
+      "category": "mcp",
+      "path": "skills/mcp/slim-tool-variant/SKILL.md",
+      "version": "1.0.0"
+    },
+    "smem-capacity-aware-pipeline-staging": {
+      "category": "kernel-heuristics",
+      "path": "skills/kernel-heuristics/smem-capacity-aware-pipeline-staging/SKILL.md",
+      "version": "1.0.0"
+    },
+    "smoke-check": {
+      "category": "qa",
+      "path": "skills/qa/smoke-check/SKILL.md",
+      "version": "1.0.0"
+    },
+    "soak-test": {
+      "category": "qa",
+      "path": "skills/qa/soak-test/SKILL.md",
+      "version": "1.0.0"
+    },
+    "source-detection-from-alert-annotations": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/source-detection-from-alert-annotations/SKILL.md",
+      "version": "1.0.0"
+    },
+    "spa-fallback-fastapi-mount": {
+      "category": "fastapi",
+      "path": "skills/fastapi/spa-fallback-fastapi-mount/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sparse-text-data-utf8-detection-fallback": {
+      "category": "inference",
+      "path": "skills/inference/sparse-text-data-utf8-detection-fallback/SKILL.md",
+      "version": "1.0.0"
+    },
+    "speculative-decoding-acceptance-histogram": {
+      "category": "observability",
+      "path": "skills/observability/speculative-decoding-acceptance-histogram/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sprint-plan": {
+      "category": "production",
+      "path": "skills/production/sprint-plan/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sprint-status": {
+      "category": "production",
+      "path": "skills/production/sprint-status/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sqlc-go-postgres-codegen": {
+      "category": "devops",
+      "path": "skills/devops/sqlc-go-postgres-codegen/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sqlite-idempotent-column-migration": {
+      "category": "python",
+      "path": "skills/python/sqlite-idempotent-column-migration/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sqlite-session-persistence": {
+      "category": "session-management",
+      "path": "skills/session-management/sqlite-session-persistence/SKILL.md",
+      "version": "1.0.0"
+    },
+    "squash-merge-detection-union": {
+      "category": "workflow",
+      "path": "skills/workflow/squash-merge-detection-union/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sse-event-buffer-reconnect": {
+      "category": "api",
+      "path": "skills/api/sse-event-buffer-reconnect/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sse-stream-parser-langgraph-events": {
+      "category": "observability",
+      "path": "skills/observability/sse-stream-parser-langgraph-events/SKILL.md",
+      "version": "1.0.0"
+    },
+    "sse-throttled-progress-manager": {
+      "category": "fastapi",
+      "path": "skills/fastapi/sse-throttled-progress-manager/SKILL.md",
+      "version": "1.0.0"
+    },
+    "stale-singleton-lock-cleanup": {
+      "category": "electron-packaging",
+      "path": "skills/electron-packaging/stale-singleton-lock-cleanup/SKILL.md",
+      "version": "1.0.0"
+    },
+    "start": {
+      "category": "production",
+      "path": "skills/production/start/SKILL.md",
+      "version": "1.0.0"
+    },
+    "stateless-streamable-http-mcp": {
+      "category": "architecture",
+      "path": "skills/architecture/stateless-streamable-http-mcp/SKILL.md",
+      "version": "1.0.0"
+    },
+    "static-preallocated-kv-cache": {
+      "category": "inference",
+      "path": "skills/inference/static-preallocated-kv-cache/SKILL.md",
+      "version": "1.0.0"
+    },
+    "stdin-or-arg-flexible-cli-input": {
+      "category": "cli",
+      "path": "skills/cli/stdin-or-arg-flexible-cli-input/SKILL.md",
+      "version": "1.0.0"
+    },
+    "story-done": {
+      "category": "production",
+      "path": "skills/production/story-done/SKILL.md",
+      "version": "1.0.0"
+    },
+    "story-readiness": {
+      "category": "production",
+      "path": "skills/production/story-readiness/SKILL.md",
+      "version": "1.0.0"
+    },
+    "strategy-preset-weight-table": {
+      "category": "configuration",
+      "path": "skills/configuration/strategy-preset-weight-table/SKILL.md",
+      "version": "1.0.0"
+    },
+    "stream-json-assistant-event-router": {
+      "category": "observability",
+      "path": "skills/observability/stream-json-assistant-event-router/SKILL.md",
+      "version": "1.0.0"
+    },
+    "stream-json-line-buffer-across-chunks": {
+      "category": "backend",
+      "path": "skills/backend/stream-json-line-buffer-across-chunks/SKILL.md",
+      "version": "1.0.0"
+    },
+    "streaming-agent-response": {
+      "category": "agents",
+      "path": "skills/agents/streaming-agent-response/SKILL.md",
+      "version": "1.0.0"
+    },
+    "streaming-tts-prefix-overlap-chunks": {
+      "category": "inference",
+      "path": "skills/inference/streaming-tts-prefix-overlap-chunks/SKILL.md",
+      "version": "1.0.0"
+    },
+    "strict-pydantic-config-with-suggestions": {
+      "category": "configuration",
+      "path": "skills/configuration/strict-pydantic-config-with-suggestions/SKILL.md",
+      "version": "1.0.0"
+    },
+    "strip-claudecode-env-for-nested-spawn": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/strip-claudecode-env-for-nested-spawn/SKILL.md",
+      "version": "1.0.0"
+    },
+    "strip-cwd-env-boot": {
+      "category": "bun",
+      "path": "skills/bun/strip-cwd-env-boot/SKILL.md",
+      "version": "1.0.0"
+    },
+    "structured-output-json-fallback-extractor": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/structured-output-json-fallback-extractor/SKILL.md",
+      "version": "1.0.0"
+    },
+    "structured-pino-event-naming": {
+      "category": "observability",
+      "path": "skills/observability/structured-pino-event-naming/SKILL.md",
+      "version": "1.0.0"
+    },
+    "subagent-driven-development": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/subagent-driven-development/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4602,66 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "slim-surface-prevents-lookalike-tool-flags": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/slim-surface-prevents-lookalike-tool-flags.md"
+    },
+    "slug-first-id-fallback-resolver": {
+      "category": "api",
+      "path": "knowledge/api/slug-first-id-fallback-resolver.md"
+    },
+    "solidify-workflow-test-and-promote": {
+      "category": "workflow",
+      "path": "knowledge/workflow/solidify-workflow-test-and-promote.md"
+    },
+    "source-types-catalog": {
+      "category": "reference",
+      "path": "knowledge/reference/source-types-catalog.md"
+    },
+    "spawn-stdout-chunk-boundary-data-loss": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/spawn-stdout-chunk-boundary-data-loss.md"
+    },
+    "speculative-decoding-acceptance-length-metric": {
+      "category": "observability",
+      "path": "knowledge/observability/speculative-decoding-acceptance-length-metric.md"
+    },
+    "speculative-feature-flags-before-use-case": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/speculative-feature-flags-before-use-case.md"
+    },
+    "stale-pid-file-requires-liveness-probe": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/stale-pid-file-requires-liveness-probe.md"
+    },
+    "stdio-transport-stderr-for-console-messages": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/stdio-transport-stderr-for-console-messages.md"
+    },
+    "storage-adapter-for-platform-neutrality": {
+      "category": "arch",
+      "path": "knowledge/arch/storage-adapter-for-platform-neutrality.md"
+    },
+    "stream-seeking-and-position-preservation": {
+      "category": "api",
+      "path": "knowledge/api/stream-seeking-and-position-preservation.md"
+    },
+    "streaming-events-guide": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/streaming-events-guide.md"
+    },
+    "streaming-prefix-len-window": {
+      "category": "streaming",
+      "path": "knowledge/streaming/streaming-prefix-len-window.md"
+    },
+    "style-drift-during-small-feature-addition": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/style-drift-during-small-feature-addition.md"
+    },
+    "superpowers-skill-testing-guide": {
+      "category": "engineering",
+      "path": "knowledge/engineering/superpowers-skill-testing-guide.md"
     }
   }
 }
