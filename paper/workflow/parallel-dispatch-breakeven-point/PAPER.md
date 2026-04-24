@@ -13,8 +13,11 @@ tags:
 type: hypothesis
 
 premise:
-  if: A bulk-modification task is dispatched to N parallel subagents without a pre-flight coverage check
-  then: Beyond a prior-work coverage threshold of roughly 70 percent, the parallel pattern becomes a net negative — serial single-agent scan with targeted dispatch is cheaper, yet existing skills describe HOW to parallelize uniformly without surfacing WHEN NOT to
+  if: A bulk-modification task is dispatched to N parallel subagents without a pre-flight useful-output probe
+  then: When the absolute count of files that need real work (useful_output = (1 - coverage) * N) falls below a small threshold (≈ 5 files), parallel dispatch becomes pure waste regardless of coverage fraction — coverage percentage alone is misleading because a large N with moderate coverage can still justify parallel, while a small useful_output cannot. The correct gate is absolute useful_output count, not coverage ratio.
+  # Rewritten 2026-04-24 after experiments[0] found the 70% coverage claim
+  # was not robust. Original wording preserved in the "Premise revision" body
+  # section so the v0.2 loop's refinement is traceable.
 
 examines:
   - kind: skill
@@ -111,32 +114,50 @@ experiments:
 
 outcomes:
   - kind: produced_knowledge
-    ref: agent-orchestration/grep-existing-annotations-before-parallel-subagent-dispatch
+    ref: decision/parallel-dispatch-useful-output-gate
     note: |
-      Placeholder pointing at the existing pitfall that seeded this paper.
-      The REAL outcome of this experiment is a PROPOSED new knowledge entry
-      (knowledge/decision/parallel-dispatch-useful-output-gate) documenting
-      the refined criterion (useful_output absolute threshold, not coverage
-      fraction). Until that entry is authored, outcomes[] cannot truthfully
-      claim produced_knowledge; this note documents the pending follow-up.
+      Authored as a direct result of experiments[0]. Captures the refined gate
+      criterion (useful_output absolute threshold) that the experiment surfaced
+      in place of the original 70 percent coverage claim. The paper's premise.then
+      has been rewritten to match this entry.
+  - kind: produced_example
+    ref: workflow/coverage-gate-benchmark
+    note: |
+      Interactive cost-model benchmark. The experiment artifact itself, produced
+      by this paper's experiments[0] run. kind=produced_example is a v0.2.1
+      implicit extension (schema v0.2 enum does not formally include this yet;
+      lint should either add it or downgrade this entry to a plain comment).
 
-status: draft
+status: implemented
 retraction_reason: null
-# Next transitions (follow-up PRs):
-#   1. Author knowledge/decision/parallel-dispatch-useful-output-gate with
-#      the refined useful_output threshold criterion.
-#   2. Rewrite this paper's premise.then to match the refined criterion.
-#   3. Replace the placeholder outcome with the new knowledge ref.
-#   4. Transition status: draft -> implemented.
+# All four planned transitions completed:
+#   1. knowledge/decision/parallel-dispatch-useful-output-gate AUTHORED
+#   2. premise.then REWRITTEN (original preserved in body "Premise revision")
+#   3. outcomes[] placeholder REPLACED with real produced_knowledge ref
+#   4. status DRAFT -> IMPLEMENTED — experiments[0].supports_premise was
+#      "partial" but the paper's real finding (refined criterion published
+#      as its own knowledge entry) is a net corpus addition. Implemented
+#      here means "the paper ran its loop and produced durable output,"
+#      not "premise was fully validated."
 ---
 
 # When does parallel subagent dispatch stop paying off?
 
 ## Premise
 
-**If** a bulk-modification task is dispatched to N parallel subagents without a pre-flight coverage check, **then** beyond a prior-work coverage threshold of roughly 70 percent, the parallel pattern becomes a net negative — serial single-agent scan with targeted dispatch is cheaper. Yet the existing skills in the hub describe *how* to parallelize uniformly without surfacing *when not to*.
+**If** a bulk-modification task is dispatched to N parallel subagents without a pre-flight **useful-output** probe, **then** when `useful_output = (1 - coverage) * N` falls below a small absolute threshold (≈ 5 files), parallel dispatch becomes pure waste **regardless of coverage percentage**. Coverage alone is misleading because a large N at moderate coverage can still justify parallel, while a small useful_output cannot.
 
-This is a cost-model claim, and a tooling claim. The cost model says there is a break-even point. The tooling claim says the hub has the HOW-TO but not the GATE — the decision that must happen *before* the HOW-TO fires.
+This is a cost-model claim, and a tooling claim. The cost model says there is a break-even point determined by useful_output against agent startup overhead. The tooling claim says the hub has the HOW-TO but not the GATE — the decision that must happen *before* the HOW-TO fires.
+
+### Premise revision (2026-04-24)
+
+The original premise stated a **"70 percent coverage threshold"**. The `coverage-threshold-measurement` experiment (see `experiments[0]`, built as `example/workflow/coverage-gate-benchmark`) tested that claim against 5 measured corpus domains and found the 70 percent number was not a robust constant — it shifts with the α / w cost ratio. The meaningful gate turned out to be **absolute useful_output count**, not coverage fraction.
+
+The revised premise above uses that refined criterion. The original wording is preserved here for traceability:
+
+> **[original, superseded]** IF a bulk-modification task is dispatched to N parallel subagents without a pre-flight coverage check, THEN beyond a prior-work coverage threshold of roughly 70 percent, the parallel pattern becomes a net negative — serial single-agent scan with targeted dispatch is cheaper, yet existing skills describe HOW to parallelize uniformly without surfacing WHEN NOT to.
+
+The refined criterion is published separately as `knowledge/decision/parallel-dispatch-useful-output-gate`.
 
 ## Background
 
