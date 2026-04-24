@@ -2409,6 +2409,141 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "file-path-reference-for-heavy-assets": {
+      "category": "mcp",
+      "path": "skills/mcp/file-path-reference-for-heavy-assets/SKILL.md",
+      "version": "1.0.0"
+    },
+    "file-stability-polling-for-fs-flush": {
+      "category": "build",
+      "path": "skills/build/file-stability-polling-for-fs-flush/SKILL.md",
+      "version": "1.0.0"
+    },
+    "filestream-seekable-buffer-fallback": {
+      "category": "python",
+      "path": "skills/python/filestream-seekable-buffer-fallback/SKILL.md",
+      "version": "1.0.0"
+    },
+    "finishing-a-development-branch": {
+      "category": "devops",
+      "path": "skills/devops/finishing-a-development-branch/SKILL.md",
+      "version": "1.0.0"
+    },
+    "first-occurrence-config-print-with-set-memo": {
+      "category": "jit-compilation",
+      "path": "skills/jit-compilation/first-occurrence-config-print-with-set-memo/SKILL.md",
+      "version": "1.0.0"
+    },
+    "flash-attn-optional-import-fallback": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/flash-attn-optional-import-fallback/SKILL.md",
+      "version": "1.0.0"
+    },
+    "flutter-rust-bridge-stream-sink-pattern": {
+      "category": "ffi",
+      "path": "skills/ffi/flutter-rust-bridge-stream-sink-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "fnv1a-splitmix-hex-digest-for-cache-keys": {
+      "category": "jit-compilation",
+      "path": "skills/jit-compilation/fnv1a-splitmix-hex-digest-for-cache-keys/SKILL.md",
+      "version": "1.0.0"
+    },
+    "force-hf-offline-when-cached": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/force-hf-offline-when-cached/SKILL.md",
+      "version": "1.0.0"
+    },
+    "forcing-tool-use": {
+      "category": "agents",
+      "path": "skills/agents/forcing-tool-use/SKILL.md",
+      "version": "1.0.0"
+    },
+    "foreground-background-daemon-mode": {
+      "category": "cli",
+      "path": "skills/cli/foreground-background-daemon-mode/SKILL.md",
+      "version": "1.0.0"
+    },
+    "full-stack-isolated-dev-env": {
+      "category": "workflow",
+      "path": "skills/workflow/full-stack-isolated-dev-env/SKILL.md",
+      "version": "1.0.0"
+    },
+    "function-tool-registration": {
+      "category": "agents",
+      "path": "skills/agents/function-tool-registration/SKILL.md",
+      "version": "1.0.0"
+    },
+    "game-design-doc-review": {
+      "category": "design",
+      "path": "skills/design/game-design-doc-review/SKILL.md",
+      "version": "1.0.0"
+    },
+    "gate-check": {
+      "category": "production",
+      "path": "skills/production/gate-check/SKILL.md",
+      "version": "1.0.0"
+    },
+    "generate-cli-from-mcp-tool-list": {
+      "category": "cli",
+      "path": "skills/cli/generate-cli-from-mcp-tool-list/SKILL.md",
+      "version": "1.0.0"
+    },
+    "generate-tool-reference-with-token-counts": {
+      "category": "build-tooling",
+      "path": "skills/build-tooling/generate-tool-reference-with-token-counts/SKILL.md",
+      "version": "1.0.0"
+    },
+    "generated-enum-and-config-code-from-json-schema": {
+      "category": "codegen",
+      "path": "skills/codegen/generated-enum-and-config-code-from-json-schema/SKILL.md",
+      "version": "1.0.0"
+    },
+    "gep-environment-fingerprint": {
+      "category": "architecture",
+      "path": "skills/architecture/gep-environment-fingerprint/SKILL.md",
+      "version": "1.0.0"
+    },
+    "get-package-reactive-bindings": {
+      "category": "flutter",
+      "path": "skills/flutter/get-package-reactive-bindings/SKILL.md",
+      "version": "1.0.0"
+    },
+    "git-rollback-mode-selector": {
+      "category": "operations",
+      "path": "skills/operations/git-rollback-mode-selector/SKILL.md",
+      "version": "1.0.0"
+    },
+    "git-worktree-isolation-per-thread": {
+      "category": "git",
+      "path": "skills/git/git-worktree-isolation-per-thread/SKILL.md",
+      "version": "1.0.0"
+    },
+    "github-actions-parallel-test-matrix": {
+      "category": "ci",
+      "path": "skills/ci/github-actions-parallel-test-matrix/SKILL.md",
+      "version": "1.0.0"
+    },
+    "github-hmac-webhook-verify": {
+      "category": "cli",
+      "path": "skills/cli/github-hmac-webhook-verify/SKILL.md",
+      "version": "1.0.0"
+    },
+    "github-trending-zero-dep-scraper": {
+      "category": "integration",
+      "path": "skills/integration/github-trending-zero-dep-scraper/SKILL.md",
+      "version": "1.0.0"
+    },
+    "go-middleware-context-injection": {
+      "category": "architecture",
+      "path": "skills/architecture/go-middleware-context-injection/SKILL.md",
+      "version": "1.0.0"
+    },
+    "goal-driven-verifiable-success-criteria": {
+      "category": "engineering",
+      "path": "skills/engineering/goal-driven-verifiable-success-criteria/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4562,98 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "file-layout-apps-vs-packages": {
+      "category": "reference",
+      "path": "knowledge/reference/file-layout-apps-vs-packages.md"
+    },
+    "flatpak-portals-sandbox-workaround": {
+      "category": "linux",
+      "path": "knowledge/linux/flatpak-portals-sandbox-workaround.md"
+    },
+    "flutter-rust-bridge-compatibility-matrix": {
+      "category": "ffi",
+      "path": "knowledge/ffi/flutter-rust-bridge-compatibility-matrix.md"
+    },
+    "fp8-e4m3-vs-ue8m0-format-differences": {
+      "category": "fp8-quantization",
+      "path": "knowledge/fp8-quantization/fp8-e4m3-vs-ue8m0-format-differences.md"
+    },
+    "fsync-directory-is-mandatory-before-rename": {
+      "category": "jit-compilation",
+      "path": "knowledge/jit-compilation/fsync-directory-is-mandatory-before-rename.md"
+    },
+    "function-schema-generation": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/function-schema-generation.md"
+    },
+    "gated-huggingface-hardcoded-config": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/gated-huggingface-hardcoded-config.md"
+    },
+    "gdi-fallback-screen-capture": {
+      "category": "codecs",
+      "path": "knowledge/codecs/gdi-fallback-screen-capture.md"
+    },
+    "gep-asset-model": {
+      "category": "architecture",
+      "path": "knowledge/architecture/gep-asset-model.md"
+    },
+    "gep-genome-evolution-protocol": {
+      "category": "architecture",
+      "path": "knowledge/architecture/gep-genome-evolution-protocol.md"
+    },
+    "gep-protocol-auditable-assets": {
+      "category": "reference",
+      "path": "knowledge/reference/gep-protocol-auditable-assets.md"
+    },
+    "git-stale-branch-main-dot-dot-head": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/git-stale-branch-main-dot-dot-head.md"
+    },
+    "git-workflow-issue-version-forensics": {
+      "category": "git-workflow",
+      "path": "knowledge/git-workflow/git-workflow-issue-version-forensics.md"
+    },
+    "github-token-env-fallback-chain": {
+      "category": "reference",
+      "path": "knowledge/reference/github-token-env-fallback-chain.md"
+    },
+    "github-variables-version-management": {
+      "category": "ci-cd",
+      "path": "knowledge/ci-cd/github-variables-version-management.md"
+    },
+    "go-requires-cgo-onnxruntime": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/go-requires-cgo-onnxruntime.md"
+    },
+    "godot-animation": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-animation.md"
+    },
+    "godot-audio": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-audio.md"
+    },
+    "godot-best-practices": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-best-practices.md"
+    },
+    "godot-breaking-changes": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-breaking-changes.md"
+    },
+    "godot-deprecated-apis": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-deprecated-apis.md"
+    },
+    "godot-input": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-input.md"
+    },
+    "godot-navigation": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-navigation.md"
     }
   }
 }
