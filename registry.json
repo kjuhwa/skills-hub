@@ -2409,6 +2409,166 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "surgical-changes-only-touch-requested": {
+      "category": "engineering",
+      "path": "skills/engineering/surgical-changes-only-touch-requested/SKILL.md",
+      "version": "1.0.0"
+    },
+    "svg-image-asset-embedding": {
+      "category": "flutter",
+      "path": "skills/flutter/svg-image-asset-embedding/SKILL.md",
+      "version": "1.0.0"
+    },
+    "synchronized-multi-language-test-data-directory": {
+      "category": "testing",
+      "path": "skills/testing/synchronized-multi-language-test-data-directory/SKILL.md",
+      "version": "1.0.0"
+    },
+    "synthetic-rca-scenario-pytest-marker": {
+      "category": "testing",
+      "path": "skills/testing/synthetic-rca-scenario-pytest-marker/SKILL.md",
+      "version": "1.0.0"
+    },
+    "systematic-debugging": {
+      "category": "engineering",
+      "path": "skills/engineering/systematic-debugging/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tarball-checksum-stream-extract": {
+      "category": "devops",
+      "path": "skills/devops/tarball-checksum-stream-extract/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tauri-cors-origins-setup": {
+      "category": "fastapi",
+      "path": "skills/fastapi/tauri-cors-origins-setup/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-audio": {
+      "category": "production",
+      "path": "skills/production/team-audio/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-combat": {
+      "category": "production",
+      "path": "skills/production/team-combat/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-level": {
+      "category": "production",
+      "path": "skills/production/team-level/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-live-ops": {
+      "category": "production",
+      "path": "skills/production/team-live-ops/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-narrative": {
+      "category": "production",
+      "path": "skills/production/team-narrative/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-polish": {
+      "category": "production",
+      "path": "skills/production/team-polish/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-qa": {
+      "category": "production",
+      "path": "skills/production/team-qa/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-release": {
+      "category": "production",
+      "path": "skills/production/team-release/SKILL.md",
+      "version": "1.0.0"
+    },
+    "team-ui": {
+      "category": "production",
+      "path": "skills/production/team-ui/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tech-debt": {
+      "category": "engineering",
+      "path": "skills/engineering/tech-debt/SKILL.md",
+      "version": "1.0.0"
+    },
+    "temperature-topk-topp-logit-filter": {
+      "category": "inference",
+      "path": "skills/inference/temperature-topk-topp-logit-filter/SKILL.md",
+      "version": "1.0.0"
+    },
+    "template-parameter-codegen-with-enum-stringification": {
+      "category": "jit-compilation",
+      "path": "skills/jit-compilation/template-parameter-codegen-with-enum-stringification/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tensor-memory-accelerator-descriptor-construction": {
+      "category": "gpu-kernels",
+      "path": "skills/gpu-kernels/tensor-memory-accelerator-descriptor-construction/SKILL.md",
+      "version": "1.0.0"
+    },
+    "tensorflow-js-model-loading-with-url-override": {
+      "category": "web",
+      "path": "skills/web/tensorflow-js-model-loading-with-url-override/SKILL.md",
+      "version": "1.0.0"
+    },
+    "test-driven-development": {
+      "category": "engineering",
+      "path": "skills/engineering/test-driven-development/SKILL.md",
+      "version": "1.0.0"
+    },
+    "test-evidence-review": {
+      "category": "qa",
+      "path": "skills/qa/test-evidence-review/SKILL.md",
+      "version": "1.0.0"
+    },
+    "test-flakiness": {
+      "category": "qa",
+      "path": "skills/qa/test-flakiness/SKILL.md",
+      "version": "1.0.0"
+    },
+    "test-helpers": {
+      "category": "engineering",
+      "path": "skills/engineering/test-helpers/SKILL.md",
+      "version": "1.0.0"
+    },
+    "test-setup": {
+      "category": "engineering",
+      "path": "skills/engineering/test-setup/SKILL.md",
+      "version": "1.0.0"
+    },
+    "test-suite-validation-with-env-isolation": {
+      "category": "testing",
+      "path": "skills/testing/test-suite-validation-with-env-isolation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "thin-client-headless-server-split": {
+      "category": "architecture",
+      "path": "skills/architecture/thin-client-headless-server-split/SKILL.md",
+      "version": "1.0.0"
+    },
+    "think-before-coding-surface-assumptions": {
+      "category": "engineering",
+      "path": "skills/engineering/think-before-coding-surface-assumptions/SKILL.md",
+      "version": "1.0.0"
+    },
+    "threadpool-benchmark-with-warmup": {
+      "category": "observability",
+      "path": "skills/observability/threadpool-benchmark-with-warmup/SKILL.md",
+      "version": "1.0.0"
+    },
+    "three-cloning-modes-dispatch": {
+      "category": "inference",
+      "path": "skills/inference/three-cloning-modes-dispatch/SKILL.md",
+      "version": "1.0.0"
+    },
+    "three-mode-permission-cycle": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/three-mode-permission-cycle/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4587,78 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "supported-llm-providers": {
+      "category": "reference",
+      "path": "knowledge/reference/supported-llm-providers.md"
+    },
+    "swap-ab-for-m-grouped-on-sm100": {
+      "category": "kernel-heuristics",
+      "path": "knowledge/kernel-heuristics/swap-ab-for-m-grouped-on-sm100.md"
+    },
+    "sway-sampling-timestep-adjustment": {
+      "category": "diffusion",
+      "path": "knowledge/diffusion/sway-sampling-timestep-adjustment.md"
+    },
+    "synthetic-utf8-datasets-v3-3": {
+      "category": "arch",
+      "path": "knowledge/arch/synthetic-utf8-datasets-v3-3.md"
+    },
+    "task-receiver-async-work-queueing": {
+      "category": "architecture",
+      "path": "knowledge/architecture/task-receiver-async-work-queueing.md"
+    },
+    "tensor-map-swizzle-vs-shared-memory-banking": {
+      "category": "gpu-kernels",
+      "path": "knowledge/gpu-kernels/tensor-map-swizzle-vs-shared-memory-banking.md"
+    },
+    "tensorflow-js-for-browser-deployment": {
+      "category": "arch",
+      "path": "knowledge/arch/tensorflow-js-for-browser-deployment.md"
+    },
+    "test-naming-by-purpose-e2e-vs-synthetic": {
+      "category": "testing",
+      "path": "knowledge/testing/test-naming-by-purpose-e2e-vs-synthetic.md"
+    },
+    "testing-skills-with-subagents": {
+      "category": "engineering",
+      "path": "knowledge/engineering/testing-skills-with-subagents.md"
+    },
+    "tests-follow-code-not-app": {
+      "category": "decision",
+      "path": "knowledge/decision/tests-follow-code-not-app.md"
+    },
+    "text-rendering-font-fallback": {
+      "category": "flutter",
+      "path": "knowledge/flutter/text-rendering-font-fallback.md"
+    },
+    "thin-client-vs-embedded-server": {
+      "category": "architecture",
+      "path": "knowledge/architecture/thin-client-vs-embedded-server.md"
+    },
+    "three-cloning-modes-contract": {
+      "category": "inference",
+      "path": "knowledge/inference/three-cloning-modes-contract.md"
+    },
+    "tls-certificate-caching-strategy": {
+      "category": "networking",
+      "path": "knowledge/networking/tls-certificate-caching-strategy.md"
+    },
+    "tma-swizzling-mode-selection-by-byte-alignment": {
+      "category": "gpu-kernels",
+      "path": "knowledge/gpu-kernels/tma-swizzling-mode-selection-by-byte-alignment.md"
+    },
+    "toisostring-local-date-offset": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/toisostring-local-date-offset.md"
+    },
+    "token-budget-length-filter": {
+      "category": "training",
+      "path": "knowledge/training/token-budget-length-filter.md"
+    },
+    "tokenizer-free-continuous-latent-rationale": {
+      "category": "model-architecture",
+      "path": "knowledge/model-architecture/tokenizer-free-continuous-latent-rationale.md"
     }
   }
 }
