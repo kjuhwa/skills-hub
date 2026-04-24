@@ -2409,6 +2409,126 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "linear-interpolation-target-layer-ids": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/linear-interpolation-target-layer-ids/SKILL.md",
+      "version": "1.0.0"
+    },
+    "linux-desktop-manager-abstraction": {
+      "category": "linux",
+      "path": "skills/linux/linux-desktop-manager-abstraction/SKILL.md",
+      "version": "1.0.0"
+    },
+    "linux-display-backend-detector-wayland-x11": {
+      "category": "launcher",
+      "path": "skills/launcher/linux-display-backend-detector-wayland-x11/SKILL.md",
+      "version": "1.0.0"
+    },
+    "linux-terminfo-capability-detection": {
+      "category": "linux",
+      "path": "skills/linux/linux-terminfo-capability-detection/SKILL.md",
+      "version": "1.0.0"
+    },
+    "llm-api-zero-few-shot-prompting": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/llm-api-zero-few-shot-prompting/SKILL.md",
+      "version": "1.0.0"
+    },
+    "llm-as-judge-loop": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/llm-as-judge-loop/SKILL.md",
+      "version": "1.0.0"
+    },
+    "llm-empty-plan-controller-fallback": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/llm-empty-plan-controller-fallback/SKILL.md",
+      "version": "1.0.0"
+    },
+    "llm-retry-with-typed-error-formatting": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/llm-retry-with-typed-error-formatting/SKILL.md",
+      "version": "1.0.0"
+    },
+    "llm-text-section-parser-claims-causal-chain": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/llm-text-section-parser-claims-causal-chain/SKILL.md",
+      "version": "1.0.0"
+    },
+    "lm-prompt-kv-cache-reuse": {
+      "category": "inference",
+      "path": "skills/inference/lm-prompt-kv-cache-reuse/SKILL.md",
+      "version": "1.0.0"
+    },
+    "local-vs-remote-reachability-probes": {
+      "category": "cli",
+      "path": "skills/cli/local-vs-remote-reachability-probes/SKILL.md",
+      "version": "1.0.0"
+    },
+    "localize": {
+      "category": "meta",
+      "path": "skills/meta/localize/SKILL.md",
+      "version": "1.0.0"
+    },
+    "log-deduplication-and-error-taxonomy": {
+      "category": "observability",
+      "path": "skills/observability/log-deduplication-and-error-taxonomy/SKILL.md",
+      "version": "1.0.0"
+    },
+    "long-lived-mcp-daemon-over-unix-socket": {
+      "category": "daemon",
+      "path": "skills/daemon/long-lived-mcp-daemon-over-unix-socket/SKILL.md",
+      "version": "1.0.0"
+    },
+    "lookback-only-normalization-no-leakage": {
+      "category": "preprocessing",
+      "path": "skills/preprocessing/lookback-only-normalization-no-leakage/SKILL.md",
+      "version": "1.0.0"
+    },
+    "macos-cocoa-objc-messaging": {
+      "category": "macos",
+      "path": "skills/macos/macos-cocoa-objc-messaging/SKILL.md",
+      "version": "1.0.0"
+    },
+    "macos-cursor-seed-tracking": {
+      "category": "macos",
+      "path": "skills/macos/macos-cursor-seed-tracking/SKILL.md",
+      "version": "1.0.0"
+    },
+    "macos-privilege-scripts-embedding": {
+      "category": "macos",
+      "path": "skills/macos/macos-privilege-scripts-embedding/SKILL.md",
+      "version": "1.0.0"
+    },
+    "mailbox-store-jsonl-with-in-memory-index": {
+      "category": "data-pipeline",
+      "path": "skills/data-pipeline/mailbox-store-jsonl-with-in-memory-index/SKILL.md",
+      "version": "1.0.0"
+    },
+    "make-check-verification-loop": {
+      "category": "devops",
+      "path": "skills/devops/make-check-verification-loop/SKILL.md",
+      "version": "1.0.0"
+    },
+    "managed-toml-block-idempotent": {
+      "category": "agents",
+      "path": "skills/agents/managed-toml-block-idempotent/SKILL.md",
+      "version": "1.0.0"
+    },
+    "map-systems": {
+      "category": "design",
+      "path": "skills/design/map-systems/SKILL.md",
+      "version": "1.0.0"
+    },
+    "masking-policy-from-env-no-singleton": {
+      "category": "configuration",
+      "path": "skills/configuration/masking-policy-from-env-no-singleton/SKILL.md",
+      "version": "1.0.0"
+    },
+    "maturin-cross-platform-python-wheel-build": {
+      "category": "release",
+      "path": "skills/release/maturin-cross-platform-python-wheel-build/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4547,110 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "lighthouse-audit-scope-excludes-performance": {
+      "category": "decision",
+      "path": "knowledge/decision/lighthouse-audit-scope-excludes-performance.md"
+    },
+    "linux-desktop-manager-detection-heuristics": {
+      "category": "linux",
+      "path": "knowledge/linux/linux-desktop-manager-detection-heuristics.md"
+    },
+    "linux-file-clipboard-unix-only": {
+      "category": "clipboard",
+      "path": "knowledge/clipboard/linux-file-clipboard-unix-only.md"
+    },
+    "linux-sudo-e-env-preservation-quirk": {
+      "category": "linux",
+      "path": "knowledge/linux/linux-sudo-e-env-preservation-quirk.md"
+    },
+    "llamafactory-sft-training": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/llamafactory-sft-training.md"
+    },
+    "llm-agent-safety-r-judge": {
+      "category": "safety",
+      "path": "knowledge/safety/llm-agent-safety-r-judge.md"
+    },
+    "llm-jailbreak-attacks-easyjailbreak": {
+      "category": "security",
+      "path": "knowledge/security/llm-jailbreak-attacks-easyjailbreak.md"
+    },
+    "llm-knowledge-editing-overview": {
+      "category": "llm-fundamentals",
+      "path": "knowledge/llm-fundamentals/llm-knowledge-editing-overview.md"
+    },
+    "llm-math-reasoning-distillation": {
+      "category": "llm-fundamentals",
+      "path": "knowledge/llm-fundamentals/llm-math-reasoning-distillation.md"
+    },
+    "llm-silent-assumption-on-export-scope": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/llm-silent-assumption-on-export-scope.md"
+    },
+    "llm-silently-picks-one-interpretation": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/llm-silently-picks-one-interpretation.md"
+    },
+    "llm-text-steganography": {
+      "category": "security",
+      "path": "knowledge/security/llm-text-steganography.md"
+    },
+    "llm-text-watermarking-kgw": {
+      "category": "security",
+      "path": "knowledge/security/llm-text-watermarking-kgw.md"
+    },
+    "local-proxy-auth-isolation": {
+      "category": "architecture",
+      "path": "knowledge/architecture/local-proxy-auth-isolation.md"
+    },
+    "local-state-awareness-environment-detection": {
+      "category": "observability",
+      "path": "knowledge/observability/local-state-awareness-environment-detection.md"
+    },
+    "macos-ax-trusted-check-prompt": {
+      "category": "macos",
+      "path": "knowledge/macos/macos-ax-trusted-check-prompt.md"
+    },
+    "macos-notarization-and-signature-requirements": {
+      "category": "macos",
+      "path": "knowledge/macos/macos-notarization-and-signature-requirements.md"
+    },
+    "magika-content-type-classifier": {
+      "category": "reference",
+      "path": "knowledge/reference/magika-content-type-classifier.md"
+    },
+    "magika-sampling-strategy": {
+      "category": "arch",
+      "path": "knowledge/arch/magika-sampling-strategy.md"
+    },
+    "main-frame-filter-on-framenavigated": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/main-frame-filter-on-framenavigated.md"
+    },
+    "make-ts-go-verification-pipeline": {
+      "category": "devops",
+      "path": "knowledge/devops/make-ts-go-verification-pipeline.md"
+    },
+    "manifest-json-real-entry-extraction": {
+      "category": "packaging",
+      "path": "knowledge/packaging/manifest-json-real-entry-extraction.md"
+    },
+    "markitdown-converter-architecture": {
+      "category": "reference",
+      "path": "knowledge/reference/markitdown-converter-architecture.md"
+    },
+    "masking-vs-guardrails-two-layer-defense": {
+      "category": "safety",
+      "path": "knowledge/safety/masking-vs-guardrails-two-layer-defense.md"
+    },
+    "mcp-client-name-detection-for-telemetry": {
+      "category": "domain",
+      "path": "knowledge/domain/mcp-client-name-detection-for-telemetry.md"
+    },
+    "mcp-design-principles-for-agent-tools": {
+      "category": "decision",
+      "path": "knowledge/decision/mcp-design-principles-for-agent-tools.md"
     }
   }
 }
