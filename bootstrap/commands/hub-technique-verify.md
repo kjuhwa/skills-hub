@@ -36,7 +36,7 @@ TECHNIQUE: <category>/<slug>  (v<version>, binding=<binding>)
   [PASS]  name matches folder
   [PASS]  frontmatter well-formed
   [WARN]  description 137 chars (>120)
-  [PASS]  composes[0] parallel-build-sequential-publish → skills/parallel-build-sequential-publish/SKILL.md
+  [PASS]  composes[0] workflow/parallel-build-sequential-publish → skills/workflow/parallel-build-sequential-publish/SKILL.md
   [FAIL]  composes[1] missing: skills/workflow/<slug>/SKILL.md
   [NOTE]  composes[2] skipped version range (atom is 0.1.0-draft)
   [PASS]  no technique nesting

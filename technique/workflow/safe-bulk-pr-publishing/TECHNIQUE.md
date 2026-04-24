@@ -13,7 +13,7 @@ tags:
 
 composes:
   - kind: skill
-    ref: parallel-build-sequential-publish       # NOTE: lives at root of skills/, not under workflow/ (see RFC §4)
+    ref: workflow/parallel-build-sequential-publish
     version: "^1.0.0"
     role: orchestrator
   - kind: skill
@@ -123,7 +123,7 @@ Nothing the atoms already cover is repeated; only what this recipe contributes:
 set -e
 SKILLS_HUB="${SKILLS_HUB:-$HOME/.claude/skills-hub/remote}"
 for ref in \
-  "skills/parallel-build-sequential-publish/SKILL.md" \
+  "skills/workflow/parallel-build-sequential-publish/SKILL.md" \
   "skills/workflow/rollback-anchor-tag-before-destructive-op/SKILL.md" \
   "knowledge/workflow/batch-pr-conflict-recovery.md" \
   "knowledge/pitfall/gh-pr-create-race-with-auto-merge.md"; do
@@ -137,7 +137,7 @@ echo "OK"
 - Two of the composed atoms are `0.1.0-draft`, so this technique is pinned to draft status
 - v0 forbids technique-to-technique nesting, so no other technique can reference this one
 - `loose` binding — major version bumps on any composed skill require re-verification
-- **Hub layout inconsistency (found during authoring)**: `parallel-build-sequential-publish` declares `category: workflow` in its frontmatter but lives at the root of `skills/` (not under `skills/workflow/`). The schema's `ref` is therefore the **kind-root-relative physical path**, not a semantic `{category}/{slug}`. This finding is folded into RFC §4.
+- Previously the `parallel-build-sequential-publish` skill lived at the root of `skills/` despite its `category: workflow` frontmatter. Relocated under `skills/workflow/` as part of RFC §4 cleanup; the `ref` in this file has been updated accordingly. The general rule still stands — `ref` is the **kind-root-relative physical path**, not a semantic `{category}/{slug}`.
 
 ## Provenance
 
