@@ -2409,6 +2409,131 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "one-websocket-port-for-ws-and-http": {
+      "category": "architecture",
+      "path": "skills/architecture/one-websocket-port-for-ws-and-http/SKILL.md",
+      "version": "1.0.0"
+    },
+    "openai-conversation-session": {
+      "category": "session-management",
+      "path": "skills/session-management/openai-conversation-session/SKILL.md",
+      "version": "1.0.0"
+    },
+    "optimistic-mutation-pattern": {
+      "category": "architecture",
+      "path": "skills/architecture/optimistic-mutation-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "optional-denoiser-lazy-import": {
+      "category": "model-loading",
+      "path": "skills/model-loading/optional-denoiser-lazy-import/SKILL.md",
+      "version": "1.0.0"
+    },
+    "optional-dependency-deferred-exception": {
+      "category": "python",
+      "path": "skills/python/optional-dependency-deferred-exception/SKILL.md",
+      "version": "1.0.0"
+    },
+    "optional-torch-symbol-import-try-except": {
+      "category": "pytorch-integration",
+      "path": "skills/pytorch-integration/optional-torch-symbol-import-try-except/SKILL.md",
+      "version": "1.0.0"
+    },
+    "opus-encoding-on-mcu": {
+      "category": "opus-codec-firmware",
+      "path": "skills/opus-codec-firmware/opus-encoding-on-mcu/SKILL.md",
+      "version": "1.0.0"
+    },
+    "orphaned-daemon-termination-guard": {
+      "category": "process",
+      "path": "skills/process/orphaned-daemon-termination-guard/SKILL.md",
+      "version": "1.0.0"
+    },
+    "ort-crate-onnx-runtime-session-configuration": {
+      "category": "inference",
+      "path": "skills/inference/ort-crate-onnx-runtime-session-configuration/SKILL.md",
+      "version": "1.0.0"
+    },
+    "output-guardrail-check": {
+      "category": "safety",
+      "path": "skills/safety/output-guardrail-check/SKILL.md",
+      "version": "1.0.0"
+    },
+    "output-guardrail-with-agent": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/output-guardrail-with-agent/SKILL.md",
+      "version": "1.0.0"
+    },
+    "overwrite-map-for-non-canonical-types": {
+      "category": "inference",
+      "path": "skills/inference/overwrite-map-for-non-canonical-types/SKILL.md",
+      "version": "1.0.0"
+    },
+    "parallel-agent-runs": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/parallel-agent-runs/SKILL.md",
+      "version": "1.0.0"
+    },
+    "parallel-text-and-structured-response": {
+      "category": "mcp",
+      "path": "skills/mcp/parallel-text-and-structured-response/SKILL.md",
+      "version": "1.0.0"
+    },
+    "paren-prefix-voice-description": {
+      "category": "voice-design",
+      "path": "skills/voice-design/paren-prefix-voice-description/SKILL.md",
+      "version": "1.0.0"
+    },
+    "patch-notes": {
+      "category": "production",
+      "path": "skills/production/patch-notes/SKILL.md",
+      "version": "1.0.0"
+    },
+    "per-content-type-confidence-threshold-dispatch": {
+      "category": "inference",
+      "path": "skills/inference/per-content-type-confidence-threshold-dispatch/SKILL.md",
+      "version": "1.0.0"
+    },
+    "perf-profile": {
+      "category": "engineering",
+      "path": "skills/engineering/perf-profile/SKILL.md",
+      "version": "1.0.0"
+    },
+    "permission-bitmask-control-abstraction": {
+      "category": "auth",
+      "path": "skills/auth/permission-bitmask-control-abstraction/SKILL.md",
+      "version": "1.0.0"
+    },
+    "permission-mode-shift-tab-cycle": {
+      "category": "ui",
+      "path": "skills/ui/permission-mode-shift-tab-cycle/SKILL.md",
+      "version": "1.0.0"
+    },
+    "persistent-cli-daemon-with-autostart": {
+      "category": "cli",
+      "path": "skills/cli/persistent-cli-daemon-with-autostart/SKILL.md",
+      "version": "1.0.0"
+    },
+    "persistent-env-vars-via-generated-envs-py": {
+      "category": "build-system",
+      "path": "skills/build-system/persistent-env-vars-via-generated-envs-py/SKILL.md",
+      "version": "1.0.0"
+    },
+    "persistent-false-buffer-scaling-toggle": {
+      "category": "lora",
+      "path": "skills/lora/persistent-false-buffer-scaling-toggle/SKILL.md",
+      "version": "1.0.0"
+    },
+    "persistent-process-memory-scanner-for-ui-state-extraction": {
+      "category": "automation",
+      "path": "skills/automation/persistent-process-memory-scanner-for-ui-state-extraction/SKILL.md",
+      "version": "1.0.0"
+    },
+    "personality-report-generation-with-percentiles": {
+      "category": "observability",
+      "path": "skills/observability/personality-report-generation-with-percentiles/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4552,106 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "onnx-runtime-version-pinning-history": {
+      "category": "version-quirk",
+      "path": "knowledge/version-quirk/onnx-runtime-version-pinning-history.md"
+    },
+    "openai-agents-sdk-architecture": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/openai-agents-sdk-architecture.md"
+    },
+    "openai-agents-tracing-model": {
+      "category": "observability",
+      "path": "knowledge/observability/openai-agents-tracing-model.md"
+    },
+    "openclaw-mcp-bridge-three-transports": {
+      "category": "architecture",
+      "path": "knowledge/architecture/openclaw-mcp-bridge-three-transports.md"
+    },
+    "opensre-investigation-pipeline-architecture": {
+      "category": "architecture",
+      "path": "knowledge/architecture/opensre-investigation-pipeline-architecture.md"
+    },
+    "opensre-tool-registry-surfaces": {
+      "category": "architecture",
+      "path": "knowledge/architecture/opensre-tool-registry-surfaces.md"
+    },
+    "opt-out-usage-stats-with-watchdog-subprocess": {
+      "category": "decision",
+      "path": "knowledge/decision/opt-out-usage-stats-with-watchdog-subprocess.md"
+    },
+    "optimistic-mutations-by-default": {
+      "category": "decision",
+      "path": "knowledge/decision/optimistic-mutations-by-default.md"
+    },
+    "orchestration-command-event-and-receipt-contract": {
+      "category": "api",
+      "path": "knowledge/api/orchestration-command-event-and-receipt-contract.md"
+    },
+    "origin-whitelist-atomic-hot-swap": {
+      "category": "api",
+      "path": "knowledge/api/origin-whitelist-atomic-hot-swap.md"
+    },
+    "oss-sync-trademark-boundary": {
+      "category": "devops",
+      "path": "knowledge/devops/oss-sync-trademark-boundary.md"
+    },
+    "output-format-detection-convention": {
+      "category": "reference",
+      "path": "knowledge/reference/output-format-detection-convention.md"
+    },
+    "over-abstraction-strategy-pattern-for-single-use": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/over-abstraction-strategy-pattern-for-single-use.md"
+    },
+    "overwrite-reason-field": {
+      "category": "api",
+      "path": "knowledge/api/overwrite-reason-field.md"
+    },
+    "package-boundary-hard-rules": {
+      "category": "arch",
+      "path": "knowledge/arch/package-boundary-hard-rules.md"
+    },
+    "packed-fp4-as-int8-aliasing": {
+      "category": "fp8-quantization",
+      "path": "knowledge/fp8-quantization/packed-fp4-as-int8-aliasing.md"
+    },
+    "param-blocklist-for-telemetry": {
+      "category": "reference",
+      "path": "knowledge/reference/param-blocklist-for-telemetry.md"
+    },
+    "paren-natural-language-voice-control": {
+      "category": "voice-design",
+      "path": "knowledge/voice-design/paren-natural-language-voice-control.md"
+    },
+    "pat-vs-jwt-endpoint-parity": {
+      "category": "api",
+      "path": "knowledge/api/pat-vs-jwt-endpoint-parity.md"
+    },
+    "pdl-launch-attribute-vs-cluster-size-interaction": {
+      "category": "gpu-kernels",
+      "path": "knowledge/gpu-kernels/pdl-launch-attribute-vs-cluster-size-interaction.md"
+    },
+    "per-content-type-threshold-system": {
+      "category": "arch",
+      "path": "knowledge/arch/per-content-type-threshold-system.md"
+    },
+    "per-tool-serialization-via-mutex": {
+      "category": "arch",
+      "path": "knowledge/arch/per-tool-serialization-via-mutex.md"
+    },
+    "permission-modes-as-product-primitive": {
+      "category": "architecture",
+      "path": "knowledge/architecture/permission-modes-as-product-primitive.md"
+    },
+    "permission-system-design-peer-config": {
+      "category": "auth",
+      "path": "knowledge/auth/permission-system-design-peer-config.md"
+    },
+    "personal-access-token-prefix-routing": {
+      "category": "decision",
+      "path": "knowledge/decision/personal-access-token-prefix-routing.md"
     }
   }
 }
