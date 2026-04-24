@@ -2409,6 +2409,141 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "goreleaser-cli-homebrew-pipeline": {
+      "category": "devops",
+      "path": "skills/devops/goreleaser-cli-homebrew-pipeline/SKILL.md",
+      "version": "1.0.0"
+    },
+    "gorilla-websocket-hub-rooms": {
+      "category": "websocket",
+      "path": "skills/websocket/gorilla-websocket-hub-rooms/SKILL.md",
+      "version": "1.0.0"
+    },
+    "gpt2-text-steganography-huffman-flc": {
+      "category": "security",
+      "path": "skills/security/gpt2-text-steganography-huffman-flc/SKILL.md",
+      "version": "1.0.0"
+    },
+    "graceful-jsonl-parsing-with-error-skip": {
+      "category": "data-pipeline",
+      "path": "skills/data-pipeline/graceful-jsonl-parsing-with-error-skip/SKILL.md",
+      "version": "1.0.0"
+    },
+    "gradio-spaces-demo-deploy": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/gradio-spaces-demo-deploy/SKILL.md",
+      "version": "1.0.0"
+    },
+    "guardrail-engine-redact-block-audit": {
+      "category": "safety",
+      "path": "skills/safety/guardrail-engine-redact-block-audit/SKILL.md",
+      "version": "1.0.0"
+    },
+    "gui-agent-sft-qwen2vl-os-kairos": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/gui-agent-sft-qwen2vl-os-kairos/SKILL.md",
+      "version": "1.0.0"
+    },
+    "handler-dispatch-pattern-with-tool-callbacks": {
+      "category": "architecture",
+      "path": "skills/architecture/handler-dispatch-pattern-with-tool-callbacks/SKILL.md",
+      "version": "1.0.0"
+    },
+    "handoff-input-filter": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/handoff-input-filter/SKILL.md",
+      "version": "1.0.0"
+    },
+    "handoff-with-typed-input": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/handoff-with-typed-input/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hardware-codec-fallback-strategy": {
+      "category": "codecs",
+      "path": "skills/codecs/hardware-codec-fallback-strategy/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hash-based-worktree-port": {
+      "category": "bun",
+      "path": "skills/bun/hash-based-worktree-port/SKILL.md",
+      "version": "1.0.0"
+    },
+    "healthy-short-circuit-skip-llm": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/healthy-short-circuit-skip-llm/SKILL.md",
+      "version": "1.0.0"
+    },
+    "help": {
+      "category": "meta",
+      "path": "skills/meta/help/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-acp-agent-server": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-acp-agent-server/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-anthropic-prompt-cache-system-and-3": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-anthropic-prompt-cache-system-and-3/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-background-process-registry": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-background-process-registry/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-central-command-registry": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-central-command-registry/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-context-compression-handoff": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-context-compression-handoff/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-credential-pool-failover": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-credential-pool-failover/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-cron-agent-scheduler": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-cron-agent-scheduler/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-dangerous-command-approval-patterns": {
+      "category": "security",
+      "path": "skills/security/hermes-dangerous-command-approval-patterns/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-delegate-subagent": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-delegate-subagent/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-docker-user-remap-volume": {
+      "category": "devops",
+      "path": "skills/devops/hermes-docker-user-remap-volume/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-self-registering-tool-registry": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-self-registering-tool-registry/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-skill-manifest-sync": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-skill-manifest-sync/SKILL.md",
+      "version": "1.0.0"
+    },
+    "hermes-smart-model-routing": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/hermes-smart-model-routing/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4562,98 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "godot-networking": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-networking.md"
+    },
+    "godot-physics": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-physics.md"
+    },
+    "godot-rendering": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-rendering.md"
+    },
+    "godot-ui": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-ui.md"
+    },
+    "godot-version": {
+      "category": "engine",
+      "path": "knowledge/engine/godot-version.md"
+    },
+    "google-production-scale-hundreds-billions": {
+      "category": "domain",
+      "path": "knowledge/domain/google-production-scale-hundreds-billions.md"
+    },
+    "gop-keyframe-interval-strategy": {
+      "category": "codecs",
+      "path": "knowledge/codecs/gop-keyframe-interval-strategy.md"
+    },
+    "guardrail-execution-model": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/guardrail-execution-model.md"
+    },
+    "gui-agent-os-kairos": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/gui-agent-os-kairos.md"
+    },
+    "handoff-vs-agent-as-tool": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/handoff-vs-agent-as-tool.md"
+    },
+    "hardware-codec-feature-matrix": {
+      "category": "codecs",
+      "path": "knowledge/codecs/hardware-codec-feature-matrix.md"
+    },
+    "hermes-acp-session-capabilities": {
+      "category": "reference",
+      "path": "knowledge/reference/hermes-acp-session-capabilities.md"
+    },
+    "hermes-agent-known-pitfalls": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/hermes-agent-known-pitfalls.md"
+    },
+    "hermes-agent-project-structure": {
+      "category": "architecture",
+      "path": "knowledge/architecture/hermes-agent-project-structure.md"
+    },
+    "hermes-atomic-json-checkpoint": {
+      "category": "engineering",
+      "path": "knowledge/engineering/hermes-atomic-json-checkpoint.md"
+    },
+    "hermes-context-engine-plugin-api": {
+      "category": "reference",
+      "path": "knowledge/reference/hermes-context-engine-plugin-api.md"
+    },
+    "hermes-contextvars-session-identity": {
+      "category": "reference",
+      "path": "knowledge/reference/hermes-contextvars-session-identity.md"
+    },
+    "hermes-cron-job-schema": {
+      "category": "reference",
+      "path": "knowledge/reference/hermes-cron-job-schema.md"
+    },
+    "hermes-cross-platform-file-lock": {
+      "category": "engineering",
+      "path": "knowledge/engineering/hermes-cross-platform-file-lock.md"
+    },
+    "hermes-hook-system-yaml-handler": {
+      "category": "reference",
+      "path": "knowledge/reference/hermes-hook-system-yaml-handler.md"
+    },
+    "hermes-profile-isolation-hermes-home": {
+      "category": "reference",
+      "path": "knowledge/reference/hermes-profile-isolation-hermes-home.md"
+    },
+    "hermes-prompt-caching-invariants": {
+      "category": "decision",
+      "path": "knowledge/decision/hermes-prompt-caching-invariants.md"
+    },
+    "hermes-skin-engine-cli-theming": {
+      "category": "reference",
+      "path": "knowledge/reference/hermes-skin-engine-cli-theming.md"
     }
   }
 }
