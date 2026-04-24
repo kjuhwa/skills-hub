@@ -2409,6 +2409,151 @@
       "category": "build",
       "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
       "version": "1.0.0"
+    },
+    "propagate-design-change": {
+      "category": "design",
+      "path": "skills/design/propagate-design-change/SKILL.md",
+      "version": "1.0.0"
+    },
+    "protobuf-message-enum-serde-pattern": {
+      "category": "serialization",
+      "path": "skills/serialization/protobuf-message-enum-serde-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "prototype": {
+      "category": "design",
+      "path": "skills/design/prototype/SKILL.md",
+      "version": "1.0.0"
+    },
+    "provider-agnostic-model": {
+      "category": "integration",
+      "path": "skills/integration/provider-agnostic-model/SKILL.md",
+      "version": "1.0.0"
+    },
+    "provider-registry-plugin-pattern": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/provider-registry-plugin-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "provider-state-management-pattern": {
+      "category": "flutter",
+      "path": "skills/flutter/provider-state-management-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "proxy-mailbox-jsonl-ipc-pattern": {
+      "category": "architecture",
+      "path": "skills/architecture/proxy-mailbox-jsonl-ipc-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "proxy-mailbox-jsonl-pattern": {
+      "category": "architecture",
+      "path": "skills/architecture/proxy-mailbox-jsonl-pattern/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pyannote-speaker-identification": {
+      "category": "speaker-embedding-identification",
+      "path": "skills/speaker-embedding-identification/pyannote-speaker-identification/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pybind11-auto-pyi-stub-generator": {
+      "category": "pytorch-integration",
+      "path": "skills/pytorch-integration/pybind11-auto-pyi-stub-generator/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pydantic-basemodel-deep-copy-versioning": {
+      "category": "config",
+      "path": "skills/config/pydantic-basemodel-deep-copy-versioning/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pydantic-settings-multi-provider-model-envs": {
+      "category": "configuration",
+      "path": "skills/configuration/pydantic-settings-multi-provider-model-envs/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pyinstaller-cuda-onedir-split-archive": {
+      "category": "build-tooling",
+      "path": "skills/build-tooling/pyinstaller-cuda-onedir-split-archive/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pyinstaller-ml-hidden-imports-playbook": {
+      "category": "build-tooling",
+      "path": "skills/build-tooling/pyinstaller-ml-hidden-imports-playbook/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pyinstaller-shim-fake-module": {
+      "category": "build-tooling",
+      "path": "skills/build-tooling/pyinstaller-shim-fake-module/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pypi-testpypi-release-coordination": {
+      "category": "release",
+      "path": "skills/release/pypi-testpypi-release-coordination/SKILL.md",
+      "version": "1.0.0"
+    },
+    "pyproject-strict-ruff-with-per-file-ignores": {
+      "category": "build",
+      "path": "skills/build/pyproject-strict-ruff-with-per-file-ignores/SKILL.md",
+      "version": "1.0.0"
+    },
+    "python-entrypoint-plugin-loader": {
+      "category": "plugin-architecture",
+      "path": "skills/plugin-architecture/python-entrypoint-plugin-loader/SKILL.md",
+      "version": "1.0.0"
+    },
+    "python-rust-client-fallback-with-warning": {
+      "category": "bindings",
+      "path": "skills/bindings/python-rust-client-fallback-with-warning/SKILL.md",
+      "version": "1.0.0"
+    },
+    "python-sandbox-block-network-and-subprocess": {
+      "category": "safety",
+      "path": "skills/safety/python-sandbox-block-network-and-subprocess/SKILL.md",
+      "version": "1.0.0"
+    },
+    "qa-plan": {
+      "category": "qa",
+      "path": "skills/qa/qa-plan/SKILL.md",
+      "version": "1.0.0"
+    },
+    "quartz-metal-gpu-display-capture": {
+      "category": "codecs",
+      "path": "skills/codecs/quartz-metal-gpu-display-capture/SKILL.md",
+      "version": "1.0.0"
+    },
+    "quick-design": {
+      "category": "design",
+      "path": "skills/design/quick-design/SKILL.md",
+      "version": "1.0.0"
+    },
+    "r-judge-agent-safety-evaluation": {
+      "category": "safety",
+      "path": "skills/safety/r-judge-agent-safety-evaluation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "rdev-global-input-hook": {
+      "category": "input",
+      "path": "skills/input/rdev-global-input-hook/SKILL.md",
+      "version": "1.0.0"
+    },
+    "readme-auto-toc-with-markers": {
+      "category": "build-tooling",
+      "path": "skills/build-tooling/readme-auto-toc-with-markers/SKILL.md",
+      "version": "1.0.0"
+    },
+    "receiving-code-review": {
+      "category": "engineering",
+      "path": "skills/engineering/receiving-code-review/SKILL.md",
+      "version": "1.0.0"
+    },
+    "recursive-directory-traversal-cli-option": {
+      "category": "cli",
+      "path": "skills/cli/recursive-directory-traversal-cli-option/SKILL.md",
+      "version": "1.0.0"
+    },
+    "recursive-include-hash-with-circular-detection": {
+      "category": "jit-compilation",
+      "path": "skills/jit-compilation/recursive-include-hash-with-circular-detection/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4427,6 +4572,90 @@
     "craft-cli-command-surface": {
       "category": "reference",
       "path": "knowledge/reference/craft-cli-command-surface.md"
+    },
+    "prompt-learning-techniques": {
+      "category": "llm-fundamentals",
+      "path": "knowledge/llm-fundamentals/prompt-learning-techniques.md"
+    },
+    "protobuf-code-generation-build-rs": {
+      "category": "build-system",
+      "path": "knowledge/build-system/protobuf-code-generation-build-rs.md"
+    },
+    "protocol-version-backward-compat": {
+      "category": "architecture",
+      "path": "knowledge/architecture/protocol-version-backward-compat.md"
+    },
+    "provider-adapter-contract-abstraction-over-codex": {
+      "category": "design",
+      "path": "knowledge/design/provider-adapter-contract-abstraction-over-codex.md"
+    },
+    "provider-contract-layer-zero-sdk-deps": {
+      "category": "arch",
+      "path": "knowledge/arch/provider-contract-layer-zero-sdk-deps.md"
+    },
+    "provider-session-loss-on-client-reconnect": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/provider-session-loss-on-client-reconnect.md"
+    },
+    "proxy-lifecycle-with-authentication": {
+      "category": "architecture",
+      "path": "knowledge/architecture/proxy-lifecycle-with-authentication.md"
+    },
+    "puppeteer-chrome-sandbox-vs-mcp-client-sandbox": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/puppeteer-chrome-sandbox-vs-mcp-client-sandbox.md"
+    },
+    "puppeteer-network-condition-timeout-multipliers": {
+      "category": "reference",
+      "path": "knowledge/reference/puppeteer-network-condition-timeout-multipliers.md"
+    },
+    "pydantic-strict-config-pattern-rationale": {
+      "category": "reference",
+      "path": "knowledge/reference/pydantic-strict-config-pattern-rationale.md"
+    },
+    "pyinstaller-inspect-getsource-pitfall": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/pyinstaller-inspect-getsource-pitfall.md"
+    },
+    "python-build-script-usage": {
+      "category": "build-system",
+      "path": "knowledge/build-system/python-build-script-usage.md"
+    },
+    "qlib-data-pipeline-for-cn-a-share": {
+      "category": "reference",
+      "path": "knowledge/reference/qlib-data-pipeline-for-cn-a-share.md"
+    },
+    "query-generation-for-reflection-loops": {
+      "category": "workflow",
+      "path": "knowledge/workflow/query-generation-for-reflection-loops.md"
+    },
+    "qwen3-transformers-internals-reuse": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/qwen3-transformers-internals-reuse.md"
+    },
+    "random-snippet-selection-augmentation": {
+      "category": "arch",
+      "path": "knowledge/arch/random-snippet-selection-augmentation.md"
+    },
+    "raw-forecast-signals-need-portfolio-optimization": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/raw-forecast-signals-need-portfolio-optimization.md"
+    },
+    "rca-validity-score-design": {
+      "category": "observability",
+      "path": "knowledge/observability/rca-validity-score-design.md"
+    },
+    "redact-network-headers-by-default": {
+      "category": "decision",
+      "path": "knowledge/decision/redact-network-headers-by-default.md"
+    },
+    "redos-in-dns-detector-character-class": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/redos-in-dns-detector-character-class.md"
+    },
+    "register-spill-vs-block-size-tradeoff": {
+      "category": "kernel-heuristics",
+      "path": "knowledge/kernel-heuristics/register-spill-vs-block-size-tradeoff.md"
     }
   }
 }
