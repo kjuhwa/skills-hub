@@ -1882,6 +1882,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "server-state-vs-client-state-split",
+    "slug": "server-state-vs-client-state-split",
+    "category": "arch",
+    "description": "TanStack Query owns all server state; Zustand owns all client state. Never duplicate server data into a store.",
+    "tags": [
+      "react-query",
+      "zustand",
+      "state-management",
+      "frontend",
+      "architecture"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/arch/server-state-vs-client-state-split.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "shallow-clone-mktemp-cleanup-pattern",
     "slug": "shallow-clone-mktemp-cleanup-pattern",
     "category": "arch",
@@ -2040,6 +2058,40 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/architecture/agent-native-software-philosophy.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-as-jsonl-append-only",
+    "slug": "session-as-jsonl-append-only",
+    "category": "architecture",
+    "description": "Rationale for storing agent sessions as append-only JSONL (header line + one message per line) rather than a single JSON blob — fast append writes, cheap header-only scans, atomic message semantics.",
+    "tags": [
+      "jsonl",
+      "append-only",
+      "session-storage",
+      "performance"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/session-as-jsonl-append-only.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-sharing-viewer-design",
+    "slug": "session-sharing-viewer-design",
+    "category": "architecture",
+    "description": "Craft Agents ships a separate apps/viewer Vite app that renders read-only session snapshots shared via agents.craft.do/s/:id — a published-session artifact export with no backend dependency at view time.",
+    "tags": [
+      "session-sharing",
+      "viewer",
+      "read-only",
+      "static-export"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/architecture/session-sharing-viewer-design.md",
     "has_content": true
   },
   {
@@ -2438,6 +2490,23 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/configuration/config-system-four-tiers.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "skill-solidification-markdown-format",
+    "slug": "skill-solidification-markdown-format",
+    "category": "data-pipeline",
+    "description": "Skill format — YAML frontmatter plus markdown body with problem, mechanism, reuse sections",
+    "tags": [
+      "evolver",
+      "data-pipeline",
+      "skill-format",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/data-pipeline/skill-solidification-markdown-format.md",
     "has_content": true
   },
   {
@@ -3420,6 +3489,59 @@
   },
   {
     "kind": "knowledge",
+    "name": "semantic-design-tokens-only",
+    "slug": "semantic-design-tokens-only",
+    "category": "decision",
+    "description": "Use semantic design tokens (bg-background, text-muted-foreground) for all styling — never hardcoded Tailwind colors (text-red-500, bg-gray-100) in view code.",
+    "tags": [
+      "design-tokens",
+      "tailwind",
+      "styling",
+      "dark-mode"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/semantic-design-tokens-only.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "shadcn-base-ui-not-radix",
+    "slug": "shadcn-base-ui-not-radix",
+    "category": "decision",
+    "description": "This monorepo uses shadcn with the Base UI variant (@base-ui/react) not Radix — different primitive library under the same shadcn developer experience.",
+    "tags": [
+      "shadcn",
+      "base-ui",
+      "radix",
+      "ui-library",
+      "components"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/shadcn-base-ui-not-radix.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "shared-postgres-one-db-per-checkout",
+    "slug": "shared-postgres-one-db-per-checkout",
+    "category": "decision",
+    "description": "All worktrees share one PostgreSQL container; isolation happens at the database level, not via separate Compose projects.",
+    "tags": [
+      "postgres",
+      "worktree",
+      "dev-setup",
+      "isolation",
+      "monorepo"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/shared-postgres-one-db-per-checkout.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "single-file-html-for-file-protocol",
     "slug": "single-file-html-for-file-protocol",
     "category": "decision",
@@ -3428,6 +3550,21 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/decision/single-file-html-for-file-protocol.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "single-model-onnx-not-multiple-backends",
+    "slug": "single-model-onnx-not-multiple-backends",
+    "category": "decision",
+    "description": "Magika standardized on one ONNX model rather than maintaining separate per-language backends.",
+    "tags": [
+      "magika",
+      "decision"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/decision/single-model-onnx-not-multiple-backends.md",
     "has_content": true
   },
   {
@@ -3915,6 +4052,57 @@
   },
   {
     "kind": "knowledge",
+    "name": "skill-persuasion-principles",
+    "slug": "skill-persuasion-principles",
+    "category": "engineering",
+    "description": "Apply persuasion psychology (authority, commitment, social proof, scarcity) when designing skills so critical practices survive pressure",
+    "tags": [
+      "superpowers",
+      "engineering"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engineering/skill-persuasion-principles.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-id-window-mapping",
+    "slug": "session-id-window-mapping",
+    "category": "flutter",
+    "description": "Desktop: unique session_id per connection; multi-window mapping via params['window_id'].",
+    "tags": [
+      "flutter",
+      "mapping",
+      "session",
+      "window"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/flutter/session-id-window-mapping.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "shared-memory-barrier-overhead-in-pipelining",
+    "slug": "shared-memory-barrier-overhead-in-pipelining",
+    "category": "gpu-kernels",
+    "description": "Pipeline barriers eat fixed smem — ~16B/stage on SM90 and ~24B/stage+40B on SM100. Ignoring them leads to overshooting the 232KB budget and picking illegal stage counts.",
+    "tags": [
+      "smem",
+      "barriers",
+      "pipeline",
+      "synchronization",
+      "sm90",
+      "sm100"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/gpu-kernels/shared-memory-barrier-overhead-in-pipelining.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "a2a-protocol-agent-to-agent-knowledge-exchange",
     "slug": "a2a-protocol-agent-to-agent-knowledge-exchange",
     "category": "integration",
@@ -3992,6 +4180,25 @@
   },
   {
     "kind": "knowledge",
+    "name": "session-management-model",
+    "slug": "session-management-model",
+    "category": "llm-agents",
+    "description": "How the OpenAI Agents SDK session system manages conversation history across runs — backends, compaction, and integration with Runner.",
+    "tags": [
+      "openai-agents",
+      "sessions",
+      "conversation-history",
+      "multi-turn",
+      "sqlite",
+      "redis"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/llm-agents/session-management-model.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "connection-type-enum-design",
     "slug": "connection-type-enum-design",
     "category": "networking",
@@ -4006,6 +4213,41 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/networking/connection-type-enum-design.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-timeout-constants",
+    "slug": "session-timeout-constants",
+    "category": "networking",
+    "description": "CONNECT_TIMEOUT=10s, READ_TIMEOUT=30s, RELAY_PORT=21115, RENDEZVOUS_PORT=21116.",
+    "tags": [
+      "constants",
+      "networking",
+      "session",
+      "timeout"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/networking/session-timeout-constants.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-key-tuple-design",
+    "slug": "session-key-tuple-design",
+    "category": "patterns",
+    "description": "SessionKey uses (peer_id, conn_id) tuple to isolate concurrent sessions to the same peer.",
+    "tags": [
+      "design",
+      "key",
+      "patterns",
+      "session",
+      "tuple"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/patterns/session-key-tuple-design.md",
     "has_content": true
   },
   {
@@ -5944,6 +6186,23 @@
   },
   {
     "kind": "knowledge",
+    "name": "sentry-source-map-upload-disabled-why",
+    "slug": "sentry-source-map-upload-disabled-why",
+    "category": "pitfall",
+    "description": "Sentry source map upload is intentionally disabled in Craft Agents; re-enabling requires adding @sentry/esbuild-plugin to the main-process build AND keeping the renderer path via @sentry/vite-plugin — two plugins, two builds, two auth tokens.",
+    "tags": [
+      "sentry",
+      "source-maps",
+      "electron",
+      "observability"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/sentry-source-map-upload-disabled-why.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "serial-pipeline-failure-compounding",
     "slug": "serial-pipeline-failure-compounding",
     "category": "pitfall",
@@ -5970,6 +6229,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/pitfall/service-mesh-implementation-pitfall.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-immutability-with-transition-audit",
+    "slug": "session-immutability-with-transition-audit",
+    "category": "pitfall",
+    "description": "Treat AI-assistant sessions as immutable — state changes create new linked sessions with `parent_session_id` + a typed `transition_reason` enum, not in-place mutation, so every transition is auditable.",
+    "tags": [
+      "sessions",
+      "immutability",
+      "state-machine",
+      "audit",
+      "ai-agent"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/session-immutability-with-transition-audit.md",
     "has_content": true
   },
   {
@@ -6681,6 +6958,42 @@
   },
   {
     "kind": "knowledge",
+    "name": "session-gate-check-phase-transition",
+    "slug": "session-gate-check-phase-transition",
+    "category": "process",
+    "description": "Example gate-check session showing phase transition validation from design to production",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "gate-check",
+      "phase-transition",
+      "session-example"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/process/session-gate-check-phase-transition.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-scope-crisis-decision",
+    "slug": "session-scope-crisis-decision",
+    "category": "process",
+    "description": "Example session handling a scope crisis decision with scope-check and stakeholder alignment",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "scope-check",
+      "crisis-management",
+      "session-example"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/process/session-scope-crisis-decision.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "alert-extraction-single-llm-call-pattern",
     "slug": "alert-extraction-single-llm-call-pattern",
     "category": "reference",
@@ -6793,6 +7106,63 @@
   },
   {
     "kind": "knowledge",
+    "name": "sessions-status-workflow",
+    "slug": "sessions-status-workflow",
+    "category": "reference",
+    "description": "Sessions carry a dynamic status (default: Todo → In Progress → Needs Review → Done) stored per-workspace; customizable via statuses/ folder and used by UI + automations (SessionStatusChange event).",
+    "tags": [
+      "sessions",
+      "status",
+      "workflow",
+      "dynamic"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/sessions-status-workflow.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "skill-flow-diagrams",
+    "slug": "skill-flow-diagrams",
+    "category": "reference",
+    "description": "Visual flow diagrams showing how CCGS skills chain together in common workflows",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "skill-flows",
+      "diagrams",
+      "reference",
+      "workflow"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/skill-flow-diagrams.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "skills-hub-external-clone-cache-layout",
+    "slug": "skills-hub-external-clone-cache-layout",
+    "category": "reference",
+    "description": "The oh-my-claudecode skills hub stashes `/hub-import`'s cloned source repo under `~/.claude/skills-hub/external/<sha1(gitUrl).slice(0,10)>/` and puts the extracted drafts in a sibling `<same-hash>.drafts/` directory. Cleanup means removing both; leaving either behind breaks re-run hermeticity.",
+    "tags": [
+      "skills-hub",
+      "oh-my-claudecode",
+      "hub-import",
+      "cache",
+      "cleanup",
+      "sha1",
+      "filesystem-layout",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/skills-hub-external-clone-cache-layout.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "vector-clock-ui-dominance-tri-state-color",
     "slug": "vector-clock-ui-dominance-tri-state-color",
     "category": "reference",
@@ -6801,6 +7171,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/reference/vector-clock-ui-dominance-tri-state-color.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "shield-pattern-mutation-validation",
+    "slug": "shield-pattern-mutation-validation",
+    "category": "safety",
+    "description": "Validate mutations against shield patterns — unsafe regex, resource exhaustion, logic bombs",
+    "tags": [
+      "evolver",
+      "safety",
+      "shield",
+      "static-analysis",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/safety/shield-pattern-mutation-validation.md",
     "has_content": true
   },
   {
@@ -6861,6 +7249,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "skill-test-spec-template",
+    "slug": "skill-test-spec-template",
+    "category": "testing",
+    "description": "Template for writing CCGS skill test specifications (behavioral test format)",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "testing",
+      "template",
+      "skill-spec"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/testing/skill-test-spec-template.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "accept-header-prefer-markdown-over-html",
     "slug": "accept-header-prefer-markdown-over-html",
     "category": "web",
@@ -6915,6 +7321,154 @@
     "has_content": true
   },
   {
+    "kind": "knowledge",
+    "name": "self-pr-mutation-contribution",
+    "slug": "self-pr-mutation-contribution",
+    "category": "workflow",
+    "description": "Auto-create pull requests for mutations back to public repo when confidence and streak thresholds met",
+    "tags": [
+      "evolver",
+      "workflow",
+      "self-pr",
+      "contribution",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/self-pr-mutation-contribution.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-adopt-brownfield",
+    "slug": "session-adopt-brownfield",
+    "category": "workflow",
+    "description": "Example session transcript for adopting and onboarding a brownfield (existing) project",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "adopt",
+      "brownfield",
+      "session-example",
+      "onboarding"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/session-adopt-brownfield.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-design-crafting-system",
+    "slug": "session-design-crafting-system",
+    "category": "workflow",
+    "description": "Example session for designing a crafting system GDD using the design-system skill",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "design-system",
+      "crafting",
+      "session-example"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/session-design-crafting-system.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-design-system-skill",
+    "slug": "session-design-system-skill",
+    "category": "workflow",
+    "description": "Example session demonstrating end-to-end usage of the design-system skill workflow",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "design-system",
+      "session-example",
+      "workflow"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/session-design-system-skill.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-implement-combat-damage",
+    "slug": "session-implement-combat-damage",
+    "category": "workflow",
+    "description": "Example session implementing combat damage mechanics using dev-story and code-review skills",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "dev-story",
+      "combat",
+      "session-example",
+      "implementation"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/session-implement-combat-damage.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-story-lifecycle",
+    "slug": "session-story-lifecycle",
+    "category": "workflow",
+    "description": "End-to-end story lifecycle example: readiness check, implementation, review, and completion",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "story",
+      "lifecycle",
+      "session-example",
+      "dev-story"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/session-story-lifecycle.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "session-ux-pipeline",
+    "slug": "session-ux-pipeline",
+    "category": "workflow",
+    "description": "Example UX pipeline session covering ux-design, ux-review, and implementation handoff",
+    "tags": [
+      "game-studios",
+      "ccgs",
+      "ux-design",
+      "ux-review",
+      "pipeline",
+      "session-example"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/session-ux-pipeline.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "skill-publisher-to-hub",
+    "slug": "skill-publisher-to-hub",
+    "category": "workflow",
+    "description": "Extract reusable skills from successful genes/capsules and publish to EvoMap Hub",
+    "tags": [
+      "evolver",
+      "workflow",
+      "skill-publishing",
+      "hub",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/skill-publisher-to-hub.md",
+    "has_content": true
+  },
+  {
     "kind": "skill",
     "name": "adopt",
     "slug": "adopt",
@@ -6964,6 +7518,42 @@
   },
   {
     "kind": "skill",
+    "name": "setup-engine",
+    "slug": "setup-engine",
+    "category": "",
+    "description": "\"Configure the project's game engine and version. Pins the engine in CLAUDE.md, detects knowledge gaps, and populates engine reference docs via WebSearch when the version is beyond the LLM's training data.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/setup-engine",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "skill-improve",
+    "slug": "skill-improve",
+    "category": "",
+    "description": "\"Improve a skill using a test-fix-retest loop. Runs static checks, proposes targeted fixes, rewrites the skill, re-tests, and keeps or reverts based on score change.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/meta/skill-improve",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "skill-test",
+    "slug": "skill-test",
+    "category": "",
+    "description": "\"Validate skill files for structural compliance and behavioral correctness. Three modes: static (linter), spec (behavioral), audit (coverage report).\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/meta/skill-test",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "alert-time-window-with-buffer",
     "slug": "alert-time-window-with-buffer",
     "category": "agent-sdk",
@@ -6994,6 +7584,23 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/agent-sdk/claude-agent-sdk-multi-provider-bridge",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "skill-frontmatter-gray-matter",
+    "slug": "skill-frontmatter-gray-matter",
+    "category": "agent-sdk",
+    "description": "Store Claude-style Agent Skills as SKILL.md with YAML frontmatter (name, description, icon, requiredSources) parsed with gray-matter and a normalization pass that accepts both string and array values.",
+    "tags": [
+      "skills",
+      "frontmatter",
+      "gray-matter",
+      "yaml"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/skill-frontmatter-gray-matter",
     "has_content": false
   },
   {
@@ -11071,6 +11678,24 @@
   },
   {
     "kind": "skill",
+    "name": "self-spawning-server-cli-harness",
+    "slug": "self-spawning-server-cli-harness",
+    "category": "cli",
+    "description": "A single 'cli run' command that spawns its own headless server subprocess, reads stdout until it sees a readiness sentinel with the URL, runs the test, and tears the server down — eliminating \"start server in one terminal, connect in another\" friction.",
+    "tags": [
+      "cli",
+      "subprocess",
+      "bun",
+      "self-contained",
+      "testing"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/cli/self-spawning-server-cli-harness",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "setup-browser-cookies",
     "slug": "setup-browser-cookies",
     "category": "cli",
@@ -11203,6 +11828,23 @@
     "version": "1.0.0",
     "path": "skills/data/content-type-info-metadata-embedding",
     "has_content": true
+  },
+  {
+    "kind": "skill",
+    "name": "session-archival-with-rotation",
+    "slug": "session-archival-with-rotation",
+    "category": "data-pipeline",
+    "description": "Archive old sessions when count exceeds threshold, keep N most recent",
+    "tags": [
+      "evolver",
+      "data-pipeline",
+      "rotation",
+      "retention"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/data-pipeline/session-archival-with-rotation",
+    "has_content": false
   },
   {
     "kind": "skill",
@@ -12801,6 +13443,24 @@
   },
   {
     "kind": "skill",
+    "name": "self-signed-ec-dev-cert",
+    "slug": "self-signed-ec-dev-cert",
+    "category": "devops",
+    "description": "One-shell-line ECDSA (P-256) self-signed cert + key for local wss:// development using openssl's prime256v1 curve.",
+    "tags": [
+      "tls",
+      "dev-cert",
+      "openssl",
+      "websocket",
+      "ecdsa"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/devops/self-signed-ec-dev-cert",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "skill-md-validator",
     "slug": "skill-md-validator",
     "category": "devops",
@@ -12968,6 +13628,23 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/docs/ubiquitous-language",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "simplicity-first-minimum-viable-code",
+    "slug": "simplicity-first-minimum-viable-code",
+    "category": "engineering",
+    "description": "Write the minimum code that solves the stated problem. No speculative features, no abstractions for single-use code, no error handling for impossible scenarios. Use for any implementation task.",
+    "tags": [
+      "simplicity",
+      "yagni",
+      "anti-overengineering",
+      "code-review"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/engineering/simplicity-first-minimum-viable-code",
     "has_content": false
   },
   {
@@ -13641,6 +14318,25 @@
   },
   {
     "kind": "skill",
+    "name": "signal-aware-external-command-exit-code",
+    "slug": "signal-aware-external-command-exit-code",
+    "category": "jit-compilation",
+    "description": "Wrap `popen`/`pclose` so that a child killed by Ctrl+C (SIGINT) returns a non-zero code (`128 + sig`) instead of silently succeeding — because `WEXITSTATUS` returns 0 on signal-terminated processes.",
+    "tags": [
+      "popen",
+      "subprocess",
+      "signal-handling",
+      "error-handling",
+      "waitstatus",
+      "posix"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/jit-compilation/signal-aware-external-command-exit-code",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "agent-handoff-routing",
     "slug": "agent-handoff-routing",
     "category": "llm-agents",
@@ -13672,6 +14368,41 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/llm-agents/agents-as-tools",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "sft-reasoning-distillation-deepmath",
+    "slug": "sft-reasoning-distillation-deepmath",
+    "category": "llm-agents",
+    "description": "Distill math reasoning from DeepSeek-R1 traces into Qwen2.5-Math-1.5B via SFT on DeepMath-103K.",
+    "tags": [
+      "sft",
+      "distillation",
+      "math-reasoning",
+      "deepseek-r1"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/sft-reasoning-distillation-deepmath",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "session-scoped-mcp-stdio-server",
+    "slug": "session-scoped-mcp-stdio-server",
+    "category": "mcp-integration",
+    "description": "Ship a per-session MCP stdio server bundled as CJS that provides session-scoped tools (SubmitPlan, config_validate) and uses stderr __CALLBACK__ lines to pause execution for async host-process callbacks.",
+    "tags": [
+      "mcp",
+      "stdio",
+      "codex",
+      "callbacks",
+      "session-scope"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/mcp-integration/session-scoped-mcp-stdio-server",
     "has_content": false
   },
   {
@@ -13740,6 +14471,43 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/ml-ops/chunked-tts-with-crossfade",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "sequential-two-phase-training-orchestrator",
+    "slug": "sequential-two-phase-training-orchestrator",
+    "category": "ml-ops",
+    "description": "Drive a two-phase training pipeline (e.g. tokenizer then predictor) with one command, CLI skip flags, and auto-skip if an earlier phase's best_model already exists.",
+    "tags": [
+      "training-pipeline",
+      "orchestrator",
+      "cli",
+      "resume",
+      "skip-existing",
+      "ml-workflow"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/sequential-two-phase-training-orchestrator",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "serial-gpu-generation-queue",
+    "slug": "serial-gpu-generation-queue",
+    "category": "ml-ops",
+    "description": "Serialize ML inference jobs through an asyncio queue so a single GPU cannot be starved or OOM'd by concurrent requests.",
+    "tags": [
+      "asyncio",
+      "gpu",
+      "queue",
+      "inference",
+      "concurrency"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/ml-ops/serial-gpu-generation-queue",
     "has_content": false
   },
   {
@@ -13847,6 +14615,23 @@
   },
   {
     "kind": "skill",
+    "name": "session-id-uuid-management",
+    "slug": "session-id-uuid-management",
+    "category": "patterns",
+    "description": "UUID-typed SessionID with RwLock<HashMap<SessionID, Session>> for multi-window tracking.",
+    "tags": [
+      "management",
+      "patterns",
+      "session",
+      "uuid"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/patterns/session-id-uuid-management",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "a11y-tree-snapshot-with-uids",
     "slug": "a11y-tree-snapshot-with-uids",
     "category": "puppeteer",
@@ -13910,6 +14695,22 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/refactor/request-refactor-plan",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "semver-parser-and-bumper",
+    "slug": "semver-parser-and-bumper",
+    "category": "release",
+    "description": "Parse semantic version strings and bump major/minor/patch components",
+    "tags": [
+      "evolver",
+      "release",
+      "semver"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/release/semver-parser-and-bumper",
     "has_content": false
   },
   {
@@ -14137,6 +14938,61 @@
     "version": "1.0.0",
     "path": "skills/security/openssl-4-migration-checklist",
     "has_content": true
+  },
+  {
+    "kind": "skill",
+    "name": "sentry-beforesend-scrub-secrets",
+    "slug": "sentry-beforesend-scrub-secrets",
+    "category": "security",
+    "description": "Sentry beforeSend hook that strips authorization headers and any breadcrumb data field whose key name looks like a credential (token/key/secret/password/credential/auth) before events leave the client.",
+    "tags": [
+      "sentry",
+      "pii",
+      "secrets",
+      "telemetry",
+      "scrubbing"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/security/sentry-beforesend-scrub-secrets",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "sha256-download-verification-pipeline",
+    "slug": "sha256-download-verification-pipeline",
+    "category": "security",
+    "description": "Download a binary and verify it against an expected SHA-256 checksum before use. Supports per-architecture checksums, optional verification skip when hash is empty (with warning), and clear error messages with both expected and actual values.",
+    "tags": [
+      "sha256",
+      "checksum",
+      "download",
+      "security",
+      "verification",
+      "bash",
+      "build"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/security/sha256-download-verification-pipeline",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "serde-json-config-serialization",
+    "slug": "serde-json-config-serialization",
+    "category": "serialization",
+    "description": "serde_json for dynamic configuration serialization with schema validation via protobuf.",
+    "tags": [
+      "config",
+      "json",
+      "serde",
+      "serialization"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/serialization/serde-json-config-serialization",
+    "has_content": false
   },
   {
     "kind": "skill",
@@ -15895,6 +16751,23 @@
     "triggers": "",
     "version": "1.0.0",
     "path": "skills/workflow/sidecar-proxy-data-simulation",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "skill-distiller-from-evolution-patterns",
+    "slug": "skill-distiller-from-evolution-patterns",
+    "category": "workflow",
+    "description": "Extract reusable skill templates from successful evolution patterns and metadata",
+    "tags": [
+      "evolver",
+      "workflow",
+      "skill-extraction",
+      "meta-learning"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/workflow/skill-distiller-from-evolution-patterns",
     "has_content": false
   },
   {
