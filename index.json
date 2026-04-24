@@ -243,6 +243,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "slug-first-id-fallback-resolver",
+    "slug": "slug-first-id-fallback-resolver",
+    "category": "api",
+    "description": "Resolve multi-tenant identity from slug first (header or query), fall back to UUID for CLI/daemon/legacy clients, collapse \"invalid slug\" distinctly from \"no identifier\" for proper 400 vs 404 responses.",
+    "tags": [
+      "multi-tenancy",
+      "middleware",
+      "resolver",
+      "slug",
+      "uuid"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/api/slug-first-id-fallback-resolver.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "stomp-heartbeat-10s-bidirectional",
     "slug": "stomp-heartbeat-10s-bidirectional",
     "category": "api",
@@ -257,6 +275,21 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/api/stomp-heartbeat-10s-bidirectional.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "stream-seeking-and-position-preservation",
+    "slug": "stream-seeking-and-position-preservation",
+    "category": "api",
+    "description": "identify_stream() seeks around the stream for feature extraction but restores the original position before returning.",
+    "tags": [
+      "magika",
+      "api"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/api/stream-seeking-and-position-preservation.md",
     "has_content": true
   },
   {
@@ -1933,6 +1966,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/arch/sirius-wraps-antd-design-system.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "storage-adapter-for-platform-neutrality",
+    "slug": "storage-adapter-for-platform-neutrality",
+    "category": "arch",
+    "description": "Shared packages depend on a StorageAdapter interface, not on localStorage — each platform injects its own adapter (browser localStorage, Electron store, in-memory for tests).",
+    "tags": [
+      "storage",
+      "cross-platform",
+      "adapter",
+      "electron",
+      "testing"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/arch/storage-adapter-for-platform-neutrality.md",
     "has_content": true
   },
   {
@@ -3915,6 +3966,21 @@
   },
   {
     "kind": "knowledge",
+    "name": "superpowers-skill-testing-guide",
+    "slug": "superpowers-skill-testing-guide",
+    "category": "engineering",
+    "description": "Integration testing approach for Claude Code skills using subagents and the Stable Superpowers Skill Integration Testing pattern",
+    "tags": [
+      "superpowers",
+      "engineering"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/engineering/superpowers-skill-testing-guide.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "a2a-protocol-agent-to-agent-knowledge-exchange",
     "slug": "a2a-protocol-agent-to-agent-knowledge-exchange",
     "category": "integration",
@@ -3992,6 +4058,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "streaming-events-guide",
+    "slug": "streaming-events-guide",
+    "category": "llm-agents",
+    "description": "How streaming works in the OpenAI Agents SDK — event types, completion semantics, approval integration, and cancellation.",
+    "tags": [
+      "openai-agents",
+      "streaming",
+      "events",
+      "run-item-events",
+      "raw-response-events"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/llm-agents/streaming-events-guide.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "connection-type-enum-design",
     "slug": "connection-type-enum-design",
     "category": "networking",
@@ -4006,6 +4090,23 @@
     "triggers": [],
     "version": "",
     "path": "knowledge/networking/connection-type-enum-design.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "speculative-decoding-acceptance-length-metric",
+    "slug": "speculative-decoding-acceptance-length-metric",
+    "category": "observability",
+    "description": "Acceptance length is the single number you track to know whether speculative decoding is paying off — mean accepted tokens per target verify step, bounded by block_size.",
+    "tags": [
+      "speculative-decoding",
+      "metrics",
+      "throughput",
+      "acceptance"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/observability/speculative-decoding-acceptance-length-metric.md",
     "has_content": true
   },
   {
@@ -6094,6 +6195,23 @@
   },
   {
     "kind": "knowledge",
+    "name": "slim-surface-prevents-lookalike-tool-flags",
+    "slug": "slim-surface-prevents-lookalike-tool-flags",
+    "category": "pitfall",
+    "description": "In slim MCP mode, category and experimental flags that control the full tool surface should be *deleted* from the CLI surface, not passed with a default — otherwise users try to enable features that slim mode doesn't support and get confusing errors.",
+    "tags": [
+      "mcp",
+      "slim",
+      "cli",
+      "feature-flags"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/slim-surface-prevents-lookalike-tool-flags.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "snmp-ifindex-not-stable",
     "slug": "snmp-ifindex-not-stable",
     "category": "pitfall",
@@ -6166,6 +6284,18 @@
   },
   {
     "kind": "knowledge",
+    "name": "spawn-stdout-chunk-boundary-data-loss",
+    "slug": "spawn-stdout-chunk-boundary-data-loss",
+    "category": "pitfall",
+    "description": "`child.stdout.on('data', d => d.split('\\n'))` silently drops records that span chunk boundaries; large NDJSON events (especially stream-json result with usage/cost) get split by pipe-buffer fills (~64 KB) and both halves fail JSON.parse.",
+    "tags": "",
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/spawn-stdout-chunk-boundary-data-loss.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "spec-excluded-from-jest",
     "slug": "spec-excluded-from-jest",
     "category": "pitfall",
@@ -6180,6 +6310,22 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/pitfall/spec-excluded-from-jest.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "speculative-feature-flags-before-use-case",
+    "slug": "speculative-feature-flags-before-use-case",
+    "category": "pitfall",
+    "description": "\"Save preferences\" becomes a PreferenceManager with cache, validator, merge, notify options. Every unused flag is speculative complexity — write only what was asked and add the rest when a real requirement appears.",
+    "tags": [
+      "yagni",
+      "speculative-features",
+      "over-parameterization"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/speculative-feature-flags-before-use-case.md",
     "has_content": true
   },
   {
@@ -6251,6 +6397,23 @@
   },
   {
     "kind": "knowledge",
+    "name": "stale-pid-file-requires-liveness-probe",
+    "slug": "stale-pid-file-requires-liveness-probe",
+    "category": "pitfall",
+    "description": "A daemon's PID file can outlive its process when the daemon crashes or is SIGKILLed; trust it only after probing the process with `kill(pid, 0)` which throws ESRCH if the process is gone.",
+    "tags": [
+      "daemon",
+      "pid-file",
+      "liveness",
+      "crash-recovery"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/stale-pid-file-requires-liveness-probe.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "static-value-injection-race-condition",
     "slug": "static-value-injection-race-condition",
     "category": "pitfall",
@@ -6270,6 +6433,24 @@
   },
   {
     "kind": "knowledge",
+    "name": "stdio-transport-stderr-for-console-messages",
+    "slug": "stdio-transport-stderr-for-console-messages",
+    "category": "pitfall",
+    "description": "MCP stdio transport uses stdout for the JSON-RPC protocol, so any `console.log` from your server code corrupts the stream; always `console.error` for diagnostic output, and even then reserve it for actual diagnostics users need to see.",
+    "tags": [
+      "mcp",
+      "stdio",
+      "stderr",
+      "stdout",
+      "protocol-corruption"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/stdio-transport-stderr-for-console-messages.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "strangler-fig-implementation-pitfall",
     "slug": "strangler-fig-implementation-pitfall",
     "category": "pitfall",
@@ -6278,6 +6459,22 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/pitfall/strangler-fig-implementation-pitfall.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "style-drift-during-small-feature-addition",
+    "slug": "style-drift-during-small-feature-addition",
+    "category": "pitfall",
+    "description": "Adding logging to a function shouldn't flip single quotes to double, add type hints, rewrite docstrings, or reorganize blocks. Match the existing style, even if you'd do it differently.",
+    "tags": [
+      "style-consistency",
+      "diff-hygiene",
+      "surgical-changes"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/pitfall/style-drift-during-small-feature-addition.md",
     "has_content": true
   },
   {
@@ -6793,6 +6990,23 @@
   },
   {
     "kind": "knowledge",
+    "name": "source-types-catalog",
+    "slug": "source-types-catalog",
+    "category": "reference",
+    "description": "The three source types Craft Agents can connect to (MCP server, REST API, local folder) with common providers pre-configured (Gmail, Calendar, Drive, YouTube, Slack, Microsoft, Obsidian, filesystem).",
+    "tags": [
+      "sources",
+      "mcp",
+      "api",
+      "integrations"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/reference/source-types-catalog.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
     "name": "vector-clock-ui-dominance-tri-state-color",
     "slug": "vector-clock-ui-dominance-tri-state-color",
     "category": "reference",
@@ -6820,6 +7034,24 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "knowledge/schema-design/identifier-regex-loose-when-legacy-coexists.md",
+    "has_content": true
+  },
+  {
+    "kind": "knowledge",
+    "name": "streaming-prefix-len-window",
+    "slug": "streaming-prefix-len-window",
+    "category": "streaming",
+    "description": "streaming_prefix_len (default 4) controls the overlap window used to avoid boundary artifacts in streaming TTS chunk output",
+    "tags": [
+      "streaming",
+      "tts",
+      "audio",
+      "latency",
+      "chunking"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/streaming/streaming-prefix-len-window.md",
     "has_content": true
   },
   {
@@ -6915,6 +7147,24 @@
     "has_content": true
   },
   {
+    "kind": "knowledge",
+    "name": "solidify-workflow-test-and-promote",
+    "slug": "solidify-workflow-test-and-promote",
+    "category": "workflow",
+    "description": "Solidify workflow — write candidate prompt, run canary test, validate, promote to assets",
+    "tags": [
+      "evolver",
+      "workflow",
+      "canary",
+      "promotion",
+      "reference"
+    ],
+    "triggers": [],
+    "version": "",
+    "path": "knowledge/workflow/solidify-workflow-test-and-promote.md",
+    "has_content": true
+  },
+  {
     "kind": "skill",
     "name": "adopt",
     "slug": "adopt",
@@ -6964,6 +7214,90 @@
   },
   {
     "kind": "skill",
+    "name": "smoke-check",
+    "slug": "smoke-check",
+    "category": "",
+    "description": "\"Run the critical path smoke test gate before QA hand-off. Executes the automated test suite, verifies core functionality, and produces a PASS/FAIL report. Run after a sprint's stories are implemented and before manual QA begins. A failed smoke check means the build is not ready for QA.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/qa/smoke-check",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "soak-test",
+    "slug": "soak-test",
+    "category": "",
+    "description": "\"Generate a soak test protocol for extended play sessions. Defines what to observe, measure, and log during long play sessions to surface slow leaks, fatigue effects, and edge cases that only appear after sustained play. Primarily used in Polish and Release phases.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/qa/soak-test",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "sprint-plan",
+    "slug": "sprint-plan",
+    "category": "",
+    "description": "\"Generates a new sprint plan or updates an existing one based on the current milestone, completed work, and available capacity. Pulls context from production documents and design backlogs.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/sprint-plan",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "sprint-status",
+    "slug": "sprint-status",
+    "category": "",
+    "description": "\"Fast sprint status check. Reads the current sprint plan, scans story files for status, and produces a concise progress snapshot with burndown assessment and emerging risks. Run at any time during a sprint for quick situational awareness. Use when user asks 'how is the sprint going', 'sprint update', 'show sprint progress'.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/sprint-status",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "start",
+    "slug": "start",
+    "category": "",
+    "description": "\"First-time onboarding — asks where you are, then guides you to the right workflow. No assumptions.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/start",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "story-done",
+    "slug": "story-done",
+    "category": "",
+    "description": "\"End-of-story completion review. Reads the story file, verifies each acceptance criterion against the implementation, checks for GDD/ADR deviations, prompts code review, updates story status to Complete, and surfaces the next ready story from the sprint.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/story-done",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "story-readiness",
+    "slug": "story-readiness",
+    "category": "",
+    "description": "\"Validate that a story file is implementation-ready. Checks for embedded GDD requirements, ADR references, engine notes, clear acceptance criteria, and no open design questions. Produces READY / NEEDS WORK / BLOCKED verdict with specific gaps. Use when user says 'is this story ready', 'can I start on this story', 'is story X ready to implement'.\"",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/production/story-readiness",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "alert-time-window-with-buffer",
     "slug": "alert-time-window-with-buffer",
     "category": "agent-sdk",
@@ -6994,6 +7328,58 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/agent-sdk/claude-agent-sdk-multi-provider-bridge",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "source-detection-from-alert-annotations",
+    "slug": "source-detection-from-alert-annotations",
+    "category": "agent-sdk",
+    "description": "Auto-detect which observability backends to query for a given alert by scanning annotations + raw payload for source-specific keys (cloudwatch_log_group, s3_bucket, lambda_function, eks_cluster) plus URL-based heuristics on externalURL/generatorURL.",
+    "tags": [
+      "alert-routing",
+      "multi-source",
+      "observability",
+      "planner"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/source-detection-from-alert-annotations",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "strip-claudecode-env-for-nested-spawn",
+    "slug": "strip-claudecode-env-for-nested-spawn",
+    "category": "agent-sdk",
+    "description": "When spawning a Claude Agent SDK subprocess from within another Claude Code / Agent SDK context, the SDK's nesting guard will reject the child unless you strip CLAUDECODE from the inherited env.",
+    "tags": [
+      "claude-agent-sdk",
+      "subprocess",
+      "nesting",
+      "env-vars"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/strip-claudecode-env-for-nested-spawn",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "structured-output-json-fallback-extractor",
+    "slug": "structured-output-json-fallback-extractor",
+    "category": "agent-sdk",
+    "description": "Wrap LLM calls in a structured-output adapter that injects the Pydantic schema into the prompt, then extracts JSON from the response by trying direct parse → fenced-block strip → object regex → array regex, with a \"single field\" fallback for models that return just the array.",
+    "tags": [
+      "structured-output",
+      "llm",
+      "json-extraction",
+      "pydantic",
+      "schema"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agent-sdk/structured-output-json-fallback-extractor",
     "has_content": false
   },
   {
@@ -7082,6 +7468,23 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/agents/coding-agent-cli-backend-interface",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "streaming-agent-response",
+    "slug": "streaming-agent-response",
+    "category": "agents",
+    "description": "Stream agent output token-by-token or item-by-item using Runner.run_streamed().",
+    "tags": [
+      "openai-agents",
+      "streaming",
+      "sse",
+      "run-streamed"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/agents/streaming-agent-response",
     "has_content": false
   },
   {
@@ -7608,6 +8011,25 @@
   },
   {
     "kind": "skill",
+    "name": "sse-event-buffer-reconnect",
+    "slug": "sse-event-buffer-reconnect",
+    "category": "api",
+    "description": "Buffer SSE events per conversation with a TTL that resets on every new event and a max-per-conversation cap, so reconnects during EventSource auto-retry replay cleanly without losing `tool_result` chunks.",
+    "tags": [
+      "sse",
+      "server-sent-events",
+      "reconnect",
+      "buffer",
+      "streaming",
+      "react"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/api/sse-event-buffer-reconnect",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "eclipse-rcp-rich-client-for-apm-ui",
     "slug": "eclipse-rcp-rich-client-for-apm-ui",
     "category": "apm",
@@ -8111,6 +8533,23 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/architecture/accepts-then-convert-two-phase-dispatch",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "stateless-streamable-http-mcp",
+    "slug": "stateless-streamable-http-mcp",
+    "category": "architecture",
+    "description": "Use StreamableHTTPServerTransport with sessionIdGenerator:undefined to serve MCP over HTTP without session affinity — multiple subprocess clients share one server, every request is independent.",
+    "tags": [
+      "mcp",
+      "http",
+      "stateless",
+      "streamable-http"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/architecture/stateless-streamable-http-mcp",
     "has_content": false
   },
   {
@@ -10018,6 +10457,18 @@
   },
   {
     "kind": "skill",
+    "name": "stream-json-line-buffer-across-chunks",
+    "slug": "stream-json-line-buffer-across-chunks",
+    "category": "backend",
+    "description": "When spawning a CLI that emits stream-json (one JSON per newline), buffer stdout across 'data' events and only parse on newline to avoid losing records that straddle pipe-buffer boundaries.",
+    "tags": "",
+    "triggers": "",
+    "version": "1.0.0",
+    "path": "skills/backend/stream-json-line-buffer-across-chunks",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "tenant-context-try-finally-on-worker",
     "slug": "tenant-context-try-finally-on-worker",
     "category": "backend",
@@ -10288,6 +10739,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/build-system/cmake-cuda-extension-with-git-submodule-vendoring",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "strip-cwd-env-boot",
+    "slug": "strip-cwd-env-boot",
+    "category": "bun",
+    "description": "Strip Bun's auto-loaded CWD `.env` keys (and nested Claude Code session markers) at entry-point boot before any module reads env at init time.",
+    "tags": [
+      "bun",
+      "dotenv",
+      "entrypoint",
+      "process-env",
+      "isolation"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/bun/strip-cwd-env-boot",
     "has_content": false
   },
   {
@@ -11156,6 +11625,23 @@
   },
   {
     "kind": "skill",
+    "name": "stdin-or-arg-flexible-cli-input",
+    "slug": "stdin-or-arg-flexible-cli-input",
+    "category": "cli",
+    "description": "Accept the same CLI arg either as a trailing positional or piped from stdin, with a --stdin flag to force-read even when a positional is present — the UNIX pipe-friendly default.",
+    "tags": [
+      "cli",
+      "stdin",
+      "unix-pipes",
+      "ergonomics"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/cli/stdin-or-arg-flexible-cli-input",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "unfreeze",
     "slug": "unfreeze",
     "category": "cli",
@@ -11187,6 +11673,41 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/codecs/android-mediacodec-jni-wrapper",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "strategy-preset-weight-table",
+    "slug": "strategy-preset-weight-table",
+    "category": "configuration",
+    "description": "When an autonomous loop has to pick between multiple intent classes each iteration (innovate / optimize / repair / …), expose them as a small set of named presets with explicit percentage weights, let one env var flip between presets, and document the use-case-per-preset in the same table operators read.",
+    "tags": [
+      "strategy",
+      "presets",
+      "weighted-choice",
+      "env-config",
+      "autonomous-loop"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/configuration/strategy-preset-weight-table",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "strict-pydantic-config-with-suggestions",
+    "slug": "strict-pydantic-config-with-suggestions",
+    "category": "configuration",
+    "description": "Forbid unknown fields on every config model and reject misspellings with a \"did you mean ...\" suggestion drawn from difflib.get_close_matches, while stripping whitespace from all string values automatically.",
+    "tags": [
+      "pydantic",
+      "validation",
+      "fail-fast",
+      "config"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/configuration/strict-pydantic-config-with-suggestions",
     "has_content": false
   },
   {
@@ -12853,6 +13374,24 @@
   },
   {
     "kind": "skill",
+    "name": "sqlc-go-postgres-codegen",
+    "slug": "sqlc-go-postgres-codegen",
+    "category": "devops",
+    "description": "Generate typed Go database access code from SQL files and migrations using sqlc — one source of truth per query, no ORM runtime overhead.",
+    "tags": [
+      "go",
+      "postgres",
+      "sqlc",
+      "codegen",
+      "pgx"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/devops/sqlc-go-postgres-codegen",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "triple-env-file-split-loader",
     "slug": "triple-env-file-split-loader",
     "category": "devops",
@@ -12968,6 +13507,62 @@
     "triggers": [],
     "version": "0.1.0-draft",
     "path": "skills/docs/ubiquitous-language",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "stale-singleton-lock-cleanup",
+    "slug": "stale-singleton-lock-cleanup",
+    "category": "electron-packaging",
+    "description": "Detect a stale Electron SingletonLock symlink by reading its PID target and checking process liveness with kill -0. Remove the lock if the owning process is gone. Prevents silent launch failures after crashes or unclean shutdowns.",
+    "tags": [
+      "electron",
+      "singleton",
+      "lock",
+      "launcher",
+      "bash",
+      "process",
+      "startup"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/electron-packaging/stale-singleton-lock-cleanup",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "spa-fallback-fastapi-mount",
+    "slug": "spa-fallback-fastapi-mount",
+    "category": "fastapi",
+    "description": "Serve a built Vite/React SPA from FastAPI with asset mounting, catch-all routing, and path-traversal protection.",
+    "tags": [
+      "fastapi",
+      "spa",
+      "static-files",
+      "security",
+      "routing"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/fastapi/spa-fallback-fastapi-mount",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "sse-throttled-progress-manager",
+    "slug": "sse-throttled-progress-manager",
+    "category": "fastapi",
+    "description": "Stream download / generation progress over Server-Sent Events with per-model throttling and thread-safe updates from background workers.",
+    "tags": [
+      "fastapi",
+      "sse",
+      "progress",
+      "asyncio",
+      "threading"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/fastapi/sse-throttled-progress-manager",
     "has_content": false
   },
   {
@@ -13577,6 +14172,57 @@
   },
   {
     "kind": "skill",
+    "name": "sparse-text-data-utf8-detection-fallback",
+    "slug": "sparse-text-data-utf8-detection-fallback",
+    "category": "inference",
+    "description": "For files smaller than min_file_size_for_dl (e.g. 8 bytes), bypass the model and classify by UTF-8 validity → text or unknown.",
+    "tags": [
+      "magika",
+      "inference"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/inference/sparse-text-data-utf8-detection-fallback",
+    "has_content": true
+  },
+  {
+    "kind": "skill",
+    "name": "static-preallocated-kv-cache",
+    "slug": "static-preallocated-kv-cache",
+    "category": "inference",
+    "description": "Static KV cache pre-allocated for all transformer layers, filled incrementally during generation",
+    "tags": [
+      "kv-cache",
+      "inference",
+      "transformer",
+      "memory",
+      "pytorch"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/inference/static-preallocated-kv-cache",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "streaming-tts-prefix-overlap-chunks",
+    "slug": "streaming-tts-prefix-overlap-chunks",
+    "category": "inference",
+    "description": "Streaming TTS via overlapping audio chunks windowed by streaming_prefix_len to avoid boundary artifacts",
+    "tags": [
+      "streaming",
+      "tts",
+      "audio",
+      "generator",
+      "inference"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/inference/streaming-tts-prefix-overlap-chunks",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "a2a-protocol-with-hello-publish-decision",
     "slug": "a2a-protocol-with-hello-publish-decision",
     "category": "integration",
@@ -13641,6 +14287,24 @@
   },
   {
     "kind": "skill",
+    "name": "smem-capacity-aware-pipeline-staging",
+    "slug": "smem-capacity-aware-pipeline-staging",
+    "category": "kernel-heuristics",
+    "description": "Derive the number of pipeline stages from the remaining shared memory after fixed overheads, clamp to the arch max, and reject under-staged configs that cannot hide TMA latency.",
+    "tags": [
+      "shared-memory",
+      "pipeline",
+      "smem-layout",
+      "gpu-optimization",
+      "latency-hiding"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/kernel-heuristics/smem-capacity-aware-pipeline-staging",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "agent-handoff-routing",
     "slug": "agent-handoff-routing",
     "category": "llm-agents",
@@ -13672,6 +14336,36 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/llm-agents/agents-as-tools",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "subagent-driven-development",
+    "slug": "subagent-driven-development",
+    "category": "llm-agents",
+    "description": "Use when executing implementation plans with independent tasks in the current session",
+    "tags": [],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/llm-agents/subagent-driven-development",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "slim-tool-variant",
+    "slug": "slim-tool-variant",
+    "category": "mcp",
+    "description": "Ship a \"slim\" alternate tool set selectable by a single CLI flag to give context-budget-sensitive clients a drastically smaller prompt surface while keeping the full-featured set available.",
+    "tags": [
+      "mcp",
+      "tool-design",
+      "context-window",
+      "prompt-size",
+      "configuration"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/mcp/slim-tool-variant",
     "has_content": false
   },
   {
@@ -13826,6 +14520,79 @@
   },
   {
     "kind": "skill",
+    "name": "speculative-decoding-acceptance-histogram",
+    "slug": "speculative-decoding-acceptance-histogram",
+    "category": "observability",
+    "description": "Summarize speculative decoding runs with baseline vs spec throughput, speedup ratio, mean acceptance length, and a per-bucket acceptance-length histogram.",
+    "tags": [
+      "speculative-decoding",
+      "benchmark",
+      "metrics",
+      "throughput",
+      "histogram"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/observability/speculative-decoding-acceptance-histogram",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "sse-stream-parser-langgraph-events",
+    "slug": "sse-stream-parser-langgraph-events",
+    "category": "observability",
+    "description": "Parse a LangGraph /runs/stream SSE response into typed StreamEvent objects, extracting node name from both updates-mode (top-level key) and events-mode (metadata.langgraph_node), with run_id and tags surfaced.",
+    "tags": [
+      "sse",
+      "langgraph",
+      "streaming",
+      "httpx"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/observability/sse-stream-parser-langgraph-events",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "stream-json-assistant-event-router",
+    "slug": "stream-json-assistant-event-router",
+    "category": "observability",
+    "description": "Consume `claude -p --output-format stream-json --verbose` line-by-line from a child process and route each event type (assistant text, tool_use, result) to the parent's structured logger so a dashboard can render a live feed without waiting for the child to finish.",
+    "tags": [
+      "claude-code",
+      "stream-json",
+      "observability",
+      "logging",
+      "sse",
+      "dashboard",
+      "child-process"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/observability/stream-json-assistant-event-router",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "structured-pino-event-naming",
+    "slug": "structured-pino-event-naming",
+    "category": "observability",
+    "description": "Enforce `{domain}.{action}_{state}` event names with `_started`/`_completed`/`_failed` pairs so grepping and metric aggregation stay predictable.",
+    "tags": [
+      "logging",
+      "pino",
+      "observability",
+      "event-naming",
+      "structured"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/observability/structured-pino-event-naming",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
     "name": "claude-cli-unattended-wrapper",
     "slug": "claude-cli-unattended-wrapper",
     "category": "operations",
@@ -13861,6 +14628,24 @@
     "triggers": [],
     "version": "1.0.0",
     "path": "skills/puppeteer/a11y-tree-snapshot-with-uids",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "sqlite-idempotent-column-migration",
+    "slug": "sqlite-idempotent-column-migration",
+    "category": "python",
+    "description": "Apply SQLite column-level schema migrations at every startup without Alembic, using existence checks plus table-rename for column removal.",
+    "tags": [
+      "sqlite",
+      "migrations",
+      "sqlalchemy",
+      "desktop-apps",
+      "idempotent"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/python/sqlite-idempotent-column-migration",
     "has_content": false
   },
   {
@@ -14137,6 +14922,24 @@
     "version": "1.0.0",
     "path": "skills/security/openssl-4-migration-checklist",
     "has_content": true
+  },
+  {
+    "kind": "skill",
+    "name": "sqlite-session-persistence",
+    "slug": "sqlite-session-persistence",
+    "category": "session-management",
+    "description": "Persist agent conversation history to SQLite for durable multi-turn sessions across process restarts.",
+    "tags": [
+      "openai-agents",
+      "sessions",
+      "sqlite",
+      "persistence",
+      "conversation-history"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/session-management/sqlite-session-persistence",
+    "has_content": false
   },
   {
     "kind": "skill",
@@ -15961,6 +16764,25 @@
     "triggers": "",
     "version": "0.1.0-draft",
     "path": "skills/workflow/split-llm-codegen-into-idea-plus-per-item",
+    "has_content": false
+  },
+  {
+    "kind": "skill",
+    "name": "squash-merge-detection-union",
+    "slug": "squash-merge-detection-union",
+    "category": "workflow",
+    "description": "Classify \"can this branch be cleaned up?\" using the union of `git branch --merged` + `git cherry` patch-equivalence + `gh pr list` state, with clear semantics for each signal.",
+    "tags": [
+      "git",
+      "worktree",
+      "cleanup",
+      "squash-merge",
+      "pr-state",
+      "gh-cli"
+    ],
+    "triggers": [],
+    "version": "1.0.0",
+    "path": "skills/workflow/squash-merge-detection-union",
     "has_content": false
   },
   {
