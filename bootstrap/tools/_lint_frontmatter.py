@@ -79,6 +79,86 @@ def value_is_empty(raw: str) -> bool:
     return False
 
 
+def parse_composes(raw_fm: str) -> list[dict[str, str]]:
+    """Extract composes[] entries from a raw frontmatter block.
+
+    parse_flat_keys cannot handle list-of-dict fields, so we scan the raw
+    text. Returns a list of dicts with at least a 'kind' key per entry
+    and whatever other sub-keys (ref, version, role) appeared on the
+    indented follow-up lines.
+    """
+    entries: list[dict[str, str]] = []
+    current: dict[str, str] | None = None
+    in_composes = False
+    for line in raw_fm.splitlines():
+        if not line:
+            continue
+        # Top-level (column-0) key terminates any prior block.
+        if line[0] not in (" ", "\t"):
+            if current is not None:
+                entries.append(current)
+                current = None
+            in_composes = line.startswith("composes:")
+            continue
+        if not in_composes:
+            continue
+        stripped = line.strip()
+        if stripped.startswith("- kind:"):
+            if current is not None:
+                entries.append(current)
+            current = {"kind": stripped.split(":", 1)[1].strip()}
+        elif current is not None and ":" in stripped and not stripped.startswith("-"):
+            k, v = stripped.split(":", 1)
+            current[k.strip()] = v.strip().strip('"\'')
+    if current is not None:
+        entries.append(current)
+    return entries
+
+
+def lint_technique_composes(raw_fm: str) -> list[str]:
+    """Return technique-specific lint errors for the composes[] list.
+
+    Enforces v0.1 schema rules:
+    - composes must have at least one entry
+    - kind must be 'skill' or 'knowledge' (technique nesting forbidden)
+    - ref must resolve to an actual file on disk (kind-root-relative path)
+    """
+    errors: list[str] = []
+    entries = parse_composes(raw_fm)
+    if not entries:
+        errors.append("composes: must contain at least one entry")
+        return errors
+    for i, e in enumerate(entries):
+        kind = e.get("kind", "")
+        ref = e.get("ref", "")
+        if not kind:
+            errors.append(f"composes[{i}]: missing kind")
+            continue
+        if kind == "technique":
+            errors.append(
+                f"composes[{i}]: technique-to-technique composition forbidden in v0"
+            )
+            continue
+        if kind not in ("skill", "knowledge"):
+            errors.append(
+                f"composes[{i}]: unknown kind {kind!r} (must be skill or knowledge)"
+            )
+            continue
+        if not ref:
+            errors.append(f"composes[{i}]: missing ref")
+            continue
+        if kind == "skill":
+            target = SKILL_DIR / ref / "SKILL.md"
+        else:
+            target = KNOWLEDGE_DIR / f"{ref}.md"
+        if not target.exists():
+            errors.append(
+                f"composes[{i}]: {kind} ref not found: {ref!r} "
+                f"(expected {target.relative_to(HUB_ROOT).as_posix()})"
+            )
+    return errors
+
+
 def scan_file(path: Path) -> dict:
     try:
         text = path.read_text(encoding="utf-8")
@@ -100,6 +180,8 @@ def scan_file(path: Path) -> dict:
             f"invalid category format: {category_val!r} (must be single "
             f"kebab-case token — no '/', '\\\\', or spaces)"
         )
+    if path.name == "TECHNIQUE.md":
+        errors.extend(lint_technique_composes(raw))
     return {"path": str(path), "errors": errors, "missing": missing, "fields": list(fields)}
 
 
