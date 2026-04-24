@@ -2210,6 +2210,206 @@
       "pinned": false,
       "linked_knowledge": []
     },
+    "a11y-tree-snapshot-with-uids": {
+      "category": "puppeteer",
+      "path": "skills/puppeteer/a11y-tree-snapshot-with-uids/SKILL.md",
+      "version": "1.0.0"
+    },
+    "a2a-protocol-with-hello-publish-decision": {
+      "category": "integration",
+      "path": "skills/integration/a2a-protocol-with-hello-publish-decision/SKILL.md",
+      "version": "1.0.0"
+    },
+    "accepts-then-convert-two-phase-dispatch": {
+      "category": "architecture",
+      "path": "skills/architecture/accepts-then-convert-two-phase-dispatch/SKILL.md",
+      "version": "1.0.0"
+    },
+    "adopt": {
+      "category": "meta",
+      "path": "skills/meta/adopt/SKILL.md",
+      "version": "1.0.0"
+    },
+    "aes256gcm-machineid-credential-store": {
+      "category": "security",
+      "path": "skills/security/aes256gcm-machineid-credential-store/SKILL.md",
+      "version": "1.0.0"
+    },
+    "agent-cli-detection-path": {
+      "category": "agents",
+      "path": "skills/agents/agent-cli-detection-path/SKILL.md",
+      "version": "1.0.0"
+    },
+    "agent-feedback-loop": {
+      "category": "workflow",
+      "path": "skills/workflow/agent-feedback-loop/SKILL.md",
+      "version": "1.0.0"
+    },
+    "agent-handoff-routing": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/agent-handoff-routing/SKILL.md",
+      "version": "1.0.0"
+    },
+    "agent-lifecycle-hooks": {
+      "category": "agents",
+      "path": "skills/agents/agent-lifecycle-hooks/SKILL.md",
+      "version": "1.0.0"
+    },
+    "agent-structured-output": {
+      "category": "agents",
+      "path": "skills/agents/agent-structured-output/SKILL.md",
+      "version": "1.0.0"
+    },
+    "agent-tracing-spans": {
+      "category": "observability",
+      "path": "skills/observability/agent-tracing-spans/SKILL.md",
+      "version": "1.0.0"
+    },
+    "agents-as-tools": {
+      "category": "llm-agents",
+      "path": "skills/llm-agents/agents-as-tools/SKILL.md",
+      "version": "1.0.0"
+    },
+    "alert-time-window-with-buffer": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/alert-time-window-with-buffer/SKILL.md",
+      "version": "1.0.0"
+    },
+    "android-apk-multi-engine-decompilation": {
+      "category": "reverse-engineering",
+      "path": "skills/reverse-engineering/android-apk-multi-engine-decompilation/SKILL.md",
+      "version": "1.0.0"
+    },
+    "android-mediacodec-jni-wrapper": {
+      "category": "codecs",
+      "path": "skills/codecs/android-mediacodec-jni-wrapper/SKILL.md",
+      "version": "1.0.0"
+    },
+    "androidmanifest-to-network-call-flow-tracing": {
+      "category": "reverse-engineering",
+      "path": "skills/reverse-engineering/androidmanifest-to-network-call-flow-tracing/SKILL.md",
+      "version": "1.0.0"
+    },
+    "anonymous-posthog-telemetry": {
+      "category": "observability",
+      "path": "skills/observability/anonymous-posthog-telemetry/SKILL.md",
+      "version": "1.0.0"
+    },
+    "chunked-tts-with-crossfade": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/chunked-tts-with-crossfade/SKILL.md",
+      "version": "1.0.0"
+    },
+    "claude-agent-sdk-multi-provider-bridge": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/claude-agent-sdk-multi-provider-bridge/SKILL.md",
+      "version": "1.0.0"
+    },
+    "claude-cli-grace-kill-after-success-result": {
+      "category": "integration",
+      "path": "skills/integration/claude-cli-grace-kill-after-success-result/SKILL.md",
+      "version": "1.0.0"
+    },
+    "claude-cli-unattended-wrapper": {
+      "category": "operations",
+      "path": "skills/operations/claude-cli-unattended-wrapper/SKILL.md",
+      "version": "1.0.0"
+    },
+    "claude-code-stream-json-driver": {
+      "category": "agents",
+      "path": "skills/agents/claude-code-stream-json-driver/SKILL.md",
+      "version": "1.0.0"
+    },
+    "clearcut-batch-flush-with-retry": {
+      "category": "telemetry",
+      "path": "skills/telemetry/clearcut-batch-flush-with-retry/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cli-output-format-dispatch-with-template": {
+      "category": "cli",
+      "path": "skills/cli/cli-output-format-dispatch-with-template/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cli-serve-blocking-exit": {
+      "category": "cli",
+      "path": "skills/cli/cli-serve-blocking-exit/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cmake-cuda-extension-with-git-submodule-vendoring": {
+      "category": "build-system",
+      "path": "skills/build-system/cmake-cuda-extension-with-git-submodule-vendoring/SKILL.md",
+      "version": "1.0.0"
+    },
+    "code-review": {
+      "category": "engineering",
+      "path": "skills/engineering/code-review/SKILL.md",
+      "version": "1.0.0"
+    },
+    "coding-agent-cli-backend-interface": {
+      "category": "agents",
+      "path": "skills/agents/coding-agent-cli-backend-interface/SKILL.md",
+      "version": "1.0.0"
+    },
+    "completion-signal-detector": {
+      "category": "workflow",
+      "path": "skills/workflow/completion-signal-detector/SKILL.md",
+      "version": "1.0.0"
+    },
+    "comprehensive-gpu-kernel-testing-harness": {
+      "category": "testing-gpu",
+      "path": "skills/testing-gpu/comprehensive-gpu-kernel-testing-harness/SKILL.md",
+      "version": "1.0.0"
+    },
+    "computer-use-agent": {
+      "category": "integration",
+      "path": "skills/integration/computer-use-agent/SKILL.md",
+      "version": "1.0.0"
+    },
+    "confidence-lowering-by-source-factor": {
+      "category": "integration",
+      "path": "skills/integration/confidence-lowering-by-source-factor/SKILL.md",
+      "version": "1.0.0"
+    },
+    "config-json-architecture-dispatch": {
+      "category": "model-loading",
+      "path": "skills/model-loading/config-json-architecture-dispatch/SKILL.md",
+      "version": "1.0.0"
+    },
+    "consistency-check": {
+      "category": "qa",
+      "path": "skills/qa/consistency-check/SKILL.md",
+      "version": "1.0.0"
+    },
+    "content-audit": {
+      "category": "qa",
+      "path": "skills/qa/content-audit/SKILL.md",
+      "version": "1.0.0"
+    },
+    "content-disposition-filename-fallback": {
+      "category": "web",
+      "path": "skills/web/content-disposition-filename-fallback/SKILL.md",
+      "version": "1.0.0"
+    },
+    "content-type-info-metadata-embedding": {
+      "category": "data",
+      "path": "skills/data/content-type-info-metadata-embedding/SKILL.md",
+      "version": "1.0.0"
+    },
+    "contextual-identifier-detectors-overlap-resolution": {
+      "category": "safety",
+      "path": "skills/safety/contextual-identifier-detectors-overlap-resolution/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cosine-similarity-diff-for-fp8-numerics": {
+      "category": "testing-gpu",
+      "path": "skills/testing-gpu/cosine-similarity-diff-for-fp8-numerics/SKILL.md",
+      "version": "1.0.0"
+    },
+    "coverage-data-file-under-pytest-cache": {
+      "category": "build",
+      "path": "skills/build/coverage-data-file-under-pytest-cache/SKILL.md",
+      "version": "1.0.0"
+    },
     "anthropic-compatible-endpoint-swap": {
       "category": "agent-sdk",
       "path": "skills/agent-sdk/anthropic-compatible-endpoint-swap/SKILL.md",
@@ -4157,6 +4357,246 @@
         "parallel-bulk-annotation",
         "bucket-parallel-java-annotation-dispatch"
       ]
+    },
+    "32-bit-architecture-file-size-support": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/32-bit-architecture-file-size-support.md"
+    },
+    "a11y-uid-tool-targeting-over-selectors": {
+      "category": "domain",
+      "path": "knowledge/domain/a11y-uid-tool-targeting-over-selectors.md"
+    },
+    "a2a-protocol-agent-to-agent-knowledge-exchange": {
+      "category": "integration",
+      "path": "knowledge/integration/a2a-protocol-agent-to-agent-knowledge-exchange.md"
+    },
+    "accept-header-prefer-markdown-over-html": {
+      "category": "web",
+      "path": "knowledge/web/accept-header-prefer-markdown-over-html.md"
+    },
+    "agent-backend-unified-interface": {
+      "category": "arch",
+      "path": "knowledge/arch/agent-backend-unified-interface.md"
+    },
+    "agent-configuration-reference": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/agent-configuration-reference.md"
+    },
+    "agent-custom-args-blocked-flags": {
+      "category": "decision",
+      "path": "knowledge/decision/agent-custom-args-blocked-flags.md"
+    },
+    "agent-director-art-director": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-director-art-director.md"
+    },
+    "agent-director-creative-director": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-director-creative-director.md"
+    },
+    "agent-director-producer": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-director-producer.md"
+    },
+    "agent-director-technical-director": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-director-technical-director.md"
+    },
+    "agent-lead-audio-director": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-lead-audio-director.md"
+    },
+    "agent-lead-game-designer": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-lead-game-designer.md"
+    },
+    "agent-lead-lead-programmer": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-lead-lead-programmer.md"
+    },
+    "agent-lead-level-designer": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-lead-level-designer.md"
+    },
+    "agent-lead-narrative-director": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-lead-narrative-director.md"
+    },
+    "agent-lead-qa-lead": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-lead-qa-lead.md"
+    },
+    "agent-lead-systems-designer": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-lead-systems-designer.md"
+    },
+    "agent-loop-architecture-reference": {
+      "category": "architecture",
+      "path": "knowledge/architecture/agent-loop-architecture-reference.md"
+    },
+    "agent-mcp-config-via-temp-file": {
+      "category": "arch",
+      "path": "knowledge/arch/agent-mcp-config-via-temp-file.md"
+    },
+    "agent-native-software-philosophy": {
+      "category": "architecture",
+      "path": "knowledge/architecture/agent-native-software-philosophy.md"
+    },
+    "agent-qa-tester": {
+      "category": "testing",
+      "path": "knowledge/testing/agent-qa-tester.md"
+    },
+    "agent-runner-loop-semantics": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/agent-runner-loop-semantics.md"
+    },
+    "agent-runtime-workspace-triple": {
+      "category": "domain",
+      "path": "knowledge/domain/agent-runtime-workspace-triple.md"
+    },
+    "agent-specialist-ai-programmer": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-specialist-ai-programmer.md"
+    },
+    "agent-specialist-gameplay-programmer": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-specialist-gameplay-programmer.md"
+    },
+    "agent-specialist-performance-analyst": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-specialist-performance-analyst.md"
+    },
+    "agent-specialist-technical-artist": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-specialist-technical-artist.md"
+    },
+    "agent-specialist-ux-designer": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/agent-specialist-ux-designer.md"
+    },
+    "agent-test-spec-template": {
+      "category": "testing",
+      "path": "knowledge/testing/agent-test-spec-template.md"
+    },
+    "alert-extraction-single-llm-call-pattern": {
+      "category": "reference",
+      "path": "knowledge/reference/alert-extraction-single-llm-call-pattern.md"
+    },
+    "android-decompilation-toolchain-setup": {
+      "category": "reference",
+      "path": "knowledge/reference/android-decompilation-toolchain-setup.md"
+    },
+    "android-ios-feature-parity-gap": {
+      "category": "mobile",
+      "path": "knowledge/mobile/android-ios-feature-parity-gap.md"
+    },
+    "ci-gpg-signing-batch-mode-non-interactive": {
+      "category": "ci-cd",
+      "path": "knowledge/ci-cd/ci-gpg-signing-batch-mode-non-interactive.md"
+    },
+    "ci-push-race-condition-retry-rebase-loop": {
+      "category": "ci-cd",
+      "path": "knowledge/ci-cd/ci-push-race-condition-retry-rebase-loop.md"
+    },
+    "claude-cli-hook-bypass-envs": {
+      "category": "reference",
+      "path": "knowledge/reference/claude-cli-hook-bypass-envs.md"
+    },
+    "claude-session-resume-semantics": {
+      "category": "api",
+      "path": "knowledge/api/claude-session-resume-semantics.md"
+    },
+    "claude-stream-json-protocol": {
+      "category": "api",
+      "path": "knowledge/api/claude-stream-json-protocol.md"
+    },
+    "claudecode-env-breaks-nested-spawn": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/claudecode-env-breaks-nested-spawn.md"
+    },
+    "claudecode-env-var-leakage": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/claudecode-env-var-leakage.md"
+    },
+    "clearcut-source-and-client-type-constants": {
+      "category": "reference",
+      "path": "knowledge/reference/clearcut-source-and-client-type-constants.md"
+    },
+    "cli-implemented-in-rust-for-speed": {
+      "category": "arch",
+      "path": "knowledge/arch/cli-implemented-in-rust-for-speed.md"
+    },
+    "cli-release-accompanies-prod-deploy": {
+      "category": "decision",
+      "path": "knowledge/decision/cli-release-accompanies-prod-deploy.md"
+    },
+    "cli-release-via-git-tag": {
+      "category": "api",
+      "path": "knowledge/api/cli-release-via-git-tag.md"
+    },
+    "clipboard-context-lazy-initialization": {
+      "category": "clipboard",
+      "path": "knowledge/clipboard/clipboard-context-lazy-initialization.md"
+    },
+    "clipboard-ownership-protocol": {
+      "category": "clipboard",
+      "path": "knowledge/clipboard/clipboard-ownership-protocol.md"
+    },
+    "codex-oauth-strips-vars-at-spawn": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/codex-oauth-strips-vars-at-spawn.md"
+    },
+    "codex-seatbelt-ignores-network-access": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/codex-seatbelt-ignores-network-access.md"
+    },
+    "collaborative-design-principles": {
+      "category": "collaboration",
+      "path": "knowledge/collaboration/collaborative-design-principles.md"
+    },
+    "compute-sanitizer-needs-temp-cublaslt-workspace": {
+      "category": "pytorch-integration",
+      "path": "knowledge/pytorch-integration/compute-sanitizer-needs-temp-cublaslt-workspace.md"
+    },
+    "condition-based-waiting": {
+      "category": "engineering",
+      "path": "knowledge/engineering/condition-based-waiting.md"
+    },
+    "config-dir-layout": {
+      "category": "reference",
+      "path": "knowledge/reference/config-dir-layout.md"
+    },
+    "config-minimization-min-json": {
+      "category": "arch",
+      "path": "knowledge/arch/config-minimization-min-json.md"
+    },
+    "config-system-four-tiers": {
+      "category": "configuration",
+      "path": "knowledge/configuration/config-system-four-tiers.md"
+    },
+    "connect-via-devtools-active-port-file": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/connect-via-devtools-active-port-file.md"
+    },
+    "connection-type-enum-design": {
+      "category": "networking",
+      "path": "knowledge/networking/connection-type-enum-design.md"
+    },
+    "content-types-knowledge-base-minified": {
+      "category": "arch",
+      "path": "knowledge/arch/content-types-knowledge-base-minified.md"
+    },
+    "content-types-knowledge-base-vs-model-outputs": {
+      "category": "domain",
+      "path": "knowledge/domain/content-types-knowledge-base-vs-model-outputs.md"
+    },
+    "cowork-backend-auto-detection-priority": {
+      "category": "linux-sandbox",
+      "path": "knowledge/linux-sandbox/cowork-backend-auto-detection-priority.md"
+    },
+    "craft-cli-command-surface": {
+      "category": "reference",
+      "path": "knowledge/reference/craft-cli-command-surface.md"
     },
     "anthropic-skill-authoring-best-practices": {
       "category": "reference",
