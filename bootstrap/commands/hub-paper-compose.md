@@ -1,0 +1,118 @@
+---
+description: Interactively compose a new paper draft (premise + examines + perspectives + v0.2 experiments/outcomes/requires), then verify structure against the schema
+argument-hint: <slug> [--category <cat>] [--type hypothesis|survey|position] [--from <existing-slug>]
+---
+
+# /hub-paper-compose $ARGUMENTS
+
+Authoring workflow for the `paper/` exploration layer. Produces `.paper-draft/<category>/<slug>/PAPER.md` with a premise-first scaffold covering all v0.2 frontmatter fields, then runs `/hub-paper-verify` to confirm structural rules pass.
+
+## Input
+
+- **`<slug>`** (required): kebab-case, unique within `.paper-draft/` AND `~/.claude/papers/`.
+- `--category <cat>`: one of `CATEGORIES.md` values. Ask if omitted.
+- `--type hypothesis|survey|position`: default `hypothesis`. `survey` and `position` are exempt from the v0.2 rule that `status=implemented` requires at least one completed experiment.
+- `--from <existing-slug>`: clone frontmatter + examines of an existing paper as starting point.
+
+## Steps
+
+1. **Validate slug**
+   - Fail if `.paper-draft/**/<slug>/` or `~/.claude/papers/**/<slug>/` exists.
+   - Fail if slug doesn't match `^[a-z][a-z0-9-]*$`.
+
+2. **Premise first** (before anything else — premise IS the paper)
+   - AskUserQuestion: `premise.if` — "IF condition, single sentence: ..."
+   - AskUserQuestion: `premise.then` — "THEN predicted outcome, single sentence: ..."
+   - Warn if either is empty or < 20 chars; confirm continue.
+
+3. **Paper type**
+   - If `--type` not provided, ask:
+     - `hypothesis` — claims something; must run experiments to reach `status=implemented` (default, most papers)
+     - `survey`     — reviews corpus patterns; experiments optional but `outcomes[]` still expected
+     - `position`   — argues a stance; lowest trust weight, no data obligation
+
+4. **Frontmatter metadata**
+   - `description` (≤120 chars — remind user)
+   - `category` from CATEGORIES.md picker
+   - `tags` comma-separated; dedupe
+
+5. **Pick examines[]** (at least one required)
+   - Loop: "search for atom/technique to cite, or `done`"
+   - Delegate to `/hub-find --kind skill|knowledge|technique <query>`
+   - Capture `ref` as kind-root-relative physical path; verify file exists
+   - Reject `kind: paper` (v0 nesting ban)
+   - Prompt for `role` (free-text)
+
+6. **Write perspectives[]** (≥2 required)
+   - Loop: `name` + `summary` (1-2 lines)
+   - Warn at 1; require at 0
+
+7. **Optional external_refs[]**
+   - Ask: "run `/hub-research` to pull external citations?"
+   - If yes, the research skill populates; if no, leave empty (tagged `internal-only` in list view)
+
+8. **proposed_builds[] with requires[]** (v0.2 non-triviality gate)
+   - Loop: `slug`, `summary` (≥60 chars), `scope` (poc/demo/production)
+   - For each build, **require** `requires[]` entries — ≥1 recommended:
+     - For each entry: `kind` (skill/knowledge/technique), `ref` (verified on disk), `role`
+     - If `requires` is empty, WARN: "this build doesn't depend on any corpus atom — is the paper really needed for it?"
+   - Justification prompt if author insists on empty `requires`
+
+9. **experiments[]** (optional but encouraged for `type=hypothesis`)
+   - For each planned experiment:
+     - `name` (kebab-case label)
+     - `hypothesis` (sub-claim being tested, narrower than premise)
+     - `method` (how to test — build X, measure Y, N samples)
+     - `status: planned` (initial value)
+     - Optional: `built_as` (example/<ref> if shipping will be paired)
+     - `result: null`, `supports_premise: null`, `observed_at: null` (filled when completed)
+   - A `type=hypothesis` paper with no planned experiments gets a WARN: "this paper cannot reach status=implemented without a completed experiment"
+
+10. **outcomes[]** (usually empty at compose time)
+    - Typically empty at draft. Populated later when proposed_builds ship or experiments complete.
+    - Allowed values: `produced_skill | produced_knowledge | produced_technique | produced_pitfall | produced_example | updated_skill | updated_knowledge | updated_technique`
+
+11. **status** — default `draft`. `retraction_reason` stays null.
+
+12. **Write the file** to `.paper-draft/<category>/<slug>/PAPER.md` with v0.2 frontmatter + body scaffold:
+    ```
+    # <Title>
+
+    ## Premise
+    Expand if/then from frontmatter.
+
+    ## Background
+    Cite examines[].
+
+    ## Perspectives
+    ### <perspective 1>
+    ### <perspective 2>
+
+    ## External Context
+    ## Proposed Builds
+    ## Open Questions
+    ## Limitations
+    ```
+
+13. **Immediate verification**
+    - Run `/hub-paper-verify <slug>`
+    - If FAIL, show errors and offer: edit, revert, leave as-is
+    - If PASS, print location + next-step hints
+
+## Rules
+
+- **Premise is not optional**. No if/then → no paper.
+- `examines[].kind: paper` rejected (v0 nesting ban).
+- **Never call remote** during compose.
+- **Never write to** `~/.claude/papers/` — that's the installed root.
+- Authoring and verification are separate passes (step 13).
+
+## v0.2 vs v0.1
+
+- NEW required prompts: `type`, per-build `requires[]`, `experiments[]` planned list
+- NEW optional: `outcomes[]` (usually stays empty until experiments complete)
+- NEW behavior: `type=hypothesis` paper with no experiments gets a WARN that it cannot reach `status=implemented`
+
+## Why exists
+
+Without compose, every paper is hand-authored from schema memory. Premise-first authoring enforces the main distinction between a paper and other entries — if the author can't state if/then, the content is not paper-shaped. The v0.2 additions (`requires[]`, `experiments[]`) enforce non-triviality and loop-closability at authoring time rather than at verify time.
