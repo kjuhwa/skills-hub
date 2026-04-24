@@ -14074,14 +14074,17 @@
     "name": "swagger-ai-optimization",
     "slug": "swagger-ai-optimization",
     "category": "workflow",
-    "description": "Spring Boot + springdoc 프로젝트의 Swagger/OpenAPI 스펙을 AI Agent용으로 최적화 (operationId, @Schema, @ApiResponse, x-filterable-fields 전수 적용)",
+    "description": "Spring Boot + springdoc 프로젝트의 Swagger/OpenAPI 스펙을 AI Agent용으로 최적화 (operationId, @Schema, @ApiResponse, x-filterable-fields, canonical enum + identifier DTO + typed response wrapper + 5 sidecar 파일 전수 적용)",
     "tags": [
-      "workflow",
+      "lucida",
+      "openapi",
+      "optimization",
+      "polestar",
       "swagger",
-      "optimization"
+      "workflow"
     ],
-    "triggers": "",
-    "version": "1.0.0",
+    "triggers": "swagger ai 최적화, openapi ai optimization, MCP 연동 준비, swagger operationId 전수 부여, AI 이해도 테스트, lucida 5 파일 전달물, polestar-per-endpoint, canonical enum x-label-ko, identifier DTO pattern",
+    "version": "1.3.0",
     "path": "skills/workflow/swagger-ai-optimization",
     "has_content": false
   },
