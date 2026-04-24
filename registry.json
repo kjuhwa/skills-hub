@@ -2294,6 +2294,151 @@
       "category": "observability",
       "path": "skills/observability/anonymous-posthog-telemetry/SKILL.md",
       "version": "1.0.0"
+    },
+    "create-architecture": {
+      "category": "engineering",
+      "path": "skills/engineering/create-architecture/SKILL.md",
+      "version": "1.0.0"
+    },
+    "create-control-manifest": {
+      "category": "engineering",
+      "path": "skills/engineering/create-control-manifest/SKILL.md",
+      "version": "1.0.0"
+    },
+    "create-epics": {
+      "category": "production",
+      "path": "skills/production/create-epics/SKILL.md",
+      "version": "1.0.0"
+    },
+    "create-stories": {
+      "category": "production",
+      "path": "skills/production/create-stories/SKILL.md",
+      "version": "1.0.0"
+    },
+    "credential-cache-file-for-mcp-subprocess": {
+      "category": "agent-sdk",
+      "path": "skills/agent-sdk/credential-cache-file-for-mcp-subprocess/SKILL.md",
+      "version": "1.0.0"
+    },
+    "credential-prompt-dialog-abstraction": {
+      "category": "ui",
+      "path": "skills/ui/credential-prompt-dialog-abstraction/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cron-matcher-with-croner-nextrun": {
+      "category": "automation",
+      "path": "skills/automation/cron-matcher-with-croner-nextrun/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cross-binding-feature-extraction-parity-testing": {
+      "category": "testing",
+      "path": "skills/testing/cross-binding-feature-extraction-parity-testing/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cross-platform-clipboard-abstraction": {
+      "category": "clipboard",
+      "path": "skills/clipboard/cross-platform-clipboard-abstraction/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cuda-home-discovery-without-torch-init": {
+      "category": "pytorch-integration",
+      "path": "skills/pytorch-integration/cuda-home-discovery-without-torch-init/SKILL.md",
+      "version": "1.0.0"
+    },
+    "custom-cuda-extension-via-pybind11": {
+      "category": "pytorch-integration",
+      "path": "skills/pytorch-integration/custom-cuda-extension-via-pybind11/SKILL.md",
+      "version": "1.0.0"
+    },
+    "custom-paint-canvas-rendering": {
+      "category": "flutter",
+      "path": "skills/flutter/custom-paint-canvas-rendering/SKILL.md",
+      "version": "1.0.0"
+    },
+    "custom-tracing-processor": {
+      "category": "observability",
+      "path": "skills/observability/custom-tracing-processor/SKILL.md",
+      "version": "1.0.0"
+    },
+    "cycle-estimation-via-bandwidth-and-wave-efficiency": {
+      "category": "performance-modeling",
+      "path": "skills/performance-modeling/cycle-estimation-via-bandwidth-and-wave-efficiency/SKILL.md",
+      "version": "1.0.0"
+    },
+    "daemon-claimed-task-poll-loop": {
+      "category": "agents",
+      "path": "skills/agents/daemon-claimed-task-poll-loop/SKILL.md",
+      "version": "1.0.0"
+    },
+    "day-one-patch": {
+      "category": "production",
+      "path": "skills/production/day-one-patch/SKILL.md",
+      "version": "1.0.0"
+    },
+    "deb-package-from-electron-with-icons": {
+      "category": "deb",
+      "path": "skills/deb/deb-package-from-electron-with-icons/SKILL.md",
+      "version": "1.0.0"
+    },
+    "debounced-session-persistence-queue": {
+      "category": "session-management",
+      "path": "skills/session-management/debounced-session-persistence-queue/SKILL.md",
+      "version": "1.0.0"
+    },
+    "declarative-audio-effects-chain-registry": {
+      "category": "ml-ops",
+      "path": "skills/ml-ops/declarative-audio-effects-chain-registry/SKILL.md",
+      "version": "1.0.0"
+    },
+    "decompile-apk-with-jadx": {
+      "category": "reverse-engineering",
+      "path": "skills/reverse-engineering/decompile-apk-with-jadx/SKILL.md",
+      "version": "1.0.0"
+    },
+    "decompile-jar-with-fernflower-vineflower": {
+      "category": "reverse-engineering",
+      "path": "skills/reverse-engineering/decompile-jar-with-fernflower-vineflower/SKILL.md",
+      "version": "1.0.0"
+    },
+    "deep-link-url-routing": {
+      "category": "session-management",
+      "path": "skills/session-management/deep-link-url-routing/SKILL.md",
+      "version": "1.0.0"
+    },
+    "deepgram-streaming-with-vad": {
+      "category": "realtime-audio-streaming",
+      "path": "skills/realtime-audio-streaming/deepgram-streaming-with-vad/SKILL.md",
+      "version": "1.0.0"
+    },
+    "deferred-tool-loading": {
+      "category": "agents",
+      "path": "skills/agents/deferred-tool-loading/SKILL.md",
+      "version": "1.0.0"
+    },
+    "define-tool-response-builder": {
+      "category": "mcp",
+      "path": "skills/mcp/define-tool-response-builder/SKILL.md",
+      "version": "1.0.0"
+    },
+    "dependency-check-install-precondition-gate": {
+      "category": "automation",
+      "path": "skills/automation/dependency-check-install-precondition-gate/SKILL.md",
+      "version": "1.0.0"
+    },
+    "design-system": {
+      "category": "design",
+      "path": "skills/design/design-system/SKILL.md",
+      "version": "1.0.0"
+    },
+    "desktop-entry-custom-scheme-handler": {
+      "category": "desktop-integration",
+      "path": "skills/desktop-integration/desktop-entry-custom-scheme-handler/SKILL.md",
+      "version": "1.0.0"
+    },
+    "desktop-multi-window-tab-management": {
+      "category": "flutter",
+      "path": "skills/flutter/desktop-multi-window-tab-management/SKILL.md",
+      "version": "1.0.0"
     }
   },
   "knowledge": {
@@ -4204,6 +4349,90 @@
     "android-ios-feature-parity-gap": {
       "category": "mobile",
       "path": "knowledge/mobile/android-ios-feature-parity-gap.md"
+    },
+    "credential-storage-threat-model": {
+      "category": "security",
+      "path": "knowledge/security/credential-storage-threat-model.md"
+    },
+    "cross-attention-draft-target-hidden": {
+      "category": "llm-agents",
+      "path": "knowledge/llm-agents/cross-attention-draft-target-hidden.md"
+    },
+    "cross-platform-codec-initialization-order": {
+      "category": "codecs",
+      "path": "knowledge/codecs/cross-platform-codec-initialization-order.md"
+    },
+    "csv-regression-v3-2-dataset-balance": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/csv-regression-v3-2-dataset-balance.md"
+    },
+    "culibraryenumerate-needs-cuda-12-4": {
+      "category": "jit-compilation",
+      "path": "knowledge/jit-compilation/culibraryenumerate-needs-cuda-12-4.md"
+    },
+    "cutmix-augmentation-v1-to-v3": {
+      "category": "arch",
+      "path": "knowledge/arch/cutmix-augmentation-v1-to-v3.md"
+    },
+    "daemon-per-profile-isolation": {
+      "category": "arch",
+      "path": "knowledge/arch/daemon-per-profile-isolation.md"
+    },
+    "daemon-pid-stored-in-runtime-not-config": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/daemon-pid-stored-in-runtime-not-config.md"
+    },
+    "daemon-task-polling-architecture": {
+      "category": "arch",
+      "path": "knowledge/arch/daemon-task-polling-architecture.md"
+    },
+    "dangerously-skip-permissions-for-unattended-loops": {
+      "category": "security",
+      "path": "knowledge/security/dangerously-skip-permissions-for-unattended-loops.md"
+    },
+    "ddp-no-sync-gradient-accumulation": {
+      "category": "training",
+      "path": "knowledge/training/ddp-no-sync-gradient-accumulation.md"
+    },
+    "deb-icon-size-windows-exe-index-mapping": {
+      "category": "deb",
+      "path": "knowledge/deb/deb-icon-size-windows-exe-index-mapping.md"
+    },
+    "debug-vs-release-build-differences": {
+      "category": "build-system",
+      "path": "knowledge/build-system/debug-vs-release-build-differences.md"
+    },
+    "deep-link-scheme-routes": {
+      "category": "reference",
+      "path": "knowledge/reference/deep-link-scheme-routes.md"
+    },
+    "deepseek-r1-architecture-training": {
+      "category": "llm-fundamentals",
+      "path": "knowledge/llm-fundamentals/deepseek-r1-architecture-training.md"
+    },
+    "defense-in-depth-validation": {
+      "category": "engineering",
+      "path": "knowledge/engineering/defense-in-depth-validation.md"
+    },
+    "defusedxml-for-untrusted-xml": {
+      "category": "security",
+      "path": "knowledge/security/defusedxml-for-untrusted-xml.md"
+    },
+    "delivery-mode-streaming-vs-buffered-affects-ui-responsiveness": {
+      "category": "design",
+      "path": "knowledge/design/delivery-mode-streaming-vs-buffered-affects-ui-responsiveness.md"
+    },
+    "design-claude-context": {
+      "category": "workflow",
+      "path": "knowledge/workflow/design-claude-context.md"
+    },
+    "design-entities-registry": {
+      "category": "registry",
+      "path": "knowledge/registry/design-entities-registry.md"
+    },
+    "desktop-drag-region-flex-not-absolute": {
+      "category": "pitfall",
+      "path": "knowledge/pitfall/desktop-drag-region-flex-not-absolute.md"
     }
   }
 }
