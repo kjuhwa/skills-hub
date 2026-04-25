@@ -8,7 +8,7 @@ type: hypothesis
 
 premise:
   if: A long-running migration adds checkpoint persistence at progressively finer granularity (per-batch → per-row)
-  then: Per-batch (thousands of rows per checkpoint write) adds <5% overhead. Per-row checkpointing makes the checkpoint table itself the bottleneck — migration runs 10-50x slower because every row requires two writes (data + checkpoint). Recommended granularity is per-batch, not per-row.
+  then: Per-batch checkpoints add <5% overhead. Per-row checkpointing makes the checkpoint table the bottleneck — migration runs 10-50x slower (two writes per row). Recommended granularity: per-batch, not per-row.
 
 examines:
   - kind: skill
@@ -26,7 +26,7 @@ examines:
 
 perspectives:
   - name: Resume Granularity vs Write Cost
-    summary: Per-row checkpoint allows resume at any row, costing 2× writes per row. Per-batch checkpoint resumes at batch boundary, costing 1 write per batch. The granularity tradeoff is the heart of the design choice.
+    summary: Per-row checkpoint resumes at any row but costs 2× writes per row. Per-batch resumes at batch boundary at 1 write per batch. Granularity tradeoff is the design choice.
   - name: Crash Probability Determines Optimum
     summary: If crashes are rare (well-tested infra), per-batch is sufficient — at most one batch is re-run on resume. If crashes are frequent, per-row may be justified for very long batches.
   - name: Storage I/O Pattern
@@ -38,7 +38,7 @@ external_refs: []
 
 proposed_builds:
   - slug: migration-checkpoint-granularity-benchmark
-    summary: Benchmark same migration at three checkpoint granularities (per-row, per-100-rows, per-1000-rows) on a representative workload (1M rows). Measure wall-clock, checkpoint write count, recovery time after kill -9.
+    summary: Benchmark the same migration at three granularities (per-row / per-100 / per-1000) on a 1M-row workload. Measure wall-clock, checkpoint writes, kill-9 recovery time.
     scope: poc
     requires:
       - kind: skill
@@ -50,7 +50,7 @@ proposed_builds:
 
 experiments:
   - name: checkpoint-granularity-cost
-    hypothesis: Per-row checkpoint is ≥10x slower than per-1000-row checkpoint at 1M rows. Recovery time after crash is roughly equal across granularities (single batch lost in the worst case for per-batch, single row for per-row).
+    hypothesis: Per-row checkpoint is ≥10x slower than per-1000-row at 1M rows. Recovery time roughly equal across granularities (one batch lost worst-case for per-batch, one row for per-row).
     method: Run benchmark at all three granularities; kill mid-run at random points; measure resume + complete time.
     status: planned
     built_as: null

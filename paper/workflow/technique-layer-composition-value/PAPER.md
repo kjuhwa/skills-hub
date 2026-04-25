@@ -13,7 +13,7 @@ type: position
 
 premise:
   if: A skills-hub adds a technique/ layer composing atoms by reference (not copy)
-  then: Durable composition value emerges — recipes that survive atom updates, generalize across shapes (linear and branching), and act as cite-able units for papers and apps — value not reproducible by hub-merge alone
+  then: Durable composition value emerges — recipes survive atom updates, generalize across linear and branching shapes, and become cite-able units for papers — not reproducible by hub-merge alone
 
 examines:
   - kind: technique

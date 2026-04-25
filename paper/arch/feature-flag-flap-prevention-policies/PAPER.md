@@ -97,40 +97,16 @@ experiments:
   - name: hysteresis-ratio-tradeoff
     hypothesis: Across 4 workload shapes (smooth, spiky, bursty, drifting), ratio 1.5x produces ≤1 flap/hour AND average trip-detection delay ≤10 min. Ratios <1.3x or >2.5x fail one of the two criteria.
     method: >-
-      Synthesize 4 workload generators (smooth / spiky / bursty / drifting) producing
-      24h of 1-sample/min error-rate time-series. Run each through a hysteresis breaker
-      at ratios in {1.2, 1.5, 2.0, 2.5, 3.0} with trip-water=0.10. Tabulate flap-per-hour
-      (state transitions to open) and average trip-detection delay in minutes.
+      Monte Carlo over 4 workload shapes (smooth / spiky / bursty / drifting) × 5
+      hysteresis ratios {1.2, 1.5, 2.0, 2.5, 3.0}, trip-water=0.10, single-sample
+      trip, 24h × 1-sample/min, seed=42. Tabulate flap-per-hour. See body §Methods.
     status: completed
     built_as: example/arch/hysteresis-tuning-tool
-    result: |
-      24h × 4 workloads × 5 ratios = 20 cells (deterministic, seed=42).
-
-      Flap rate (transitions/h):
-                       1.2x   1.5x   2.0x   2.5x   3.0x
-        smooth         0.75   0.75   0.71   0.71   0.67
-        spiky          1.21   1.21   1.21   1.21   1.21
-        bursty         2.54   1.00   1.00   1.00   0.96
-        drifting       0.92   0.25   0.08   0.08   0.08
-
-      Trip-detection delay: 0.00 min in every cell (the simulator uses single-sample
-      trip; the delay axis is governed by debouncing, not by hysteresis ratio,
-      so this dimension was vacuous for this experiment design).
-
-      Pass criteria:
-        - ratio 1.5x ≤ 1 flap/h on ALL workloads → FAILS on spiky (1.21/h).
-          Premise's specific 1.5x claim is refuted by 0.21/h on the spiky cell.
-        - ratios <1.3x should fail flap → confirmed (1.2x flaps at 2.54/h on bursty).
-        - ratios >2.5x should fail delay → not observable; delay was 0 across the
-          board because hysteresis ratio does not affect trip detection in the absence
-          of debouncing (this surfaces a conflation in the original premise).
-
-      Verdict: partial. The directional claim (hysteresis reduces flap on borderline
-      workloads — bursty and drifting) is supported and quantified. The specific
-      1.5x-optimum claim is refuted on spiky workloads, where flap is invariant to
-      ratio because each spike both trips and resets fully. The "wider delays trip"
-      branch was about debouncing, not hysteresis — orthogonal to what hysteresis
-      controls. Premise rewritten to reflect both findings.
+    result: |-
+      Spiky workload flap invariant at 1.21/h across [1.2x, 3.0x]; bursty drops
+      2.54→1.00 at 1.5x; drifting drops 0.92→0.08 at 2.0x. Trip-detection delay
+      vacuous (0 min everywhere — single-sample trip; delay axis is debouncing,
+      not hysteresis). Verdict: partial. See body §Results for the 20-cell matrix.
     supports_premise: partial
     observed_at: 2026-04-25
     measured:

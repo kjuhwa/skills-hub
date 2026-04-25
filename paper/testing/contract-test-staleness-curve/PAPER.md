@@ -8,7 +8,7 @@ type: hypothesis
 
 premise:
   if: Consumer-driven contract tests are not actively maintained as the consumer codebase evolves
-  then: Test relevance decays exponentially with consumer churn. ≥50% of contract tests are stale within 6 months in actively-evolving consumer codebases. Stale tests still vote in quorum decisions but vote on outdated assumptions, undermining the protocol.
+  then: Test relevance decays exponentially with consumer churn. ≥50% of contract tests are stale within 6 months in active consumer codebases. Stale tests still vote in quorum but on outdated assumptions.
 
 examines:
   - kind: skill
@@ -26,7 +26,7 @@ examines:
 
 perspectives:
   - name: Test as Code Decays Like Code
-    summary: Tests that are not maintained drift from the consumer's actual behavior. The drift is invisible until a contract change exposes it. By then the test is voting against a behavior the consumer no longer exhibits.
+    summary: Unmaintained tests drift from the consumer's actual behavior. Drift is invisible until a contract change exposes it. By then the test votes against a behavior the consumer no longer exhibits.
   - name: Consumer Churn Rate Determines Decay Speed
     summary: Stable consumers (released, low-change) keep tests relevant for years. Active consumers (weekly releases) churn assumptions monthly. Decay is bound by consumer churn.
   - name: Quorum Math Sensitivity
@@ -50,7 +50,7 @@ proposed_builds:
 
 experiments:
   - name: staleness-decay-measurement
-    hypothesis: Across 5 production codebases with active contract tests, ≥50% of tests pre-date the consumer's last 6 months of changes. Of the tests that pre-date, ≥30% reference behavior the consumer no longer implements.
+    hypothesis: Across 5 production codebases, ≥50% of contract tests pre-date the consumer's last 6 months of changes. Of those, ≥30% reference behavior the consumer no longer implements.
     method: Sample 5 codebases; classify each contract test by author-date and behavioral relevance; tabulate.
     status: planned
     built_as: null

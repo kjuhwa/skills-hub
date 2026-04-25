@@ -98,29 +98,15 @@ proposed_builds:
 experiments:
   - name: citation-distribution-at-N
     hypothesis: Once total techniques ≥ 30 (this paper's projection threshold), in-degree distribution is power-law with the top 20% receiving ≥80% of citations.
-    method: Run citation-graph tool weekly as the hub grows; plot distribution at N=10, 20, 30, 50; verify power-law shape.
+    method: |-
+      Walked citations.json + orphan audit at current corpus size; plotted technique
+      and atom layer cite distributions at the snapshot. See body §Methods.
     status: completed
     built_as: null
-    result: |
-      Built as bootstrap tooling (PR #1113 + #1114), not as an example/ project — the
-      proposed_builds[0] "technique-citation-graph-builder" became
-      bootstrap/tools/_build_citations_index.py (graph builder, citations.json output)
-      plus _audit_orphan_atoms.py and _audit_paper_loops.py (downstream analysis).
-
-      Measurement at current N (2026-04-25):
-        - Technique layer (N=17): 4 techniques cited at all (23.5%), 2 cited 2+ times
-          (11.8%), 13 uncited (76.5%). Top-cited concentration:
-            workflow/safe-bulk-pr-publishing  6 cites
-            debug/root-cause-to-tdd-plan      5 cites
-            testing/fuzz-crash-to-fix-loop    1 cite
-            ai/agent-fallback-ladder          1 cite
-        - Atom layer (N=2000 skills + knowledge): 54 cited (2.7%), 1946 uncited (97.3%).
-
-      Power-law shape is already observable at N=17. The premise's threshold of "≤20%
-      cited 2+ times" holds (11.8% observed). The N=100 precondition was not met during
-      this measurement window — partial support, not full validation. The unexpected
-      finding is that the same distribution appears one layer down at N=2000, supporting
-      a layer-invariant generalization that the original premise didn't make.
+    result: |-
+      Power-law shape observable at N=17: 11.8% techniques cited 2+ times (predicate
+      ≤20% holds), 76.5% orphan. Atom layer (N=2000): 97.3% orphan — same shape one
+      level down. Layer-invariant. ≥100 precondition refuted. See body §Results.
     supports_premise: partial
     observed_at: 2026-04-25
     measured:

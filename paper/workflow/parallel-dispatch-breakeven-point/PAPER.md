@@ -123,38 +123,18 @@ proposed_builds:
 experiments:
   - name: coverage-threshold-measurement
     hypothesis: The 70 percent break-even threshold is approximately correct across ≥3 corpus domains, within ±15 percentage points
-    method: |
-      Measured prior-work coverage for 5 domains in kjuhwa/skills-hub via grep
-      against the remote cache:
-        (A) skills with triggers populated:    51.1% (239/468)
-        (B) skills with content.md sibling:    36.8% (172/468)
-        (C) knowledge with description field:  55.0% (193/351)
-        (D) knowledge with tags key:          100.0% (351/351)
-        (E) skills with stable version 1.x+:   80.3% (376/468)
-      Built an interactive cost model (example/workflow/coverage-gate-benchmark)
-      that takes (agents, startup cost, verify cost, work cost) and classifies
-      each domain as PARALLEL / BORDERLINE / SAMPLING / NO DISPATCH. Compared
-      classifier output against the paper's 70 percent threshold claim.
+    method: |-
+      Measured prior-work coverage on 5 hub domains via grep; ran them through
+      an interactive cost model (example/workflow/coverage-gate-benchmark) at
+      (α=30s, v=5s, w=60s, A=4); compared classifier output against the 70%
+      rule. See body §Methods for the per-domain table and full cost equation.
     status: completed
     built_as: example/workflow/coverage-gate-benchmark
-    result: |
-      The 70 percent threshold as a UNIVERSAL constant is NOT supported by the
-      cost model. Under typical weights (alpha=30s startup, v=5s verify,
-      w=60s work, A=4 agents), parallel wall-clock savings dominate up to
-      ~90%+ coverage for any domain with non-zero useful output. The crossover
-      shifts with the alpha/w ratio; it is not a robust constant.
-
-      The MEANINGFUL gate discovered is not coverage percentage but
-      "useful_output < absolute threshold" (e.g. fewer than 5 files that
-      actually need work). Domain D (100% coverage, zero useful output)
-      correctly triggers NO DISPATCH; Domain E (80.3% coverage, 92 useful
-      files) still recommends PARALLEL because 92 * work_cost dwarfs
-      A * startup_cost.
-
-      The paper's directional claim holds (very high coverage trends toward
-      non-parallel), but the specific 70 percent number was a single-session
-      observation, not a robust threshold. The premise should be restated in
-      terms of useful_output absolute count rather than coverage fraction.
+    result: |-
+      70% threshold not a robust constant — shifts with α/w. The meaningful
+      gate is useful_output absolute count (~5 files), not coverage fraction.
+      Domain D (100% coverage, 0 useful): NO DISPATCH. Domain E (80.3%, 92
+      useful): still PARALLEL. See body §Results for the 5-domain matrix.
     supports_premise: partial
     observed_at: 2026-04-24
     measured:

@@ -9,12 +9,9 @@ type: hypothesis
 premise:
   if: A system needs to control producer rate to match consumer capacity
   then: >-
-    Backpressure outperforms rate-limiting (≥30% lower drop rate at the same throughput
-    target) when consumer-capacity coefficient of variation σ/μ ≥ 0.3. Rate-limiting
-    outperforms backpressure (≥50% lower buffer-overflow rate) when the producer is
-    uncontrolled — i.e., ≥10% of inbound traffic originates outside the SLO contract.
-    Below the pair (σ/μ < 0.2, untrusted-share < 5%), both perform within 10% of each
-    other and the default choice is moot.
+    Backpressure beats rate-limit (≥30% lower drops) at σ/μ≥0.3. Rate-limit wins
+    (≥50% lower overflow) at ≥10% untrusted. Below (σ/μ<0.2, untrusted<5%) both
+    within 10% — choice is moot.
 
 examines:
   - kind: skill
@@ -32,7 +29,7 @@ examines:
 
 perspectives:
   - name: Producer Trust
-    summary: Backpressure assumes the producer is cooperative — it reads the signal and slows. Untrusted producers ignore the signal. Rate limiting works on hostile producers because the cap is enforced by the consumer side.
+    summary: Backpressure assumes cooperative producers that read the signal and slow. Untrusted producers ignore it. Rate limiting works on hostile producers because the cap is enforced consumer-side.
   - name: Consumer Variability
     summary: Backpressure adapts to consumer capacity in real time. Rate limiting requires a static cap; if consumer slows below the cap, backpressure recovers but rate limiting wastes capacity.
   - name: Failure Mode Asymmetry
@@ -60,14 +57,12 @@ proposed_builds:
 experiments:
   - name: backpressure-vs-rate-limit-workload-replay
     hypothesis: >-
-      In a 4-cell workload matrix (consumer σ/μ ∈ {0.1, 0.5} × untrusted-share ∈ {0%, 25%}),
-      backpressure achieves ≥30% lower drop rate at σ/μ ≥ 0.3 with trusted producer; rate-
-      limiting achieves ≥50% lower buffer-overflow rate with ≥10% untrusted share. The
-      crossover region (σ/μ ≈ 0.2, untrusted-share ≈ 5%) shows <10% delta between the two.
+      4-cell matrix (σ/μ ∈ {0.1, 0.5} × untrusted ∈ {0%, 25%}): backpressure ≥30%
+      lower drops at σ/μ≥0.3 trusted; rate-limit ≥50% lower overflow at ≥10%
+      untrusted; crossover (σ/μ≈0.2, untrusted≈5%) <10% delta.
     method: >-
-      Synthesize 4 workload generators (one per matrix cell). Run each for 5 minutes through
-      both control mechanisms. Measure drop rate, p99 latency, total throughput, and DLQ
-      depth. Compute pairwise % deltas per metric per cell.
+      Synthesize 4 workload generators (one per matrix cell). Run each 5 min through both
+      mechanisms. Measure drop rate, p99 latency, throughput, DLQ depth. Compute deltas.
     status: planned
     built_as: null
     result: null

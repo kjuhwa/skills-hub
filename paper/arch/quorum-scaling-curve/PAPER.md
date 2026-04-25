@@ -8,7 +8,7 @@ type: hypothesis
 
 premise:
   if: The peer count N in a quorum-based consensus cluster grows
-  then: Coordination cost grows superlinearly because every commit requires ⌊N/2⌋+1 acks. Performance (commit throughput, p99 latency) peaks at N=3-5 and degrades sharply past N=7. Production sweet spot is N=5; N=7 only when fault tolerance demands ≥3 simultaneous failures tolerated.
+  then: Coordination cost grows superlinearly (each commit needs ⌊N/2⌋+1 acks). Throughput peaks at N=3-5, degrades sharply past N=7. Sweet spot N=5; N=7 only when ≥3 fault tolerance is required.
 
 examines:
   - kind: skill
