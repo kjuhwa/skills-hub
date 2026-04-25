@@ -1,5 +1,5 @@
 ---
-version: 0.2.0-draft
+version: 0.3.0-draft
 name: parallel-dispatch-breakeven-point
 description: When does parallel subagent dispatch stop paying off, and what pre-flight probe catches it before tokens are wasted?
 category: workflow
@@ -15,9 +15,46 @@ type: hypothesis
 premise:
   if: A bulk-modification task is dispatched to N parallel subagents without a pre-flight useful-output probe
   then: When the absolute count of files that need real work (useful_output = (1 - coverage) * N) falls below a small threshold (≈ 5 files), parallel dispatch becomes pure waste regardless of coverage fraction — coverage percentage alone is misleading because a large N with moderate coverage can still justify parallel, while a small useful_output cannot. The correct gate is absolute useful_output count, not coverage ratio.
-  # Rewritten 2026-04-24 after experiments[0] found the 70% coverage claim
-  # was not robust. Original wording preserved in the "Premise revision" body
-  # section so the v0.2 loop's refinement is traceable.
+
+# v0.3 (2026-04-26): rewrite trail moved from inline comment into structured
+# premise_history[] below. Body section "Premise revision" remains as IMRaD
+# narrative; premise_history is the machine-readable trail.
+
+verdict:
+  one_line: "Before parallel-dispatching to N agents, count useful_output absolute (not coverage %); if useful_output < ~5 files, skip parallel — α·N startup is pure waste regardless of coverage."
+  rule:
+    when: "About to dispatch a bulk-modification task to N parallel subagents on a corpus with non-trivial prior coverage"
+    do: "Run a ~1-second pre-flight probe (grep / find) to compute useful_output = (1 - coverage) * total_files; route to sampling or single-agent serial when useful_output is below threshold"
+    threshold: "useful_output < 5 files"
+  belief_revision:
+    before_reading: "Parallel dispatch becomes a net negative beyond ~70% prior-work coverage; gate the dispatch on coverage fraction."
+    after_reading: "Coverage fraction misleads. The gate is useful_output absolute count. 80% coverage with 92 useful files still parallelizes well (work dwarfs startup); 100% coverage with 0 useful files trivially must not. The 70% number was a single-session artifact, not a robust constant."
+
+applicability:
+  applies_when:
+    - "Bulk-modification task across many files (annotation, refactor, codemod, schema migration)"
+    - "Per-agent startup overhead α non-trivial relative to per-file work w (typical agent runners: α ≈ 30s, w ≈ 60s, ratio α/w ≈ 0.5)"
+    - "Token cost or wall-clock cost matters (cloud LLM inference, paid tier, latency-sensitive flow)"
+  does_not_apply_when:
+    - "useful_output is large (>>5 files) — coverage fraction immaterial; parallel always wins on absolute work"
+    - "Token cost negligible — local models, fixed-cost inference, or batch tier where the gate's saving < the gate's complexity cost"
+    - "Per-agent startup α << per-file work w — startup amortizes regardless of useful_output"
+    - "Task type is sampling/auditing rather than modification — coverage-based dispatch is irrelevant when the goal is statistical, not exhaustive"
+  invalidated_if_observed:
+    - "Agent-runner startup overhead α drops to single-digit seconds (changes the α/w ratio fundamentally; re-derive the threshold)"
+    - "Pre-flight probe itself takes >5s on representative corpora (the gate becomes the new waste; switch to a cheaper marker)"
+    - "Cross-corpus replication shows the useful_output threshold differs by >2× from the discovered ~5 files (single-corpus generalization broke)"
+    - "Warm-pool / persistent-agent runners ship — α effectively goes to zero, and the entire α·N waste term collapses"
+  decay:
+    half_life: "12 months or until agent-runner startup model changes substantially"
+    why: "Cost weights (α, v, w) are tied to current agent-runner implementation. Orchestration improvements (warm pools, persistent agents, batched startup) directly shift the α/w crossover; the threshold value (~5 files) is a function of this ratio, not a universal constant."
+
+premise_history:
+  - revision: 1
+    date: 2026-04-24
+    if: "A bulk-modification task is dispatched to N parallel subagents without a pre-flight coverage check"
+    then: "Beyond a prior-work coverage threshold of roughly 70 percent, the parallel pattern becomes a net negative — serial single-agent scan with targeted dispatch is cheaper, yet existing skills describe HOW to parallelize uniformly without surfacing WHEN NOT to."
+    cause: "experiments[0] (coverage-threshold-measurement). Domain E (80.3% coverage, 92 useful files) was classified SAMPLING by the original 70%-rule but PARALLEL by the cost model — 92×w of real work dwarfed 4×α of startup. The 70% number was a single-session observation, not a robust constant. Premise restated in terms of useful_output absolute count."
 
 examines:
   - kind: skill
@@ -120,6 +157,52 @@ experiments:
       terms of useful_output absolute count rather than coverage fraction.
     supports_premise: partial
     observed_at: 2026-04-24
+    measured:
+      - metric: coverage
+        value: 51.1
+        unit: percent
+        condition: "Domain A — skills with triggers populated (239/468)"
+      - metric: useful_output
+        value: 229
+        unit: files
+        condition: "Domain A — classified PARALLEL by both rules"
+      - metric: coverage
+        value: 100.0
+        unit: percent
+        condition: "Domain D — knowledge with tags key (351/351)"
+      - metric: useful_output
+        value: 0
+        unit: files
+        condition: "Domain D — classified NO DISPATCH by both rules (consensus on the trivial case)"
+      - metric: coverage
+        value: 80.3
+        unit: percent
+        condition: "Domain E — skills with stable version 1.x+ (376/468)"
+      - metric: useful_output
+        value: 92
+        unit: files
+        condition: "Domain E — pivotal mismatch: 70%-rule says SAMPLING, cost model says PARALLEL"
+      - metric: alpha_over_w_ratio
+        value: 0.5
+        unit: dimensionless
+        condition: "default cost weights α=30s startup, w=60s per-file work, v=5s verify, agents=4"
+      - metric: useful_output_threshold
+        value: 5
+        unit: files
+        condition: "discovered gate criterion — below this, α·N waste dominates regardless of coverage fraction"
+      - metric: domains_measured
+        value: 5
+        unit: count
+        condition: "all within kjuhwa/skills-hub corpus — single-org evidence, cross-corpus replication still pending"
+    refutes:
+      - "the 70 percent break-even threshold is approximately correct across ≥3 corpus domains, within ±15 percentage points"
+      - "coverage percentage alone determines parallel viability"
+      - "a domain at 80% coverage should switch to sampling"
+    confirms:
+      - "very high coverage trends toward non-parallel"
+      - "existing parallel skills do not include a pre-flight gate as step 0"
+      - "silent waste accumulates without an explicit gate (Domain D would have dispatched 4 agents for 0 work under uninstrumented dispatch)"
+      - "the pre-flight probe is cheap (~1s grep) — gate cost is negligible vs the waste it prevents"
 
 outcomes:
   - kind: produced_knowledge
