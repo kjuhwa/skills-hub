@@ -1,6 +1,6 @@
 ---
-description: List locally drafted and installed papers, grouped by status (v0.2 adds type column)
-argument-hint: [--status draft|reviewed|implemented|retracted] [--type hypothesis|survey|position] [--category <cat>] [--drafts-only | --installed-only]
+description: List locally drafted and installed papers, grouped by status (v0.2 adds type column; --stale flags hypothesis papers ready to close)
+argument-hint: [--status draft|reviewed|implemented|retracted] [--type hypothesis|survey|position] [--category <cat>] [--drafts-only | --installed-only] [--stale [--stale-days=N]]
 ---
 
 # /hub-paper-list $ARGUMENTS
@@ -33,6 +33,24 @@ Report papers (hypothesis-driven analyses) present on disk:
    - Empty `proposed_builds[]` → append `(pure-analysis)`
    - `type=position` with empty `experiments[]` and empty `outcomes[]` → append `(opinion-only)` — elevated flag under v0.2 retraction criterion
 8. Trailing summary: `<N> drafts, <M> installed (<d> draft, <r> reviewed, <i> implemented, <ret> retracted; <h> hypothesis, <s> survey, <p> position)`.
+
+## `--stale` flag (v2.7.x)
+
+When `--stale` is passed, restrict the listing to papers that are *ready to close* but haven't been:
+
+- `type: hypothesis` AND
+- `status` ∈ {`draft`, `reviewed`} AND
+- at least one `experiments[]` entry with `status` ∈ {`planned`, `running`} AND
+- first-commit age ≥ `--stale-days` (default 30)
+
+Implementation: invoke `python ~/.claude/skills-hub/remote/bootstrap/tools/_audit_paper_loops.py --only-stale --stale-days=<N>` and render its rows. Stale papers are flagged with `!` in the leftmost column, and the trailing line includes:
+
+```
+3/15 stale (≥30d, hypothesis with planned/running experiments).
+Action: /hub-paper-experiment-run <slug> to close the loop.
+```
+
+Without `--stale`, the audit tool still runs in informational mode (no filter) and the table gains a `CITED` column from `citations.json` so that low-cited drafts surface naturally.
 
 ## v0.2 retraction-criterion signal
 
