@@ -60,6 +60,7 @@ def main() -> int:
     # paper/orphan health is informational only — do not abort precheck on their output.
     steps.append(("orphan-audit", [py, "_audit_orphan_atoms.py"]))
     steps.append(("paper-loops-audit", [py, "_audit_paper_loops.py"]))
+    steps.append(("paper-falsifiability-audit", [py, "_audit_paper_falsifiability.py"]))
 
     for label, cmd in steps:
         rc = run(label, cmd)
