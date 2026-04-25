@@ -65,7 +65,18 @@ def normalize_key(kind: str, ref: str) -> str | None:
     return f"{kind}/{ref}"
 
 
-def collect_paper_citations(citations: dict) -> int:
+OUTCOME_TO_KIND = {
+    "produced_skill": "skill",
+    "produced_knowledge": "knowledge",
+    "produced_pitfall": "knowledge",   # pitfall is a knowledge subcategory
+    "produced_technique": "technique",
+    "updated_skill": "skill",
+    "updated_knowledge": "knowledge",
+    "updated_technique": "technique",
+}
+
+
+def collect_paper_citations(citations: dict, produced: dict) -> int:
     count = 0
     for paper_md in sorted(PAPER_DIR.glob("**/PAPER.md")):
         fm = parse_frontmatter(paper_md.read_text(encoding="utf-8"))
@@ -94,6 +105,20 @@ def collect_paper_citations(citations: dict) -> int:
                     "via": f"requires:{(build.get('slug') or '').strip()}",
                 })
                 count += 1
+        # outcomes: build produced_by reverse map
+        for outcome in fm.get("outcomes") or []:
+            if not isinstance(outcome, dict):
+                continue
+            outcome_kind = (outcome.get("kind") or "").strip()
+            target_ref = (outcome.get("ref") or "").strip()
+            if not target_ref or outcome_kind not in OUTCOME_TO_KIND:
+                continue
+            atom_kind = OUTCOME_TO_KIND[outcome_kind]
+            key = f"{atom_kind}/{target_ref}"
+            produced[key].append({
+                **source,
+                "outcome_kind": outcome_kind,
+            })
     return count
 
 
@@ -116,20 +141,32 @@ def collect_technique_citations(citations: dict) -> int:
 
 def build() -> dict:
     citations: dict[str, list] = defaultdict(list)
-    paper_count = collect_paper_citations(citations)
+    produced: dict[str, list] = defaultdict(list)
+    paper_count = collect_paper_citations(citations, produced)
     tech_count = collect_technique_citations(citations)
 
+    # Merge cited_by + produced_by into a single per-atom record.
+    all_keys = set(citations.keys()) | set(produced.keys())
     sorted_citations: dict[str, dict] = {}
-    for key in sorted(citations.keys()):
-        entries = sorted(citations[key], key=lambda e: (e["kind"], e["ref"], e.get("via", "")))
-        sorted_citations[key] = {"cited_by": entries}
+    for key in sorted(all_keys):
+        record: dict = {}
+        if key in citations:
+            record["cited_by"] = sorted(
+                citations[key], key=lambda e: (e["kind"], e["ref"], e.get("via", ""))
+            )
+        if key in produced:
+            record["produced_by"] = sorted(
+                produced[key], key=lambda e: (e["kind"], e["ref"], e.get("outcome_kind", ""))
+            )
+        sorted_citations[key] = record
 
     return {
-        "schema": 1,
+        "schema": 2,
         "totals": {
             "paper_citations": paper_count,
             "technique_citations": tech_count,
-            "atoms_cited": len(sorted_citations),
+            "atoms_cited": sum(1 for v in sorted_citations.values() if "cited_by" in v),
+            "atoms_produced": sum(1 for v in sorted_citations.values() if "produced_by" in v),
         },
         "citations": sorted_citations,
     }
@@ -151,9 +188,10 @@ def main() -> int:
         out.write_text(payload + "\n", encoding="utf-8")
         print(
             f"Wrote {out.relative_to(HUB_ROOT) if out.is_relative_to(HUB_ROOT) else out} — "
-            f"{data['totals']['atoms_cited']} atoms cited by "
-            f"{data['totals']['paper_citations']} paper refs + "
-            f"{data['totals']['technique_citations']} technique refs"
+            f"{data['totals']['atoms_cited']} atoms cited "
+            f"({data['totals']['paper_citations']} paper refs + "
+            f"{data['totals']['technique_citations']} technique refs); "
+            f"{data['totals']['atoms_produced']} atoms produced by paper outcomes"
         )
     return 0
 
