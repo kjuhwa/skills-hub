@@ -118,6 +118,42 @@ Two pilots shipped on purpose different shapes:
 
 Schema supported both without modification.
 
+<!-- references-section:begin -->
+## References (examines)
+
+**technique — `workflow/safe-bulk-pr-publishing`**
+pilot
+
+**technique — `debug/root-cause-to-tdd-plan`**
+pilot
+
+**skill — `workflow/parallel-build-sequential-publish`**
+atom whose relocation surfaced the layout mismatch (RFC §4 evidence)
+
+**knowledge — `workflow/batch-pr-conflict-recovery`**
+atom demonstrating failure-mode role in pilot
+
+
+## Build dependencies (proposed_builds)
+
+### `hub-paper-commands`  _(scope: poc)_
+
+**technique — `workflow/safe-bulk-pr-publishing`**
+shape template for composition-by-reference commands
+
+**technique — `debug/root-cause-to-tdd-plan`**
+second shape template — tests command generality across paper shapes
+
+### `security-domain-technique-3`  _(scope: poc)_
+
+**technique — `workflow/safe-bulk-pr-publishing`**
+reference shape (linear pipeline)
+
+**technique — `debug/root-cause-to-tdd-plan`**
+reference shape (decision tree)
+
+<!-- references-section:end -->
+
 ## Perspectives
 
 ### 1. Maintainability

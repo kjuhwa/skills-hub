@@ -46,6 +46,26 @@ verify:
 
 > Pilots #1–#5 each had a single information direction (linear forward, decision-tree forward, event-triggered cycles, downward cascade, forward+reverse chain on the same step list). This pilot has **continuous bidirectional flow** — data moves producer → consumer, signals move consumer → producer, and the two channels are asymmetric in shape, rate, and semantics. The system is self-regulating: when the buffer fills, the backpressure signal slows the producer; when the buffer drains, an explicit "resume" signal restores normal flow.
 
+<!-- references-section:begin -->
+## Composes
+
+**skill — `workflow/backpressure-data-simulation`**  _(version: `*`)_
+backpressure-shape-baseline
+
+**skill — `backend/kafka-consumer-semaphore-chunking`**  _(version: `*`)_
+bounded-buffer-implementation-example
+
+**knowledge — `pitfall/backpressure-implementation-pitfall`**  _(version: `*`)_
+feedback-mechanism-counter-evidence
+
+**knowledge — `pitfall/dead-letter-queue-implementation-pitfall`**  _(version: `*`)_
+overflow-handling-counter-evidence
+
+**knowledge — `pitfall/rate-limiter-implementation-pitfall`**  _(version: `*`)_
+rate-vs-buffer-distinction-counter-evidence
+
+<!-- references-section:end -->
+
 ## When to use
 
 - A producer publishes work faster than a consumer can process it, sustained or bursty

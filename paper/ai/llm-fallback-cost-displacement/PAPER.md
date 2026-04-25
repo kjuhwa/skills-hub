@@ -128,6 +128,59 @@ The hub carries the baseline ingredients:
 
 A proposed technique `ai/agent-fallback-ladder` composes these atoms into a hierarchical ladder with per-tier circuit state. The technique answers "what is the shape?". This paper answers **"does the shape actually save money?"**
 
+<!-- references-section:begin -->
+## References (examines)
+
+**skill — `ai/ai-call-with-mock-fallback`**
+the simplest fallback shape — 2-tier baseline
+
+**skill — `cli/graceful-version-fallback-tier-order`**
+the tier-ordering rule that the ladder inherits
+
+**knowledge — `pitfall/circuit-breaker-implementation-pitfall`**
+counter-evidence — silent fallback as the canonical failure mode
+
+**knowledge — `pitfall/retry-strategy-implementation-pitfall`**
+counter-evidence — retry-inside-tier vs fall-through confusion
+
+**paper — `testing/llm-ci-triage-boundary-conditions`**
+sibling paper on LLM boundary conditions — same silent-failure family
+
+**paper — `workflow/parallel-dispatch-breakeven-point`**
+prior paper on cost displacement under parallelism — analogous shape on a different axis
+
+**paper — `workflow/technique-layer-composition-value`**
+meta paper on layer ROI — anchors the cost-vs-value framing this paper inherits
+
+
+## Build dependencies (proposed_builds)
+
+### `llm-fallback-latency-cost-dashboard`  _(scope: poc)_
+
+**skill — `ai/ai-call-with-mock-fallback`**
+the baseline call shape the dashboard instruments
+
+**knowledge — `pitfall/circuit-breaker-implementation-pitfall`**
+informs which metrics are indicators of the silent-failure shape
+
+### `llm-fallback-schema-validator-middleware`  _(scope: poc)_
+
+**skill — `ai/ai-call-with-mock-fallback`**
+the tiered call shape the middleware wraps
+
+**knowledge — `pitfall/circuit-breaker-implementation-pitfall`**
+codifies the silent-failure failure mode the middleware prevents
+
+### `llm-fallback-cost-budget-governor`  _(scope: demo)_
+
+**skill — `cli/graceful-version-fallback-tier-order`**
+the tier-ordering pattern the governor overrides when budget is exhausted
+
+**knowledge — `pitfall/retry-strategy-implementation-pitfall`**
+retry-storm behavior is the class of failure the governor catches
+
+<!-- references-section:end -->
+
 ## Perspectives
 
 ### 1. Nominal vs Tail Cost

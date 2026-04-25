@@ -74,6 +74,34 @@ retraction_reason: null
 
 The hub carries the saga shape (`workflow/saga-pattern-data-simulation`) and pitfall (`pitfall/saga-pattern-implementation-pitfall`), but no comparable 2PC technique. The community wisdom — "use saga for distributed transactions" — is true for N ≥ 3 but is often wrongly applied at N = 2 where 2PC's simplicity wins.
 
+<!-- references-section:begin -->
+## References (examines)
+
+**technique — `workflow/safe-bulk-pr-publishing`**
+shape-comparison-baseline-for-multi-step
+
+**skill — `workflow/saga-pattern-data-simulation`**
+saga-shape
+
+**knowledge — `pitfall/saga-pattern-implementation-pitfall`**
+saga-counter-evidence
+
+**knowledge — `pitfall/idempotency-implementation-pitfall`**
+compensation-safety-concern
+
+
+## Build dependencies (proposed_builds)
+
+### `saga-vs-2pc-microbenchmark`  _(scope: poc)_
+
+**skill — `workflow/saga-pattern-data-simulation`**
+saga-implementation-baseline
+
+**knowledge — `pitfall/saga-pattern-implementation-pitfall`**
+avoid-known-saga-bugs-in-benchmark
+
+<!-- references-section:end -->
+
 ## Perspectives
 
 (see frontmatter)

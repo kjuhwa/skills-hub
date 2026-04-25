@@ -127,6 +127,59 @@ And one knowledge entry directly relevant:
 
 This paper does NOT claim the LLM approach is wrong. It claims the effectiveness is **conditional on failure-mix composition**, and the conditioning is unmeasured in most adoption stories.
 
+<!-- references-section:begin -->
+## References (examines)
+
+**skill — `testing/llm-integration-test-failure-diagnosis`**
+the subject — the LLM-auto-diagnose pattern being analyzed
+
+**skill — `debug/investigate`**
+baseline — the human systematic 4-phase triage the LLM is proposed to replace or precede
+
+**skill — `debug/triage-issue`**
+downstream consumer — what happens to the LLM verdict (issue created, auto-closed, escalated)
+
+**knowledge — `decision/caveats-absence-confidence-cap`**
+counter-evidence — existing corpus stance on capping confidence when caveats are absent, directly relevant to LLM over-confidence failure mode
+
+**paper — `workflow/parallel-dispatch-breakeven-point`**
+prior paper sourcing the silent-failure-mode framing this paper applies to triage
+
+**paper — `workflow/technique-layer-composition-value`**
+meta paper anchoring the "measure before adopt" stance this paper takes for LLM-triage
+
+
+## Build dependencies (proposed_builds)
+
+### `llm-triage-confidence-dashboard`  _(scope: poc)_
+
+**skill — `testing/llm-integration-test-failure-diagnosis`**
+the LLM triager whose output the dashboard instruments
+
+**knowledge — `decision/caveats-absence-confidence-cap`**
+guides the confidence-cap visualization rules
+
+### `llm-triage-false-known-flake-pitfall`  _(scope: poc)_
+
+**knowledge — `decision/caveats-absence-confidence-cap`**
+seed — the closest existing entry to refine
+
+**skill — `testing/llm-integration-test-failure-diagnosis`**
+the source pattern the pitfall contextualizes
+
+### `hybrid-llm-human-triage-router`  _(scope: demo)_
+
+**skill — `testing/llm-integration-test-failure-diagnosis`**
+the LLM step the router gates
+
+**skill — `debug/investigate`**
+the human-systematic fallback the router escalates to
+
+**skill — `debug/triage-issue`**
+the shared downstream both paths feed into
+
+<!-- references-section:end -->
+
 ## Perspectives
 
 ### 1. Noise-vs-Signal Boundary
