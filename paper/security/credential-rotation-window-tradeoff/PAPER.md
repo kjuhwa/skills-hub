@@ -8,7 +8,7 @@ type: hypothesis
 
 premise:
   if: Credential overlap window length is varied
-  then: Security risk grows linearly with window (broader compromise surface) while operational simplicity (fraction of clients migrated) grows logarithmically. Optimal window is shorter than common practice — 24-48h captures ≥95% of clients while keeping security exposure 7-15x smaller than the typical 7-30d window.
+  then: Risk grows linearly with window length, operational simplicity grows logarithmically. Optimal is shorter than common practice — 24-48h captures ≥95% of clients with 7-15x lower exposure than 7-30d.
 
 examines:
   - kind: skill
@@ -38,7 +38,7 @@ external_refs: []
 
 proposed_builds:
   - slug: rotation-window-simulator
-    summary: Simulator that takes a client migration distribution + assumed compromise probability per hour, computes total expected risk + total migration completeness for window lengths {1h, 6h, 24h, 72h, 1w, 4w}.
+    summary: Simulator — takes client migration distribution + per-hour compromise probability, computes expected risk and migration completeness for windows {1h, 6h, 24h, 72h, 1w, 4w}.
     scope: poc
     requires:
       - kind: skill

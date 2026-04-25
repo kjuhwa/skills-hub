@@ -8,7 +8,7 @@ type: hypothesis
 
 premise:
   if: A multi-agent orchestrator dispatches N parallel sub-agents
-  then: Coordinator overhead (synthesis time + scope partitioning + result reconciliation) grows with N while parallelism gain saturates past N=4. Past N=8 in typical workloads, coordinator overhead exceeds parallelism gain — net negative outcome.
+  then: Coordinator overhead (synthesis + partitioning + reconciliation) grows with N while parallelism gain saturates past N=4. Past N=8, coordinator overhead exceeds parallelism gain — net negative.
 
 examines:
   - kind: skill
@@ -27,7 +27,7 @@ examines:
   - kind: paper
     ref: workflow/parallel-dispatch-breakeven-point
     role: prior-paper
-    note: prior paper establishing parallel-dispatch can be net negative — this paper extends to the coordinator-overhead axis
+    note: extends parallel-dispatch breakeven to coordinator overhead axis
 
 perspectives:
   - name: Coordinator Time is Serial

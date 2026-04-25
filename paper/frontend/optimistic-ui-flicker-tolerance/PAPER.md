@@ -8,7 +8,7 @@ type: hypothesis
 
 premise:
   if: Optimistic UI is deployed when the server failure rate (or prediction-mismatch rate) varies
-  then: UX quality is non-linear in error rate. At <1% server failure, optimistic UI clearly wins on perceived-latency. At >5% the rollback flicker outweighs the gain. Net positive only when error rate is stable below 3%.
+  then: UX is non-linear in error rate. At <1% failure optimistic UI clearly wins on perceived latency; at >5% rollback flicker outweighs the gain. Net positive only when error rate is stable below 3%.
 
 examines:
   - kind: skill
@@ -30,15 +30,15 @@ perspectives:
   - name: Rollback Cost is Compounding
     summary: Rollback flicker is jarring once; multiple rollbacks per session compound user frustration non-linearly. Studies suggest >3 rollbacks/session is the threshold where users actively dislike the feature.
   - name: Server-Side Stability Required
-    summary: Optimistic UI's value depends on stable error rate. A spiky error pattern produces user-visible inconsistency (some actions stick, others rollback). Stability of failure rate matters as much as the rate itself.
+    summary: Optimistic UI value depends on stable error rate. Spiky errors produce visible inconsistency (some actions stick, others rollback). Failure-rate stability matters as much as the rate itself.
   - name: Mitigations
-    summary: Subtle rollback animations (instead of jarring flicker), deferred rollback (wait 200ms then rollback if needed), and predictive batching can shift the threshold upward but do not fundamentally change the curve.
+    summary: Subtle rollback animations, deferred rollback (wait 200ms then revert if needed), and predictive batching shift the threshold upward but don't fundamentally change the curve.
 
 external_refs: []
 
 proposed_builds:
   - slug: optimistic-ui-rollback-frequency-monitor
-    summary: Monitoring component that tracks rollback frequency per session and flags sessions where rollback rate exceeds the threshold derived from this paper. Surfaces UX regression invisible in standard error-rate monitoring.
+    summary: Monitoring component tracking rollback frequency per session, flagging sessions exceeding the threshold from this paper. Surfaces UX regression invisible in standard error-rate monitoring.
     scope: poc
     requires:
       - kind: skill
