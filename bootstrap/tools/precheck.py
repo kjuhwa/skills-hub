@@ -54,6 +54,10 @@ def main() -> int:
     steps.append(("master-index-lite", [py, "_build_master_index_lite.py"]))
     steps.append(("category-indexes", [py, "_build_category_indexes.py"]))
     steps.append(("citations-index", [py, "_build_citations_index.py"]))
+    # Audits run after citations are fresh; they read citations.json. Pre-existing
+    # paper/orphan health is informational only — do not abort precheck on their output.
+    steps.append(("orphan-audit", [py, "_audit_orphan_atoms.py"]))
+    steps.append(("paper-loops-audit", [py, "_audit_paper_loops.py"]))
 
     for label, cmd in steps:
         rc = run(label, cmd)
