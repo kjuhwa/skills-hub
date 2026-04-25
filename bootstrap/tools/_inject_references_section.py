@@ -63,13 +63,15 @@ def parse_frontmatter(fm_block: str) -> dict:
 def render_entry(entry: dict) -> str:
     kind = (entry.get("kind") or "").strip()
     ref = (entry.get("ref") or "").strip()
+    note = (entry.get("note") or "").strip()
     role = (entry.get("role") or "").strip()
     version = entry.get("version")
     head = f"**{kind} — `{ref}`**"
     if version:
         head += f"  _(version: `{version}`)_"
-    if role:
-        return f"{head}\n{role}\n"
+    description = note or role
+    if description:
+        return f"{head}\n{description}\n"
     return f"{head}\n"
 
 
