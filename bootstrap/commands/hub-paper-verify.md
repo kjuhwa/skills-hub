@@ -76,6 +76,25 @@ With `--all`, end with aggregate: `<K> papers verified: <pass> pass, <warn> warn
 - `WARN` only → pass with advisory
 - `--strict` upgrades all `WARN` to `FAIL`
 
+## Falsifiability advisory (separate, non-gating)
+
+`/hub-paper-verify` itself stays structural — it does not judge whether a `premise.then` is *checkable*. A complementary audit, `_audit_paper_falsifiability.py`, runs three heuristic detectors over each `type: hypothesis` paper's `premise.then`:
+
+- Comparison operators (`≥`, `≤`, `<`, `>`, `=`, `≈`, `~`, `±`) or comparison phrases ('at least', 'exceeds', 'falls below', etc.)
+- Numeric thresholds (digit followed by `%`, `percent`, `x`, `σ`, units, `N=`, etc.)
+- Functional-form vocabulary (`linearly`, `exponentially`, `power-law`, `saturates`, `crossover`, `inverts`, etc.)
+
+If none fire, the paper is flagged with an advisory WARN — the heuristic's read is "this premise has no measurable predicate the experiment can check; consider rewriting". It is intentionally heuristic; both false positives (papers that are falsifiable but use unusual language) and false negatives (papers with a numeric threshold for a vacuous claim) are possible.
+
+The audit runs automatically via `precheck.py` (post-merge / post-commit hooks) and can be invoked directly:
+
+```
+python ~/.claude/skills-hub/remote/bootstrap/tools/_audit_paper_falsifiability.py
+python ~/.claude/skills-hub/remote/bootstrap/tools/_audit_paper_falsifiability.py --only-flagged
+```
+
+Survey and position papers are exempt by default — their premises are not prediction-shaped. Use `--include-survey-position` to audit them anyway.
+
 ## Rules
 
 - Read-only. No mutation.
