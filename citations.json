@@ -2,7 +2,7 @@
   "schema": 2,
   "totals": {
     "paper_citations": 111,
-    "technique_citations": 65,
+    "technique_citations": 69,
     "atoms_cited": 61,
     "atoms_produced": 3
   },
@@ -301,6 +301,12 @@
           "ref": "testing/contract-test-staleness-curve",
           "role": "similar-decay-pattern",
           "via": "examines"
+        },
+        {
+          "kind": "technique",
+          "ref": "arch/idempotent-mutation-with-rollback",
+          "role": "failure-mode-warning",
+          "via": "composes"
         },
         {
           "kind": "technique",
@@ -638,6 +644,12 @@
         },
         {
           "kind": "technique",
+          "ref": "arch/idempotent-mutation-with-rollback",
+          "role": "forward-step",
+          "via": "composes"
+        },
+        {
+          "kind": "technique",
           "ref": "frontend/optimistic-mutation-with-server-reconcile",
           "role": "optimistic-shape-baseline",
           "via": "composes"
@@ -707,6 +719,12 @@
           "ref": "db/migration-checkpoint-overhead",
           "role": "migration-pipeline-baseline",
           "via": "requires:migration-checkpoint-granularity-benchmark"
+        },
+        {
+          "kind": "technique",
+          "ref": "arch/idempotent-mutation-with-rollback",
+          "role": "pipeline-orchestrator",
+          "via": "composes"
         },
         {
           "kind": "technique",
@@ -1087,6 +1105,12 @@
           "ref": "testing/contract-test-staleness-curve",
           "role": "replay-safety-pattern",
           "via": "examines"
+        },
+        {
+          "kind": "technique",
+          "ref": "arch/idempotent-mutation-with-rollback",
+          "role": "verification-harness",
+          "via": "composes"
         },
         {
           "kind": "technique",
