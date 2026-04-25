@@ -27,6 +27,39 @@ The hub is built around two axes: **enforcement** (atoms → techniques) and **e
 
 **Why techniques exist**: `/hub-merge` absorbs entries (good for true duplicates). `technique/` *references* atoms, so each atom retains independent versioning and can evolve under its compose call. A technique is never the canonical home for the procedure; it's the canonical home for the *pattern of combination*.
 
+### Architecture at a glance
+
+```mermaid
+graph TB
+  subgraph exploration["exploration axis (loop-closing)"]
+    direction LR
+    P[("📄 paper<br/>premise → experiment → outcomes")]
+  end
+  subgraph enforcement["enforcement axis (pass/fail lint)"]
+    direction LR
+    T(["🔗 technique<br/>composes 2+ atoms"])
+    subgraph atoms["atoms"]
+      direction LR
+      S[/"⚡ skill<br/>do X"/]
+      K[/"💡 knowledge<br/>X is true"/]
+    end
+  end
+  E[(["🧪 example<br/>concrete instantiation"])]
+
+  P -.examines.-> T
+  P -.examines.-> S
+  P -.examines.-> K
+  P -.examines.-> P
+  T --composes--> S
+  T --composes--> K
+  P --proposed_builds--> E
+
+  classDef axisLabel fill:#fff,stroke:#cbd5e1,color:#475569
+  class exploration,enforcement,atoms axisLabel
+```
+
+The live citation graph generated from `citations.json` (15 papers · 17 techniques · 54 cited atoms) is at [`docs/citation-graph.mmd`](./docs/citation-graph.mmd) — auto-rebuilt by post-merge / post-commit git hooks. Implemented papers are highlighted; draft papers are dashed.
+
 ---
 
 ## Quick Start

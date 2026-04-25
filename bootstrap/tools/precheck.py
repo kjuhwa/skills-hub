@@ -54,6 +54,8 @@ def main() -> int:
     steps.append(("master-index-lite", [py, "_build_master_index_lite.py"]))
     steps.append(("category-indexes", [py, "_build_category_indexes.py"]))
     steps.append(("citations-index", [py, "_build_citations_index.py"]))
+    # Citation graph mermaid is a derived artifact of citations.json
+    steps.append(("citation-graph-mermaid", [py, "_build_citation_graph_mermaid.py"]))
     # Audits run after citations are fresh; they read citations.json. Pre-existing
     # paper/orphan health is informational only — do not abort precheck on their output.
     steps.append(("orphan-audit", [py, "_audit_orphan_atoms.py"]))
