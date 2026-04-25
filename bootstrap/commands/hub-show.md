@@ -80,6 +80,17 @@ Tags:        [oauth, token, refresh]
    - If the atom has zero citations, render `--- Cited by ---  (none yet)`. This is informative — uncited atoms are exactly what `paper/arch/technique-layer-roi-after-100-pilots` is measuring.
    - If `citations.json` is missing or older than the entry's last modification, advise `precheck.py` (the post-merge / post-commit hook regenerates it automatically).
 
+6. **Append `Produced by` block** (skipped under `--raw`) — same lookup in citations.json. If the entry has a `produced_by` key (atom was emitted by a paper's `outcomes[]`), render:
+
+   ```
+   --- Produced by ---
+   paper  workflow/parallel-dispatch-breakeven-point  · outcome: produced_knowledge
+   ```
+
+   - One row per producing paper. Show all entries (the list is bounded by paper count, not large).
+   - Skip the block entirely if no `produced_by` key. Most atoms don't have one yet — only 3 of 2000 atoms in the current corpus carry an outcome back-link.
+   - When present, the `Produced by` line tells the reader "this atom exists because paper X ran an experiment and emitted it as an outcome" — bidirectional traceability with the paper layer's loop closure.
+
 ## Rules
 
 - **Read-only.** Never modify any file.

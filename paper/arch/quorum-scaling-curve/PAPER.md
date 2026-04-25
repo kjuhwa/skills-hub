@@ -39,7 +39,10 @@ external_refs: []
 
 proposed_builds:
   - slug: quorum-throughput-benchmark
-    summary: Multi-N benchmark: spin up N ∈ {3, 5, 7, 9, 11} peer simulators; measure commit throughput and p99 latency at each N. Compare to ⌊N/2⌋+1 round-trip prediction.
+    summary: >-
+      Multi-N benchmark — spin up N ∈ {3, 5, 7, 9, 11} peer simulators; measure
+      commit throughput and p99 latency at each N. Compare to ⌊N/2⌋+1 round-trip
+      prediction.
     scope: poc
     requires:
       - kind: skill

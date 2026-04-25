@@ -32,7 +32,10 @@ perspectives:
   - name: Failure Mode Asymmetry
     summary: Backpressure failure → buffer overflow → DLQ. Rate-limit failure → dropped requests at producer → silent customer impact. Different observability surface.
   - name: Hybrid Practicality
-    summary: Production systems often combine both: rate limit for the outer perimeter (untrusted), backpressure for inner pipelines (trusted). The paper's claim is about default choice when only one is allowed.
+    summary: >-
+      Production systems often combine both — rate limit for the outer perimeter
+      (untrusted), backpressure for inner pipelines (trusted). The paper's claim is
+      about default choice when only one is allowed.
 
 external_refs: []
 
