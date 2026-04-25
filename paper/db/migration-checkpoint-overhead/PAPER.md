@@ -8,7 +8,7 @@ type: hypothesis
 
 premise:
   if: A long-running migration adds checkpoint persistence at progressively finer granularity (per-batch → per-row)
-  then: Per-batch checkpoints add <5% overhead. Per-row checkpointing makes the checkpoint table the bottleneck — migration runs 10-50x slower (two writes per row). Recommended granularity: per-batch, not per-row.
+  then: Per-batch checkpoints add <5% overhead. Per-row checkpointing makes the checkpoint table the bottleneck — migration runs 10-50x slower (two writes per row). Recommended granularity — per-batch, not per-row.
 
 examines:
   - kind: skill
