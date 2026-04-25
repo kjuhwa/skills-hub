@@ -182,3 +182,98 @@ Once this schema is approved, the first technique comes from one of these pairin
 3. Pilot-candidate selection
 
 Once confirmed, proceed to step 2 (author the first pilot technique).
+
+---
+
+## 13. v0.2 amendment — LLM-consumption optimization (proposed 2026-04-26)
+
+> **Why**: v0.1 stores composition correctly (`composes[]` resolves, version ranges intersect, no nesting). It does not store the **decision-time signal** an LLM needs at code-write time — "should I apply *this* technique here?" That answer lives in the body (`## When to use`, `## When NOT to use`, `## Known limitations`), which is unstructured prose and requires a full read. v0.2 makes the decision signal machine-extractable: `recipe.one_line` (action-oriented), `recipe.preconditions[]`, `recipe.anti_conditions[]`. Same posture and self-corrective gate as paper §15.
+
+### 13.1 New frontmatter fields
+
+```yaml
+recipe:                              # populated when authoring under v0.2
+  one_line: <≤200 chars — "use this when X to get Y; do not use when Z">
+  preconditions:                     # observable conditions for use
+    - <each condition the caller must verify before applying>
+  anti_conditions:                   # observable disqualifiers
+    - <each condition that disqualifies use>
+  failure_modes:                     # advisory: signal → atom mapping
+    - signal: <observable failure during application>
+      atom_ref: <kind:ref pointing to a composes[] entry>
+      remediation: <one-line recovery>
+  assembly_order:                    # advisory: explicit phase sequence
+    - phase: <step name>
+      uses: <role from composes[] or "ad-hoc">
+      branches:                      # optional decision tree
+        - condition: <when this branch fires>
+          next: <next phase or "done">
+```
+
+### 13.2 New verification rules
+
+**Required** (FAIL — `/hub-technique-verify` enforces when `recipe:` block is present):
+
+R1. `recipe.one_line` non-empty (≥1 char after strip).
+R2. `recipe.preconditions` length ≥ 1.
+R3. `recipe.anti_conditions` length ≥ 1.
+
+**Advisory WARN** (informational, never FAIL):
+
+A1. `recipe.failure_modes` empty when any `composes[].ref` starts with `pitfall/` (the technique cites a pitfall but doesn't tell the caller what failure to watch for).
+A2. `recipe.assembly_order` empty when `composes[].length >= 3` (likely a pipeline whose order matters; surface it).
+A3. `recipe.failure_modes[i].atom_ref` does not match any `composes[].ref` (failure tagged to an atom not in the recipe — likely typo).
+
+**Backward compatibility**: techniques without a `recipe:` block (all 19 current) remain valid v0.1 techniques. `/hub-technique-verify` continues to apply v0.1 rules 1-7. The R1-R3 rules fire only when `recipe:` is present.
+
+### 13.3 Injection contract
+
+When `/hub-find`, `/hub-suggest`, or pre-implementation hook surfaces a technique:
+
+| Has `recipe.one_line`? | What gets shown |
+|---|---|
+| yes (v0.2-compliant) | `recipe.one_line` — action-first |
+| no (v0.1 only) | `description` — current behavior |
+
+Mirrors paper §15.3 verdict-first contract. The same three rendering surfaces (text / JSON / HTML in `hub_search.py`) get updated.
+
+### 13.4 Why these specific fields (LLM-consumption rationale)
+
+- **`recipe.one_line`** — highest-bandwidth field for injection. One imperative sentence that tells the LLM what to do and skip the body.
+- **`recipe.preconditions[]`** — the first question LLM asks at decision time: "do current circumstances justify this technique?" Each entry is one observable check.
+- **`recipe.anti_conditions[]`** — the symmetric question: "is there any circumstance here that disqualifies it?" Currently buried in body `## When NOT to use`. Promoting to frontmatter prevents the LLM from missing it.
+- **`recipe.failure_modes[]`** — when the technique misbehaves, which atom is the canonical place to look? Pitfall-citing techniques carry this knowledge in roles like "counter-evidence" but the *signal → atom* mapping is opaque. Structured form makes troubleshooting a metadata read.
+- **`recipe.assembly_order[]`** — the schema explicitly accepts `composes[]` as an unordered set (§11 Q5). For multi-atom techniques the order matters; encoding it as a structured list lets LLM apply the technique without inferring sequence from body diagrams.
+
+### 13.5 What is still NOT verified (intentionally)
+
+Carrying the v0.1 stance: **structure only, never substance**.
+
+- `recipe.one_line` non-empty does not mean it's *correct*. Reviewer judgement.
+- `recipe.preconditions` accuracy is not checked — the lint cannot decide whether "error rate observable per-flag" is a good or bad precondition.
+- `recipe.failure_modes[i].remediation` is not validated against any external reality; it's a claim the author makes.
+
+### 13.6 Self-corrective gate
+
+If `recipe.one_line` adoption stays below 30 % across published techniques after 90 days (= 2026-07-25 from this amendment merge), the v0.2 fields are a candidate for retraction. Same stance as §11 (technique layer retraction) and paper §15.6 (v0.3 retraction). The amendment earns its keep only if authors find the LLM-injection win worth the extra fields.
+
+### 13.7 Why v0.2 not v0.1.x
+
+v0.1.x amendments would be additive without changing what `/hub-find` *shows*. v0.2 changes the injection contract (§13.3) — for v0.2-compliant techniques, search displays `recipe.one_line` instead of `description`. Consumer-facing behaviour change → minor version bump.
+
+### 13.8 Migration
+
+- All v0.2 fields OPTIONAL on existing v0.1 techniques. No migration required.
+- New `_audit_technique_v02.py` reports per-technique compliance + corpus adoption rate. Informational only — same posture as `_audit_paper_v03.py`.
+- `/hub-technique-compose` v0.2 generates `recipe:` block by default at compose time.
+- `/hub-technique-extract-recipe <slug>` (proposed): heuristic backfill — reads body `## When to use` / `## When NOT to use` / `## Known limitations` and proposes draft `recipe:` block for author review (mirror of `/hub-paper-extract-verdict`).
+
+### 13.9 Migration plan (3-PR series, mirrors paper v0.3 rollout)
+
+This amendment ships in three sequential PRs:
+
+1. **§13 schema amendment** (this PR) — defines the `recipe:` block and the verification rules. No code change.
+2. **`_audit_technique_v02.py`** — informational reporter wired into `precheck.py`. Establishes baseline (which techniques opt-in, by how much).
+3. **Dogfood 2-3 techniques** — populate `recipe:` on the most-cited techniques (`workflow/safe-bulk-pr-publishing`, `debug/root-cause-to-tdd-plan` per the citation graph). Validates the field shapes against real techniques before the convention spreads.
+
+After the 3 PRs land, `/hub-find` injection contract update (paper §15.3 analogue) ships separately to swap `description` for `recipe.one_line` on v0.2-compliant techniques in the search render path.
