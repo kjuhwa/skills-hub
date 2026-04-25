@@ -347,6 +347,33 @@ def paper_display_summary(entry: dict) -> tuple[str, str]:
     return (description, "")
 
 
+def technique_display_summary(entry: dict) -> tuple[str, str]:
+    """Return (summary, advisory) per technique-schema-draft.md §13.3 injection contract.
+
+    For non-technique entries, returns (description, "") unchanged. For techniques:
+      - has recipe.one_line (v0.2-compliant)  → (recipe_one_line, "")
+      - no recipe.one_line (v0.1-only)         → (description, "")
+    """
+    if entry.get("kind") != "technique":
+        return (entry.get("description") or "", "")
+
+    description = (entry.get("description") or "").strip()
+    one_line = (entry.get("recipe_one_line") or "").strip()
+    if one_line:
+        return (one_line, "")
+    return (description, "")
+
+
+def entry_display_summary(entry: dict) -> tuple[str, str]:
+    """Dispatch to paper / technique / default summary based on entry kind."""
+    kind = entry.get("kind")
+    if kind == "paper":
+        return paper_display_summary(entry)
+    if kind == "technique":
+        return technique_display_summary(entry)
+    return (entry.get("description") or "", "")
+
+
 def render_html(raw_tokens: list[str], expanded: list[tuple[str, float]],
                 top: list[tuple[int, dict]], total: int) -> str:
     """다크 테마 카드 UI."""
@@ -357,7 +384,7 @@ def render_html(raw_tokens: list[str], expanded: list[tuple[str, float]],
     cards: list[str] = []
     for s, e in top:
         name = html.escape(e.get("name") or "")
-        summary, advisory = paper_display_summary(e)
+        summary, advisory = entry_display_summary(e)
         desc = html.escape(summary.strip())
         kind = html.escape(e.get("kind") or "")
         cat = html.escape(e.get("category") or "")
@@ -482,7 +509,7 @@ def main() -> int:
     if args.as_json:
         out = []
         for s, e in top:
-            summary, advisory = paper_display_summary(e)
+            summary, advisory = entry_display_summary(e)
             row = {
                 "score": s,
                 "kind": e.get("kind"),
@@ -492,10 +519,10 @@ def main() -> int:
                 "tags": e.get("tags", []),
                 "path": e.get("path", ""),
             }
-            # Paper-only injection-contract fields. Always include both keys
-            # for paper entries so downstream consumers can branch on
+            # Injection-contract fields for kinds that support them. Always
+            # include both keys so downstream consumers can branch on
             # "advisory present" without a key check.
-            if e.get("kind") == "paper":
+            if e.get("kind") in ("paper", "technique"):
                 row["display_summary"] = summary
                 row["advisory"] = advisory
             out.append(row)
@@ -531,7 +558,7 @@ def main() -> int:
         kind = e.get("kind", "?")
         cat = e.get("category", "")
         name = e.get("name", "")
-        summary, advisory = paper_display_summary(e)
+        summary, advisory = entry_display_summary(e)
         desc = summary.replace("\n", " ")
         if len(desc) > 200:
             desc = desc[:199] + "…"
