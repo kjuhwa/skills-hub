@@ -35542,7 +35542,10 @@
     "path": "technique/ai/agent-fallback-ladder",
     "has_content": true,
     "composes_count": 4,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "Hierarchical fallback ladder for LLM calls — N tiers ordered by cost/confidence, each gated by its own circuit-breaker state. Cheap-first, graceful degradation.",
+    "recipe_preconditions_count": 3,
+    "recipe_anti_conditions_count": 4
   },
   {
     "kind": "technique",
@@ -35556,7 +35559,10 @@
     "path": "technique/ai/multi-agent-fan-out-with-isolation",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35570,7 +35576,10 @@
     "path": "technique/arch/feature-flag-killswitch-with-circuit-state",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "Per-flag circuit breaker — error rate above threshold trips OPEN, manual half-open re-arm prevents auto-flapping. Operator owns recovery.",
+    "recipe_preconditions_count": 3,
+    "recipe_anti_conditions_count": 3
   },
   {
     "kind": "technique",
@@ -35584,7 +35593,10 @@
     "path": "technique/arch/finite-state-machine-monotonic-ratchet",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35604,7 +35616,10 @@
     "path": "technique/arch/gated-fallback-chain",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35624,7 +35639,10 @@
     "path": "technique/arch/idempotent-mutation-with-rollback",
     "has_content": true,
     "composes_count": 4,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35638,7 +35656,10 @@
     "path": "technique/arch/multi-peer-quorum-decision-loop",
     "has_content": true,
     "composes_count": 6,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35652,7 +35673,10 @@
     "path": "technique/arch/saga-with-compensation-chain",
     "has_content": true,
     "composes_count": 5,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35666,7 +35690,10 @@
     "path": "technique/arch/strangler-fig-traffic-shifting",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35680,7 +35707,10 @@
     "path": "technique/data/producer-consumer-backpressure-loop",
     "has_content": true,
     "composes_count": 5,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35694,7 +35724,10 @@
     "path": "technique/db/idempotent-migration-with-resume-checkpoint",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35708,7 +35741,10 @@
     "path": "technique/debug/root-cause-to-tdd-plan",
     "has_content": true,
     "composes_count": 4,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "Take an unclear bug to a GitHub issue with embedded TDD plan. 4-phase investigation (investigate → analyze → hypothesize → implement) gates against AI-guess pitfalls.",
+    "recipe_preconditions_count": 3,
+    "recipe_anti_conditions_count": 3
   },
   {
     "kind": "technique",
@@ -35722,7 +35758,10 @@
     "path": "technique/devops/canary-rollout-with-auto-revert",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35736,7 +35775,10 @@
     "path": "technique/frontend/optimistic-mutation-with-server-reconcile",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35750,7 +35792,10 @@
     "path": "technique/security/credential-rotation-overlap-window",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35764,7 +35809,10 @@
     "path": "technique/testing/contract-test-with-consumer-verification",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "",
+    "recipe_preconditions_count": 0,
+    "recipe_anti_conditions_count": 0
   },
   {
     "kind": "technique",
@@ -35778,7 +35826,10 @@
     "path": "technique/testing/fuzz-crash-to-fix-loop",
     "has_content": true,
     "composes_count": 4,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "Iterative loop turning fuzz crashes into TDD'd fixes. Each crash becomes one cycle; fixed inputs return to the seed corpus for permanent regression cover.",
+    "recipe_preconditions_count": 3,
+    "recipe_anti_conditions_count": 3
   },
   {
     "kind": "technique",
@@ -35792,7 +35843,10 @@
     "path": "technique/workflow/fan-out-fan-in-with-bulkhead",
     "has_content": true,
     "composes_count": 3,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "Multi-stage pipeline with synchronous fan-in barriers between stages and bulkhead-isolated workers within each stage. Failure-isolated, latency = max(worker).",
+    "recipe_preconditions_count": 3,
+    "recipe_anti_conditions_count": 3
   },
   {
     "kind": "technique",
@@ -35806,6 +35860,9 @@
     "path": "technique/workflow/safe-bulk-pr-publishing",
     "has_content": true,
     "composes_count": 4,
-    "binding": "loose"
+    "binding": "loose",
+    "recipe_one_line": "Ship 10+ independent artifacts as separate PRs against an auto-merge repo. Anchor first, build parallel, publish serial; recover from catalog-file conflicts via batch-merge.",
+    "recipe_preconditions_count": 3,
+    "recipe_anti_conditions_count": 3
   }
 ]

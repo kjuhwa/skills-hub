@@ -40,6 +40,8 @@ STANDARD_KEYS = (
     "outcomes_count", "proposed_builds_count", "paper_type", "paper_status",
     # v0.3 injection-contract fields (paper kind only, populated when present)
     "verdict_one_line", "premise_revisions", "last_revision_date", "retraction_reason",
+    # v0.2 injection-contract fields (technique kind only, populated when present)
+    "recipe_one_line", "recipe_preconditions_count", "recipe_anti_conditions_count",
 )
 
 
@@ -136,6 +138,28 @@ def entry_from_technique(root: Path, tech_md: Path) -> dict | None:
     composes_count = sum(
         1 for line in fm_body.splitlines() if line.lstrip().startswith("- kind:")
     )
+    # v0.2 amendment fields (technique-schema-draft.md §13) live in nested YAML
+    # blocks (recipe.one_line, recipe.preconditions[], etc.) that the flat
+    # parser at the top of this file cannot reach. Use yaml.safe_load here —
+    # best-effort, optional dependency.
+    recipe_one_line = ""
+    recipe_preconditions_count = 0
+    recipe_anti_conditions_count = 0
+    if _HAVE_YAML and fm_body:
+        try:
+            full_fm = yaml.safe_load(fm_body) or {}
+        except yaml.YAMLError:
+            full_fm = {}
+        recipe = full_fm.get("recipe") or {}
+        if isinstance(recipe, dict):
+            recipe_one_line = (recipe.get("one_line") or "").strip()
+            preconditions = recipe.get("preconditions") or []
+            anti_conditions = recipe.get("anti_conditions") or []
+            if isinstance(preconditions, list):
+                recipe_preconditions_count = len(preconditions)
+            if isinstance(anti_conditions, list):
+                recipe_anti_conditions_count = len(anti_conditions)
+
     return {
         "kind": "technique",
         "name": fm.get("name", ""),
@@ -149,6 +173,11 @@ def entry_from_technique(root: Path, tech_md: Path) -> dict | None:
         "has_content": True,
         "composes_count": composes_count,
         "binding": fm.get("binding", "loose"),
+        # v0.2 §13.3 injection-contract fields. Empty / 0 when absent so
+        # consumers (hub_search) can detect "field missing" without KeyError.
+        "recipe_one_line": recipe_one_line,
+        "recipe_preconditions_count": recipe_preconditions_count,
+        "recipe_anti_conditions_count": recipe_anti_conditions_count,
     }
 
 
