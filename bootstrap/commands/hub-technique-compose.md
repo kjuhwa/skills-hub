@@ -25,6 +25,26 @@ Authoring workflow for the `technique/` middle layer. Produces a `.technique-dra
    - `tags` — comma-separated; dedupe.
    - `binding` — default `loose`. Explain tradeoff before asking.
 
+2.5. **Shape claim prompt** (per paper #1188 verdict rule)
+
+   Per #1188's census, the technique layer is shape-diverse (8% cost-displacement vs 36% in papers). Make the technique's primary shape claim explicit so future paper authors can cite accurately.
+
+   AskUserQuestion: "What primary shape claim does this technique make? Pick from:
+   - cost-displacement crossover **(NOTE: rare in techniques per #1188 census; use only if actual shape is genuinely crossover)**
+   - threshold-cliff
+   - log-search
+   - hysteresis
+   - convergence
+   - necessity
+   - pareto distribution
+   - saturation-without-crossover
+   - invariant-only (no shape claim — pattern only)
+   - structural-only (no shape claim — composition recipe only)
+   - other (specify)"
+
+   - **If cost-displacement chosen**: AskUserQuestion: "Why cost-displacement? Per #1188, technique layer is shape-diverse — most techniques are invariant-only or structural-only. Justify the crossover claim."
+   - Capture chosen shape; add to `tags` and surface in recipe.one_line phrasing.
+
 3. **Pick composes[]** (iterative loop, minimum 2 atoms required):
    - Ask user: "search for atom to add? (or `done` to finish)".
    - On keyword: delegate to `/hub-find` flow, show top N results with `kind` badge.
@@ -35,6 +55,19 @@ Authoring workflow for the `technique/` middle layer. Produces a `.technique-dra
    - After each add, show running list.
    - Reject: atom whose `kind` is `technique` (v0 nesting ban).
    - Stop condition: user says `done` AND `composes[].length >= 2`. If `< 2`, warn: "a technique with fewer than 2 atoms is just a skill — continue anyway?".
+
+3.5. **Recipe block (v0.2 §13 required fields)**
+
+   Per `docs/rfc/technique-schema-draft.md` §13, v0.2 techniques carry a `recipe:` block. Collect all 5 required fields:
+
+   - **`recipe.one_line`** (single sentence summarizing what this technique does + key shape claim phrasing if any)
+   - **`recipe.preconditions`** (≥3 bullet points — when does this technique apply?)
+   - **`recipe.anti_conditions`** (≥3 bullet points — when does this technique NOT apply?)
+   - **`recipe.failure_modes`** (≥3 entries — each with `signal`, `atom_ref` linking to a `composes[]` atom, `remediation`)
+   - **`recipe.assembly_order`** (phase sequence — each phase has `phase` name and `uses` reference; branches optional)
+
+   - WARN if any required field is empty. Suggest: "this is a v0.1-only technique without recipe block. Switch to v0.2 by populating recipe? (y/n)".
+   - If yes, version bumps from `0.1.0-draft` → `0.2.0-draft`.
 
 4. **Optional verify hook**:
    - Ask: "scaffold `verify.sh`? (yes/no)".
