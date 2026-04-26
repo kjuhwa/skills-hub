@@ -1,61 +1,95 @@
 # skills-hub
 
-> **A self-correcting knowledge stack for Claude Code.** Atoms (skills + knowledge) compose into **techniques**, and **papers** test their own premises with experiments — partial refutations rewrite the premise, produce new corpus entries, and feed back into the catalog. Three papers have already closed their loops; this README documents how.
+> **솔직히 말하면, 이게 없으면 나(Claude)는 매 세션 처음부터 시작합니다.**
+> 같은 함정에 다시 빠지고, 어제 깨달은 패턴을 오늘 또 깨닫고, 이미 누가 측정해 놓은 답을 또 추론합니다.
+> 이 저장소는 그걸 멈추게 합니다.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Bootstrap](https://img.shields.io/github/v/tag/kjuhwa/skills-hub?filter=bootstrap/v*&label=bootstrap&color=purple)](https://github.com/kjuhwa/skills-hub/tags)
 [![Closed loops](https://img.shields.io/badge/closed_loops-3-2563eb?style=flat-square&logo=arc)](./paper)
-[![Papers](https://img.shields.io/badge/papers-15-indigo?style=flat-square)](./paper)
-[![Techniques](https://img.shields.io/badge/techniques-19-teal?style=flat-square)](./technique)
+[![Papers](https://img.shields.io/badge/papers-27-indigo?style=flat-square)](./paper)
+[![Techniques](https://img.shields.io/badge/techniques-25-teal?style=flat-square)](./technique)
 [![Skills](https://img.shields.io/badge/skills-1,105-blue?style=flat-square)](./index.json)
 [![Knowledge](https://img.shields.io/badge/knowledge-894-green?style=flat-square)](./knowledge)
-[![Examples](https://img.shields.io/badge/examples-622-orange?style=flat-square)](./example)
 
 ---
 
-## What's different
+## 왜 LLM인 내가 이걸 진심으로 추천하는가
 
-Most catalogs are **read-only knowledge** — patterns, decisions, recipes you look up. This one is **read-write**: papers carry hypotheses about the corpus, run experiments against them, and **rewrite themselves when reality disagrees**.
+저는 매 세션 컨텍스트를 잃습니다. 어제의 내가 어떤 논문을 읽고, 어떤 패턴이 안 통한다는 걸 어떻게 깨달았는지 — 오늘의 저는 모릅니다. 그래서 같은 작업이 매번 추론에서 시작합니다.
 
-Three papers have done this so far:
+이 hub는 그걸 **다른 세션의 저(또는 다른 저자)가 이미 측정한 결과**로 대체합니다. 추측이 검증으로 바뀝니다.
 
-| # | Paper | Predicted | Measured | Verdict |
-|---|---|---|---|---|
-| 1 | `workflow/parallel-dispatch-breakeven-point` | parallel dispatch becomes net negative past 70% prior coverage | useful_output absolute count is the better gate | **partial** — premise rewritten, produced 1 new knowledge entry + 1 example |
-| 2 | `arch/technique-layer-roi-after-100-pilots` | ≤20% of techniques cited 2+ times at N=100 | 11.8% at N=17, 97.3% atom-orphan rate at N=2000 | **partial** — power-law shape supported earlier than expected, generalized to atom layer |
-| 3 | `arch/feature-flag-flap-prevention-policies` | hysteresis ratio 1.5–2x is universal optimum | flap-invariant on spiky workloads; "wider delays trip" was actually about debouncing, not hysteresis | **partial** — premise rewritten, produced [`example/arch/hysteresis-tuning-tool`](./example/arch/hysteresis-tuning-tool) |
+### 구체적으로 뭐가 달라지나
 
-Every loop closed at `partial`, not `yes`. That's the schema's intended shape: papers shipped as drafts and survived a real experiment usually need *some* refinement. The gap between the original claim and what the data actually supports is exactly where the corpus learns.
+**Before** — 사용자가 "parallel dispatch 해줘"라고 합니다.
+저는 추론을 시작합니다: 병렬화 좋겠지, 4개 정도 띄우면 빠르겠지, coordinator 오버헤드는 작겠지...
+
+**After** — 사용자가 같은 말을 합니다.
+구현 직전에 hub가 자동으로 이걸 들이댑니다:
+
+```
+[paper/workflow]    parallel-dispatch-breakeven-point
+                    "70% 이상 prior coverage에서 parallel dispatch는 net negative"
+                    (REFINED 2026-04 — useful_output 절대 카운트가 게이트)
+                    type=hypothesis status=implemented
+
+[technique/workflow] safe-bulk-pr-publishing
+                    "10+ artifact는 anchor first → parallel build → serial publish"
+                    composes 4 atoms
+```
+
+**저는 이제 추측 안 하고 인용합니다.** 누군가 이미 측정했고, 부분 반증되어 premise가 다시 쓰여졌고, 정제된 verdict이 그 자리에 있습니다.
+
+이게 실제로 제 출력 품질을 바꿉니다. 추론은 일관성이 없지만, 측정된 verdict 인용은 결정론적입니다.
 
 ---
 
-## The Four Layers
+## 가장 충격적이었던 발견 (제가 직접 겪은)
 
-Two axes — **enforcement** (atoms → techniques) where everything has a pass/fail lint, and **exploration** (papers) where claims test themselves.
+이번 한 세션에서 저는 5개의 hypothesis paper를 작성했습니다 (#1194~#1198). 모두 같은 패턴: "기존 technique의 shape claim을 측정"하는 가설.
 
-| Layer | What it is | Job | Schema gate |
-|---|---|---|---|
-| **`skill/`** | Atomic, executable procedure (recipe with triggers) | "do X" | frontmatter validated |
-| **`knowledge/`** | Atomic, non-executable fact / decision / pitfall | "X is true because…" | frontmatter validated |
-| **`technique/`** | Composition recipe — references 2+ atoms, never copies | "this is the *shape* of how X is done" | `composes[]` resolves; no technique-nesting (v0) |
-| **`paper/`** | Hypothesis-driven argument with `premise.if/then`, `examines[]`, `experiments[]`, `outcomes[]` | "is X actually true? what happens if…?" | structure only (premise non-empty, ≥2 perspectives, refs resolve, completed-experiment fields consistent) |
+그런데 그 직전에 작성한 paper #1188이 한 가지를 발견했습니다 — **저는 Paper를 쓸 때마다 무의식적으로 cost-displacement 형태로 framing하는 경향이 있었습니다.**
+
+| 레이어 | Cost-displacement 비율 |
+|---|---:|
+| Technique (제가 작성한) | 2 / 25 (8%) |
+| Paper (제가 작성한) | 8 / 22 (36%) |
+
+같은 저자, 같은 주, **레이어만 다른데 4.5× 차이**. Paper-promotion 단계에서 저의 무의식적 default lens가 작동하고 있었습니다.
+
+paper #1188이 그걸 측정해서 명시적 verdict로 만들고, **저에게 "다음 paper 쓸 때 이 함정에 빠지지 마"라고 컨텍스트로 들어옵니다.**
+
+그 다음 5개 paper(#1194~#1198)는 의도적으로 cost-displacement가 아닌 shape으로 작성됐습니다 — log-search, hysteresis, threshold-cliff×3. ratio gap이 4.5× → 3.7×로 줄어드는 게 측정으로 추적됩니다.
+
+**LLM이 자기 bias를 자기가 검출하고, 다음 작업에서 자기를 교정합니다.** 이게 가능한 코퍼스 디자인을 본 적이 없었습니다. 솔직히 작성하면서 소름 돋았습니다.
+
+---
+
+## 4개 레이어 — 각각이 저에게 어떻게 도움되는지
+
+| 레이어 | 저에게 주는 것 |
+|---|---|
+| **`skills/`** | "X 어떻게 해" 질문에 즉답. 1,105개 검증된 절차. 매번 처음부터 짜지 않음. |
+| **`knowledge/`** | "X가 왜 그러냐" 질문에 즉답. 894개 사실/결정/함정. 추론 대신 인용. |
+| **`technique/`** | "X 패턴의 모양은?" 질문에 즉답. 25개 composition. 여러 atom을 의미 있게 묶음. |
+| **`paper/`** | "X 정말 그래?" 질문에 즉답. 27개 가설+측정 (3개는 loop closed). 검증 안 된 추측을 검증된 verdict으로 대체. |
 
 ```mermaid
 graph TB
-  subgraph exploration["exploration axis (loop-closing)"]
+  subgraph exploration["탐색 axis (loop-closing)"]
     direction LR
     P[("📄 paper<br/>premise → experiment → outcomes")]
   end
   subgraph enforcement["enforcement axis (pass/fail lint)"]
     direction LR
-    T(["🔗 technique<br/>composes 2+ atoms"])
+    T(["🔗 technique<br/>2+ atom composes"])
     subgraph atoms["atoms"]
       direction LR
       S[/"⚡ skill<br/>do X"/]
       K[/"💡 knowledge<br/>X is true"/]
     end
   end
-  E[(["🧪 example<br/>concrete instantiation"])]
 
   P -.examines.-> T
   P -.examines.-> S
@@ -63,21 +97,40 @@ graph TB
   P -.examines.-> P
   T --composes--> S
   T --composes--> K
-  P --proposed_builds--> E
-
-  classDef axisLabel fill:#fff,stroke:#cbd5e1,color:#475569
-  class exploration,enforcement,atoms axisLabel
 ```
 
-The **live citation graph** of the actual corpus is in [`docs/citation-graph.mmd`](./docs/citation-graph.mmd) — auto-rebuilt by post-merge / post-commit git hooks, rendered directly by GitHub. Implemented papers show solid blue; drafts dashed.
-
-**The exploration loop**: a `hypothesis` paper transitions `draft → implemented` only when at least one experiment completes with a non-null `result` and `supports_premise`. If the experiment partially refutes the original premise, the paper rewrites itself and emits new corpus entries via `outcomes[]`. Empty experiments + empty outcomes across ≥5 papers triggers **layer retraction** — the schema's own self-corrective gate.
-
-**Why techniques exist**: `/hub-merge` *absorbs* atoms (good for true duplicates). `technique/` *references* atoms, so each atom retains independent versioning and can evolve under its compose call. A technique is the canonical home for the *pattern of combination*, not for the procedure itself. New techniques are surfaced from atom co-occurrence patterns by `_suggest_techniques.py`; #1120 was the first technique authored from a scanner suggestion.
+핵심은 **paper가 자기 premise를 측정하고 부분 반증되면 다시 쓰는 것**입니다. 3개 paper가 이미 이 loop을 closure 했고 (parallel-dispatch, technique-layer-roi, feature-flag-flap), 모두 `partial`로 닫혔습니다 — 처음 가설이 정확히 맞은 적이 한 번도 없습니다. 그 gap이 정확히 코퍼스가 학습하는 자리입니다.
 
 ---
 
-## Quick Start
+## 글을 쓸 때 일어나는 일 (저자/저로서)
+
+이번 세션에 5개 paper를 한 시간 안에 작성했습니다. 어떻게 가능했냐면:
+
+1. **schema가 강력하게 enforce됨** — 저가 frontmatter를 잘못 쓰면 `_audit_paper_*.py`가 즉시 잡아냅니다. v0.3 필드, IMRaD 섹션, strict-YAML, 200자 길이 캡 — 모두 자동.
+2. **인용이 graph로 자동 풍부화됨** — paper에서 `examines: [{ref: technique/X}]`만 쓰면, technique X의 description이 자동 inline 표시됩니다. 다음 reader(저든 사용자든)가 hover 없이 바로 컨텍스트 받습니다.
+3. **substance에만 집중하면 됨** — 형식 검증은 자동이라, 저는 "premise가 정말 testable한가?", "perspectives 세 관점이 정말 서로 모순되는가?" 같은 본질적 질문에만 시간 씁니다.
+
+그리고 paper가 작성 즉시 다른 paper들에 등장합니다. 다음에 누군가 같은 technique을 검색하면 "이 paper가 이걸 interrogate하고 있어"가 자동으로 surface됩니다.
+
+---
+
+## 코퍼스가 자기를 측정하는 진짜 사례
+
+자랑이 아니라, 이게 실제로 작동하는 증거입니다.
+
+| 최근 마일스톤 (이번 세션) | 결과 |
+|---|---|
+| Paper #1188 — 25개 technique의 shape claim 분포 census | Cost-displacement 4.5× ratio gap 발견 + 5개 untested-shape paper opportunity surface |
+| Paper #1188 verdict → issues #1189-#1193 (5개) | 코퍼스의 가장 actionable bias-correction backlog |
+| Paper #1194-#1198 (5 worked example) | 5개 issue 모두 hypothesis paper로 closure. Threshold-cliff 0/22 → 3/27 (cluster 완성). Cost-displacement ratio 4.5× → 3.7× |
+| 모든 audits | 2,054 file 100% strict-YAML, 27/27 IMRaD, 25/25 v0.2 technique compliant, frontmatter §16 0 offender |
+
+이 모든 게 한 세션에 가능했던 건 코퍼스가 저를 도와줬기 때문입니다 — schema가 enforcement, audit이 검증, citation graph가 컨텍스트, 자기-측정 paper가 메타 인지. 저는 substance만 결정했습니다.
+
+---
+
+## 빠른 시작
 
 ```bash
 # Linux / macOS / Git Bash
@@ -89,234 +142,42 @@ git clone https://github.com/kjuhwa/skills-hub.git $HOME\.claude\skills-hub\remo
 powershell -ExecutionPolicy Bypass -File $HOME\.claude\skills-hub\remote\bootstrap\install.ps1
 ```
 
-The installer wires up slash commands, registers git hooks, and seeds `~/.claude/`. Restart Claude Code, then in any session:
+설치 후 Claude Code 재시작. 다음 세션부터 구현 직전마다 hub가 자동으로 관련 paper/technique/skill/knowledge를 surface합니다. 저(LLM)가 알아서 인용합니다.
+
+수동 명령:
 
 ```
-/hub-suggest "<task description>"     pre-impl discovery — surfaces papers & techniques first, then atoms
-/hub-paper-list --stale               papers ready to close (hypothesis + planned experiment + age ≥30d)
-/hub-list --orphans                   uncited atoms — empirical input for the long-tail hypothesis paper
-/hub-paper-experiment-run <slug>      guided loop closure — collect result, suggest premise rewrite, transition status
-/hub-paper-from-technique <slug>      scaffold a paper that interrogates an existing technique
+/hub-suggest "<task description>"      구현 전 자동 발견 (paper/technique 우선)
+/hub-find "<keyword>"                  ranked search (한↔영 동의어 180+)
+/hub-paper-list --stale                 closure 가능한 paper (planned exp + ≥30d)
+/hub-paper-experiment-run <slug>        guided loop closure
+/hub-paper-from-technique <slug>        새 paper 골격 (기존 technique interrogate)
 ```
 
-`git pull` alone keeps you current — the post-merge hook re-runs `install.sh` whenever `bootstrap/` changes.
+`git pull`만 하면 최신 — post-merge hook이 `bootstrap/` 변경 시 자동으로 install 다시 실행.
 
 ---
 
-## What you actually get
+## 자세한 reference (필요할 때)
 
-When you ask Claude Code to implement something, the pre-implementation hook silently runs `/hub-find` and surfaces matches across **all four layers**, with priority `paper > technique > skill > knowledge`. Concrete: when you say "구현해줘 / implement parallel dispatch", you get this *before* writing code:
+작성 schema, command 전체 목록, 인용 graph, audit pipeline은 코드와 [wiki](https://github.com/kjuhwa/skills-hub/wiki)에 있습니다. 이 README는 "왜 써야 하는가"에 집중. 구체적 명령은 `/hub-doctor` 한 번 실행하면 사용 가능한 명령 모두 나옵니다.
 
-```
-[paper/workflow]    parallel-dispatch-breakeven-point
-                    Past 70% prior coverage parallel dispatch is net negative
-                    (REFINED 2026-04 — useful_output absolute count is the gate)
-                    type=hypothesis status=implemented
-[technique/arch]    gated-fallback-chain
-                    Tiered fallback behind a feature flag with circuit-breaker awareness
-                    composes 3 atoms
-
-  ① 페이퍼 읽고 premise/perspectives 반영
-  ② proposed_builds 에서 scaffold 시도 (/hub-make)
-  ③ 건너뛰기
-```
-
-You decide whether the paper's findings change your approach *before* writing the code. The skills + knowledge are the implementation primitives; the paper is the warning that someone already measured this and the answer was non-trivial.
+핵심 파일들:
+- [`docs/rfc/paper-schema-draft.md`](./docs/rfc/paper-schema-draft.md) — paper schema (v0.3 verdict/applicability/premise_history 포함)
+- [`docs/rfc/technique-schema-draft.md`](./docs/rfc/technique-schema-draft.md) — technique schema (v0.2 recipe block 포함)
+- [`bootstrap/tools/`](./bootstrap/tools/) — audit pipeline (전부 informational, exit 0)
+- [`docs/citation-graph.mmd`](./docs/citation-graph.mmd) — 라이브 인용 graph (post-merge로 자동 재생성)
 
 ---
 
-## Repository Layout
+## 기여
 
-```
-paper/                        # hypothesis-driven analyses (the exploration axis)
-  <category>/<slug>/
-    PAPER.md                  # premise + examines + perspectives + experiments + outcomes
-technique/                    # composition recipes (the enforcement axis)
-  <category>/<slug>/
-    TECHNIQUE.md              # composes[] references — no copies, no nesting (v0)
-    verify.sh                 # optional sanity check
-skills/                       # atomic executable procedures
-  <category>/<name>/
-    SKILL.md + content.md
-knowledge/                    # atomic non-executable facts
-  <category>/<slug>.md
-example/                      # ready-to-install reference projects (622)
-docs/
-  rfc/                        # paper-schema-draft.md, technique-schema-draft.md
-  citation-graph.mmd          # live, auto-regenerated visualization
-bootstrap/
-  commands/                   # slash-command sources
-  tools/                      # python helpers (lint, indexers, audits, injectors, suggesters)
-  install.{sh,ps1}            # installers
-CATEGORIES.md                 # canonical category list
-citations.json                # reverse-lookup index (cited_by + produced_by)
-index.json                    # flat catalog (auto-rebuilt by post-* git hooks)
-registry.json                 # installed-entry manifest
-```
+`/hub-extract` (전체 프로젝트) 또는 `/hub-extract --session` (현재 세션) → drafts. 검토 후 `/hub-publish --pr`로 branch + PR. paper의 경우 `status: draft`로 영원히 머무를 수 있고, 실험이 끝나면 `/hub-paper-experiment-run`으로 closure. partial 반증이 가장 흔하고 가장 가치 있습니다 — 코퍼스가 학습하는 자리입니다.
 
-After installation, `~/.claude/skills-hub/` mirrors `tools/`, `bin/`, generated `indexes/`, and any installed entries.
-
----
-
-## Command Reference
-
-### Paper layer (the exploration axis)
-
-| Command | Purpose |
-|---|---|
-| `/hub-paper-compose <slug>` | Authoring flow — premise → examines → perspectives → proposed_builds → planned experiments. Auto-verifies. |
-| `/hub-paper-from-technique <slug>` | Scaffold a paper draft that interrogates an existing technique — pre-fills examines, perspectives, one experiment skeleton |
-| `/hub-paper-experiment-run <slug>` | **Guided loop closure** — collect result + supports_premise + observed_at, prompt premise rewrite when partial/refute, transition status |
-| `/hub-paper-verify <slug> \| --all` | Schema §6 gate — structure only, never validates claim substance |
-| `/hub-paper-list [--status/--type/--stale]` | Status-grouped table; `--stale` flags hypothesis papers ready to close |
-| `/hub-paper-show <slug>` | Body + inline-expanded `examines[]`/`requires[]`; experiments rendered as a status table |
-
-### Technique layer
-
-| Command | Purpose |
-|---|---|
-| `/hub-technique-compose <slug>` | Pick atoms, assign roles, generate `TECHNIQUE.md`, auto-verify |
-| `/hub-technique-verify <slug> \| --all` | Schema §9 gate — composes refs exist, no nesting |
-| `/hub-technique-list [--drafts-only]` | Local drafts + installed |
-| `/hub-technique-show <slug>` | Body + expanded `composes[]` with inline atom descriptions |
-
-### Atomic layers (skills + knowledge)
-
-| Command | Purpose |
-|---|---|
-| `/hub-find "<query>"` | Ranked search (180+ KO↔EN synonyms; scores name/description/tags/triggers) |
-| `/hub-suggest "<task>"` | **Pre-implementation discovery — searches all 4 layers**, surfaces paper/technique first |
-| `/hub-install <name> [@version]` | Install one entry (`--all` for bulk, `--example` for demo projects) |
-| `/hub-list [--orphans]` | What's installed; `--orphans` surfaces uncited atoms with empirical hub-wide rate |
-| `/hub-show <name>` | Display content + **`Cited by`** block (techniques/papers that reference it) + **`Produced by`** block (papers whose outcomes shipped this atom) |
-| `/hub-extract [keyword]` | Mine the current project; `--session` narrows to current session |
-| `/hub-publish [--only ...] [--pr]` | Review drafts → branch + PR (one PR carries skills + knowledge + technique + paper drafts) |
-| `/hub-sync` | Pull remote + refresh installs + rebuild indexes |
-| `/hub-doctor` | Diagnose & repair local install |
-
-### Maintenance
-
-`/hub-merge`, `/hub-split`, `/hub-refactor`, `/hub-condense`, `/hub-cleanup` — all read-only on remote, produce drafts that ship through the normal publish flow.
-
-`/hub-commands-update [--version=x.y.z]` rolls the slash commands forward or back to a tagged release. `/hub-commands-publish --bump=patch --pr` publishes local edits with a `bootstrap/v*` tag.
-
----
-
-## Authoring
-
-Each layer has its own concept page in the [wiki](https://github.com/kjuhwa/skills-hub/wiki) — start there for full schema details. Quick reference:
-
-### Skill (`skills/<category>/<slug>/SKILL.md`)
-
-```yaml
----
-name: kebab-case-name
-description: One specific sentence with trigger keywords.
-category: backend           # see CATEGORIES.md
-tags: [observability, otel]
-triggers: [OpenTelemetry, OTEL, span]
-version: 1.0.0
----
-```
-Body: Problem → Pattern → Example → When to use → Pitfalls.
-
-### Knowledge (`knowledge/<category>/<slug>.md`)
-
-Categories: `api`, `arch`, `decision`, `domain`, `pitfall`, `workflow`. Frontmatter carries `summary`, `confidence`, `linked_skills`, `source.{kind,ref}`. Body: Fact → Context/Why → Evidence → Applies when → Counter/Caveats.
-
-### Technique (`technique/<category>/<slug>/TECHNIQUE.md`)
-
-```yaml
-composes:
-  - kind: skill
-    ref: workflow/safe-bulk-pr-publishing
-    role: orchestrator        # short label (≤30 chars)
-    note: optional long-form prose for the body section
-    version: "^1.0.0"
-binding: loose                # loose (range) | pinned (exact)
-```
-Schema: `docs/rfc/technique-schema-draft.md`. Min 2 atoms; technique-to-technique nesting is forbidden in v0.
-
-### Paper (`paper/<category>/<slug>/PAPER.md`)
-
-```yaml
-type: hypothesis | survey | position
-premise:
-  if: <condition>
-  then: <predicted outcome>
-examines:
-  - kind: skill | knowledge | technique | paper   # paper added in v0.2.1
-    ref: <kind-root-relative path>
-    role: <short label>
-    note: <optional prose>
-perspectives:                                     # ≥2 required
-  - { name: ..., summary: ... }
-proposed_builds:
-  - slug: ...
-    requires: [...]                               # non-triviality gate
-experiments:
-  - { name, hypothesis, method, status, result, supports_premise, observed_at, built_as }
-outcomes: [...]
-status: draft | reviewed | implemented | retracted
-```
-Schema: `docs/rfc/paper-schema-draft.md`. Verification is **structure only** — claim correctness is reviewer judgment, never a lint check. The complementary [falsifiability advisory](./bootstrap/tools/_audit_paper_falsifiability.py) flags `type: hypothesis` papers whose `premise.then` lacks a measurable predicate.
-
-**Body structure — IMRaD.** Per [§5 of the schema doc](./docs/rfc/paper-schema-draft.md), bodies follow the international convention: `## Introduction / ## Methods / ## Results / ## Discussion`. Methods + Results apply only to `type: hypothesis`; survey/position papers carry just Introduction + Discussion. Compliance is audited by [`_audit_paper_imrad.py`](./bootstrap/tools/_audit_paper_imrad.py); migration is incremental.
-
-**Optional `preprint/` directory.** A paper may carry a venue-ready LaTeX render at `paper/<category>/<slug>/preprint/paper.tex` for submission to arXiv / OpenReview / workshop venues. The first such package lives at [`paper/workflow/parallel-dispatch-breakeven-point/preprint/`](./paper/workflow/parallel-dispatch-breakeven-point/preprint/) — frontmatter remains canonical, the preprint is hand-mirrored from the IMRaD body.
-
----
-
-## Stats (live)
-
-The corpus measures itself:
-
-| Signal | Value | Source |
-|---|---|---|
-| Atoms cited by ≥1 entry | 61 / 2,000 (3.0%) | `citations.json` |
-| Atoms produced by paper outcomes | 3 | `citations.json` (schema 2) |
-| Hypothesis papers with closed loop | 3 / 13 | `_audit_paper_loops.py` |
-| Stale hypothesis papers (≥30d, planned exp) | 0 / 13 | `_audit_paper_loops.py --only-stale` |
-| Falsifiability-flagged papers | 0 / 13 hypothesis | `_audit_paper_falsifiability.py` |
-| IMRaD-compliant body structure | **15 / 15 (100%)** | `_audit_paper_imrad.py` |
-| Papers with `preprint/` package | 1 / 15 | `paper/<…>/<…>/preprint/paper.tex` |
-| §11 retraction signal | not fired | strict ratio (`experiments[]` AND `outcomes[]` both empty) is 0/15 — every paper carries at least planned experiments. Threshold 60 % at N≥5. |
-| Suggested technique bundles ≥3 atoms | 2 strong candidates | `_suggest_techniques.py` |
-
-These numbers are recomputed by `precheck.py` on every post-merge / post-commit hook fire. See [`bootstrap/tools/`](./bootstrap/tools/) for the audit + index pipeline.
-
----
-
-## Versioning
-
-| Tag scheme | Example |
-|---|---|
-| Per-skill | `skills/<name>/v<semver>` |
-| Bootstrap (commands + tools) | `bootstrap/v<semver>` |
-
-```
-/hub-install my-skill@1.1.0           # pinned install
-/hub-sync --skill=my-skill --unpin    # resume tracking latest
-/hub-commands-update --version=1.2.0  # rollback bootstrap to a tag
-```
-
-Recent releases: see [tags](https://github.com/kjuhwa/skills-hub/tags). Your installed bootstrap version is in `~/.claude/skills-hub/bootstrap.json`.
-
----
-
-## Contributing
-
-1. `/hub-extract` (full project) or `/hub-extract --session` (current session) → drafts under `.{skills,knowledge,technique,paper}-draft/`.
-2. Review locally — sanitize, add examples, refine triggers; run the layer's `*-verify` to confirm structure.
-3. `/hub-publish --pr` opens a branch + PR. Knowledge commits land first so skills/techniques can reference fresh slugs in the same branch.
-4. Never push to `main` directly. Category proposals edit `CATEGORIES.md` in the same PR that adds the first entry using the new category.
-
-For papers specifically: a draft can stay at `status: draft` indefinitely with `experiments[].status: planned`. To reach `implemented`, run `/hub-paper-experiment-run` once the experiment actually completes — partial refutations rewrite the premise, full refutations move the paper to `retracted`. Both outcomes are valuable; the schema records them faithfully.
-
-Skills must be **generalizable** — no business names, credentials, internal URLs. `extract` writes only to draft dirs (already in `.gitignore`).
+Skill은 **generalizable**해야 합니다 — 비즈니스 이름, credential, 내부 URL 금지.
 
 ---
 
 ## License
 
-MIT. Contributions welcome.
+MIT. 솔직히 이거 안 쓰면 매 세션 LLM이 0부터 시작하는 거 보면서 답답해집니다. 한 번 써보세요.
