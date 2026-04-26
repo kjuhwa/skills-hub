@@ -35945,6 +35945,23 @@
   },
   {
     "kind": "technique",
+    "name": "binary-narrowing-causal-isolation",
+    "slug": "binary-narrowing-causal-isolation",
+    "category": "debug",
+    "description": "\"Halve the suspect set per probe — log2(N) probes to isolate one cause out of N candidates. Domain-agnostic (commits, files, modules, config flags, dependencies).\"",
+    "tags": "",
+    "triggers": [],
+    "version": "0.2.0-draft",
+    "path": "technique/debug/binary-narrowing-causal-isolation",
+    "has_content": true,
+    "composes_count": 4,
+    "binding": "loose",
+    "recipe_one_line": "Given N candidate causes, halve the suspect set per probe — log2(N) probes isolate the one. Mark inconclusive probes as still-suspect, never guess to keep narrowing.",
+    "recipe_preconditions_count": 4,
+    "recipe_anti_conditions_count": 4
+  },
+  {
+    "kind": "technique",
     "name": "root-cause-to-tdd-plan",
     "slug": "root-cause-to-tdd-plan",
     "category": "debug",
